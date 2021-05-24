@@ -17,18 +17,26 @@ class ShopCategoryAdapter(var categorys: ArrayList<Category>) :
         notifyDataSetChanged()
     }
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int) = CategoryViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.shop_category_item, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.card, parent, false)
     )
     override fun getItemCount() = categorys.size
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
         holder.bind(categorys[position])
     }
     class CategoryViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        private val name = view.findViewById<TextView>(R.id.item_name)
-        private val imageView = view.findViewById<ImageView>(R.id.logo)
+        private val name = view.findViewById<TextView>(R.id.title)
+        private val price = view.findViewById<TextView>(R.id.price)
+        private val imageView = view.findViewById<ImageView>(R.id.thumbnail)
+        private val favorite = view.findViewById<ImageView>(R.id.favorite)
+        private val addCart = view.findViewById<ImageView>(R.id.add_card)
         fun bind(category: Category) {
             imageView.setImageResource(R.drawable.ic_search)
+            favorite.setImageResource(R.drawable.ic_favorite)
+            addCart.setImageResource(R.drawable.ic_cart)
+
             name.text =category.categoryName
+            price.text ="18 LE"
+
         }
     }
 }
