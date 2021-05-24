@@ -20,5 +20,9 @@ class testActivity : AppCompatActivity() {
         testActivityViewModal.loadData(applicationContext).observe(this, {
             Toast.makeText(applicationContext,""+it.custom_collections[0].title,Toast.LENGTH_LONG).show()
         })
+
+        testActivityViewModal.loadProductData("267715608774").observe(this, {
+            Toast.makeText(applicationContext,""+it.products[0].title,Toast.LENGTH_LONG).show()
+        })
     }
 }
