@@ -1,4 +1,4 @@
-package com.example.graduationapp.ui.dashboard
+package com.example.graduationapp.ui.category
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
