@@ -13,7 +13,7 @@ data class CollectionProducts (
 
 data class Products (
 
-    @SerializedName("id") val id : Long,
+    @SerializedName("id") val id : String,
     @SerializedName("title") val title : String,
     @SerializedName("body_html") val body_html : String,
     @SerializedName("vendor") val vendor : String,

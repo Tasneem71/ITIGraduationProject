@@ -11,7 +11,7 @@ data class ApiCollections (
 
 data class Custom_collections (
 
-		@SerializedName("id") val id : Long,
+		@SerializedName("id") val id : String,
 		@SerializedName("handle") val handle : String,
 		@SerializedName("updated_at") val updated_at : String,
 		@SerializedName("published_at") val published_at : String,

@@ -8,15 +8,16 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.graduationapp.R
+import com.example.graduationapp.data.Products
 import java.util.*
 
 class CategoryAdapter :RecyclerView.Adapter<CategoryAdapter.ViewHolder>(){
-    private lateinit var data  : ArrayList<Data>
+    private lateinit var data  : ArrayList<Products>
     private lateinit var context: Context
     init {
-        data = ArrayList<Data>()
+        data = ArrayList<Products>()
     }
-    fun setData(data: ArrayList<Data>, context: Context){
+    fun setData(data: ArrayList<Products>, context: Context){
         this.data = data
         this.context = context
     }
@@ -33,8 +34,8 @@ class CategoryAdapter :RecyclerView.Adapter<CategoryAdapter.ViewHolder>(){
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item= data?.get(position)
-        holder.categoryName.setText(item?.txt)
-        item?.imageId?.let { holder.categoryImage.setImageResource(it) };
+        holder.categoryName.setText(item?.title)
+       // item?.image?.let { holder.categoryImage.setImageResource(it) };
     }
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
