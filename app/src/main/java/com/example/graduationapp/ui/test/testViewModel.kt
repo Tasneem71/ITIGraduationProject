@@ -11,6 +11,10 @@ import androidx.lifecycle.MutableLiveData
 import com.example.graduationapp.data.ApiCollections
 import com.example.graduationapp.data.CollectionProducts
 import com.example.graduationapp.remote.ApiRepository
+import com.example.graduationapp.remote.retro.ApiServes
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -25,7 +29,10 @@ class testActivityVM (application: Application) : AndroidViewModel(application) 
 
     fun loadData(context: Context): MutableLiveData<ApiCollections> {
         Log.i("Tasneem","inside the load")
-        apiRepository.fetchCustomCollectionData(context)
+        CoroutineScope(Dispatchers.IO).launch {
+            apiRepository.fetchCustomCollectionData(context)
+        }
+
         Log.i("Tasneem","after")
         return apiRepository.apiCollection
     }
@@ -33,8 +40,10 @@ class testActivityVM (application: Application) : AndroidViewModel(application) 
 
     fun loadProductData(id:String): MutableLiveData<CollectionProducts> {
         Log.i("Tasneem","inside the load")
-        apiRepository.fetchProductsData(id)
-        Log.i("Tasneem","after")
+        CoroutineScope(Dispatchers.IO).launch {
+            apiRepository.fetchProductsData(id)
+        }
+        //Log.i("Tasneem","after")
         return apiRepository.apiproduct
     }
 

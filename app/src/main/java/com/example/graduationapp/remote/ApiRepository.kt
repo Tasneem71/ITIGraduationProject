@@ -13,71 +13,50 @@ import com.example.graduationapp.remote.retro.ApiServes
 import kotlinx.coroutines.*
 
 class ApiRepository {
-//    var localDataSource: LocalDataSource
-    var apiCollection= MutableLiveData<ApiCollections>()
-    var apiproduct= MutableLiveData<CollectionProducts>()
+    //    var localDataSource: LocalDataSource
+    var apiCollection = MutableLiveData<ApiCollections>()
+    var apiproduct = MutableLiveData<CollectionProducts>()
 
 
+    suspend fun fetchCustomCollectionData(context: Context) {
 
-    fun fetchCustomCollectionData(context: Context){
-        //if (isOnline(context)) {
-        Log.i("Tasneem","in fetch")
-        CoroutineScope(Dispatchers.IO).launch {
-            Log.i("Tasneem","in coruotine")
-                val response = ApiServes.shopfiyService.getCustomCollections()
-            Log.i("Tasneem","in coruotine responce")
-                try {
-                    Log.i("Tasneem","in try")
-                    if (response.isSuccessful) {
-                        response.body()?.let {
-                            apiCollection.postValue(it)
-                            Log.i("Tasneem","after post")
-                        }
-                    }else {
-                        Log.i("Tasneem","response failuer"+response.errorBody().toString())
-                    }
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                    Log.i("Tasneem"," error?"+e.printStackTrace())
-
+        val response = ApiServes.shopfiyService.getCustomCollections()
+        try {
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    apiCollection.postValue(it)
                 }
+            } else {
+                Log.i("Tasneem", "response failuer" + response.errorBody().toString())
             }
-        //}
-    }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.i("Tasneem", " error?" + e.printStackTrace())
 
-
-    fun fetchProductsData(id:String){
-        //if (isOnline(context)) {
-        Log.i("Tasneem","in fetch")
-        CoroutineScope(Dispatchers.IO).launch {
-            Log.i("Tasneem","in coruotine")
-            val response = ApiServes.shopfiyService.getProductFromCollection(id)
-            Log.i("Tasneem","in coruotine responce")
-            try {
-                Log.i("Tasneem","in try")
-                if (response.isSuccessful) {
-                    response.body()?.let {
-                        apiproduct.postValue(it)
-                        Log.i("Tasneem","after post")
-                    }
-                }else {
-                    Log.i("Tasneem","response failuer"+response.errorBody().toString())
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-                Log.i("Tasneem"," error?"+e.printStackTrace())
-
-            }
         }
+
         //}
     }
 
 
+    suspend fun fetchProductsData(id: String) {
+        //if (isOnline(context)) {
+        val response = ApiServes.shopfiyService.getProductFromCollection(id)
+        try {
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    apiproduct.postValue(it)
+                }
+            } else {
+                Log.i("Tasneem", "response failuer" + response.errorBody().toString())
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
 
+        }
 
-
-
-
+        //}
+    }
 
 
 }
