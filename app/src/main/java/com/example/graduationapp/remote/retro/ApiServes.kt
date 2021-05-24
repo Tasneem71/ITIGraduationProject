@@ -1,18 +1,25 @@
 package com.example.graduationapp.remote.retro
 
+import android.R.attr.password
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+
 object ApiServes {
 
-    private const val BASE_URL = "https://043be955a8db3bd91f8a910a6b5c7df8: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@mohamedabdallah.myshopify.com/admin/api/2021-04/"
+    private const val BASE_URL = "https://itiana.myshopify.com//admin/api/2021-04/"
+
+    var client = OkHttpClient.Builder().addInterceptor(BasicAuthInterceptor("ce751b18c7156bf720ea405ad19614f4",
+        "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")).build()
+
     private fun getRetrofit(): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(BASE_URL).client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
-    val apiService: ShopfiyApi = getRetrofit()
+    val shopfiyService: ShopfiyApi = getRetrofit()
         .create(ShopfiyApi::class.java)
 
 

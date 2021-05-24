@@ -24,9 +24,12 @@ class ApiRepository {
 
 
     fun fetchCustomCollectionData(context: Context){
-        if (isOnline(context)) {
-            CoroutineScope(Dispatchers.IO).launch {
-                val response = apiService.apiService.getCustomCollections()
+        //if (isOnline(context)) {
+        Log.i("Tasneem","in fetch")
+        CoroutineScope(Dispatchers.IO).launch {
+            Log.i("Tasneem","in coruotine")
+                val response = apiService.shopfiyService.getCustomCollections()
+            Log.i("Tasneem","in coruotine responce")
                 try {
                     Log.i("Tasneem","in try")
                     if (response.isSuccessful) {
@@ -39,33 +42,15 @@ class ApiRepository {
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
+                    Log.i("Tasneem"," error?"+e.printStackTrace())
+
                 }
             }
-        }
+        //}
     }
 
 
-    fun isOnline(context: Context): Boolean {
-        val connectivityManager =
-                context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        if (connectivityManager != null) {
-            val capabilities =
-                    connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
-            if (capabilities != null) {
-                if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
-                    Log.i("Internet", "NetworkCapabilities.TRANSPORT_CELLULAR")
-                    return true
-                } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
-                    Log.i("Internet", "NetworkCapabilities.TRANSPORT_WIFI")
-                    return true
-                } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
-                    Log.i("Internet", "NetworkCapabilities.TRANSPORT_ETHERNET")
-                    return true
-                }
-            }
-        }
-        return false
-    }
+
 
 
 
