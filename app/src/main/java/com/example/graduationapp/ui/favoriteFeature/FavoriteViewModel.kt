@@ -6,9 +6,7 @@ import androidx.lifecycle.*
 import com.example.domain.core.favoriteFeature.Favorite
 import com.example.graduationapp.data.CollectionProducts
 import com.example.graduationapp.local.LocalSource
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import kotlin.properties.Delegates
 
 class FavoriteViewModel(application: Application) : AndroidViewModel(application) {
@@ -44,9 +42,13 @@ class FavoriteViewModel(application: Application) : AndroidViewModel(application
 
      fun isFavorite(id: Long):Boolean{
          var isFavorite=false
+//         runBlocking {
+//             delay(1000)
+//         }
          viewModelScope.launch {
              val res=async {
-                 local.isFavorite(id)}
+                 local.isFavorite(id)
+             }
              isFavorite = res.await()>0
              Log.i("TAG", "isFavorite: $isFavorite")
          }
