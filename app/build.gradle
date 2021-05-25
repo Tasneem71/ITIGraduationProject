@@ -65,7 +65,8 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui-ktx:2.3.4'
     testImplementation 'junit:junit:4.+'
 
-
+    // Login with google
+    implementation 'com.google.android.gms:play-services-auth:19.0.0'
 
     def lifecycle_version = "2.3.0"
     // ViewModel
