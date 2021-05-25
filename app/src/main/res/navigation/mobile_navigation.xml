@@ -19,7 +19,7 @@
 
     <fragment
         android:id="@+id/navigation_me"
-        android:name="com.example.graduationapp.ui.me.NotificationsFragment"
+        android:name="com.example.graduationapp.ui.me.MeFragment"
         android:label="@string/title_me"
         tools:layout="@layout/fragment_me" />
 

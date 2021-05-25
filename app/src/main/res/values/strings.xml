@@ -11,4 +11,5 @@
     <string name="accessories">Accessories</string>
     <string name="Tshirt">T-Shirt</string>
     <string name="shoes">Shoes</string>
+    <string name="logout">LogOut</string>
 </resources>

@@ -20,13 +20,16 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 
 
-class LoginActivity : AppCompatActivity() {
+open class LoginActivity : AppCompatActivity() {
     lateinit var binding:ActivityLoginBinding
 
     var progressDialog: ProgressDialog? = null
     var fAuth: FirebaseAuth? = null
-     var mGoogleSignInClient: GoogleSignInClient? = null
-     var account: GoogleSignInAccount? = null
+    companion object{
+        var mGoogleSignInClient: GoogleSignInClient? = null
+        var account: GoogleSignInAccount? = null
+    }
+
     var RC_SIGN_IN = 10
 
     override fun onCreate(savedInstanceState: Bundle?) {
