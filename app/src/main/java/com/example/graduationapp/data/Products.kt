@@ -4,7 +4,6 @@ import com.google.gson.annotations.SerializedName
 
 
 
-
 data class CollectionProducts (
 
     @SerializedName("products") val products : List<Products>

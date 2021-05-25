@@ -26,7 +26,6 @@ class testActivityVM (application: Application) : AndroidViewModel(application) 
     init{
         apiRepository = ApiRepository()
     }
-
     fun loadData(context: Context): MutableLiveData<ApiCollections> {
         Log.i("Tasneem","inside the load")
         CoroutineScope(Dispatchers.IO).launch {
@@ -36,8 +35,6 @@ class testActivityVM (application: Application) : AndroidViewModel(application) 
         Log.i("Tasneem","after")
         return apiRepository.apiCollection
     }
-
-
     fun loadProductData(id:String): MutableLiveData<CollectionProducts> {
         Log.i("Tasneem","inside the load")
         CoroutineScope(Dispatchers.IO).launch {
@@ -46,10 +43,6 @@ class testActivityVM (application: Application) : AndroidViewModel(application) 
         //Log.i("Tasneem","after")
         return apiRepository.apiproduct
     }
-
-
-
-
     fun isOnline(context: Context): Boolean {
         val connectivityManager =
                 context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
