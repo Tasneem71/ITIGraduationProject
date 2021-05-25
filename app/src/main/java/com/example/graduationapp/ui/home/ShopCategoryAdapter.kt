@@ -7,11 +7,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.graduationapp.R
+import com.example.graduationapp.data.Products
 import kotlin.collections.ArrayList
 
-class ShopCategoryAdapter(var categorys: ArrayList<Category>) :
+class ShopCategoryAdapter(var categorys: ArrayList<Products>) :
         RecyclerView.Adapter<ShopCategoryAdapter.CategoryViewHolder>() {
-    fun updateCategory(newCategory: List<Category>) {
+    fun updateCategory(newCategory: List<Products>) {
         categorys.clear()
         categorys.addAll(newCategory)
         notifyDataSetChanged()
@@ -29,12 +30,12 @@ class ShopCategoryAdapter(var categorys: ArrayList<Category>) :
         private val imageView = view.findViewById<ImageView>(R.id.thumbnail)
         private val favorite = view.findViewById<ImageView>(R.id.favorite)
         private val addCart = view.findViewById<ImageView>(R.id.add_card)
-        fun bind(category: Category) {
+        fun bind(category: Products) {
             imageView.setImageResource(R.drawable.ic_search)
             favorite.setImageResource(R.drawable.ic_favorite)
             addCart.setImageResource(R.drawable.ic_cart)
 
-            name.text =category.categoryName
+            name.text =category.title
             price.text ="18 LE"
 
         }

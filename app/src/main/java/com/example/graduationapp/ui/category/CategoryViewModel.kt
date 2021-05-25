@@ -27,7 +27,7 @@ class CategoryViewModel (application: Application) : AndroidViewModel(applicatio
     fun loadData(context: Context): MutableLiveData<ApiCollections> {
         Log.i("Tasneem","inside the load")
         CoroutineScope(Dispatchers.IO).launch {
-            apiRepository.fetchCustomCollectionData(context)
+            apiRepository.fetchCustomCollectionData()
         }
 
         Log.i("Tasneem","after")
