@@ -42,9 +42,6 @@ class FavoriteViewModel(application: Application) : AndroidViewModel(application
 
      fun isFavorite(id: Long):Boolean{
          var isFavorite=false
-//         runBlocking {
-//             delay(1000)
-//         }
          viewModelScope.launch {
              val res=async {
                  local.isFavorite(id)

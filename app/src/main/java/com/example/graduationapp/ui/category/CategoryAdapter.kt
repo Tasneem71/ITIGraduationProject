@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.graduationapp.R
 import com.example.graduationapp.data.Products
 import java.util.*
@@ -36,7 +37,10 @@ class CategoryAdapter :RecyclerView.Adapter<CategoryAdapter.ViewHolder>(){
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item= data?.get(position)
         holder.categoryName.setText(item?.title)
-       // item?.image?.let { holder.categoryImage.setImageResource(it) };
+        //item?.image?.let { holder.categoryImage.setImageResource(item?.images[0].src) };
+        context?.let {
+            Glide.with(it).load(item?.images[0].src).into(holder.categoryImage)
+        }
     }
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {

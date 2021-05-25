@@ -1,11 +1,13 @@
 package com.example.graduationapp.ui.favoriteFeature.adapater
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.domain.core.favoriteFeature.Favorite
 import com.example.graduationapp.R
 
@@ -19,6 +21,9 @@ class FavoriteAdapter(
         //TODO bind item
         holder.title.text=favorites[position].title
         holder.price.text=favorites[position].price.toString()
+//        context?.let {
+//            Glide.with(it).load(favorites[position].image).into(holder.image)
+//        }
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         // TODO createView

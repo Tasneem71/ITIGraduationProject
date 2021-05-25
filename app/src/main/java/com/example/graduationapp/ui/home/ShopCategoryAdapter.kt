@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.graduationapp.R
 import com.example.graduationapp.data.Products
 import kotlin.collections.ArrayList
@@ -31,7 +32,9 @@ class ShopCategoryAdapter(var categorys: ArrayList<Products>) :
         private val favorite = view.findViewById<ImageView>(R.id.favorite)
         private val addCart = view.findViewById<ImageView>(R.id.add_card)
         fun bind(category: Products) {
-            imageView.setImageResource(R.drawable.ic_search)
+            Glide.with(imageView.context).load(category.images[0].src).placeholder(R.drawable.ic_search).into(imageView)
+
+            //imageView.setImageResource(R.drawable.ic_search)
             favorite.setImageResource(R.drawable.ic_favorite)
             addCart.setImageResource(R.drawable.ic_cart)
 
