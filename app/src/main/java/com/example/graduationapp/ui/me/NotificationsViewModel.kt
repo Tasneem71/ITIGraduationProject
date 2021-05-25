@@ -1,4 +1,4 @@
-package com.example.graduationapp.ui.notifications
+package com.example.graduationapp.ui.me
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

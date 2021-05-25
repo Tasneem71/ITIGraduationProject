@@ -34,11 +34,6 @@ class CategoryFragment : Fragment() ,  TabLayout.OnTabSelectedListener {
         categoryViewMode = ViewModelProvider(this).get(CategoryViewModel::class.java)
 
         categoryViewMode.loadData(requireContext()).observe(requireActivity(), {
-            Log.d("data", "  custom_collections"+it.custom_collections[1].title)
-//            binding.tabLayout.addTab(binding.tabLayout.newTab().setText(it.custom_collections[1].title));
-//            binding.tabLayout.addTab(binding.tabLayout.newTab().setText(it.custom_collections[2].title));
-//            binding.tabLayout.addTab(binding.tabLayout.newTab().setText(it.custom_collections[3].title));
-//            binding.tabLayout.addTab(binding.tabLayout.newTab().setText(it.custom_collections[4].title));
             setUpTabLayoute(it.custom_collections)
         })
 
@@ -75,7 +70,6 @@ class CategoryFragment : Fragment() ,  TabLayout.OnTabSelectedListener {
 
     private fun loadProducts(id:String) {
         categoryViewMode.loadProductData(id).observe(requireActivity(), {
-            Log.d("data", "  products"+it.products[0].title)
             it?.let {
                 data= it.products as ArrayList<Products>
                 orignalList=data
@@ -85,7 +79,6 @@ class CategoryFragment : Fragment() ,  TabLayout.OnTabSelectedListener {
     }
 
     override fun onTabSelected(tab: TabLayout.Tab?) {
-        Log.d("adapter", "tab")
         val source=tab?.tag as Custom_collections
         categoryViewMode.loadProductData(source.id)
         when (tab!!.position) {
@@ -111,7 +104,7 @@ class CategoryFragment : Fragment() ,  TabLayout.OnTabSelectedListener {
             binding.tabLayout.addTab(tab)
             currentCollectionTitle= source!!.title
             currentCollectionID.add(source!!.id)
-            Log.i("tasneem",""+currentCollectionID)
+
 
         }
         binding.tabLayout.addOnTabSelectedListener(this)

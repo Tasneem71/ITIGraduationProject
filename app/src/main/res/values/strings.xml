@@ -2,7 +2,7 @@
     <string name="app_name">GraduationApp</string>
     <string name="title_home">Home</string>
     <string name="title_category">Category</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_me">Me</string>
     <string name="Login">Login</string>
     <string name="Username">Username</string>
     <string name="Password">Password</string>
