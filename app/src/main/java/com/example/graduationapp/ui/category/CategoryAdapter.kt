@@ -20,6 +20,7 @@ class CategoryAdapter :RecyclerView.Adapter<CategoryAdapter.ViewHolder>(){
     fun setData(data: ArrayList<Products>, context: Context){
         this.data = data
         this.context = context
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
