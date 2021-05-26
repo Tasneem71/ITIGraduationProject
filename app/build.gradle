@@ -67,7 +67,8 @@ dependencies {
 
     // Login with google
     implementation 'com.google.android.gms:play-services-auth:19.0.0'
-
+    // Login with facebook
+    implementation 'com.facebook.android:facebook-android-sdk:[5,6)'
     def lifecycle_version = "2.3.0"
     // ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"

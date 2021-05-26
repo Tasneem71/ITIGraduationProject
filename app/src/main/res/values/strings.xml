@@ -12,4 +12,6 @@
     <string name="Tshirt">T-Shirt</string>
     <string name="shoes">Shoes</string>
     <string name="logout">LogOut</string>
+    <string name="facebook_app_id">2922863254703231</string>
+    <string name="fb_login_protocol_scheme">fb2922863254703231</string>
 </resources>

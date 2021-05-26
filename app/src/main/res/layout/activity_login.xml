@@ -218,7 +218,21 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginRight="20dp" />
+
+                <com.facebook.login.widget.LoginButton
+                    android:id="@+id/login_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/google_sign_in_button"
+                    android:layout_alignLeft="@+id/cv"
+                    android:layout_alignRight="@+id/cv"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="30dp" />
             </RelativeLayout>
+
         </ScrollView>
 
     </RelativeLayout>
