@@ -13,6 +13,7 @@ import com.example.graduationapp.R
 import com.example.graduationapp.SharedPref
 import com.example.graduationapp.databinding.FragmentMeBinding
 import com.facebook.AccessToken
+import com.facebook.FacebookSdk
 import com.facebook.GraphRequest
 import com.facebook.HttpMethod
 import com.facebook.login.LoginManager
@@ -32,6 +33,7 @@ class MeFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_me, container, false)
         fAuth = FirebaseAuth.getInstance()
 
+        // configure facebook
         binding.btnLogout.setOnClickListener({
             Log.d("logout", "buttonLogout")
             SharedPref.setLogin(false)
