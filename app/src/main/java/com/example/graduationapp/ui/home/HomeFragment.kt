@@ -1,5 +1,6 @@
 package com.example.graduationapp.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.graduationapp.R
 import com.example.graduationapp.databinding.FragmentHomeBinding
+import com.example.graduationapp.ui.order.OrderActivity
 
 class HomeFragment : Fragment()  {
 
@@ -55,6 +57,12 @@ class HomeFragment : Fragment()  {
         pumaAdapter.updateCategory(dataList)
         converceAdapter.updateCategory(dataList)
         asicsAdapter.updateCategory(dataList)
+        //**************
+
+        binding.cart.setOnClickListener {
+            val intent= Intent(this.context, OrderActivity::class.java)
+            startActivity(intent)
+        }
         return binding.root
     }
     private fun initUI() {
