@@ -14,6 +14,7 @@ import com.example.graduationapp.LoginActivity
 import com.example.graduationapp.RegistrationActivity
 import com.example.graduationapp.databinding.ActivityLoginBinding
 import com.example.graduationapp.databinding.FragmentMeBinding
+import com.google.firebase.auth.FirebaseAuth
 
 class MeFragment : Fragment() {
 
@@ -27,7 +28,7 @@ class MeFragment : Fragment() {
 
         binding.registerLogin.setOnClickListener {
 
-            val intent = Intent(context, RegistrationActivity::class.java)
+            val intent = Intent(context, LoginActivity::class.java)
             startActivity(intent)
 
         }
