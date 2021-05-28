@@ -57,11 +57,7 @@ class FavoriteFragment : Fragment(),FavoriteAdapter.OnEditFavoriteListener {
         favoriteViewModel.favorites?.observe(viewLifecycleOwner, Observer {
             Log.i("TAG", "onCreateView: ${it.size}")
         })
-//        favoriteViewModel.addToFavorite(Favorite(25312512,"Mohamed","abcd",150,""))
-//        favoriteViewModel.addToFavorite(Favorite(2532512,"Abdallah","abcd",150,""))
-//        favoriteViewModel.addToFavorite(Favorite(2512512,"Ahmed","abcd",150,""))
-//        favoriteViewModel.addToFavorite(Favorite(2312512,"Ali","abcd",150,""))
-//        favoriteViewModel.addToFavorite(Favorite(2314442512,"Abcd","abcd",150,""))
+
 
         favoriteViewModel.getAllFavorite()
     }
@@ -78,7 +74,7 @@ class FavoriteFragment : Fragment(),FavoriteAdapter.OnEditFavoriteListener {
 
     override fun onImageClick(item: Favorite) {
         val intent=Intent(context,ProductDetails::class.java)
-        intent.putExtra("product_id",item.id)
+        intent.putExtra("product_id",item.id.toString())
         startActivity(intent)
     }
 
