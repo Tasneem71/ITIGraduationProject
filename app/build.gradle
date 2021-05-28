@@ -7,6 +7,14 @@ plugins {
 
 
 android {
+    signingConfigs {
+        release {
+            storeFile file('D:\\ITI\\Graduate\\Key\\my_release_keystore.jks')
+            storePassword '123456'
+            keyAlias 'Key0'
+            keyPassword '123456'
+        }
+    }
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
 
@@ -28,6 +36,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     compileOptions {
@@ -67,7 +76,8 @@ dependencies {
 
     // Login with google
     implementation 'com.google.android.gms:play-services-auth:19.0.0'
-
+    // Login with facebook
+    implementation 'com.facebook.android:facebook-android-sdk:[5,6)'
     def lifecycle_version = "2.3.0"
     // ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"

@@ -16,4 +16,6 @@
     <string name="wishList">Wish List</string>
     <string name="LoginToSee">Please Login to See your Wish List</string>
     <string name="logout">LogOut</string>
+    <string name="facebook_app_id">2922863254703231</string>
+    <string name="fb_login_protocol_scheme">fb2922863254703231</string>
 </resources>

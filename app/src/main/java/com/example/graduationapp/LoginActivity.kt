@@ -15,6 +15,9 @@ import com.example.graduationapp.data.Addresses
 import com.example.graduationapp.data.CreatedCustomer
 import com.example.graduationapp.data.Customer
 import com.example.graduationapp.databinding.ActivityLoginBinding
+import com.facebook.*
+import com.facebook.login.LoginManager
+import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -22,20 +25,25 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.AuthCredential
+import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
+import java.util.*
 
 
 open class LoginActivity : AppCompatActivity() {
     lateinit var binding:ActivityLoginBinding
+
     private lateinit var loginViewMode : LoginViewModel
+
     var progressDialog: ProgressDialog? = null
     var fAuth: FirebaseAuth? = null
     companion object{
         var mGoogleSignInClient: GoogleSignInClient? = null
         var account: GoogleSignInAccount? = null
     }
-
     var RC_SIGN_IN = 10
+    private var callbackManager: CallbackManager? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,9 +53,40 @@ open class LoginActivity : AppCompatActivity() {
         //@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 
 
+
         loginViewMode = ViewModelProvider(this).get(LoginViewModel::class.java)
 
 
+
+
+        FacebookSdk.sdkInitialize(getApplicationContext())
+
+        callbackManager = CallbackManager.Factory.create()
+
+        binding.loginButton.setOnClickListener( {
+
+            LoginManager.getInstance().logInWithReadPermissions(
+                this@LoginActivity,
+                Arrays.asList("public_profile", "email")
+            )
+            LoginManager.getInstance().registerCallback(callbackManager,
+                object : FacebookCallback<LoginResult> {
+                    override fun onSuccess(loginResult: LoginResult) {
+                        // Login
+                        Log.d("MainActivity", "Facebook token: " + loginResult.accessToken.token+"iiiiiid"+loginResult.accessToken.userId)
+                        val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                        startActivity(intent)
+                    }
+
+                    override fun onCancel() {
+                        Log.d("MainActivity", "Facebook onCancel.")
+                    }
+
+                    override fun onError(error: FacebookException) {
+                        Log.d("MainActivity", "Facebook onError.")
+                    }
+                })
+        })
 
         binding.btRegister.setOnClickListener {
             val intent = Intent(this, RegistrationActivity::class.java)
@@ -68,7 +107,6 @@ open class LoginActivity : AppCompatActivity() {
             .requestEmail()
             .build()
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
-
         binding.googleSignInButton.setSize(SignInButton.SIZE_STANDARD)
         binding.googleSignInButton.setOnClickListener({ signIn() })
     }
@@ -145,6 +183,7 @@ open class LoginActivity : AppCompatActivity() {
             val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
             handleSignInResult(task)
         }
+        callbackManager!!.onActivityResult(requestCode, resultCode, data);
     }
 
     private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
