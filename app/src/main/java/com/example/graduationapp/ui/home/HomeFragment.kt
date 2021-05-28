@@ -2,6 +2,7 @@ package com.example.graduationapp.ui.home
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,31 +10,34 @@ import android.widget.ImageView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.graduationapp.R
+import com.example.graduationapp.data.Products
 import com.example.graduationapp.databinding.FragmentHomeBinding
 import com.example.graduationapp.ui.order.OrderActivity
+import com.example.graduationapp.ui.category.CategoryViewModel
+
 
 class HomeFragment : Fragment()  {
 
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var binding: FragmentHomeBinding
     private lateinit var imgas:Array<Int>
-    private lateinit var dataList:ArrayList<Category>
+    private lateinit var adidusList:ArrayList<Products>
+    private lateinit var nikeList:ArrayList<Products>
+    private lateinit var pumaList:ArrayList<Products>
+    private lateinit var converceList:ArrayList<Products>
+    private lateinit var asicsList:ArrayList<Products>
     var  adidasAdapter = ShopCategoryAdapter(arrayListOf())
     var  nikeAdapter = ShopCategoryAdapter(arrayListOf())
     var  pumaAdapter = ShopCategoryAdapter(arrayListOf())
     var  converceAdapter = ShopCategoryAdapter(arrayListOf())
     var  asicsAdapter = ShopCategoryAdapter(arrayListOf())
 
-    override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater,container: ViewGroup?,savedInstanceState: Bundle?): View {
 
-        homeViewModel =
-                ViewModelProvider(this).get(HomeViewModel::class.java)
+        homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
         imgas =arrayOf(R.drawable.onlineshopping,R.drawable.op ,R.drawable.lap)
 
@@ -41,29 +45,64 @@ class HomeFragment : Fragment()  {
              showPhotos(item)
 
         initUI()
-        dataList = ArrayList()
-        dataList.add(Category("the ",R.drawable.lap))
-        dataList.add(Category("the ",R.drawable.lap))
-        dataList.add(Category("the ",R.drawable.lap))
-        dataList.add(Category("the ",R.drawable.lap))
-        dataList.add(Category("the ",R.drawable.lap))
-        dataList.add(Category("the ",R.drawable.lap))
-        dataList.add(Category("the ",R.drawable.lap))
-        dataList.add(Category("the ",R.drawable.lap))
+        adidusList = ArrayList()
+        nikeList = ArrayList()
+        pumaList = ArrayList()
+        converceList = ArrayList()
+        asicsList = ArrayList()
+
         //*********************************
 
-        adidasAdapter.updateCategory(dataList)
-        nikeAdapter.updateCategory(dataList)
-        pumaAdapter.updateCategory(dataList)
-        converceAdapter.updateCategory(dataList)
-        asicsAdapter.updateCategory(dataList)
-        //**************
 
         binding.cart.setOnClickListener {
             val intent= Intent(this.context, OrderActivity::class.java)
             startActivity(intent)
         }
+        adidasAdapter.updateCategory(adidusList)
+        nikeAdapter.updateCategory(nikeList)
+        pumaAdapter.updateCategory(pumaList)
+        converceAdapter.updateCategory(converceList)
+        asicsAdapter.updateCategory(asicsList)
+
+
+        loadProducts("268359205062",0)
+        loadProducts("268359237830",1)
+        loadProducts("268359401670",2)
+        loadProducts("268359303366",3)
+        loadProducts("268359336134",4)
+
+
         return binding.root
+    }
+    private fun loadProducts(id:String,num:Int) {
+        homeViewModel.loadProductData(id,num).observe(requireActivity(), {
+            Log.d("data", "  products"+it.products[0].title)
+            it?.let {
+                when (num) {
+                    0 -> {
+                        adidusList= it.products as ArrayList<Products>
+                        adidasAdapter.updateCategory(adidusList)
+                    }
+                    1 -> {
+                        nikeList= it.products as ArrayList<Products>
+                        nikeAdapter.updateCategory(nikeList)
+                    }
+                    2 -> {
+                        pumaList= it.products as ArrayList<Products>
+                        pumaAdapter.updateCategory(pumaList)
+                    }
+                    3 -> {
+                        converceList= it.products as ArrayList<Products>
+                        converceAdapter.updateCategory(converceList)
+                    }
+                    4 -> {
+                        asicsList= it.products as ArrayList<Products>
+                        asicsAdapter.updateCategory(asicsList)
+                    }
+                }
+
+            }
+        })
     }
     private fun initUI() {
         binding.recyclerShopCategory.apply {
