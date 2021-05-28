@@ -1,5 +1,6 @@
 package com.example.graduationapp.ui.favoriteFeature
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -17,6 +18,7 @@ import com.example.graduationapp.databinding.ActivityLoginBinding
 import com.example.graduationapp.databinding.FragmentFavoriteBinding
 import com.example.graduationapp.ui.favoriteFeature.adapater.FavoriteAdapter
 import com.example.graduationapp.ui.home.HomeViewModel
+import com.example.graduationapp.ui.productPageFeature.ProductDetails
 
 class FavoriteFragment : Fragment(),FavoriteAdapter.OnEditFavoriteListener {
 
@@ -72,6 +74,12 @@ class FavoriteFragment : Fragment(),FavoriteAdapter.OnEditFavoriteListener {
     override fun onAddToCartClick(item: Favorite) {
         Log.i("TAG", "onAddToCartClick:${favoriteViewModel.isFavorite(item.id)} ")
 
+    }
+
+    override fun onImageClick(item: Favorite) {
+        val intent=Intent(context,ProductDetails::class.java)
+        intent.putExtra("product_id",item.id)
+        startActivity(intent)
     }
 
 

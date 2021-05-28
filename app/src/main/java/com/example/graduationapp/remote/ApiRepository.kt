@@ -63,7 +63,6 @@ class ApiRepository {
 
     }
 
-
     suspend fun fetchProductsData(id: String) {
         //if (isOnline(context)) {
         val response = ApiServes.shopfiyService.getProductFromCollection(id)

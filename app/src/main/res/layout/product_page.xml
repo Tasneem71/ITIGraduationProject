@@ -3,7 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#DFD9D9">
+    android:background="#DFD9D9"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.productPageFeature.ProductDetails">
+
     <androidx.viewpager.widget.ViewPager
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -89,6 +92,91 @@
             android:layout_marginBottom="16dp"
             />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#d5c5a4"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="156dp"
+            android:layout_marginTop="16dp"
+            ></View>
+
+        <TextView
+            android:id="@+id/product_page_vendor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#d5c5a4"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="156dp"
+            android:layout_marginTop="16dp"
+            ></View>
+
+        <TextView
+            android:id="@+id/product_page_product_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#d5c5a4"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="156dp"
+            android:layout_marginTop="16dp"
+            ></View>
+
+        <TextView
+            android:id="@+id/product_page_tags"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#d5c5a4"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="156dp"
+            android:layout_marginTop="16dp"
+            ></View>
+
+        <TextView
+            android:id="@+id/product_page_inventory_quantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            />
         <TextView
             android:id="@+id/xx_detail"
             android:layout_width="wrap_content"
@@ -124,10 +212,6 @@
             />
     </LinearLayout>
 
-
-
-
-
             <!--*******ADD TO BAG********-->-->
 
 
@@ -135,7 +219,6 @@
                 android:id="@+id/addtobag"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#000"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:layout_below="@+id/linear1"

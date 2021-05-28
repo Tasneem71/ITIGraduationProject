@@ -15,7 +15,8 @@
         android:theme="@style/Theme.GraduationApp.noActionBar">
 
         <activity android:name=".RegistrationActivity" />
-        <activity android:name=".LoginActivity">
+        <activity android:name=".LoginActivity"/>
+        <activity android:name=".ui.productPageFeature.ProductDetails">
 
         </activity>
         <activity
