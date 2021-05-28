@@ -15,4 +15,5 @@
     <string name="RegisterLogin">SIGN IN / REGISTER</string>
     <string name="wishList">Wish List</string>
     <string name="LoginToSee">Please Login to See your Wish List</string>
+    <string name="logout">LogOut</string>
 </resources>

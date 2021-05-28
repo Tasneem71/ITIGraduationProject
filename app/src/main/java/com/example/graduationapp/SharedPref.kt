@@ -41,5 +41,13 @@ fun createPrefObject(context: Context): SharedPreferences? {
     fun getUserEmail(): String? {
         return pref!!.getString("user-email", " ")
     }
+    fun checkLoginWithFirebase(): Boolean? {
+        return pref!!.getBoolean("login-firebase", false)
+    }
 
+    fun setLogin(login: Boolean) {
+        val editor = pref!!.edit()
+        editor.putBoolean("login", login)
+        editor.apply()
+    }
 }
