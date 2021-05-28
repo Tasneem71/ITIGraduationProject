@@ -9,6 +9,11 @@ import android.util.Pair
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
+import com.example.graduationapp.data.Addresses
+import com.example.graduationapp.data.CreatedCustomer
+import com.example.graduationapp.data.Customer
 import com.example.graduationapp.databinding.ActivityLoginBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -22,7 +27,7 @@ import com.google.firebase.auth.FirebaseAuth
 
 class LoginActivity : AppCompatActivity() {
     lateinit var binding:ActivityLoginBinding
-
+    private lateinit var loginViewMode : LoginViewModel
     var progressDialog: ProgressDialog? = null
     var fAuth: FirebaseAuth? = null
      var mGoogleSignInClient: GoogleSignInClient? = null
@@ -35,6 +40,12 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
         //setContentView(R.layout.activity_login)
         //@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+
+
+        loginViewMode = ViewModelProvider(this).get(LoginViewModel::class.java)
+
+
+
         binding.btRegister.setOnClickListener {
             val intent = Intent(this, RegistrationActivity::class.java)
             val pairs =
@@ -43,6 +54,8 @@ class LoginActivity : AppCompatActivity() {
                 ActivityOptions.makeSceneTransitionAnimation(this, pairs)
             startActivity(intent, activityOptions.toBundle())
         }
+
+
         fAuth = FirebaseAuth.getInstance()
         progressDialog = ProgressDialog(this)
         progressDialog!!.setMessage("Signing In please wait...")
@@ -56,6 +69,7 @@ class LoginActivity : AppCompatActivity() {
         binding.googleSignInButton.setSize(SignInButton.SIZE_STANDARD)
         binding.googleSignInButton.setOnClickListener({ signIn() })
     }
+
     private fun signIn() {
         val signInIntent: Intent = mGoogleSignInClient!!.getSignInIntent()
         startActivityForResult(signInIntent, RC_SIGN_IN)
@@ -68,15 +82,57 @@ class LoginActivity : AppCompatActivity() {
             val personFamilyName = account.familyName
             val personId = account.id
             val personPhoto = account.photoUrl
-            val intent = Intent(this, MainActivity::class.java)
-            SharedPref.setUserEmail(account.email)
-            startActivity(intent)
-            finish()
+            if (personEmail!=null&&personName!=null&&personFamilyName!=null){
+                Log.i("tasneem","nothing is null")
+                signInApi(personEmail,personName,personFamilyName)
+            }else{
+                Log.i("tasneem","something is null")
+            }
+
            Log.d("user", personName + personEmail + personId)
 
         } else {
             Toast.makeText(this, "Please login with a valid Google account", Toast.LENGTH_SHORT)
                 .show()
+        }
+    }
+
+    private fun signInApi(email:String,fname:String,lname:String) {
+        loginViewMode.loadData(applicationContext)
+        loginViewMode.allCustomersLiveData.observe(this) {
+
+            val exist= it?.customers?.filter { it.email==email }
+            if (!exist.isNullOrEmpty()){
+                Log.i("tasneem","in the if sign in")
+                val intent = Intent(this, MainActivity::class.java)
+                SharedPref.setUserEmail(email)
+                SharedPref.setUserId(exist[0].id)
+                SharedPref.setUserInfo(fname)
+                SharedPref.setUserState(true)
+                startActivity(intent)
+                finish()
+            }else{
+                Log.i("tasneem","in the else sign in")
+                var list :List<Addresses> = mutableListOf<Addresses>(Addresses("","","","+201112518611","","","",""))
+                val part = Customer(fname,lname,email,null,true,null)
+                val costomerJsonc=CreatedCustomer(part)
+                loginViewMode.createCustomer(costomerJsonc)
+                loginViewMode.createCustomerLiveData.observe(this) {
+                    Log.i("tasneem",""+it)
+                    it?.let {
+                        val intent = Intent(this, MainActivity::class.java)
+                        SharedPref.setUserEmail(email)
+                        SharedPref.setUserId(it.id)
+                        SharedPref.setUserInfo(fname)
+                        SharedPref.setUserState(true)
+                        startActivity(intent)
+                        finish()
+                    }
+
+                }
+
+            }
+
         }
     }
 
@@ -96,10 +152,10 @@ class LoginActivity : AppCompatActivity() {
             updateUI(account)
         }
     }
-    override fun onStart() {
-        super.onStart()
-        account = GoogleSignIn.getLastSignedInAccount(this)
-        updateUI(account)
-    }
+//    override fun onStart() {
+//        super.onStart()
+//        account = GoogleSignIn.getLastSignedInAccount(this)
+//        updateUI(account)
+//    }
 
 }

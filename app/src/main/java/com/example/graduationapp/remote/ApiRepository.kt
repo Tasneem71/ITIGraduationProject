@@ -7,10 +7,10 @@ import android.net.NetworkCapabilities
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.graduationapp.data.ApiCollections
-import com.example.graduationapp.data.CollectionProducts
+import com.example.graduationapp.data.*
 import com.example.graduationapp.remote.retro.ApiServes
 import kotlinx.coroutines.*
+import retrofit2.Response
 
 class ApiRepository {
     //    var localDataSource: LocalDataSource
@@ -108,5 +108,48 @@ class ApiRepository {
         //}
     }
 
+    suspend fun fetchAllCustomerData(): Response<ApiCustomers> {
+
+        val response = ApiServes.shopfiyService.getAllCustomer()
+        return response
+
+    }
+
+    suspend fun createCustomer(customerJson: CreatedCustomer): Customers? {
+
+        val response = ApiServes.shopfiyService.createCustomer(customerJson)
+        try {
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    Log.i("Tasneem", "response" + it)
+                    return it
+                }
+            } else {
+                Log.i("Tasneem", "response failuer" + response.errorBody().toString())
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.i("Tasneem", " error?" + e.printStackTrace())
+
+        }
+        return null
+
+    }
 
 }
+
+
+/* try {
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    apiCollection.postValue(it)
+                }
+            } else {
+                Log.i("Tasneem", "response failuer" + response.errorBody().toString())
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.i("Tasneem", " error?" + e.printStackTrace())
+
+        }
+ */

@@ -20,6 +20,24 @@ fun createPrefObject(context: Context): SharedPreferences? {
         editor.apply()
     }
 
+    fun setUserId(id: String?) {
+        val editor: SharedPreferences.Editor = pref!!.edit()
+        editor.putString("user-id", id)
+        editor.apply()
+    }
+
+    fun setUserInfo(info: String?) {
+        val editor: SharedPreferences.Editor = pref!!.edit()
+        editor.putString("user-info", info)
+        editor.apply()
+    }
+
+    fun setUserState(state: Boolean) {
+        val editor: SharedPreferences.Editor = pref!!.edit()
+        editor.putBoolean("user-state", state)
+        editor.apply()
+    }
+
     fun getUserEmail(): String? {
         return pref!!.getString("user-email", " ")
     }
