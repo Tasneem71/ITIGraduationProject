@@ -2,6 +2,7 @@ package com.example.graduationapp.remote.retro
 
 import com.example.graduationapp.data.ApiCollections
 import com.example.graduationapp.data.CollectionProducts
+import com.example.graduationapp.data.ProductDetails
 import com.example.graduationapp.data.Products
 import retrofit2.Call
 import retrofit2.Response
@@ -23,7 +24,7 @@ interface ShopfiyApi {
 
 
     @GET("products/{product_id}.json")
-    suspend fun getProductDetails(@Path("product_id") id:String): Response<Products>
+    suspend fun getProductDetails(@Path("product_id") id:String): Response<ProductDetails>
 
 
 

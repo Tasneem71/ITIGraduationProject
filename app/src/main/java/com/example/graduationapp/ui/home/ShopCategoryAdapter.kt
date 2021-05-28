@@ -1,5 +1,7 @@
 package com.example.graduationapp.ui.home
 
+import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.graduationapp.R
 import com.example.graduationapp.data.Products
+import com.example.graduationapp.ui.productPageFeature.ProductDetails
 import kotlin.collections.ArrayList
 
 class ShopCategoryAdapter(var categorys: ArrayList<Products>) :
@@ -24,6 +27,8 @@ class ShopCategoryAdapter(var categorys: ArrayList<Products>) :
     override fun getItemCount() = categorys.size
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
         holder.bind(categorys[position])
+
+
     }
     class CategoryViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         private val name = view.findViewById<TextView>(R.id.title)
@@ -40,6 +45,12 @@ class ShopCategoryAdapter(var categorys: ArrayList<Products>) :
 
             name.text =category.title
             price.text ="18 LE"
+                imageView.setOnClickListener(View.OnClickListener {
+                val intent= Intent(it.context, ProductDetails::class.java)
+                intent.putExtra("product_id",category.id.toString())
+                Log.i("TAG", "onBindViewHolder: mohamed abdallah")
+                it.context.startActivity(intent)
+            })
 
         }
     }

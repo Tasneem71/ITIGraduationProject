@@ -15,22 +15,20 @@ class ProductPageViewModel() : ViewModel() {
 
     var productDetails  =MutableLiveData<Products>()
 
-    fun getProductDetails(id:Long) {
+    fun getProductDetails(id:String) {
         viewModelScope.launch {
-            val response = ApiServes.shopfiyService.getProductDetails("6687367823558")
+            val response = ApiServes.shopfiyService.getProductDetails(id)
             try {
                 if (response.isSuccessful) {
                     Log.i("Mohamed", "getProductDetails: ggggggggggggggggggggg")
                     response.body()?.let {
-                        productDetails.postValue(it)
+                        productDetails.postValue(it.products)
                         Log.i("Mohamed", "getProductDetails: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
-                        Log.i("Mohamed", "getProductDetails: ${it.title}")
-                        Log.i("Mohamed", "getProductDetails: ${it.id}")
-                        Log.i("Mohamed", "getProductDetails: ${it.handle}")
 
                     }
+                    Log.i("Mohamed", "getProductDetails: dddddddddddddd")
                 } else {
-                    Log.i("Mohamed", "getError}")
+                    Log.i("Mohamed", "$")
 
                 }
             } catch (e: Exception) {
@@ -40,8 +38,6 @@ class ProductPageViewModel() : ViewModel() {
             }
         }
     }
-    override fun onCleared() {
-        super.onCleared()
-    }
+
 
 }

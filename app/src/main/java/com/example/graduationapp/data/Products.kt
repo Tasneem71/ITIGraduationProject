@@ -9,6 +9,11 @@ data class CollectionProducts (
     @SerializedName("products") val products : List<Products>
 )
 
+data class ProductDetails (
+
+    @SerializedName("product") val products : Products
+)
+
 
 data class Products (
 
@@ -32,8 +37,8 @@ data class Products (
 )
 data class Variants (
 
-    @SerializedName("id") val id : Int,
-    @SerializedName("product_id") val product_id : Int,
+    @SerializedName("id") val id : String,
+    @SerializedName("product_id") val product_id : String,
     @SerializedName("title") val title : String,
     @SerializedName("price") val price : Double,    //
     @SerializedName("sku") val sku : String,
@@ -53,8 +58,8 @@ data class Variants (
     @SerializedName("image_id") val image_id : String,
     @SerializedName("weight") val weight : Int,
     @SerializedName("weight_unit") val weight_unit : String,
-    @SerializedName("inventory_item_id") val inventory_item_id : Int,
-    @SerializedName("inventory_quantity") val inventory_quantity : Int,   //
+    @SerializedName("inventory_item_id") val inventory_item_id : String,
+    @SerializedName("inventory_quantity") val inventory_quantity : String,   //
     @SerializedName("old_inventory_quantity") val old_inventory_quantity : Int,
     @SerializedName("requires_shipping") val requires_shipping : Boolean,
     @SerializedName("admin_graphql_api_id") val admin_graphql_api_id : String
