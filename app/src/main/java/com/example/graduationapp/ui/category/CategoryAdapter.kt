@@ -1,6 +1,8 @@
 package com.example.graduationapp.ui.category
 
 import android.content.Context
+import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.graduationapp.R
 import com.example.graduationapp.data.Products
+import com.example.graduationapp.ui.productPageFeature.ProductDetails
 import java.util.*
 
 class CategoryAdapter :RecyclerView.Adapter<CategoryAdapter.ViewHolder>(){
@@ -41,6 +44,14 @@ class CategoryAdapter :RecyclerView.Adapter<CategoryAdapter.ViewHolder>(){
         context?.let {
             Glide.with(it).load(item?.images[0].src).into(holder.categoryImage)
         }
+
+        holder.categoryImage.setOnClickListener(View.OnClickListener {
+            val intent= Intent(context, ProductDetails::class.java)
+            intent.putExtra("product_id",item?.id.toString())
+            Log.i("TAG", "onBindViewHolder: mohamed abdallah")
+            context.startActivity(intent)
+        })
+
     }
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {

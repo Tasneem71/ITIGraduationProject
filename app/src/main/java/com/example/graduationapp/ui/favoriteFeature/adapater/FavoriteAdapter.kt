@@ -21,9 +21,7 @@ class FavoriteAdapter(
         //TODO bind item
         holder.title.text=favorites[position].title
         holder.price.text=favorites[position].price.toString()
-//        context?.let {
-//            Glide.with(it).load(favorites[position].image).into(holder.image)
-//        }
+        Glide.with(holder.image.context).load(favorites[position].image).placeholder(R.drawable.ic_search).into(holder.image)
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         // TODO createView
@@ -45,6 +43,7 @@ class FavoriteAdapter(
         init {
             removeIcon.setOnClickListener(this)
             addTocart.setOnClickListener(this)
+            image.setOnClickListener(this)
         }
         override fun onClick(p0: View?) {
             when(p0){
@@ -54,6 +53,9 @@ class FavoriteAdapter(
                 removeIcon->{
                     listener.onRemoveFavoriteClick(favorites[adapterPosition])
                 }
+                image->{
+                    listener.onImageClick(favorites[adapterPosition])
+                }
             }
         }
     }
@@ -61,6 +63,7 @@ class FavoriteAdapter(
     {
         fun onRemoveFavoriteClick(item: Favorite)
         fun onAddToCartClick(item: Favorite)
+        fun onImageClick(item: Favorite)
     }
 
     override fun getItemCount(): Int {
