@@ -34,13 +34,11 @@ class ShopCategoryAdapter(var categorys: ArrayList<Products>) :
         private val name = view.findViewById<TextView>(R.id.title)
         private val price = view.findViewById<TextView>(R.id.price)
         private val imageView = view.findViewById<ImageView>(R.id.thumbnail)
-        private val favorite = view.findViewById<ImageView>(R.id.favorite)
         private val addCart = view.findViewById<ImageView>(R.id.add_card)
         fun bind(category: Products) {
             Glide.with(imageView.context).load(category.images[0].src).placeholder(R.drawable.ic_search).into(imageView)
 
             //imageView.setImageResource(R.drawable.ic_search)
-            favorite.setImageResource(R.drawable.ic_favorite)
             addCart.setImageResource(R.drawable.ic_cart)
 
             name.text =category.title
