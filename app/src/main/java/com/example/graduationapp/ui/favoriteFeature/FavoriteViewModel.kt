@@ -51,6 +51,11 @@ class FavoriteViewModel(application: Application) : AndroidViewModel(application
          }
          return isFavorite
     }
+    fun addToCart(item: Favorite){
+        viewModelScope.launch {
+            local.addToFavorite(item)
+        }
+    }
 
     override fun onCleared() {
         super.onCleared()

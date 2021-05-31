@@ -29,4 +29,8 @@ class LocalSource (application:Application) {
         return database.dao.isFavorite(id)
     }
 
+    suspend fun getAllCart(): List<Favorite>?{
+        return database.dao.getAllCart()
+    }
+
 }
