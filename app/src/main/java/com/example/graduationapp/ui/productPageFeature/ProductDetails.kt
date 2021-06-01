@@ -18,7 +18,8 @@ import com.example.graduationapp.databinding.ActivityScrollingBinding
 import com.example.graduationapp.ui.favoriteFeature.FavoriteViewModel
 import kotlin.math.log
 
-class ProductDetails : AppCompatActivity() {
+class
+ProductDetails : AppCompatActivity() {
     private lateinit var productPageViewModel: ProductPageViewModel
     private lateinit var favoriteViewModel: FavoriteViewModel
     lateinit var binding:ActivityScrollingBinding
@@ -71,13 +72,16 @@ class ProductDetails : AppCompatActivity() {
 
         })
 
+
         binding.content.productPageAddToCart.setOnClickListener(View.OnClickListener {
+            favoriteViewModel.addToFavorite(Favorite(currentProduct!!.id.toLong(), currentProduct!!.title,
+                currentProduct!!.handle, currentProduct?.variants?.get(0)?.price!!.toInt(),currentProduct!!.image.src,'C'))
 
         })
         binding.content.productPageAddToFavorite.setOnClickListener(View.OnClickListener {
 
             favoriteViewModel.addToFavorite(Favorite(currentProduct!!.id.toLong(), currentProduct!!.title,
-                currentProduct!!.handle, currentProduct?.variants?.get(0)?.price!!.toInt(),currentProduct!!.image.src))
+                currentProduct!!.handle, currentProduct?.variants?.get(0)?.price!!.toInt(),currentProduct!!.image.src,'F'))
 
         })
 
