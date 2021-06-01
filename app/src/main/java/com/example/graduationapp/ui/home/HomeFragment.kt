@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.graduationapp.R
+import com.example.graduationapp.SearchActivity
 import com.example.graduationapp.data.Products
 import com.example.graduationapp.databinding.FragmentHomeBinding
 import com.example.graduationapp.ui.order.OrderActivity
@@ -58,6 +59,13 @@ class HomeFragment : Fragment()  {
             val intent= Intent(this.context, OrderActivity::class.java)
             startActivity(intent)
         }
+
+        binding.search.setOnClickListener {
+            val intent= Intent(this.context, SearchActivity::class.java)
+            startActivity(intent)
+        }
+
+
         adidasAdapter.updateCategory(adidusList)
         nikeAdapter.updateCategory(nikeList)
         pumaAdapter.updateCategory(pumaList)
@@ -75,7 +83,7 @@ class HomeFragment : Fragment()  {
         return binding.root
     }
     private fun loadProducts(id:String,num:Int) {
-        homeViewModel.loadProductData(id,num).observe(requireActivity(), {
+        homeViewModel.loadProductData(id,num).observe(requireActivity()) {
             Log.d("data", "  products"+it.products[0].title)
             it?.let {
                 when (num) {
@@ -102,7 +110,7 @@ class HomeFragment : Fragment()  {
                 }
 
             }
-        })
+        }
     }
     private fun initUI() {
         binding.recyclerShopCategory.apply {

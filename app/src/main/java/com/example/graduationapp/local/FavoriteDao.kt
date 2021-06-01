@@ -15,9 +15,12 @@ interface FavoriteDao {
     @Query("delete from Favorite where id is :id")
     suspend fun deleteFromFavorite(id: Long)
 
-    @Query("select * from Favorite ")
+    @Query("select * from Favorite where page = 70")
     suspend fun getAllFavorite(): List<Favorite>?
 
     @Query("SELECT COUNT() FROM Favorite WHERE id = :id")
     suspend fun isFavorite(id: Long): Int
+
+    @Query("select * from Favorite where page = 67")
+    suspend fun getAllCart(): List<Favorite>?
 }

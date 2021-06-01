@@ -135,6 +135,27 @@ class ApiRepository {
 
     }
 
+    suspend fun getAllProducts(): CollectionProducts? {
+
+        val response = ApiServes.shopfiyService.getAllProduct()
+        try {
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    Log.i("Tasneem", "response" + it)
+                    return it
+                }
+            } else {
+                Log.i("Tasneem", "response failuer" + response.errorBody().toString())
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.i("Tasneem", " error?" + e.printStackTrace())
+
+        }
+        return null
+
+    }
+
 }
 
 

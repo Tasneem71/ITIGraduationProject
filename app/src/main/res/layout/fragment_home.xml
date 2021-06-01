@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/scrollBack"
-        android:background="@color/white"
+        android:background="@color/medGray"
         android:paddingBottom="56dp"
         android:fillViewport="true">
 
@@ -23,7 +23,7 @@
                 android:id="@+id/appBar"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="#D8DC9DE1"
+                android:background="@color/white"
                 android:paddingHorizontal="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -63,7 +63,7 @@
                         android:id="@+id/cart"
                         android:layout_width="40dp"
                         android:layout_height="48dp"
-                        android:src="@drawable/ic_cart"
+                        android:src="@drawable/ic_black_shopping_cart_24"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -71,7 +71,7 @@
                         android:id="@+id/favo"
                         android:layout_width="40dp"
                         android:layout_height="48dp"
-                        android:src="@drawable/ic_favorite"
+                        android:src="@drawable/ic_baseline_favorite_24"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -79,14 +79,29 @@
 
             </androidx.appcompat.widget.Toolbar>
 
+            <TextView
+                android:id="@+id/adds"
+                app:layout_constraintTop_toBottomOf="@+id/appBar"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_margin="5dp"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/adds"/>
+
             <ViewFlipper
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:id="@+id/flipper"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="300dp"
                 android:background="#271047"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/appBar">
+                app:layout_constraintTop_toBottomOf="@+id/adds">
 
             </ViewFlipper>
 
@@ -97,6 +112,7 @@
                 android:paddingStart="3dp"
                 android:paddingEnd="15dp"
                 android:paddingBottom="10dp"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -109,6 +125,7 @@
                 android:id="@+id/second"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:paddingStart="3dp"
                 android:paddingEnd="15dp"
                 android:paddingBottom="10dp"
@@ -124,6 +141,7 @@
                 android:id="@+id/third"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:paddingStart="3dp"
                 android:paddingEnd="15dp"
                 android:paddingBottom="10dp"
@@ -139,6 +157,7 @@
                 android:id="@+id/fourth"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:paddingStart="3dp"
                 android:paddingEnd="15dp"
                 android:paddingBottom="10dp"
@@ -154,6 +173,7 @@
                 android:id="@+id/fifth"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:paddingStart="3dp"
                 android:paddingEnd="15dp"
                 android:paddingBottom="10dp"
@@ -166,53 +186,65 @@
                 tools:listitem="@layout/card"/>
             <TextView
                 android:id="@+id/textView"
-                android:layout_marginStart="5dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="20dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="ADIDAS"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:textSize="25sp"
                 android:textStyle="bold"
-                android:textSize="15sp"
+                android:textColor="@color/black"
+                android:text="ADIDAS"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/flipper" />
 
             <TextView
                 android:id="@+id/textTwo"
-                android:layout_marginStart="5dp"
+                android:layout_margin="10dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:textSize="25sp"
                 android:textStyle="bold"
-                android:textSize="15sp"
+                android:textColor="@color/black"
                 android:text="NIKE"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/recycler_shop_category" />
 
             <TextView
                 android:id="@+id/textView3"
-                android:layout_marginStart="5dp"
+                android:layout_margin="10dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:textSize="25sp"
                 android:textStyle="bold"
-                android:textSize="15sp"
+                android:textColor="@color/black"
                 android:text="PUMA"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/second" />
             <TextView
                 android:id="@+id/textView5"
+                android:layout_margin="10dp"
                 android:layout_width="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:textSize="25sp"
                 android:textStyle="bold"
-                android:textSize="15sp"
+                android:textColor="@color/black"
                 android:text="CONVERSE"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/third" />
             <TextView
                 android:id="@+id/textView4"
-                android:textStyle="bold"
-                android:layout_marginStart="5dp"
-                android:textSize="15sp"
+                android:layout_margin="10dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
                 android:text="ASICS TIGER"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/fourth" />
