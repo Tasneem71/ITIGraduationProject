@@ -118,4 +118,5 @@
     <string name="quantity">Quantity:</string>
     <string name="type">Type:</string>
     <string name="addtocart">Add to Cart</string>
+    <string name="notAve">Not Available</string>
 </resources>

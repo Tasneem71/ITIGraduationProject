@@ -21,7 +21,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:textSize="25sp"
+            android:textSize="20sp"
             android:text="@string/app_name" />
 
         <TextView
@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/product_page_title"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:layout_marginStart="50dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
@@ -44,7 +44,8 @@
             app:layout_constraintTop_toBottomOf="@+id/product_page_vendor"
             android:layout_margin="@dimen/text_margin"
             android:textStyle="bold"
-            android:textSize="25sp"
+            android:textSize="30sp"
+            android:textColor="@color/black"
             android:text="@string/price" />
 
         <RatingBar
@@ -69,13 +70,13 @@
 
         <TextView
             android:id="@+id/product_page_size_details"
-            android:layout_width="100dp"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/product_page_size"
             android:layout_marginStart="25dp"
             android:textSize="20sp"
-            android:text="@string/price" />
+            android:text="@string/notAve" />
 
 
         <TextView
@@ -84,7 +85,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintStart_toEndOf="@+id/product_page_size"
             app:layout_constraintTop_toBottomOf="@+id/product_page_price"
-            android:layout_marginStart="50dp"
+            android:layout_marginStart="70dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
@@ -103,7 +104,7 @@
             app:layout_constraintStart_toEndOf="@+id/product_page_size_details"
             app:layout_constraintTop_toBottomOf="@+id/product_page_color"
             android:textSize="20sp"
-            android:text="@string/color" />
+            android:text="@string/notAve" />
 
 
         <TextView
@@ -171,10 +172,11 @@
             android:orientation="horizontal"
             android:weightSum="4.5"
             android:padding="10dp"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="300dp"
             android:gravity="center">
 
             <ImageView
+                android:id="@+id/product_page_add_to_favorite"
                 android:layout_width="0dp"
                 android:layout_weight=".5"
                 android:layout_height="50dp"
@@ -182,6 +184,7 @@
                 android:layout_marginEnd="20dp"/>
 
             <Button
+                android:id="@+id/product_page_add_to_cart"
                 android:layout_width="0dp"
                 android:layout_weight="3"
                 android:layout_height="wrap_content"
