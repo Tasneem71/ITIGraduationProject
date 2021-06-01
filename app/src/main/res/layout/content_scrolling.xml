@@ -51,9 +51,10 @@
         <RatingBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/product_page_title"
+            app:layout_constraintTop_toBottomOf="@+id/product_page_vendor"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="10dp"
+            android:layout_marginTop="16dp"
             android:numStars="3"/>
 
         <TextView
