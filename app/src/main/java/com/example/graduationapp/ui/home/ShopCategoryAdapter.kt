@@ -12,7 +12,6 @@ import com.bumptech.glide.Glide
 import com.example.graduationapp.R
 import com.example.graduationapp.data.Products
 import com.example.graduationapp.ui.productPageFeature.ProductDetails
-import kotlin.collections.ArrayList
 
 class ShopCategoryAdapter(var categorys: ArrayList<Products>) :
         RecyclerView.Adapter<ShopCategoryAdapter.CategoryViewHolder>() {
@@ -21,6 +20,7 @@ class ShopCategoryAdapter(var categorys: ArrayList<Products>) :
         categorys.addAll(newCategory)
         notifyDataSetChanged()
     }
+
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int) = CategoryViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.card, parent, false)
     )
@@ -30,19 +30,21 @@ class ShopCategoryAdapter(var categorys: ArrayList<Products>) :
 
 
     }
+
+
     class CategoryViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         private val name = view.findViewById<TextView>(R.id.title)
         private val price = view.findViewById<TextView>(R.id.price)
         private val imageView = view.findViewById<ImageView>(R.id.thumbnail)
-        private val addCart = view.findViewById<ImageView>(R.id.add_card)
+        //private val addCart = view.findViewById<ImageView>(R.id.add_card)
         fun bind(category: Products) {
             Glide.with(imageView.context).load(category.images[0].src).placeholder(R.drawable.ic_search).into(imageView)
 
             //imageView.setImageResource(R.drawable.ic_search)
-            addCart.setImageResource(R.drawable.ic_cart)
+            //addCart.setImageResource(R.drawable.ic_cart)
 
             name.text =category.title
-            price.text ="18 LE"
+            //price.text ="18 LE"
                 imageView.setOnClickListener(View.OnClickListener {
                 val intent= Intent(it.context, ProductDetails::class.java)
                 intent.putExtra("product_id",category.id.toString())
