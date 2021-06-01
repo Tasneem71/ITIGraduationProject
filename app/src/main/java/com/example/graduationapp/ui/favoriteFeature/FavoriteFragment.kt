@@ -58,7 +58,6 @@ class FavoriteFragment : Fragment(),FavoriteAdapter.OnEditFavoriteListener {
             Log.i("TAG", "onCreateView: ${it.size}")
         })
 
-
         favoriteViewModel.getAllFavorite()
     }
     override fun onRemoveFavoriteClick(item: Favorite) {
@@ -66,17 +65,13 @@ class FavoriteFragment : Fragment(),FavoriteAdapter.OnEditFavoriteListener {
         favoriteViewModel.getAllFavorite()
 
     }
-
     override fun onAddToCartClick(item: Favorite) {
         Log.i("TAG", "onAddToCartClick:${favoriteViewModel.isFavorite(item.id)} ")
 
     }
-
     override fun onImageClick(item: Favorite) {
         val intent=Intent(context,ProductDetails::class.java)
         intent.putExtra("product_id",item.id.toString())
         startActivity(intent)
     }
-
-
 }
