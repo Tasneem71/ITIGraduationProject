@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import com.example.domain.core.favoriteFeature.Favorite
 import com.example.graduationapp.local.FavoriteDao
 
-@Database(entities = [Favorite::class],version = 2,exportSchema = false)
+@Database(entities = [Favorite::class],version = 3,exportSchema = false)
 
 abstract class FavoriteDatabase : RoomDatabase() {
     abstract val dao: FavoriteDao

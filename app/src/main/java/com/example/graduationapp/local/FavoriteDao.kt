@@ -23,4 +23,7 @@ interface FavoriteDao {
 
     @Query("select * from Favorite where page = 67")
     suspend fun getAllCart(): List<Favorite>?
+
+    @Query("UPDATE Favorite SET count=:count WHERE id = :id")
+    fun updateCount( id: Long,count: Int)
 }

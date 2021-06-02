@@ -45,7 +45,7 @@ class ShopCategoryAdapter(var categorys: ArrayList<Products>) :
 
             name.text =category.title
             //price.text ="18 LE"
-                imageView.setOnClickListener(View.OnClickListener {
+            imageView.setOnClickListener(View.OnClickListener {
                 val intent= Intent(it.context, ProductDetails::class.java)
                 intent.putExtra("product_id",category.id.toString())
                 Log.i("TAG", "onBindViewHolder: mohamed abdallah")

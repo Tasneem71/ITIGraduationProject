@@ -16,8 +16,7 @@ import com.example.graduationapp.R
 import com.example.graduationapp.SearchActivity
 import com.example.graduationapp.data.Products
 import com.example.graduationapp.databinding.FragmentHomeBinding
-import com.example.graduationapp.ui.order.OrderActivity
-import com.example.graduationapp.ui.category.CategoryViewModel
+import com.example.graduationapp.ui.cart.CartActivity
 
 
 class HomeFragment : Fragment()  {
@@ -56,7 +55,7 @@ class HomeFragment : Fragment()  {
 
 
         binding.cart.setOnClickListener {
-            val intent= Intent(this.context, OrderActivity::class.java)
+            val intent= Intent(this.context, CartActivity::class.java)
             startActivity(intent)
         }
 

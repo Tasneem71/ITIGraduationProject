@@ -63,7 +63,11 @@ data class Default_address (
     @SerializedName("default") val default : Boolean
 )
 
+data class AddressData (
 
+    @SerializedName("customer_address") val address : Addresse?,
+    @SerializedName("addresses") val addressList : List<Addresse>?
+)
 
 data class Addresse (
 
