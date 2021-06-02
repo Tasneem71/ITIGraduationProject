@@ -18,6 +18,8 @@ import com.example.graduationapp.data.Products
 import com.example.graduationapp.databinding.FragmentHomeBinding
 import com.example.graduationapp.ui.order.OrderActivity
 import com.example.graduationapp.ui.category.CategoryViewModel
+import com.example.graduationapp.ui.favoriteFeature.FavoriteActivity
+import com.example.graduationapp.ui.productPageFeature.ProductDetails
 
 
 class HomeFragment : Fragment()  {
@@ -64,6 +66,12 @@ class HomeFragment : Fragment()  {
             val intent= Intent(this.context, SearchActivity::class.java)
             startActivity(intent)
         }
+
+        binding.favo.setOnClickListener(View.OnClickListener {
+            val intent= Intent(context, FavoriteActivity::class.java)
+            startActivity(intent)
+
+        })
 
 
         adidasAdapter.updateCategory(adidusList)

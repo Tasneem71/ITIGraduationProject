@@ -30,11 +30,6 @@
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_favorite"
-        android:name="com.example.graduationapp.ui.favoriteFeature.FavoriteFragment"
-        android:label="FavoriteFragment"
-        tools:layout="@layout/fragment_favorite" />
-    <fragment
         android:id="@+id/settingsFragment"
         android:name="com.example.graduationapp.ui.settingsFeature.SettingsFragment"
         android:label="SettingsFragment" >

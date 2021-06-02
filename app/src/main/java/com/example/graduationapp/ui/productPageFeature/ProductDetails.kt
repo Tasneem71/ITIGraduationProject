@@ -1,10 +1,14 @@
 package com.example.graduationapp.ui.productPageFeature
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.alpha
+import androidx.core.graphics.drawable.toDrawable
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.example.ViewPagerAdapter
 import com.example.domain.core.feature.favoriteFeature.Favorite
@@ -13,6 +17,9 @@ import com.example.graduationapp.data.Products
 import com.example.graduationapp.databinding.ActivityScrollingBinding
 
 import com.example.graduationapp.ui.favoriteFeature.FavoriteViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class
 ProductDetails : AppCompatActivity() {
@@ -35,6 +42,8 @@ ProductDetails : AppCompatActivity() {
         var x=""
         if (intent!=null)
             x= intent.getStringExtra("product_id").toString()
+
+        setFavoriteImage(x.toLong())
 
         productPageViewModel.getProductDetails(x)
         productPageViewModel.productDetails.observe(this, Observer {
@@ -69,20 +78,45 @@ ProductDetails : AppCompatActivity() {
         })
 
 
+
         binding.content.productPageAddToCart.setOnClickListener(View.OnClickListener {
             favoriteViewModel.addToFavorite(Favorite(currentProduct!!.id.toLong(), currentProduct!!.title,
                 currentProduct!!.handle, currentProduct?.variants?.get(0)?.price!!.toInt(),currentProduct!!.image.src,'C'))
 
         })
         binding.content.productPageAddToFavorite.setOnClickListener(View.OnClickListener {
+            when(binding.content.productPageAddToFavorite.drawable.constantState)
+            {
+                resources.getDrawable(R.drawable.favorite).constantState -> {
+                    favoriteViewModel.addToFavorite(Favorite(currentProduct!!.id.toLong(), currentProduct!!.title,
+                        currentProduct!!.handle, currentProduct?.variants?.get(0)?.price!!.toInt(),currentProduct!!.image.src,'F'))
+                    binding.content.productPageAddToFavorite.setImageResource(R.drawable.favorite2)
+                }
+                resources.getDrawable(R.drawable.favorite2).constantState -> {
 
-            favoriteViewModel.addToFavorite(Favorite(currentProduct!!.id.toLong(), currentProduct!!.title,
-                currentProduct!!.handle, currentProduct?.variants?.get(0)?.price!!.toInt(),currentProduct!!.image.src,'F'))
+                    favoriteViewModel.deleteFromFavorite(x.toLong())
+                    binding.content.productPageAddToFavorite.setImageResource(R.drawable.favorite)
+
+                }
+
+            }
+
 
         })
 
+    }
+    private fun setFavoriteImage(id: Long)
+    {
+        lifecycleScope.launch(Dispatchers.IO) {
+            var result=favoriteViewModel.isFavorite(id)
+            withContext(Dispatchers.Main){
+                when(result){
+                    0 -> {binding.content.productPageAddToFavorite.setImageResource(R.drawable.favorite) }
+                    1 -> {binding.content.productPageAddToFavorite.setImageResource(R.drawable.favorite2) }
+                }
+            }
 
-
+        }
     }
 
 

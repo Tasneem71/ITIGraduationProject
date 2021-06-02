@@ -1,5 +1,7 @@
 package com.example.graduationapp.remote.retro
 
+import com.example.domain.core.feature.transactionsFeature.entitiy.CreatedTransaction
+import com.example.domain.core.feature.transactionsFeature.entitiy.Transactions
 import com.example.graduationapp.data.ApiCollections
 import com.example.graduationapp.data.CollectionProducts
 import com.example.graduationapp.data.ProductDetails
@@ -42,4 +44,11 @@ interface ShopfiyApi {
     @DELETE("customers/{customers_id}.json")
             suspend fun deleteCustomer(@Path("customers_id") id:String): Response<String>//what is the response?
 
+
+   //   GET
+    @POST("/orders/{order_id}/transactions.json")
+    suspend fun getAllTransactions(@Path("order_id") id:String,@Body transactions:Transactions): Response<Transactions>
+
+    @POST("/orders/{order_id}/transactions.json")
+    suspend fun createTransaction(@Path("order_id") id:String,@Body transactions:CreatedTransaction): Response<Transactions>
 }
