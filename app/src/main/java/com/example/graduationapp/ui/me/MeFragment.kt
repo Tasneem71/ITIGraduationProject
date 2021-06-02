@@ -10,12 +10,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.domain.core.favoriteFeature.Favorite
+
+import androidx.navigation.findNavController
+import com.example.domain.core.feature.favoriteFeature.Favorite
+
 import com.example.graduationapp.LoginActivity
+import com.example.graduationapp.R
 import com.example.graduationapp.RegistrationActivity
 import com.example.graduationapp.SharedPref
 import com.example.graduationapp.data.Products
@@ -79,6 +84,9 @@ class MeFragment : Fragment() {
             val intent = Intent(context, LoginActivity::class.java)
             startActivity(intent)
 
+        }
+        binding.settings.setOnClickListener{
+            view?.findNavController()?.navigate(R.id.action_navigation_me_to_settingsFragment)
         }
 
         binding.seeMore.setOnClickListener {

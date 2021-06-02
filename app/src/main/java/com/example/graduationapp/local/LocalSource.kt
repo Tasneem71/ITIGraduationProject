@@ -1,7 +1,7 @@
 package com.example.graduationapp.local
 
 import android.app.Application
-import com.example.domain.core.favoriteFeature.Favorite
+import com.example.domain.core.feature.favoriteFeature.Favorite
 import com.mohamedabdallah.weather.local.FavoriteDatabase
 
 class LocalSource (application:Application) {

@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.domain.core.favoriteFeature.Favorite
+import com.example.domain.core.feature.favoriteFeature.Favorite
 import com.example.graduationapp.local.FavoriteDao
 
 @Database(entities = [Favorite::class],version = 2,exportSchema = false)

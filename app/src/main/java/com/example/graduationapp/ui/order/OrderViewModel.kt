@@ -3,9 +3,8 @@ package com.example.graduationapp.ui.order
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.core.favoriteFeature.Favorite
+import com.example.domain.core.feature.favoriteFeature.Favorite
 import com.example.graduationapp.local.LocalSource
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
