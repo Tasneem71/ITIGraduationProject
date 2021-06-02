@@ -22,5 +22,6 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_home, R.id.navigation_category, R.id.navigation_me,R.id.navigation_favorite))
         //setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+        SharedPref.createPrefObject(this)
     }
 }

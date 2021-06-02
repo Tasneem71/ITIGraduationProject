@@ -119,4 +119,8 @@
     <string name="type">Type:</string>
     <string name="addtocart">Add to Cart</string>
     <string name="notAve">Not Available</string>
+    <string name="seeMore">See More</string>
+    <string name="sort">Sort</string>
+    <string name="lowtohigh">Price low to high</string>
+    <string name="hightolow">Price high to low</string>
 </resources>

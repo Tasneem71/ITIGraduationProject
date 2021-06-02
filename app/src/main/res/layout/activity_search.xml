@@ -43,9 +43,123 @@
                 android:layout_height="35dp"
                 android:src="@drawable/ic_search" />
 
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.appcompat.widget.Toolbar>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/base_cardview"
+        style="@style/Base.CardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:cardElevation="8dp">
+
+        <!--This is a ConstraintLayout for the entire CardView
+                including the expandable portion-->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/base_cardview"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.511"
+            tools:layout_editor_absoluteX="-55dp">
+
+            <!--This is a ConstraintLayout for the fixed portion
+                of the CardView. The elements
+                that lie within the fixed portion of the CardView
+                can be constrained to this layout.-->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/fixed_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintVertical_bias="0.0"
+                android:background="@color/colorBlueT">
+
+                <ImageView
+                    android:id="@+id/arrow_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_action_more"
+                    app:layout_constraintBottom_toBottomOf="@id/fixed_layout"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/fixed_layout"
+                    android:layout_marginEnd="5dp" />
+
+                <TextView
+                    android:id="@+id/heading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="16dp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/fixed_layout"
+                    app:layout_constraintHorizontal_bias="0.1"
+                    app:layout_constraintStart_toEndOf="@+id/arrow_btn"
+                    app:layout_constraintTop_toTopOf="@+id/fixed_layout"
+                    android:text="@string/sort"/>
+
+                <!--This is ImageButton for the expansion icon.-->
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!--The following is the expandable portion whose
+                visibility is initially set to 'gone'.
+                The parent LinearLayout contains 3 child LinearLayouts
+                that hold a subject name and an icon each.-->
+            <LinearLayout
+                android:id="@+id/hidden_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@color/white"
+                android:weightSum="2"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fixed_layout">
+                <!--                android:visibility="gone"-->
+
+                <TextView
+                    android:id="@+id/sort1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="10dp"
+                    android:textColor="@color/black"
+                    android:text="@string/lowtohigh"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:id="@+id/sort2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:textColor="@color/black"
+                    android:text="@string/hightolow"
+                    android:layout_weight="1"/>
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 
     <TextView
         android:id="@+id/result"
@@ -55,7 +169,7 @@
         android:layout_margin="10dp"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"/>
+        app:layout_constraintTop_toBottomOf="@+id/base_cardview"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/search_recycle"
