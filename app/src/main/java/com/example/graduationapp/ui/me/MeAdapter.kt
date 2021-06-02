@@ -9,7 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.domain.core.favoriteFeature.Favorite
+import com.example.domain.core.feature.favoriteFeature.Favorite
 import com.example.graduationapp.R
 import com.example.graduationapp.ui.productPageFeature.ProductDetails
 
@@ -18,6 +18,7 @@ class MeAdapter(var wishList: ArrayList<Favorite>) :
 
     fun updateList(newCategory: List<Favorite>) {
 
+        wishList.clear()
         wishList= newCategory as ArrayList<Favorite>
         notifyDataSetChanged()
     }

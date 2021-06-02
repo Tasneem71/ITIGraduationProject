@@ -63,17 +63,8 @@ class MeFragment : Fragment() {
 
         favoriteViewModel.favorites?.observe(viewLifecycleOwner, Observer {
 
-            if (it.size<=4){
-                wishAdapter.updateList(it)
-            }else{
-                for (i in 0..3){
-                    Log.i("tasneem",""+i)
-                    wishList.add(it.get(i))
-                }
-                println(wishList)
-                wishAdapter.updateList(wishList)
-            }
-
+            var list:ArrayList<Favorite> = ArrayList()
+            wishAdapter.updateList(it.take(4))
 
         })
 
