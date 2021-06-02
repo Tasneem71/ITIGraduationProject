@@ -7,6 +7,7 @@ import android.net.NetworkCapabilities
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.graduationapp.data.*
 import com.example.graduationapp.remote.retro.ApiServes
 import kotlinx.coroutines.*
@@ -150,6 +151,51 @@ class ApiRepository {
         } catch (e: Exception) {
             e.printStackTrace()
             Log.i("Tasneem", " error?" + e.printStackTrace())
+
+        }
+        return null
+
+    }
+    //*************
+    suspend fun getCustomerAddress(id:String):AddressData? {
+
+        val response = ApiServes.shopfiyService.getCustomerAddById(id)
+        try {
+            if (response.isSuccessful) {
+                Log.i("Menna", "getCustomerAddById: enteeereeed")
+                response.body()?.let {
+                    Log.i("Menna", "getCustomerAddById: Donnnnnnnnnnnnnnnne")
+                    return it
+
+                }
+                Log.i("Menna", "getCustomerAddById: dddddddddddddd")
+            } else {
+                Log.i("Menna", "not success")
+
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.i("Menna", " error?" + e.printStackTrace())
+
+        }
+        return null
+    }
+
+    suspend fun createCustomerAdd(id:String,addressJson: CreateAddress): AddressData? {
+
+        val response = ApiServes.shopfiyService.createNewCustomerAddById(id,addressJson)
+        try {
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    Log.i("Menna", "response succcess****************" + it)
+                    return it
+                }
+            } else {
+                Log.i("Menna", "response failuer ************ " + response.errorBody().toString())
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.i("Memma", " error?" + e.printStackTrace())
 
         }
         return null

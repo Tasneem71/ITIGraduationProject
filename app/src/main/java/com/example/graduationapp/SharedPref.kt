@@ -8,12 +8,12 @@ object SharedPref{
     private var pref: SharedPreferences? = null
     private fun SharedPref() {}
 
-fun createPrefObject(context: Context): SharedPreferences? {
-    if (pref == null) {
-        pref = context.getSharedPreferences("shopyify", Context.MODE_PRIVATE)
+    fun createPrefObject(context: Context): SharedPreferences? {
+        if (pref == null) {
+            pref = context.getSharedPreferences("shopyify", Context.MODE_PRIVATE)
+        }
+        return pref
     }
-    return pref
-}
     fun setUserEmail(email: String?) {
         val editor: SharedPreferences.Editor = pref!!.edit()
         editor.putString("user-email", email)
@@ -40,6 +40,12 @@ fun createPrefObject(context: Context): SharedPreferences? {
 
     fun getUserEmail(): String? {
         return pref!!.getString("user-email", " ")
+    }
+    fun getUserID(): String? {
+        return pref!!.getString("user-id", " ")
+    }
+    fun getUserFname(): String? {
+        return pref!!.getString("user-info", " ")
     }
     fun checkLoginWithFirebase(): Boolean? {
         return pref!!.getBoolean("login-firebase", false)

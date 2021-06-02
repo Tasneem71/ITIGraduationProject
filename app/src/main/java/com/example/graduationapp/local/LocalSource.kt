@@ -32,5 +32,8 @@ class LocalSource (application:Application) {
     suspend fun getAllCart(): List<Favorite>?{
         return database.dao.getAllCart()
     }
+    suspend fun updateCount( id: Long,count: Int){
+        database.dao.updateCount(id,count)
+    }
 
 }

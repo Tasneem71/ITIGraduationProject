@@ -26,7 +26,6 @@ interface ShopfiyApi {
     suspend fun getProductDetails(@Path("product_id") id:String): Response<ProductDetails>
 
 
-
     @GET("products/{product_id}.json")
     suspend fun getProductById(@Path("product_id") id:String): Response<Products>
 
@@ -40,6 +39,15 @@ interface ShopfiyApi {
     suspend fun createCustomer(@Body customerJson:CreatedCustomer): Response<Customers>//what is the response?
 
     @DELETE("customers/{customers_id}.json")
-            suspend fun deleteCustomer(@Path("customers_id") id:String): Response<String>//what is the response?
+    suspend fun deleteCustomer(@Path("customers_id") id:String): Response<String>//what is the response?
 
+    //address
+    @GET("customers/{customer_id}/addresses.json")
+    suspend fun getCustomerAddById(@Path("customer_id") id:String): Response<AddressData>
+
+    @POST("customers/{customer_id}/addresses.json")
+    suspend fun createNewCustomerAddById(@Path("customer_id") id:String,@Body addressJson:CreateAddress): Response<AddressData>
+
+    @PUT("customers/{customer_id}/addresses/{address_id}.json")
+    suspend fun editCustomerAdd(@Path("customer_id") id:String,@Path("address_id") addId:String,@Body addressJson:CreateAddress): Response<AddressData>
 }
