@@ -76,7 +76,7 @@ class ApiRepository {
         //}
     }
 
-    suspend fun fetchSmartProductsData(id: String,num: Int) {
+    suspend fun fetchSmartProductsData(id: String, num: Int) {
         //if (isOnline(context)) {
         val response = ApiServes.shopfiyService.getProductFromCollection(id)
         try {
@@ -129,6 +129,7 @@ class ApiRepository {
 
     }
 
+
     suspend fun fetchAllOrders(): Response<Orders> {
 
         val response = ApiServes.shopfiyService.getAllOrder()
@@ -151,13 +152,33 @@ class ApiRepository {
         } catch (e: Exception) {
             e.printStackTrace()
             Log.i("order", " error?" + e.printStackTrace())
+        }
+        return null
+    }
+
+    suspend fun getAllProducts(): CollectionProducts? {
+
+        val response = ApiServes.shopfiyService.getAllProduct()
+        try {
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    Log.i("Tasneem", "response" + it)
+                    return it
+                }
+            } else {
+                Log.i("Tasneem", "response failuer" + response.errorBody().toString())
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.i("Tasneem", " error?" + e.printStackTrace())
+
 
         }
         return null
 
     }
-
 }
+
 
 
 /* try {

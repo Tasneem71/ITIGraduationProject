@@ -27,6 +27,7 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import java.util.*
+import java.util.logging.Logger
 
 
 open class LoginActivity : AppCompatActivity() {
@@ -57,7 +58,9 @@ open class LoginActivity : AppCompatActivity() {
 
         callbackManager = CallbackManager.Factory.create()
 
-        binding.loginButton.setOnClickListener({
+
+
+        binding.loginButton.setOnClickListener {
 
             LoginManager.getInstance().logInWithReadPermissions(
                 this@LoginActivity,
@@ -66,24 +69,29 @@ open class LoginActivity : AppCompatActivity() {
             LoginManager.getInstance().registerCallback(callbackManager,
                 object : FacebookCallback<LoginResult> {
                     override fun onSuccess(loginResult: LoginResult) {
+
                         val request = GraphRequest.newMeRequest(
                             loginResult.accessToken
                         ) { `object`, response ->
                             Log.d("LoginActivity", response.toString())
 
                             val email = `object`.getString("email")
-                            val lName = `object`.getString("last_name")
-                            val fName = `object`.getString("first_name")
+                            val fname = `object`.getString("first_name")
+                            val lname = `object`.getString("last_name")
 
-                            Log.d("LoginActivity", email+lName+fName)
+                            signInApi(email,fname,lname)
+                            Log.d("LoginActivity", email)
+
 
                         }
                         val parameters = Bundle()
                         parameters.putString("fields", "id,name,email,first_name,last_name,gender,birthday")
                         request.parameters = parameters
                         request.executeAsync()
+
                         val intent = Intent(this@LoginActivity, MainActivity::class.java)
                         startActivity(intent)
+
                     }
 
                     override fun onCancel() {
@@ -94,7 +102,7 @@ open class LoginActivity : AppCompatActivity() {
                         Log.d("LoginActivity", "Facebook onError.")
                     }
                 })
-        })
+        }
 
         binding.btRegister.setOnClickListener {
             val intent = Intent(this, RegistrationActivity::class.java)

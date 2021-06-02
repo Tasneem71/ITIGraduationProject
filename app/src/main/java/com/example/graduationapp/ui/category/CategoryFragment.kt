@@ -2,6 +2,7 @@ package com.example.graduationapp.ui.category
 
 import android.R.attr.fragment
 import android.app.Application
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,10 +14,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.graduationapp.R
+import com.example.graduationapp.SearchActivity
 import com.example.graduationapp.data.Custom_collections
 import com.example.graduationapp.data.Products
 import com.example.graduationapp.databinding.FragmentCategoryBinding
+import com.example.graduationapp.ui.order.OrderActivity
 import com.google.android.material.tabs.TabLayout
 
 
@@ -41,7 +45,7 @@ class CategoryFragment : Fragment() ,  TabLayout.OnTabSelectedListener {
 
 
         adapter = CategoryAdapter()
-        val gridLayoutManager = GridLayoutManager(requireContext(), 3)
+        val gridLayoutManager = GridLayoutManager(requireContext(), 2, RecyclerView.VERTICAL,false)
         binding.categoryRecycler.setLayoutManager(gridLayoutManager)
         adapter.setData(data, requireContext())
         binding.categoryRecycler.adapter = adapter
@@ -65,17 +69,22 @@ class CategoryFragment : Fragment() ,  TabLayout.OnTabSelectedListener {
             adapter.setData(data, requireContext())
         }
 
+        binding.searchIcon.setOnClickListener {
+            val intent= Intent(this.context, SearchActivity::class.java)
+            startActivity(intent)
+        }
+
         return binding.root
     }
 
     private fun loadProducts(id:String) {
-        categoryViewMode.loadProductData(id).observe(requireActivity(), {
+        categoryViewMode.loadProductData(id).observe(requireActivity()) {
             it?.let {
                 data= it.products as ArrayList<Products>
                 orignalList=data
                 adapter.setData(data, requireContext())
             }
-        })
+        }
     }
 
     override fun onTabSelected(tab: TabLayout.Tab?) {

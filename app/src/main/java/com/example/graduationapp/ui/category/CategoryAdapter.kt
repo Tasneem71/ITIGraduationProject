@@ -29,7 +29,7 @@ class CategoryAdapter :RecyclerView.Adapter<CategoryAdapter.ViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
-        val view= LayoutInflater.from(parent.context).inflate(R.layout.sub_category_item, parent, false)
+        val view= LayoutInflater.from(parent.context).inflate(R.layout.card, parent, false)
         return ViewHolder(view)
     }
 
@@ -59,8 +59,8 @@ class CategoryAdapter :RecyclerView.Adapter<CategoryAdapter.ViewHolder>(){
         var categoryImage: ImageView
 
         init {
-            categoryName=itemView.findViewById(R.id.category_name)
-            categoryImage=itemView.findViewById(R.id.category_img)
+            categoryName=itemView.findViewById(R.id.title)
+            categoryImage=itemView.findViewById(R.id.thumbnail)
 
         }
 

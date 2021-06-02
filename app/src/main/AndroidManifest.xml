@@ -13,7 +13,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GraduationApp.noActionBar"
         android:usesCleartextTraffic="true">
+
         <activity android:name=".create_order.CreateOrderActivity"></activity>
+
+        <activity
+            android:name=".ScrollingActivity"
+            android:label="@string/title_activity_scrolling"
+            android:theme="@style/Theme.GraduationApp.noActionBar.NoActionBar">
+
+        </activity>
+        <activity android:name=".SearchActivity" />
+
         <activity android:name=".ui.order.OrderActivity" />
 
         <meta-data
@@ -38,7 +48,9 @@
         </activity>
         <activity android:name=".RegistrationActivity" />
         <activity android:name=".LoginActivity" />
-        <activity android:name=".ui.productPageFeature.ProductDetails"></activity>
+
+        <activity android:name=".ui.productPageFeature.ProductDetails" />
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name">
