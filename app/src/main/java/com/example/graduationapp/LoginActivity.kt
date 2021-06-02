@@ -131,6 +131,7 @@ open class LoginActivity : AppCompatActivity() {
         val signInIntent: Intent = mGoogleSignInClient!!.getSignInIntent()
         startActivityForResult(signInIntent, RC_SIGN_IN)
     }
+
     fun updateUI(account: GoogleSignInAccount?) {
         if (account != null) {
             val personName = account.displayName

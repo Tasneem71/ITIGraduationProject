@@ -2,11 +2,11 @@ package com.example.graduationapp
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
 
 object SharedPref{
 
     private var pref: SharedPreferences? = null
-    private fun SharedPref() {}
 
     fun createPrefObject(context: Context): SharedPreferences? {
         if (pref == null) {
@@ -41,12 +41,25 @@ object SharedPref{
     fun getUserEmail(): String? {
         return pref!!.getString("user-email", " ")
     }
+
     fun getUserID(): String? {
         return pref!!.getString("user-id", " ")
     }
     fun getUserFname(): String? {
         return pref!!.getString("user-info", " ")
     }
+
+
+    fun getUserInfo(): String? {
+        return pref!!.getString("user-info", " ")
+    }
+
+    fun getUserStatus(): Boolean {
+        Log.i("tasneem",""+pref!!.getBoolean("user-state", false))
+        return pref!!.getBoolean("user-state", false)
+    }
+
+
     fun checkLoginWithFirebase(): Boolean? {
         return pref!!.getBoolean("login-firebase", false)
     }

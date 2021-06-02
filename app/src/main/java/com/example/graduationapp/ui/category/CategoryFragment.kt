@@ -9,8 +9,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.domain.core.subFeature.GridSpacingItemDecoration
+import com.example.domain.core.subFeature.RecyclerViewAnimation
 import com.example.graduationapp.R
 import com.example.graduationapp.SearchActivity
 import com.example.graduationapp.data.Custom_collections
@@ -41,7 +44,12 @@ class CategoryFragment : Fragment() ,  TabLayout.OnTabSelectedListener {
 
         adapter = CategoryAdapter()
         val gridLayoutManager = GridLayoutManager(requireContext(), 2, RecyclerView.VERTICAL,false)
-        binding.categoryRecycler.setLayoutManager(gridLayoutManager)
+        binding.categoryRecycler.layoutManager = gridLayoutManager
+        binding.categoryRecycler.addItemDecoration(
+            GridSpacingItemDecoration(1,
+                RecyclerViewAnimation.dpToPx(6),true)
+        )
+        binding.categoryRecycler.itemAnimator= DefaultItemAnimator()
         adapter.setData(data, requireContext())
         binding.categoryRecycler.adapter = adapter
 

@@ -3,11 +3,9 @@ package com.example.graduationapp.ui.favoriteFeature
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.*
-import com.example.domain.core.favoriteFeature.Favorite
-import com.example.graduationapp.data.CollectionProducts
+import com.example.domain.core.feature.favoriteFeature.Favorite
 import com.example.graduationapp.local.LocalSource
 import kotlinx.coroutines.*
-import kotlin.properties.Delegates
 
 class FavoriteViewModel(application: Application) : AndroidViewModel(application) {
 

@@ -1,22 +1,18 @@
 package com.example.graduationapp.ui.productPageFeature
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
-import com.bumptech.glide.Glide
 import com.example.ViewPagerAdapter
-import com.example.domain.core.favoriteFeature.Favorite
+import com.example.domain.core.feature.favoriteFeature.Favorite
 import com.example.graduationapp.R
 import com.example.graduationapp.data.Products
-import com.example.graduationapp.databinding.ProductPageBinding
 import com.example.graduationapp.databinding.ActivityScrollingBinding
 
 import com.example.graduationapp.ui.favoriteFeature.FavoriteViewModel
-import kotlin.math.log
 
 class
 ProductDetails : AppCompatActivity() {
