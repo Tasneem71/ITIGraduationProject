@@ -5,7 +5,6 @@ import com.example.graduationapp.data.CollectionProducts
 import com.example.graduationapp.data.ProductDetails
 import com.example.graduationapp.data.Products
 import com.example.graduationapp.data.*
-import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -25,8 +24,6 @@ interface ShopfiyApi {
     @GET("products/{product_id}.json")
     suspend fun getProductDetails(@Path("product_id") id:String): Response<ProductDetails>
 
-
-
     @GET("products/{product_id}.json")
     suspend fun getProductById(@Path("product_id") id:String): Response<Products>
 
@@ -40,6 +37,15 @@ interface ShopfiyApi {
     suspend fun createCustomer(@Body customerJson:CreatedCustomer): Response<Customers>//what is the response?
 
     @DELETE("customers/{customers_id}.json")
-            suspend fun deleteCustomer(@Path("customers_id") id:String): Response<String>//what is the response?
+    suspend fun deleteCustomer(@Path("customers_id") id:String): Response<String>//what is the response?
+
+    @POST("orders.json")
+    suspend fun createOrder(@Body orderJson:CreatedOrder): Response<OrdersItem>//what is the response?
+
+    @GET("orders.json")
+    suspend fun getAllOrder(): Response<Orders>
+
+    @DELETE("orders/{order_id}.json")
+    suspend fun deleteOrder(@Path("order_id") id:String): Response<String>//what is the response?
 
 }

@@ -25,8 +25,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.AuthCredential
-import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import java.util.*
 
@@ -52,18 +50,14 @@ open class LoginActivity : AppCompatActivity() {
         //setContentView(R.layout.activity_login)
         //@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 
-
-
         loginViewMode = ViewModelProvider(this).get(LoginViewModel::class.java)
-
-
 
 
         FacebookSdk.sdkInitialize(getApplicationContext())
 
         callbackManager = CallbackManager.Factory.create()
 
-        binding.loginButton.setOnClickListener( {
+        binding.loginButton.setOnClickListener({
 
             LoginManager.getInstance().logInWithReadPermissions(
                 this@LoginActivity,
@@ -72,18 +66,32 @@ open class LoginActivity : AppCompatActivity() {
             LoginManager.getInstance().registerCallback(callbackManager,
                 object : FacebookCallback<LoginResult> {
                     override fun onSuccess(loginResult: LoginResult) {
-                        // Login
-                        Log.d("MainActivity", "Facebook token: " + loginResult.accessToken.token+"iiiiiid"+loginResult.accessToken.userId)
+                        val request = GraphRequest.newMeRequest(
+                            loginResult.accessToken
+                        ) { `object`, response ->
+                            Log.d("LoginActivity", response.toString())
+
+                            val email = `object`.getString("email")
+                            val lName = `object`.getString("last_name")
+                            val fName = `object`.getString("first_name")
+
+                            Log.d("LoginActivity", email+lName+fName)
+
+                        }
+                        val parameters = Bundle()
+                        parameters.putString("fields", "id,name,email,first_name,last_name,gender,birthday")
+                        request.parameters = parameters
+                        request.executeAsync()
                         val intent = Intent(this@LoginActivity, MainActivity::class.java)
                         startActivity(intent)
                     }
 
                     override fun onCancel() {
-                        Log.d("MainActivity", "Facebook onCancel.")
+                        Log.d("LoginActivity", "Facebook onCancel.")
                     }
 
                     override fun onError(error: FacebookException) {
-                        Log.d("MainActivity", "Facebook onError.")
+                        Log.d("LoginActivity", "Facebook onError.")
                     }
                 })
         })
@@ -124,10 +132,10 @@ open class LoginActivity : AppCompatActivity() {
             val personId = account.id
             val personPhoto = account.photoUrl
             if (personEmail!=null&&personName!=null&&personFamilyName!=null){
-                Log.i("tasneem","nothing is null")
-                signInApi(personEmail,personName,personFamilyName)
+                Log.i("tasneem", "nothing is null")
+                signInApi(personEmail, personName, personFamilyName)
             }else{
-                Log.i("tasneem","something is null")
+                Log.i("tasneem", "something is null")
             }
 
            Log.d("user", personName + personEmail + personId)
@@ -138,13 +146,13 @@ open class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun signInApi(email:String,fname:String,lname:String) {
+    private fun signInApi(email: String, fname: String, lname: String) {
         loginViewMode.loadData(applicationContext)
         loginViewMode.allCustomersLiveData.observe(this) {
 
             val exist= it?.customers?.filter { it.email==email }
             if (!exist.isNullOrEmpty()){
-                Log.i("tasneem","in the if sign in")
+                Log.i("tasneem", "in the if sign in")
                 val intent = Intent(this, MainActivity::class.java)
                 SharedPref.setUserEmail(email)
                 SharedPref.setUserId(exist[0].id)
@@ -153,13 +161,24 @@ open class LoginActivity : AppCompatActivity() {
                 startActivity(intent)
                 finish()
             }else{
-                Log.i("tasneem","in the else sign in")
-                var list :List<Addresses> = mutableListOf<Addresses>(Addresses("","","","+201112518611","","","",""))
-                val part = Customer(fname,lname,email,null,true,null)
+                Log.i("tasneem", "in the else sign in")
+                var list :List<Addresses> = mutableListOf<Addresses>(
+                    Addresses(
+                        "",
+                        "",
+                        "",
+                        "+201112518611",
+                        "",
+                        "",
+                        "",
+                        ""
+                    )
+                )
+                val part = Customer(fname, lname, email, null, true, null)
                 val costomerJsonc=CreatedCustomer(part)
                 loginViewMode.createCustomer(costomerJsonc)
                 loginViewMode.createCustomerLiveData.observe(this) {
-                    Log.i("tasneem",""+it)
+                    Log.i("tasneem", "" + it)
                     it?.let {
                         val intent = Intent(this, MainActivity::class.java)
                         SharedPref.setUserEmail(email)

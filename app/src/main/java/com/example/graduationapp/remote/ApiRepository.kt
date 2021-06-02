@@ -1,15 +1,9 @@
 package com.example.graduationapp.remote
 
-import android.app.Application
-import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.graduationapp.data.*
 import com.example.graduationapp.remote.retro.ApiServes
-import kotlinx.coroutines.*
 import retrofit2.Response
 
 class ApiRepository {
@@ -129,6 +123,34 @@ class ApiRepository {
         } catch (e: Exception) {
             e.printStackTrace()
             Log.i("Tasneem", " error?" + e.printStackTrace())
+
+        }
+        return null
+
+    }
+
+    suspend fun fetchAllOrders(): Response<Orders> {
+
+        val response = ApiServes.shopfiyService.getAllOrder()
+        return response
+
+    }
+
+    suspend fun createOrder(orderJson: CreatedOrder): OrdersItem? {
+
+        val response = ApiServes.shopfiyService.createOrder(orderJson)
+        try {
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    Log.i("order", "response" + it)
+                    return it
+                }
+            } else {
+                Log.i("order", "response failuer" + response.errorBody().toString())
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.i("order", " error?" + e.printStackTrace())
 
         }
         return null

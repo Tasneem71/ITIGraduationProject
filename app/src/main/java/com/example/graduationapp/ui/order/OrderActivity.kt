@@ -31,9 +31,9 @@ class OrderActivity : AppCompatActivity() {
         orderViewModel = ViewModelProvider(this).get(OrderViewModel::class.java)
         initUI()
         //bagItemAdapter.updateShopBag(shopItemsList)
-        binding.close.setOnClickListener {
-          finish()
-        }
+//        binding.close.setOnClickListener {
+//          finish()
+//        }
     }
     private fun initUI() {
         binding.recyclerShopBag.apply {

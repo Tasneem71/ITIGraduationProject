@@ -24,8 +24,6 @@ class LoginViewModel (application: Application) : AndroidViewModel(application) 
         apiRepository = ApiRepository()
     }
 
-
-
     fun loadData(context: Context){
         Log.i("Tasneem","inside the load")
         CoroutineScope(Dispatchers.IO).launch {
