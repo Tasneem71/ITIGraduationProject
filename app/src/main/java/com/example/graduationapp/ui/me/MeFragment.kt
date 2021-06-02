@@ -10,7 +10,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.example.graduationapp.LoginActivity
+import com.example.graduationapp.R
 import com.example.graduationapp.RegistrationActivity
 import com.example.graduationapp.databinding.ActivityLoginBinding
 import com.example.graduationapp.databinding.FragmentMeBinding
@@ -38,6 +40,9 @@ class MeFragment : Fragment() {
             val intent = Intent(context, LoginActivity::class.java)
             startActivity(intent)
 
+        }
+        binding.settings.setOnClickListener{
+            view?.findNavController()?.navigate(R.id.action_navigation_me_to_settingsFragment)
         }
 
         return binding.root

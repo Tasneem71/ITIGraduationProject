@@ -21,11 +21,27 @@
         android:id="@+id/navigation_me"
         android:name="com.example.graduationapp.ui.me.MeFragment"
         android:label="@string/title_me"
-        tools:layout="@layout/fragment_me" />
+        tools:layout="@layout/fragment_me" >
+        <action
+            android:id="@+id/action_navigation_me_to_settingsFragment"
+            app:destination="@id/settingsFragment"
+            app:launchSingleTop="false"
+            app:popUpToInclusive="false" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_favorite"
         android:name="com.example.graduationapp.ui.favoriteFeature.FavoriteFragment"
         android:label="FavoriteFragment"
         tools:layout="@layout/fragment_favorite" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.graduationapp.ui.settingsFeature.SettingsFragment"
+        android:label="SettingsFragment" >
+        <action
+            android:id="@+id/action_settingsFragment_to_navigation_me"
+            app:destination="@id/navigation_me"
+            app:popUpTo="@id/navigation_me"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

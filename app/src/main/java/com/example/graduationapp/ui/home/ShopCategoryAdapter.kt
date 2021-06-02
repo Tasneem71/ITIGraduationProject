@@ -9,12 +9,15 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.domain.core.subFeature.RecyclerViewAnimation
 import com.example.graduationapp.R
 import com.example.graduationapp.data.Products
 import com.example.graduationapp.ui.productPageFeature.ProductDetails
 
 class ShopCategoryAdapter(var categorys: ArrayList<Products>) :
         RecyclerView.Adapter<ShopCategoryAdapter.CategoryViewHolder>() {
+
+    private var previousPosition=0
     fun updateCategory(newCategory: List<Products>) {
         categorys.clear()
         categorys.addAll(newCategory)
@@ -27,6 +30,12 @@ class ShopCategoryAdapter(var categorys: ArrayList<Products>) :
     override fun getItemCount() = categorys.size
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
         holder.bind(categorys[position])
+        if (position > previousPosition) { //scrolling DOWN
+            RecyclerViewAnimation.animate(holder, true)
+        } else { // scrolling UP
+            RecyclerViewAnimation.animate(holder, false)
+        }
+        previousPosition = position
 
 
     }
@@ -51,6 +60,7 @@ class ShopCategoryAdapter(var categorys: ArrayList<Products>) :
                 Log.i("TAG", "onBindViewHolder: mohamed abdallah")
                 it.context.startActivity(intent)
             })
+
 
         }
     }

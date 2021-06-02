@@ -1,6 +1,5 @@
 package com.example.graduationapp.ui.favoriteFeature.adapater
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,7 +7,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.domain.core.favoriteFeature.Favorite
+import com.example.domain.core.feature.favoriteFeature.Favorite
+import com.example.domain.core.subFeature.RecyclerViewAnimation
 import com.example.graduationapp.R
 
 class FavoriteAdapter(
@@ -17,11 +17,20 @@ class FavoriteAdapter(
 ) :
     RecyclerView.Adapter<FavoriteAdapter.ViewHolder>() {
 
+    private var previousPosition=0
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         //TODO bind item
         holder.title.text=favorites[position].title
         holder.price.text=favorites[position].price.toString()
         Glide.with(holder.image.context).load(favorites[position].image).placeholder(R.drawable.ic_search).into(holder.image)
+
+        if (position > previousPosition) { //scrolling DOWN
+            RecyclerViewAnimation.animate(holder, true)
+        } else { // scrolling UP
+            RecyclerViewAnimation.animate(holder, false)
+        }
+        previousPosition = position
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         // TODO createView

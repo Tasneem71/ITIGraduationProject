@@ -1,0 +1,43 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+    <PreferenceCategory app:title="@string/general_setting"
+        app:icon="@drawable/ic_favorite_red_24dp"
+        android:textColor="@color/white">
+
+        <ListPreference
+            app:defaultValue="English"
+            app:entries="@array/language_entries"
+            app:entryValues="@array/language_values"
+            app:key="language"
+            android:textColorPrimary="#6200EA"
+            app:title="@string/default_language"
+            app:useSimpleSummaryProvider="true" />
+
+        <CheckBoxPreference
+            app:key="background_mode"
+            app:title="@string/default_mode">
+
+
+        </CheckBoxPreference>
+
+        <Preference
+            app:key="about"
+            app:title="@string/about_setting">
+
+        </Preference>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/user"
+        app:icon="@drawable/com_facebook_auth_dialog_background">
+
+        <Preference
+            app:key="logout"
+            app:title="@string/logout">
+
+        </Preference>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

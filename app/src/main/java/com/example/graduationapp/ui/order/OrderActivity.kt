@@ -1,21 +1,13 @@
 package com.example.graduationapp.ui.order
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.domain.core.favoriteFeature.Favorite
 import com.example.graduationapp.databinding.ActivityOrderBinding
-import com.example.graduationapp.ui.home.Category
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlin.math.log
 
 class OrderActivity : AppCompatActivity() {
     private lateinit var orderViewModel: OrderViewModel

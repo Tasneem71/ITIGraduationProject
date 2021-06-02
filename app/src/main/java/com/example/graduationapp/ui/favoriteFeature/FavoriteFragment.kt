@@ -6,18 +6,17 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.domain.core.favoriteFeature.Favorite
+import com.example.domain.core.feature.favoriteFeature.Favorite
+import com.example.domain.core.subFeature.GridSpacingItemDecoration
+import com.example.domain.core.subFeature.RecyclerViewAnimation
 import com.example.graduationapp.R
-import com.example.graduationapp.databinding.ActivityLoginBinding
-import com.example.graduationapp.databinding.FragmentFavoriteBinding
 import com.example.graduationapp.ui.favoriteFeature.adapater.FavoriteAdapter
-import com.example.graduationapp.ui.home.HomeViewModel
 import com.example.graduationapp.ui.productPageFeature.ProductDetails
 
 class FavoriteFragment : Fragment(),FavoriteAdapter.OnEditFavoriteListener {
@@ -44,11 +43,13 @@ class FavoriteFragment : Fragment(),FavoriteAdapter.OnEditFavoriteListener {
         favoriteViewModel = ViewModelProvider(this).get(FavoriteViewModel::class.java)
         // TODO: Use the ViewModel
 
-        favoriteListRecyclerView.adapter = favoriteAdapter
+
         favoriteListRecyclerView.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         favoriteListRecyclerView.setHasFixedSize(true)
-
+        favoriteListRecyclerView.addItemDecoration(GridSpacingItemDecoration(1,RecyclerViewAnimation.dpToPx(6),true))
+        favoriteListRecyclerView.itemAnimator=DefaultItemAnimator()
+        favoriteListRecyclerView.adapter = favoriteAdapter
         favoriteViewModel.favorites?.observe(viewLifecycleOwner, Observer {
 
             favoriteAdapter.setData(it)
