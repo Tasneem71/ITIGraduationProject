@@ -38,6 +38,9 @@ interface ShopfiyApi {
     @GET("customers.json")
     suspend fun getAllCustomer(): Response<ApiCustomers>
 
+    @GET("customers/search.json?")
+    suspend fun getCustomerByEmail(@Query("email") email: String): Response<ApiCustomers>
+
     @POST("customers.json")
     suspend fun createCustomer(@Body customerJson:CreatedCustomer): Response<Customers>//what is the response?
 

@@ -18,8 +18,12 @@ data class Customer(
     val last_name: String,
     val email: String,
     val phone: String?,
+    val note: String?,
     val verified_email: Boolean,
-    val addresses: List<Addresses>?
+    val addresses: List<Addresses>?,
+    val password : String?,
+    val password_confirmation : String?,
+    val send_email_welcome : Boolean?
 )
 
 

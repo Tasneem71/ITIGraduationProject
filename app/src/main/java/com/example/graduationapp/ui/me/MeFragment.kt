@@ -19,6 +19,7 @@ import com.example.graduationapp.LoginActivity
 import com.example.graduationapp.R
 import com.example.graduationapp.SharedPref
 import com.example.graduationapp.databinding.FragmentMeBinding
+import com.example.graduationapp.ui.favoriteFeature.FavoriteActivity
 import com.example.graduationapp.ui.favoriteFeature.FavoriteViewModel
 import com.google.firebase.auth.FirebaseAuth
 
@@ -62,8 +63,8 @@ class MeFragment : Fragment() {
         }
 
         binding.seeMore.setOnClickListener {
-//            val intent = Intent(context, FavoriteFragment::class.java)
-//            startActivity(intent)
+            val intent = Intent(context, FavoriteActivity::class.java)
+            startActivity(intent)
         }
 
         return binding.root
