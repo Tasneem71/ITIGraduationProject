@@ -38,7 +38,6 @@ class CustomerDataActivity : AppCompatActivity() {
 
         })
 
-
     }
     private fun checkAddressExist(){
         val customerId =SharedPref.getUserID().toString()

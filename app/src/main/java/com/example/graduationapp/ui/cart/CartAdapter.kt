@@ -11,7 +11,7 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.domain.core.favoriteFeature.Favorite
+import com.example.domain.core.feature.favoriteFeature.Favorite
 import com.example.graduationapp.R
 
 class CartAdapter(var itemsList: ArrayList<Favorite>, var cartViewModel: CartViewModel) :
@@ -55,7 +55,7 @@ class CartAdapter(var itemsList: ArrayList<Favorite>, var cartViewModel: CartVie
         var quentity = 0
 
 
-        fun bind(cart: Favorite,cartViewModel: CartViewModel) {
+        fun bind(cart: Favorite, cartViewModel: CartViewModel) {
             addCount.setImageResource(R.drawable.ic_add)
             minCount.setImageResource(R.drawable.ic_remove)
             Glide.with(image.context).load(cart.image).placeholder(R.drawable.ic_search).into(image)
