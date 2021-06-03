@@ -23,14 +23,26 @@ class CustomerDataActivity : AppCompatActivity() {
         customerDataViewModel = ViewModelProvider(this).get(CustomerDataViewModel::class.java)
         if (SharedPref.isHaveOneAddress()){
             checkAddressExist()
+            customerDataViewModel.editAddressLiveData.observe(this, Observer {
+                Log.i("Menna","999999999999999999999999999999999999999999999999999999999999999999"+it?.address)
+                if (it?.address?.province.isNullOrEmpty())
+                {
+                    Toast.makeText(this,"Please, Enter Valid Country, province and Address ",Toast.LENGTH_SHORT).show()
+                }
+            })
         }
-        Log.i("Menna", "My id === "+SharedPref.getUserID().toString())
-        customerDataViewModel.editAddressLiveData.observe(this, Observer {
+        else{
+            customerDataViewModel.createAddressLiveData.observe(this, Observer {
+            Log.i("Menna",it?.addressList.toString())
             if (it?.addressList.isNullOrEmpty() )
             {
-                Toast.makeText(this,"Please, Enter Valid Country, province and Address ",Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this,"Please, Enter Valid Country, province and Address ",Toast.LENGTH_SHORT).show()
             }
         })
+        }
+        Log.i("Menna", "My id === "+SharedPref.getUserID().toString())
+
+
         binding.saveBtn.setOnClickListener(View.OnClickListener {
             if (SharedPref.isHaveOneAddress()){
                 editCustomerData()
