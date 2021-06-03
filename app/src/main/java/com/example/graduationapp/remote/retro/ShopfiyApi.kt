@@ -42,7 +42,7 @@ interface ShopfiyApi {
     suspend fun getCustomerByEmail(@Query("email") email: String): Response<ApiCustomers>
 
     @POST("customers.json")
-    suspend fun createCustomer(@Body customerJson:CreatedCustomer): Response<Customers>//what is the response?
+    suspend fun createCustomer(@Body customerJson:CreatedCustomer): Response<ApiCustomers>//what is the response?
 
     @DELETE("customers/{customers_id}.json")
             suspend fun deleteCustomer(@Path("customers_id") id:String): Response<String>//what is the response?

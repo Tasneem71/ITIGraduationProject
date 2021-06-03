@@ -114,7 +114,7 @@ class ApiRepository {
 
     }
 
-    suspend fun createCustomer(customerJson: CreatedCustomer): Customers? {
+    suspend fun createCustomer(customerJson: CreatedCustomer): ApiCustomers? {
 
         val response = ApiServes.shopfiyService.createCustomer(customerJson)
         try {

@@ -42,6 +42,7 @@ class RegistrationActivity : AppCompatActivity() {
 
         registrationViewModel.customerLiveData.observe(this) {
             it?.let {
+                println(it)
                 settingSharedPrefs(it.email,it.id,it.first_name)
             }
         }

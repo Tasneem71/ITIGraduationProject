@@ -49,8 +49,11 @@ class MeFragment : Fragment() {
         }
 
         favoriteViewModel.favorites?.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                if (!it.isNullOrEmpty())
+                wishAdapter.updateList(it.take(4))
+            }
 
-            wishAdapter.updateList(it.take(4))
         })
         binding.registerLogin.setOnClickListener {
 

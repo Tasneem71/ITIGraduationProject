@@ -51,7 +51,7 @@ class LoginViewModel (application: Application) : AndroidViewModel(application) 
     fun createCustomer(customerJson: CreatedCustomer) {
         CoroutineScope(Dispatchers.IO).launch {
             val response=apiRepository.createCustomer(customerJson)
-                createCustomerLiveData.postValue(response)
+                createCustomerLiveData.postValue(response?.customer)
             }
         }
 
@@ -61,14 +61,19 @@ class LoginViewModel (application: Application) : AndroidViewModel(application) 
         if (!userEmail.isNullOrEmpty() || !password.isNullOrEmpty()) {
             viewModelScope.launch {
                 if (Validation.validateRegistration(userEmail, password)) {
-
                     val customers= apiRepository.getCustomerByEmail(userEmail)
-                    if (customers?.customers?.get(0) != null && customers?.customers?.get(0)?.note == password){
 
-                        customerLiveData.postValue(customers?.customers?.get(0))
+                    println(customers)
+                    if (!customers?.customers.isNullOrEmpty()){
+                        Log.i("tasneem","inside not null")
+                        if (customers?.customers?.get(0) != null && customers?.customers?.get(0)?.note == password){
+                            customerLiveData.postValue(customers?.customers?.get(0))
 
+                        }else{
+                            Toast.makeText(getApplication(), "password is wrong", Toast.LENGTH_SHORT).show() }
                     }else{
-                        Toast.makeText(getApplication(), "password is wrong", Toast.LENGTH_SHORT).show() }
+                        Log.i("tasneem","Account not found")
+                    }
                 }else{
                     Toast.makeText(getApplication(), "your email and pass don't match", Toast.LENGTH_SHORT).show() }
             }

@@ -7,7 +7,8 @@ import com.google.gson.annotations.SerializedName
 
 data class ApiCustomers (
 
-    @SerializedName("customers") val customers : List<Customers>
+    @SerializedName("customers") val customers : List<Customers>?,
+    @SerializedName("customer") val customer : Customers?
 )
 
 

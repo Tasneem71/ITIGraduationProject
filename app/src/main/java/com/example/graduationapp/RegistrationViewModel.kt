@@ -35,11 +35,12 @@ class RegistrationViewModel (application: Application) : AndroidViewModel(applic
             && !customer.customer.email.isNullOrEmpty()) {
             viewModelScope.launch {
                 if (Validation.validateRegistration(customer.customer.email, customer.customer.password)) {
-
+                    println(customer.customer)
                     val customers= apiRepository.createCustomer(customer)
+                    println(customer.customer)
                     if (customers != null){
 
-                        customerLiveData.postValue(customers)
+                        customerLiveData.postValue(customers.customer)
 
                     }else{
                         Toast.makeText(getApplication(), "has already been taken", Toast.LENGTH_SHORT).show() }
