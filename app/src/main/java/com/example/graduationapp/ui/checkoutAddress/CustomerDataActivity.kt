@@ -28,7 +28,7 @@ class CustomerDataActivity : AppCompatActivity() {
         customerDataViewModel.editAddressLiveData.observe(this, Observer {
             if (it?.addressList.isNullOrEmpty() )
             {
-                Toast.makeText(this,"Please, Enter Valid Country and province",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,"Please, Enter Valid Country, province and Address ",Toast.LENGTH_SHORT).show()
             }
         })
         binding.saveBtn.setOnClickListener(View.OnClickListener {
