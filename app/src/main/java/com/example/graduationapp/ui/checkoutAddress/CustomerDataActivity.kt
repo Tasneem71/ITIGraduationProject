@@ -27,7 +27,7 @@ class CustomerDataActivity : AppCompatActivity() {
                 Log.i("Menna","999999999999999999999999999999999999999999999999999999999999999999"+it?.address)
                 if (it?.address?.province.isNullOrEmpty())
                 {
-                    Toast.makeText(this,"Please, Enter Valid Country, province and Address ",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this," Edit Please, Enter Valid Country, province and Address ",Toast.LENGTH_SHORT).show()
                 }
             })
         }
@@ -36,7 +36,7 @@ class CustomerDataActivity : AppCompatActivity() {
             Log.i("Menna",it?.addressList.toString())
             if (it?.addressList.isNullOrEmpty() )
             {
-                //Toast.makeText(this,"Please, Enter Valid Country, province and Address ",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,"Add Please, Enter Valid Country, province and Address ",Toast.LENGTH_SHORT).show()
             }
         })
         }
@@ -84,11 +84,10 @@ class CustomerDataActivity : AppCompatActivity() {
         val zip = binding.zip.text.toString()
         val address = Address(add1,null,city,company,customerFname,customerLname,phone,province,country,zip,name,null,null,null)
         val addressJson= CreateAddress(address)
-        if (checkPhoneNum(phone) && country.isNotEmpty() && province.isNotEmpty() && add1.isNotEmpty()){
+        if (checkPhoneNum(phone) ){
             customerDataViewModel.createCustomerAddress(customerId, addressJson)
         }
-        else
-            Toast.makeText(this,"Complete your Data",Toast.LENGTH_SHORT).show()
+
     }
     private fun editCustomerData() {
         val id = SharedPref.getAddressIp().toString()
@@ -107,11 +106,10 @@ class CustomerDataActivity : AppCompatActivity() {
 
         val address = Address(add1,null,city,company,customerFname,customerLname,phone,province,country,zip,name,null,null,null)
         val addressJson= CreateAddress(address)
-        if (checkPhoneNum(phone) && country.isNotEmpty() && province.isNotEmpty()&& add1.isNotEmpty()) {
+        if (checkPhoneNum(phone)) {
             customerDataViewModel.editCustomerAddress(customerId, id,addressJson)
         }
-        else
-            Toast.makeText(this,"Complete your Data",Toast.LENGTH_SHORT).show()
+
     }
     private fun checkPhoneNum(phone :String) : Boolean{
         //^[+]?[0-9]{10,13}$
