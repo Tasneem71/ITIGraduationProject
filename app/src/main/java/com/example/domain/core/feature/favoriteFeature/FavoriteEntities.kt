@@ -1,4 +1,4 @@
-package com.example.domain.core.favoriteFeature
+package com.example.domain.core.feature.favoriteFeature
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

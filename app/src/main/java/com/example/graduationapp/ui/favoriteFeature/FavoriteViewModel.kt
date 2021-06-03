@@ -3,11 +3,9 @@ package com.example.graduationapp.ui.favoriteFeature
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.*
-import com.example.domain.core.favoriteFeature.Favorite
-import com.example.graduationapp.data.CollectionProducts
+import com.example.domain.core.feature.favoriteFeature.Favorite
 import com.example.graduationapp.local.LocalSource
 import kotlinx.coroutines.*
-import kotlin.properties.Delegates
 
 class FavoriteViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -40,17 +38,21 @@ class FavoriteViewModel(application: Application) : AndroidViewModel(application
          }
     }
 
-     fun isFavorite(id: Long):Boolean{
-         var isFavorite=false
-         viewModelScope.launch {
-             val res=async {
-                 local.isFavorite(id)
-             }
-             isFavorite = res.await()>0
-             Log.i("TAG", "isFavorite: $isFavorite")
-         }
-         return isFavorite
+     suspend fun isFavorite(id: Long):Int{
+         return viewModelScope.async {
+             local.isFavorite(id)
+         }.await()
+//         var isFavorite=false
+//         viewModelScope.launch {
+//             val res=async {
+//                 local.isFavorite(id)
+//             }
+//             isFavorite = res.await()>0
+//             Log.i("TAG", "isFavorite: $isFavorite")
+//         }
+//         return isFavorite
     }
+
     fun addToCart(item: Favorite){
         viewModelScope.launch {
             local.addToFavorite(item)

@@ -1,5 +1,7 @@
 package com.example.graduationapp.remote.retro
 
+import com.example.domain.core.feature.transactionsFeature.entitiy.CreatedTransaction
+import com.example.domain.core.feature.transactionsFeature.entitiy.Transactions
 import com.example.graduationapp.data.ApiCollections
 import com.example.graduationapp.data.CollectionProducts
 import com.example.graduationapp.data.ProductDetails
@@ -35,8 +37,11 @@ interface ShopfiyApi {
     @GET("customers.json")
     suspend fun getAllCustomer(): Response<ApiCustomers>
 
+    @GET("customers/search.json?")
+    suspend fun getCustomerByEmail(@Query("email") email: String): Response<ApiCustomers>
+
     @POST("customers.json")
-    suspend fun createCustomer(@Body customerJson:CreatedCustomer): Response<Customers>//what is the response?
+    suspend fun createCustomer(@Body customerJson:CreatedCustomer): Response<ApiCustomers>//what is the response?
 
     @DELETE("customers/{customers_id}.json")
     suspend fun deleteCustomer(@Path("customers_id") id:String): Response<String>//what is the response?
@@ -50,4 +55,11 @@ interface ShopfiyApi {
 
     @PUT("customers/{customer_id}/addresses/{address_id}.json")
     suspend fun editCustomerAdd(@Path("customer_id") id:String,@Path("address_id") addId:String,@Body addressJson:CreateAddress): Response<AddressData>
+
+   //   GET
+    @POST("/orders/{order_id}/transactions.json")
+    suspend fun getAllTransactions(@Path("order_id") id:String,@Body transactions:Transactions): Response<Transactions>
+
+    @POST("/orders/{order_id}/transactions.json")
+    suspend fun createTransaction(@Path("order_id") id:String,@Body transactions:CreatedTransaction): Response<Transactions>
 }

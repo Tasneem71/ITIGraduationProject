@@ -116,7 +116,7 @@ class ApiRepository {
 
     }
 
-    suspend fun createCustomer(customerJson: CreatedCustomer): Customers? {
+    suspend fun createCustomer(customerJson: CreatedCustomer): ApiCustomers? {
 
         val response = ApiServes.shopfiyService.createCustomer(customerJson)
         try {
@@ -225,13 +225,15 @@ class ApiRepository {
 
     }
 
-}
 
+    suspend fun getCustomerByEmail(email:String): ApiCustomers? {
 
-/* try {
+        val response = ApiServes.shopfiyService.getCustomerByEmail(email)
+        try {
             if (response.isSuccessful) {
                 response.body()?.let {
-                    apiCollection.postValue(it)
+                    Log.i("Tasneem", "response" + it)
+                    return it
                 }
             } else {
                 Log.i("Tasneem", "response failuer" + response.errorBody().toString())
@@ -241,4 +243,8 @@ class ApiRepository {
             Log.i("Tasneem", " error?" + e.printStackTrace())
 
         }
- */
+        return null
+
+    }
+
+}

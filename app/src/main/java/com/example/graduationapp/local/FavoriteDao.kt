@@ -1,6 +1,6 @@
 package com.example.graduationapp.local
 import androidx.room.*
-import com.example.domain.core.favoriteFeature.Favorite
+import com.example.domain.core.feature.favoriteFeature.Favorite
 
 
 @Dao

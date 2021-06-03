@@ -1,15 +1,10 @@
 package com.example.graduationapp.ui.productPageFeature
 
-import android.app.Application
 import android.util.Log
 import androidx.lifecycle.*
-import com.example.domain.core.favoriteFeature.Favorite
-import com.example.graduationapp.data.CollectionProducts
 import com.example.graduationapp.data.Products
-import com.example.graduationapp.local.LocalSource
 import com.example.graduationapp.remote.retro.ApiServes
 import kotlinx.coroutines.*
-import kotlin.properties.Delegates
 
 class ProductPageViewModel() : ViewModel() {
 

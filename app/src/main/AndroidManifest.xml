@@ -13,12 +13,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GraduationApp.noActionBar"
         android:usesCleartextTraffic="true">
+
         <activity android:name=".ui.checkoutAddress.CustomerDataActivity"></activity>
-        <activity android:name=".ui.checkoutAddress.CustomerAddDataActivity" />
         <activity
             android:name=".ScrollingActivity"
             android:label="@string/title_activity_scrolling"
             android:theme="@style/Theme.GraduationApp.noActionBar.NoActionBar" />
+        <activity android:name=".ui.favoriteFeature.FavoriteActivity"
+            android:parentActivityName=".MainActivity">
+        </activity>
+
         <activity android:name=".SearchActivity" />
         <activity android:name=".ui.cart.CartActivity" />
 

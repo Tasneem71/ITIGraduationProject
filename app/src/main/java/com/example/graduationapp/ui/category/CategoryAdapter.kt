@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.domain.core.subFeature.RecyclerViewAnimation
 import com.example.graduationapp.R
 import com.example.graduationapp.data.Products
 import com.example.graduationapp.ui.productPageFeature.ProductDetails
@@ -21,6 +22,7 @@ class CategoryAdapter :RecyclerView.Adapter<CategoryAdapter.ViewHolder>(){
     init {
         data = ArrayList<Products>()
     }
+    private var previousPosition=0
     fun setData(data: ArrayList<Products>, context: Context){
         this.data = data
         this.context = context
@@ -51,6 +53,12 @@ class CategoryAdapter :RecyclerView.Adapter<CategoryAdapter.ViewHolder>(){
             Log.i("TAG", "onBindViewHolder: mohamed abdallah")
             context.startActivity(intent)
         })
+        if (position > previousPosition) { //scrolling DOWN
+            RecyclerViewAnimation.animate(holder, true)
+        } else { // scrolling UP
+            RecyclerViewAnimation.animate(holder, false)
+        }
+        previousPosition = position
 
     }
 

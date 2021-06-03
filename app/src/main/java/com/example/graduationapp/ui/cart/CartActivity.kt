@@ -15,6 +15,7 @@ import com.example.graduationapp.ui.productPageFeature.ProductDetails
 
 class CartActivity : AppCompatActivity() {
     private lateinit var cartViewModel: CartViewModel
+
     private lateinit var binding: ActivityOrderBinding
     lateinit var  bagItemAdapter :CartAdapter
 
