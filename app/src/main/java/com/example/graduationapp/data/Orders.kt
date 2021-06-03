@@ -195,7 +195,7 @@ data class LineItemsItem(
 	@SerializedName("total_discount_set") val totalDiscountSet: TotalDiscountSet? = null,
 	@SerializedName("title") val title: String? = null,
 	@SerializedName("product_exists") val productExists: Boolean? = null,
-	@SerializedName("variant_id") val variantId: Long? = null,
+	@SerializedName("variant_id") val variantId: String? = null,
 	@SerializedName("tax_lines") val taxLines: List<Any?>? = null,
 	@SerializedName("price") val price: String? = null,
 	@SerializedName("vendor") val vendor: String? = null,

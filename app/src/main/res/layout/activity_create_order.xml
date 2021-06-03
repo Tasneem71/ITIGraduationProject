@@ -13,7 +13,7 @@
         tools:context=".create_order.CreateOrderActivity">
 
         <include android:id="@+id/order"
-          layout="@layout/activity_order"
+          layout="@layout/shop_bag_item"
          />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

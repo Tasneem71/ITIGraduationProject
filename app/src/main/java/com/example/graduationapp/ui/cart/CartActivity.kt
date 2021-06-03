@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.graduationapp.create_order.CreateOrderActivity
 import com.example.graduationapp.databinding.ActivityOrderBinding
 import com.example.graduationapp.ui.checkoutAddress.CustomerDataActivity
 import com.example.graduationapp.ui.productPageFeature.ProductDetails
@@ -46,7 +47,8 @@ class CartActivity : AppCompatActivity() {
             startActivity(intent)
         })
         binding.close.setOnClickListener {
-            finish()
+           finish()
+         //   startActivity(Intent(this, CreateOrderActivity::class.java))
         }
 
     }

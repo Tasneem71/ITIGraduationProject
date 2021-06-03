@@ -11,7 +11,7 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.domain.core.favoriteFeature.Favorite
+import com.example.domain.core.feature.favoriteFeature.Favorite
 import com.example.graduationapp.R
 
 class CartAdapter(var itemsList: ArrayList<Favorite>, var cartViewModel: CartViewModel) :

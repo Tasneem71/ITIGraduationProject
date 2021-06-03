@@ -71,13 +71,15 @@ ProductDetails : AppCompatActivity() {
 
         binding.content.productPageAddToCart.setOnClickListener(View.OnClickListener {
             favoriteViewModel.addToCart(Favorite(currentProduct!!.id.toLong(), currentProduct!!.title,
-                currentProduct!!.handle, currentProduct?.variants?.get(0)?.price!!.toInt(),currentProduct!!.image.src,'C',1))
+                currentProduct!!.handle, currentProduct?.variants?.get(0)?.price!!.toInt(),currentProduct!!.image.src,'C',1
+                ,currentProduct?.variants?.get(0)!!.id))
 
         })
         binding.content.productPageAddToFavorite.setOnClickListener(View.OnClickListener {
 
             favoriteViewModel.addToFavorite(Favorite(currentProduct!!.id.toLong(), currentProduct!!.title,
-                currentProduct!!.handle, currentProduct?.variants?.get(0)?.price!!.toInt(),currentProduct!!.image.src,'F',1))
+                currentProduct!!.handle, currentProduct?.variants?.get(0)?.price!!.toInt(),currentProduct!!.image.src,'F',1,
+                currentProduct?.variants?.get(0)!!.id))
 
         })
 
