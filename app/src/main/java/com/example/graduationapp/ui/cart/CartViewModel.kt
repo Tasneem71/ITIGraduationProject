@@ -42,8 +42,6 @@ class CartViewModel(application: Application) : AndroidViewModel(application) {
             local.deleteFromFavorite(item)
         }
     }
-//    fun quentity (itemCount:Int){
-//        count.postValue(itemCount)
-//    }
+
 
 }

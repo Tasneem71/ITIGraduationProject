@@ -15,6 +15,8 @@ import kotlinx.coroutines.launch
 class CustomerDataViewModel : ViewModel(){
     var addressDetails  = MutableLiveData<AddressData>()
     var createAddressLiveData = MutableLiveData<AddressData?>()
+    var editAddressLiveData = MutableLiveData<AddressData?>()
+
     var apiRepository: ApiRepository
 
     init{
@@ -37,4 +39,13 @@ class CustomerDataViewModel : ViewModel(){
             }
         }
     }
+
+    fun editCustomerAddress(id:String,addressIp:String,addressJson: CreateAddress) {
+        CoroutineScope(Dispatchers.IO).launch {
+            apiRepository.editCustomerAdd(id,addressIp,addressJson).let {
+                editAddressLiveData.postValue(it)
+            }
+        }
+    }
+
 }

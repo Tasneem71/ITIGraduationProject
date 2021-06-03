@@ -8,6 +8,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.graduationapp.SharedPref
 import com.example.graduationapp.data.*
 import com.example.graduationapp.remote.retro.ApiServes
 import kotlinx.coroutines.*
@@ -188,6 +189,28 @@ class ApiRepository {
             if (response.isSuccessful) {
                 response.body()?.let {
                     Log.i("Menna", "response succcess****************" + it)
+                    SharedPref.haveOneAddress(true)
+                    return it
+                }
+            } else {
+                Log.i("Menna", "response failuer ************ " + response.errorBody().toString())
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.i("Memma", " error?" + e.printStackTrace())
+
+        }
+        return null
+
+    }
+
+    suspend fun editCustomerAdd(id:String,addressIP:String,addressJson: CreateAddress): AddressData? {
+
+        val response = ApiServes.shopfiyService.editCustomerAdd(id,addressIP,addressJson)
+        try {
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    Log.i("Menna", "response  createCustomerAdd succcess****************" + it)
                     return it
                 }
             } else {
