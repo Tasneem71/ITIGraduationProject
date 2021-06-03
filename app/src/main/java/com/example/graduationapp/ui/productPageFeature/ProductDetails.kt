@@ -98,7 +98,7 @@ ProductDetails : AppCompatActivity() {
             {
                 resources.getDrawable(R.drawable.favorite).constantState -> {
                     favoriteViewModel.addToFavorite(Favorite(currentProduct!!.id.toLong(), currentProduct!!.title,
-                        currentProduct!!.handle, currentProduct?.variants?.get(0)?.price!!.toInt(),currentProduct!!.image.src,'F',1))
+                        currentProduct!!.handle, currentProduct?.variants?.get(0)?.price!!.toInt(),currentProduct!!.image.src,'F',1,currentProduct?.variants?.get(0)!!.id))
                     binding.content.productPageAddToFavorite.setImageResource(R.drawable.favorite2)
                 }
                 resources.getDrawable(R.drawable.favorite2).constantState -> {
