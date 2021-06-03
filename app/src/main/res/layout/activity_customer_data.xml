@@ -69,13 +69,13 @@
 
             <TextView
                 android:id="@+id/textView2"
-                android:layout_width="44dp"
+                android:layout_width="wrap_content"
                 android:layout_height="15dp"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="40dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="48dp"
                 android:text="Address1"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/textView16" />
 
             <TextView
                 android:id="@+id/textView6"
@@ -146,6 +146,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:text="Province_code"
+                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="@+id/textView12"
                 app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
@@ -155,6 +156,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="36dp"
                 android:text="Country_code"
+                android:visibility="gone"
+
                 app:layout_constraintStart_toStartOf="@+id/textView13"
                 app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
@@ -164,6 +167,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dp"
                 android:text="Country_name"
+                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="@+id/textView14"
                 app:layout_constraintTop_toBottomOf="@+id/textView14" />
 
@@ -203,6 +207,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
+                android:visibility="gone"
+
                 android:inputType="textPersonName"
                 app:layout_constraintBottom_toBottomOf="@+id/textView13"
                 app:layout_constraintStart_toStartOf="@+id/zip"
@@ -213,6 +219,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
+                android:visibility="gone"
+
                 android:inputType="textPersonName"
                 app:layout_constraintBottom_toBottomOf="@+id/textView14"
                 app:layout_constraintStart_toStartOf="@+id/province_code"
@@ -224,6 +232,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="3dp"
                 android:ems="10"
+                android:visibility="gone"
+
                 android:inputType="textPersonName"
                 app:layout_constraintBottom_toBottomOf="@+id/textView15"
                 app:layout_constraintStart_toStartOf="@+id/country_code"
@@ -252,6 +262,17 @@
                 app:layout_constraintStart_toEndOf="@+id/saveBtn"
                 app:layout_constraintTop_toTopOf="@+id/saveBtn"
                 app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/textView16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Your Data"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>

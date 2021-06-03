@@ -1,14 +1,10 @@
 package com.example.graduationapp.ui.me
 
-import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
-import android.util.Pair
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 
 import androidx.lifecycle.Observer
@@ -21,19 +17,10 @@ import com.example.domain.core.feature.favoriteFeature.Favorite
 
 import com.example.graduationapp.LoginActivity
 import com.example.graduationapp.R
-import com.example.graduationapp.RegistrationActivity
 import com.example.graduationapp.SharedPref
-import com.example.graduationapp.data.Products
-import com.example.graduationapp.databinding.ActivityLoginBinding
 import com.example.graduationapp.databinding.FragmentMeBinding
-import com.example.graduationapp.ui.favoriteFeature.FavoriteFragment
+import com.example.graduationapp.ui.favoriteFeature.FavoriteActivity
 import com.example.graduationapp.ui.favoriteFeature.FavoriteViewModel
-import com.example.graduationapp.ui.favoriteFeature.adapater.FavoriteAdapter
-import com.facebook.AccessToken
-import com.facebook.FacebookSdk
-import com.facebook.GraphRequest
-import com.facebook.HttpMethod
-import com.facebook.login.LoginManager
 import com.google.firebase.auth.FirebaseAuth
 
 
@@ -62,14 +49,12 @@ class MeFragment : Fragment() {
         }
 
         favoriteViewModel.favorites?.observe(viewLifecycleOwner, Observer {
-
-            var list:ArrayList<Favorite> = ArrayList()
-            wishAdapter.updateList(it.take(4))
+            it?.let {
+                if (!it.isNullOrEmpty())
+                wishAdapter.updateList(it.take(4))
+            }
 
         })
-
-
-
         binding.registerLogin.setOnClickListener {
 
             val intent = Intent(context, LoginActivity::class.java)
@@ -81,8 +66,8 @@ class MeFragment : Fragment() {
         }
 
         binding.seeMore.setOnClickListener {
-//            val intent = Intent(context, FavoriteFragment::class.java)
-//            startActivity(intent)
+            val intent = Intent(context, FavoriteActivity::class.java)
+            startActivity(intent)
         }
 
         return binding.root

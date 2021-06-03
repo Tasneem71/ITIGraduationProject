@@ -55,7 +55,7 @@ class CartAdapter(var itemsList: ArrayList<Favorite>, var cartViewModel: CartVie
         var quentity = 0
 
 
-        fun bind(cart: Favorite,cartViewModel: CartViewModel) {
+        fun bind(cart: Favorite, cartViewModel: CartViewModel) {
             addCount.setImageResource(R.drawable.ic_add)
             minCount.setImageResource(R.drawable.ic_remove)
             Glide.with(image.context).load(cart.image).placeholder(R.drawable.ic_search).into(image)

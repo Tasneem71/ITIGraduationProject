@@ -53,9 +53,21 @@ open class LoginActivity : AppCompatActivity() {
 
         loginViewMode = ViewModelProvider(this).get(LoginViewModel::class.java)
 
+        fAuth = FirebaseAuth.getInstance()
+        progressDialog = ProgressDialog(this)
+        progressDialog!!.setMessage("Signing In please wait...")
+        SharedPref.createPrefObject(this)
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
+        binding.googleSignInButton.setSize(SignInButton.SIZE_STANDARD)
+        binding.googleSignInButton.setOnClickListener({ signIn() })
+
+
 
         FacebookSdk.sdkInitialize(getApplicationContext())
-
         callbackManager = CallbackManager.Factory.create()
 
 
@@ -103,29 +115,29 @@ open class LoginActivity : AppCompatActivity() {
                     }
                 })
         }
-
         binding.btRegister.setOnClickListener {
             val intent = Intent(this, RegistrationActivity::class.java)
-            val pairs =
-                Pair<View, String>(binding.tvLogin, "tvLogin")
-            val activityOptions =
-                ActivityOptions.makeSceneTransitionAnimation(this, pairs)
+            val pairs =Pair<View, String>(binding.tvLogin, "tvLogin")
+            val activityOptions =ActivityOptions.makeSceneTransitionAnimation(this, pairs)
             startActivity(intent, activityOptions.toBundle())
+        }
+        binding.loginBtn.setOnClickListener {
+            loginViewMode.validate_login(binding.emailEdt.text.toString(),binding.passwordEdt.text.toString())
+        }
+
+        loginViewMode.customerLiveData.observe(this) {
+            it?.let {
+                settingSharedPrefs(it.email,it.id,it.first_name)
+            }
         }
 
 
-        fAuth = FirebaseAuth.getInstance()
-        progressDialog = ProgressDialog(this)
-        progressDialog!!.setMessage("Signing In please wait...")
-          SharedPref.createPrefObject(this)
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.default_web_client_id))
-            .requestEmail()
-            .build()
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
-        binding.googleSignInButton.setSize(SignInButton.SIZE_STANDARD)
-        binding.googleSignInButton.setOnClickListener({ signIn() })
+
     }
+
+
+
+
 
     private fun signIn() {
         val signInIntent: Intent = mGoogleSignInClient!!.getSignInIntent()
@@ -155,47 +167,24 @@ open class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun signInApi(email: String, fname: String, lname: String) {
+    private fun signInApi(email:String,fname:String,lname:String) {
         loginViewMode.loadData(applicationContext)
         loginViewMode.allCustomersLiveData.observe(this) {
 
             val exist= it?.customers?.filter { it.email==email }
             if (!exist.isNullOrEmpty()){
-                Log.i("tasneem", "in the if sign in")
-                val intent = Intent(this, MainActivity::class.java)
-                SharedPref.setUserEmail(email)
-                SharedPref.setUserId(exist[0].id)
-                SharedPref.setUserInfo(fname)
-                SharedPref.setUserState(true)
-                startActivity(intent)
-                finish()
+                Log.i("tasneem","in the if sign in")
+                settingSharedPrefs(email,exist[0].id,fname)
             }else{
-                Log.i("tasneem", "in the else sign in")
-                var list :List<Addresses> = mutableListOf<Addresses>(
-                    Addresses(
-                        "",
-                        "",
-                        "",
-                        "+201112518611",
-                        "",
-                        "",
-                        "",
-                        ""
-                    )
-                )
-                val part = Customer(fname, lname, email, null, true, null)
+                Log.i("tasneem","in the else sign in")
+                //var list :List<Addresses> = mutableListOf<Addresses>(Addresses("","","","+201112518611","","","",""))
+                val part = Customer(fname,lname,email,null,null,true,null,null,null,null)
                 val costomerJsonc=CreatedCustomer(part)
                 loginViewMode.createCustomer(costomerJsonc)
                 loginViewMode.createCustomerLiveData.observe(this) {
-                    Log.i("tasneem", "" + it)
+                    Log.i("tasneem",""+it)
                     it?.let {
-                        val intent = Intent(this, MainActivity::class.java)
-                        SharedPref.setUserEmail(email)
-                        SharedPref.setUserId(it.id)
-                        SharedPref.setUserInfo(fname)
-                        SharedPref.setUserState(true)
-                        startActivity(intent)
-                        finish()
+                        settingSharedPrefs(email,it.id,fname)
                     }
 
                 }
@@ -203,6 +192,16 @@ open class LoginActivity : AppCompatActivity() {
             }
 
         }
+    }
+
+    private fun settingSharedPrefs(email: String,id:String,fname: String){
+        val intent = Intent(this, MainActivity::class.java)
+        SharedPref.setUserEmail(email)
+        SharedPref.setUserId(id)
+        SharedPref.setUserInfo(fname)
+        SharedPref.setUserState(true)
+        startActivity(intent)
+        finish()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

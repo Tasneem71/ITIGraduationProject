@@ -143,5 +143,10 @@
     <string name="default_mode">Dark Mode</string>
     <string name="about_setting">About</string>
     <string name="user">User</string>
+    <string name="email">Email</string>
+    <string name="fname">First Name</string>
+    <string name="lname">Last Name</string>
+    <string name="favorite">Favorite</string>
+    <string name="cart">Cart</string>
 
 </resources>
