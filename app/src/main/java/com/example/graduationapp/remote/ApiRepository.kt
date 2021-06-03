@@ -210,11 +210,11 @@ class ApiRepository {
         try {
             if (response.isSuccessful) {
                 response.body()?.let {
-                    Log.i("Menna", "response  createCustomerAdd succcess****************" + it)
+                    Log.i("Menna", "response  EdiiiitCustomerAdd succcess*-------------" + it)
                     return it
                 }
             } else {
-                Log.i("Menna", "response failuer ************ " + response.errorBody().toString())
+                Log.i("Menna", "response failuer ------------ " + response.errorBody().toString())
             }
         } catch (e: Exception) {
             e.printStackTrace()
