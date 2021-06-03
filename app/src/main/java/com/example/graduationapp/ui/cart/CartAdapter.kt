@@ -37,7 +37,7 @@ class CartAdapter(var itemsList: ArrayList<Favorite>, var cartViewModel: CartVie
         Log.i("Menna",(itemsList[pos].price).toString()+"***count***"+(itemsList[pos].count).toString())
         val old = cartViewModel.sumOfItems.value!!
         val sum = old - i
-        cartViewModel.sumOfItems.postValue(sum)
+        cartViewModel.sumOfItems.value=sum
         //*******************************************
         cartViewModel.deleteFromFavorite(itemsList[pos])
         itemsList.removeAt(pos)
