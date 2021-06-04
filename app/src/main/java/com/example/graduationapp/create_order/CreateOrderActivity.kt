@@ -66,10 +66,6 @@ class CreateOrderActivity : AppCompatActivity() {
 
     private fun initUI() {
         binding.order.titile
-//        binding.order.apply {
-//            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-//            adapter = cartAdapter
-//        }
     }
 
 }

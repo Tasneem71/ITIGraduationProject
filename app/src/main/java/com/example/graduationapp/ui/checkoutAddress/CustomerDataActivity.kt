@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
@@ -45,11 +46,12 @@ class CustomerDataActivity : AppCompatActivity() {
                    {
                        Toast.makeText(this,"ADD Please, Enter Valid Country, province and Address ",Toast.LENGTH_SHORT).show()
                    }
-                   else{
-                       customerDataViewModel.carts?.observe(this) {
-                           orderDone(it)
-                       }
-                   }
+
+//                   else{
+//                       customerDataViewModel.carts?.observe(this,{
+//                           orderDone(it)
+//                       })
+//                   }
 
                })
            }
@@ -62,25 +64,52 @@ class CustomerDataActivity : AppCompatActivity() {
                    {
                        Toast.makeText(this,"Please, Enter Valid Country, province and Address ",Toast.LENGTH_SHORT).show()
                    }
-                   else{
-                       customerDataViewModel.carts?.observe(this) {
-                           orderDone(it)
-                       }
 
-                   }
+//                   else{
+//                       customerDataViewModel.carts?.observe(this,{
+//                           orderDone(it)
+//                       })
+//
+//                   }
 
                })
            }
         }
 
-        binding.saveBtn.setOnClickListener(View.OnClickListener {
-
-            if (SharedPref.isHaveOneAddress()){
+        binding.saveBtn.setOnClickListener {
+            if (SharedPref.isHaveOneAddress()) {
                 editCustomerData()
-            }else{
+            } else {
                 addCustomerData()
             }
-        })
+            customerDataViewModel.carts?.observe(this, Observer {
+                Log.d("tag", "in observe")
+                it?.let {
+                    var count =
+                        it.map { it.count * it.price }.reduce { acc, i -> acc + i }.toString()
+                    Log.d("tag", "count" + count)
+                    val email = SharedPref.getUserEmail().toString()
+                    val listOfOrder = createOrderApi(it)
+                    customerDataViewModel.createOrder(
+                        CreatedOrder(
+                            Order(
+                                email,
+                                "fulfilled",
+                                count,
+                                listOfOrder
+                            )
+                        )
+                    )
+                    Log.d("tag", "list" + listOfOrder)
+                    if (it.isNullOrEmpty()) {
+                        Toast.makeText(this, "Failuer", Toast.LENGTH_SHORT).show()
+                    } else {
+                        orderDone(it)
+                    }
+
+                }
+            })
+        }
 
     }
     private fun fillIfAddressExist(){
@@ -159,9 +188,13 @@ class CustomerDataActivity : AppCompatActivity() {
         }
         orderDialogBuilder.setCancelable(false)
         orderDialogBuilder.show()
-
-
-
-
+    }
+    private fun createOrderApi(list:List<Favorite>) : List<LineItems> {
+        val lines : MutableList<LineItems> = mutableListOf<LineItems>()
+        for (item in list){
+            val lineObject : LineItems = LineItems(item.title,item.price.toString(),item.count,item.varient_id)
+            lines.add(lineObject)
+        }
+        return lines
     }
 }

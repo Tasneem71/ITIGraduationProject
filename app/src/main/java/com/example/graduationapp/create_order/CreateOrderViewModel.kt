@@ -27,26 +27,6 @@ class CreateOrderViewModel(application: Application) : AndroidViewModel(applicat
     init{
         apiRepository = ApiRepository(application)
     }
-//
-//    fun loadData(context: Context){
-//        Log.i("order","inside the load")
-//        CoroutineScope(Dispatchers.IO).launch {
-//            val response=apiRepository.fetchAllOrders()
-//            try {
-//                if (response.isSuccessful) {
-//                    response.body()?.let {
-//                        allOrdersLiveData.postValue(it)
-//                    }
-//                } else {
-//                    Log.i("order", "response failuer" + response.errorBody().toString())
-//                }
-//            } catch (e: Exception) {
-//                e.printStackTrace()
-//                Log.i("order", " error?" + e.printStackTrace())
-//
-//            }
-//        }
-//    }
 
     fun getAllOrderd(){
         viewModelScope.launch {
