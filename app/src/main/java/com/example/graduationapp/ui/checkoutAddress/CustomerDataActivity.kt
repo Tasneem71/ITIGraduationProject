@@ -23,7 +23,7 @@ class CustomerDataActivity : AppCompatActivity() {
         binding = ActivityCustomerDataBinding.inflate(layoutInflater)
         setContentView(binding.root)
         customerDataViewModel = ViewModelProvider(this).get(CustomerDataViewModel::class.java)
-        
+
         Log.i("Menna", "My id === "+SharedPref.getUserID().toString())
         customerDataViewModel.getCustomerAddress(SharedPref.getUserID().toString())
         //check
@@ -37,6 +37,10 @@ class CustomerDataActivity : AppCompatActivity() {
                    {
                        Toast.makeText(this,"ADD Please, Enter Valid Country, province and Address ",Toast.LENGTH_SHORT).show()
                    }
+                   else{
+                       startActivity(Intent(this,CreateOrderActivity::class.java))
+                   }
+
                })
            }
            else{
@@ -48,6 +52,10 @@ class CustomerDataActivity : AppCompatActivity() {
                    {
                        Toast.makeText(this,"Please, Enter Valid Country, province and Address ",Toast.LENGTH_SHORT).show()
                    }
+                   else{
+                       startActivity(Intent(this,CreateOrderActivity::class.java))
+                   }
+
                })
            }
         }
