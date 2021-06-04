@@ -19,7 +19,7 @@
     <string name="facebook_app_id">2922863254703231</string>
     <string name="fb_login_protocol_scheme">fb2922863254703231</string>
     <string name="adds">ADDS</string>
-    <string name="search">search</string>
+    <string name="search">Search</string>
     <string name="result">Results</string>
     <string name="title_activity_scrolling">ScrollingActivity</string>
     <string name="large_text">

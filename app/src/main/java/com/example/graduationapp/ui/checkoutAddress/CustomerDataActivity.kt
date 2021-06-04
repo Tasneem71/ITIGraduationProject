@@ -46,9 +46,9 @@ class CustomerDataActivity : AppCompatActivity() {
                        Toast.makeText(this,"ADD Please, Enter Valid Country, province and Address ",Toast.LENGTH_SHORT).show()
                    }
                    else{
-                       customerDataViewModel.carts?.observe(this,{
+                       customerDataViewModel.carts?.observe(this) {
                            orderDone(it)
-                       })
+                       }
                    }
 
                })
@@ -63,9 +63,9 @@ class CustomerDataActivity : AppCompatActivity() {
                        Toast.makeText(this,"Please, Enter Valid Country, province and Address ",Toast.LENGTH_SHORT).show()
                    }
                    else{
-                       customerDataViewModel.carts?.observe(this,{
+                       customerDataViewModel.carts?.observe(this) {
                            orderDone(it)
-                       })
+                       }
 
                    }
 
