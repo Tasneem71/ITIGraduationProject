@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -18,6 +19,7 @@ class CartActivity : AppCompatActivity() {
     private lateinit var cartViewModel: CartViewModel
     private lateinit var binding: ActivityOrderBinding
     lateinit var  bagItemAdapter :CartAdapter
+    var empty : Boolean =false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,6 +36,11 @@ class CartActivity : AppCompatActivity() {
 
         cartViewModel.getAllCarts()
         cartViewModel.carts?.observe(this, Observer {
+            if (it.isNullOrEmpty()){
+                empty = true
+            }else{
+              empty = false
+            }
             bagItemAdapter.updateShopBag(it)
             cartViewModel.allPrice(it)
         })
@@ -42,9 +49,14 @@ class CartActivity : AppCompatActivity() {
             binding.total.text ="Total = "+it.toString()
         })
         binding.checkOut.setOnClickListener(View.OnClickListener {
-            val intent= Intent(this, CustomerDataActivity::class.java)
-            Log.i("Menna", "CustomerDataActivity")
-            startActivity(intent)
+            if (empty){
+                Toast.makeText(this,"Cart is Empty",Toast.LENGTH_LONG).show()
+            }else{
+                val intent= Intent(this, CustomerDataActivity::class.java)
+                Log.i("Menna", "CustomerDataActivity")
+                startActivity(intent)
+            }
+
         })
         binding.close.setOnClickListener {
            finish()

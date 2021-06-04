@@ -3,27 +3,35 @@ package com.example.graduationapp.ui.checkoutAddress
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.Settings
 import android.text.SpannableStringBuilder
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
+import com.example.domain.core.feature.favoriteFeature.Favorite
+import com.example.graduationapp.MainActivity
 import com.example.graduationapp.SharedPref
 import com.example.graduationapp.create_order.CreateOrderActivity
 import com.example.graduationapp.data.*
 import com.example.graduationapp.databinding.ActivityCustomerDataBinding
+import com.example.graduationapp.ui.favoriteFeature.FavoriteViewModel
 
 class CustomerDataActivity : AppCompatActivity() {
     private lateinit var customerDataViewModel: CustomerDataViewModel
     private lateinit var binding: ActivityCustomerDataBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCustomerDataBinding.inflate(layoutInflater)
         setContentView(binding.root)
         customerDataViewModel = ViewModelProvider(this).get(CustomerDataViewModel::class.java)
 
+           customerDataViewModel.getAllCarts()
         Log.i("Menna", "My id === "+SharedPref.getUserID().toString())
         customerDataViewModel.getCustomerAddress(SharedPref.getUserID().toString())
         //check
@@ -38,7 +46,9 @@ class CustomerDataActivity : AppCompatActivity() {
                        Toast.makeText(this,"ADD Please, Enter Valid Country, province and Address ",Toast.LENGTH_SHORT).show()
                    }
                    else{
-                       startActivity(Intent(this,CreateOrderActivity::class.java))
+                       customerDataViewModel.carts?.observe(this,{
+                           orderDone(it)
+                       })
                    }
 
                })
@@ -53,12 +63,16 @@ class CustomerDataActivity : AppCompatActivity() {
                        Toast.makeText(this,"Please, Enter Valid Country, province and Address ",Toast.LENGTH_SHORT).show()
                    }
                    else{
-                       startActivity(Intent(this,CreateOrderActivity::class.java))
+                       customerDataViewModel.carts?.observe(this,{
+                           orderDone(it)
+                       })
+
                    }
 
                })
            }
         }
+
         binding.saveBtn.setOnClickListener(View.OnClickListener {
 
             if (SharedPref.isHaveOneAddress()){
@@ -128,5 +142,26 @@ class CustomerDataActivity : AppCompatActivity() {
         } else {
             true
         }
+    }
+    private fun orderDone(list : List<Favorite>) {
+        val orderDialogBuilder = AlertDialog.Builder(this)
+        orderDialogBuilder.setTitle("Order")
+        orderDialogBuilder.setMessage("Your Order Created")
+        orderDialogBuilder.setPositiveButton("Ok") { dialog, which ->
+            for (item in list){
+                Log.d("del","delete " + item)
+                customerDataViewModel.deleteFromFavorite(item)
+
+            }
+            val intent = Intent(this,MainActivity::class.java)
+            startActivity(intent)
+            dialog.dismiss()
+        }
+        orderDialogBuilder.setCancelable(false)
+        orderDialogBuilder.show()
+
+
+
+
     }
 }
