@@ -4,20 +4,26 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.domain.core.feature.favoriteFeature.Favorite
 import com.example.graduationapp.data.AddressData
 import com.example.graduationapp.data.Addresse
 import com.example.graduationapp.data.CreateAddress
 import com.example.graduationapp.data.CreatedCustomer
+import com.example.graduationapp.local.LocalSource
 import com.example.graduationapp.remote.ApiRepository
 import com.example.graduationapp.remote.retro.ApiServes
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 
 
 class CustomerDataViewModel (application: Application) : AndroidViewModel(application){
     var allAddressDetails  = MutableLiveData<List<Addresse?>?>()
+    private val local = LocalSource(application)
+    var carts : MutableLiveData<List<Favorite>>? = MutableLiveData<List<Favorite>>()
 
     var createAddressLiveData = MutableLiveData<AddressData?>()
     var editAddressLiveData = MutableLiveData<AddressData?>()
@@ -26,6 +32,14 @@ class CustomerDataViewModel (application: Application) : AndroidViewModel(applic
 
     init{
         apiRepository = ApiRepository(application )
+    }
+
+    fun getAllCarts(){
+        viewModelScope.launch {
+            val result= async{local.getAllCart()}
+            result.join()
+            carts?.value=result.await()
+        }
     }
 
     fun getCustomerAddress(id:String) {
@@ -50,6 +64,11 @@ class CustomerDataViewModel (application: Application) : AndroidViewModel(applic
             apiRepository.editCustomerAdd(id,addressIp,addressJson).let {
                 editAddressLiveData.postValue(it)
             }
+        }
+    }
+    fun deleteFromFavorite(item: Favorite){
+        viewModelScope.launch {
+            local.deleteFromFavorite(item)
         }
     }
 
