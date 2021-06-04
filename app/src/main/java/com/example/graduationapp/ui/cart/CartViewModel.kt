@@ -18,10 +18,16 @@ class CartViewModel(application: Application) : AndroidViewModel(application) {
 
 
     fun getAllCarts(){
+        var sumPrices :Int =0
         viewModelScope.launch {
             val result= async{local.getAllCart()}
             result.join()
             carts?.value=result.await()
+            for(item in carts?.value?.toList()!!){
+
+                sumPrices += (item.price * item.count)
+            }
+            sumOfItems.postValue(sumPrices)
         }
     }
     fun allPrice( list :List<Favorite>) {

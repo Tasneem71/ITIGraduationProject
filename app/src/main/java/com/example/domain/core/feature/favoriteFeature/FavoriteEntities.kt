@@ -12,5 +12,5 @@ data class Favorite(
     val price :Int,
     val image: String,
     val page: Char,
-    val count: Int
+    var count: Int
 )
