@@ -16,7 +16,13 @@ import androidx.navigation.findNavController
 import androidx.preference.CheckBoxPreference
 import androidx.preference.ListPreference
 import androidx.preference.PreferenceFragmentCompat
+import com.example.graduationapp.LoginActivity
 import com.example.graduationapp.R
+import com.example.graduationapp.SharedPref
+import com.facebook.AccessToken
+import com.facebook.GraphRequest
+import com.facebook.HttpMethod
+import com.facebook.login.LoginManager
 import java.util.*
 
 class SettingsFragment : PreferenceFragmentCompat() {
@@ -151,9 +157,30 @@ class SettingsFragment : PreferenceFragmentCompat() {
         notification?.setOnPreferenceClickListener {
             if (it.key=="logout")
             {
-               // logout fun
+                SharedPref.setUserState(false)
+                SharedPref.setLogin(false)
+                val intent = Intent(context, LoginActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+                if (!SharedPref.checkLoginWithFirebase()!!) {
+             signOut()
+             LoginActivity.account = null
+         }
+         if (AccessToken.getCurrentAccessToken() != null) {
+             GraphRequest(
+                 AccessToken.getCurrentAccessToken(), "/me/permissions/", null, HttpMethod.DELETE
+             ) {
+                 AccessToken.setCurrentAccessToken(null)
+                 LoginManager.getInstance().logOut()
+             }.executeAsync()
+         }
+
             }
             true
         }
     }
+    private fun signOut() {
+        LoginActivity.mGoogleSignInClient?.signOut()
+    }
+
 }

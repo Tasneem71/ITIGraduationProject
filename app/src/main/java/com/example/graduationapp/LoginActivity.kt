@@ -11,7 +11,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
-import com.example.graduationapp.data.Addresses
 import com.example.graduationapp.data.CreatedCustomer
 import com.example.graduationapp.data.Customer
 import com.example.graduationapp.databinding.ActivityLoginBinding
@@ -27,7 +26,6 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import java.util.*
-import java.util.logging.Logger
 
 
 open class LoginActivity : AppCompatActivity() {
@@ -48,8 +46,6 @@ open class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        //setContentView(R.layout.activity_login)
-        //@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 
         loginViewMode = ViewModelProvider(this).get(LoginViewModel::class.java)
 
@@ -91,18 +87,22 @@ open class LoginActivity : AppCompatActivity() {
                             val fname = `object`.getString("first_name")
                             val lname = `object`.getString("last_name")
 
-                            signInApi(email,fname,lname)
+                            signInApi(email, fname, lname)
                             Log.d("LoginActivity", email)
 
 
                         }
                         val parameters = Bundle()
-                        parameters.putString("fields", "id,name,email,first_name,last_name,gender,birthday")
+                        parameters.putString(
+                            "fields",
+                            "id,name,email,first_name,last_name,gender,birthday"
+                        )
                         request.parameters = parameters
                         request.executeAsync()
-
+                        SharedPref.setLogin(true)
                         val intent = Intent(this@LoginActivity, MainActivity::class.java)
                         startActivity(intent)
+                        Log.d("LoginActivity", "Facebook Data."+ parameters)
 
                     }
 
@@ -122,23 +122,19 @@ open class LoginActivity : AppCompatActivity() {
             startActivity(intent, activityOptions.toBundle())
         }
         binding.loginBtn.setOnClickListener {
-            loginViewMode.validate_login(binding.emailEdt.text.toString(),binding.passwordEdt.text.toString())
+            loginViewMode.validate_login(
+                binding.emailEdt.text.toString(),
+                binding.passwordEdt.text.toString()
+            )
         }
 
         loginViewMode.customerLiveData.observe(this) {
             it?.let {
-                settingSharedPrefs(it.email,it.id,it.first_name)
+                settingSharedPrefs(it.email, it.id, it.first_name)
             }
         }
 
-
-
     }
-
-
-
-
-
     private fun signIn() {
         val signInIntent: Intent = mGoogleSignInClient!!.getSignInIntent()
         startActivityForResult(signInIntent, RC_SIGN_IN)
@@ -167,24 +163,24 @@ open class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun signInApi(email:String,fname:String,lname:String) {
+    private fun signInApi(email: String, fname: String, lname: String) {
         loginViewMode.loadData(applicationContext)
         loginViewMode.allCustomersLiveData.observe(this) {
 
             val exist= it?.customers?.filter { it.email==email }
             if (!exist.isNullOrEmpty()){
-                Log.i("tasneem","in the if sign in")
-                settingSharedPrefs(email,exist[0].id,fname)
+                Log.i("tasneem", "in the if sign in")
+                settingSharedPrefs(email, exist[0].id, fname)
             }else{
-                Log.i("tasneem","in the else sign in")
+                Log.i("tasneem", "in the else sign in")
                 //var list :List<Addresses> = mutableListOf<Addresses>(Addresses("","","","+201112518611","","","",""))
-                val part = Customer(fname,lname,email,null,null,true,null,null,null,null)
+                val part = Customer(fname, lname, email, null, null, true, null, null, null, null)
                 val costomerJsonc=CreatedCustomer(part)
                 loginViewMode.createCustomer(costomerJsonc)
                 loginViewMode.createCustomerLiveData.observe(this) {
-                    Log.i("tasneem",""+it)
+                    Log.i("tasneem", "" + it)
                     it?.let {
-                        settingSharedPrefs(email,it.id,fname)
+                        settingSharedPrefs(email, it.id, fname)
                     }
 
                 }
@@ -194,7 +190,7 @@ open class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun settingSharedPrefs(email: String,id:String,fname: String){
+    private fun settingSharedPrefs(email: String, id: String, fname: String){
         val intent = Intent(this, MainActivity::class.java)
         SharedPref.setUserEmail(email)
         SharedPref.setUserId(id)
@@ -221,10 +217,10 @@ open class LoginActivity : AppCompatActivity() {
             updateUI(account)
         }
     }
-//    override fun onStart() {
-//        super.onStart()
-//        account = GoogleSignIn.getLastSignedInAccount(this)
-//        updateUI(account)
-//    }
+    override fun onStart() {
+        super.onStart()
+        account = GoogleSignIn.getLastSignedInAccount(this)
+        updateUI(account)
+    }
 
 }

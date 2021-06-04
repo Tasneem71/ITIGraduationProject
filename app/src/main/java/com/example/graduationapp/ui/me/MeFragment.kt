@@ -106,35 +106,7 @@ class MeFragment : Fragment() {
 
     }
 
-    private fun signOut() {
-        LoginActivity.mGoogleSignInClient?.signOut()
-    }
+
 }
 
 
-    /*
-    binding.btnLogout.setOnClickListener( {
-            Log.d("logout","buttonLogout")
-
-        // configure facebook
-        binding.btnLogout.setOnClickListener({
-            Log.d("logout", "buttonLogout")
-
-            SharedPref.setLogin(false)
-            val intent = Intent(context, LoginActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            startActivity(intent)
-            if (!SharedPref.checkLoginWithFirebase()!!) {
-                signOut()
-                LoginActivity.account = null
-            }
-            if (AccessToken.getCurrentAccessToken() != null) {
-                GraphRequest(
-                    AccessToken.getCurrentAccessToken(), "/me/permissions/", null, HttpMethod.DELETE
-                ) {
-                    AccessToken.setCurrentAccessToken(null)
-                    LoginManager.getInstance().logOut()
-                }.executeAsync()
-            }
-        })
-    */
