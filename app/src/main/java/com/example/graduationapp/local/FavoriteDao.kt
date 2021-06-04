@@ -18,7 +18,7 @@ interface FavoriteDao {
     @Query("select * from Favorite where page = 70")
     suspend fun getAllFavorite(): List<Favorite>?
 
-    @Query("SELECT COUNT() FROM Favorite WHERE id = :id")
+    @Query("SELECT COUNT() FROM Favorite WHERE id = :id And page = 70 ")
     suspend fun isFavorite(id: Long): Int
 
     @Query("select * from Favorite where page = 67")

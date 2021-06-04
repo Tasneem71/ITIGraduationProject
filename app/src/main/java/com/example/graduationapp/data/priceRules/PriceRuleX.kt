@@ -10,5 +10,6 @@ data class PriceRuleX(
     val target_type: String,
     val title: String,
     val value: String,
-    val value_type: String
+    val value_type: String,
+    val str:String?
 )
