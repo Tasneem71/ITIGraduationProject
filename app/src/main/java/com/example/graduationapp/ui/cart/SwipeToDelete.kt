@@ -15,10 +15,10 @@ class SwipeToDelete(var adapter: CartAdapter, var context: Context):
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         val pos=viewHolder.adapterPosition
         AlertDialog.Builder(context)
-            .setTitle("Delete")
-            .setMessage("Are u sure to delete it")
-            .setPositiveButton("No") { dialog, which -> adapter.notifyDataSetChanged() }
-            .setNegativeButton("Yes") { dialog, which ->
+            .setTitle(context.getString(R.string.delete))
+            .setMessage(context.getString(R.string.deleteMessage))
+            .setPositiveButton(context.getString(R.string.no)) { dialog, which -> adapter.notifyDataSetChanged() }
+            .setNegativeButton(context.getString(R.string.yes)) { dialog, which ->
                 adapter.deleteItem(pos)
             }
             .setIcon(R.drawable.ic_delete)

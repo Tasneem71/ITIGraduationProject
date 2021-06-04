@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import com.example.domain.core.feature.favoriteFeature.Favorite
 import com.example.graduationapp.MainActivity
+import com.example.graduationapp.R
 import com.example.graduationapp.SharedPref
 import com.example.graduationapp.create_order.CreateOrderActivity
 import com.example.graduationapp.data.*
@@ -44,7 +45,7 @@ class CustomerDataActivity : AppCompatActivity() {
                    Log.i("Menna",""+it?.address)
                    if (it?.address?.province.isNullOrEmpty() )
                    {
-                       Toast.makeText(this,"ADD Please, Enter Valid Country, province and Address ",Toast.LENGTH_SHORT).show()
+                       Toast.makeText(this,this.getString(R.string.valid),Toast.LENGTH_SHORT).show()
                    }
 
 //                   else{
@@ -62,7 +63,7 @@ class CustomerDataActivity : AppCompatActivity() {
                    Log.i("Menna","edit address ***** "+it?.address)
                    if (it?.address?.province.isNullOrEmpty())
                    {
-                       Toast.makeText(this,"Please, Enter Valid Country, province and Address ",Toast.LENGTH_SHORT).show()
+                       Toast.makeText(this,this.getString(R.string.valid),Toast.LENGTH_SHORT).show()
                    }
 
 //                   else{
@@ -163,10 +164,10 @@ class CustomerDataActivity : AppCompatActivity() {
     private fun checkPhoneNum(phone :String) : Boolean{
         //^[+]?[0-9]{10,13}$
         return if(phone.length != 13 || phone.isEmpty() ){
-            Toast.makeText(this,"Enter valid Phone Number",Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,this.getString(R.string.valid_num),Toast.LENGTH_SHORT).show()
             false
         } else if(phone.length ==11 && phone.take(1) != "+"){
-            Toast.makeText(this,"please Enter Country Code in the First like +2 for Egypt",Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,this.getString(R.string.valid_code),Toast.LENGTH_SHORT).show()
             false
         } else {
             true
@@ -174,9 +175,9 @@ class CustomerDataActivity : AppCompatActivity() {
     }
     private fun orderDone(list : List<Favorite>) {
         val orderDialogBuilder = AlertDialog.Builder(this)
-        orderDialogBuilder.setTitle("Order")
-        orderDialogBuilder.setMessage("Your Order Created")
-        orderDialogBuilder.setPositiveButton("Ok") { dialog, which ->
+        orderDialogBuilder.setTitle(this.getString(R.string.order))
+        orderDialogBuilder.setMessage(this.getString(R.string.order_created))
+        orderDialogBuilder.setPositiveButton(this.getString(R.string.ok)) { dialog, which ->
             for (item in list){
                 Log.d("del","delete " + item)
                 customerDataViewModel.deleteFromFavorite(item)

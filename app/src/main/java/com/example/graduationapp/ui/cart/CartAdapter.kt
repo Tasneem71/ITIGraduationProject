@@ -1,7 +1,9 @@
 package com.example.graduationapp.ui.cart
 
 
+import android.app.Application
 import android.os.Build
+
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -60,7 +62,7 @@ class CartAdapter(var itemsList: ArrayList<Favorite>, var cartViewModel: CartVie
             minCount.setImageResource(R.drawable.ic_remove)
             Glide.with(image.context).load(cart.image).placeholder(R.drawable.ic_search).into(image)
             name.text =cart.title
-            price.text = cart.price.toString()
+            price.text = cart.price.toString() +" LE"
             count.text =cart.count.toString()
             quentity = cart.count
             size.text="M"

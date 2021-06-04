@@ -10,10 +10,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.graduationapp.create_order.CreateOrderActivity
+import com.example.graduationapp.R
 import com.example.graduationapp.databinding.ActivityOrderBinding
 import com.example.graduationapp.ui.checkoutAddress.CustomerDataActivity
-import com.example.graduationapp.ui.productPageFeature.ProductDetails
 
 class CartActivity : AppCompatActivity() {
     private lateinit var cartViewModel: CartViewModel
@@ -46,11 +45,11 @@ class CartActivity : AppCompatActivity() {
         })
         cartViewModel.sumOfItems.observe(this,Observer {
             Log.i("Menna","/***"+it)
-            binding.total.text ="Total = "+it.toString()
+            binding.total.text =getString(R.string.total)+it.toString()
         })
         binding.checkOut.setOnClickListener(View.OnClickListener {
             if (empty){
-                Toast.makeText(this,"Cart is Empty",Toast.LENGTH_LONG).show()
+                Toast.makeText(this,getString(R.string.empty_cart),Toast.LENGTH_LONG).show()
             }else{
                 val intent= Intent(this, CustomerDataActivity::class.java)
                 Log.i("Menna", "CustomerDataActivity")
@@ -60,7 +59,6 @@ class CartActivity : AppCompatActivity() {
         })
         binding.close.setOnClickListener {
            finish()
-         //   startActivity(Intent(this, CreateOrderActivity::class.java))
         }
 
     }

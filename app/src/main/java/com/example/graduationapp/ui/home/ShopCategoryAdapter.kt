@@ -49,9 +49,6 @@ class ShopCategoryAdapter(var categorys: ArrayList<Products>) :
         fun bind(category: Products) {
             Glide.with(imageView.context).load(category.images[0].src).placeholder(R.drawable.ic_search).into(imageView)
 
-            //imageView.setImageResource(R.drawable.ic_search)
-            //addCart.setImageResource(R.drawable.ic_cart)
-
             name.text =category.title
             //price.text ="18 LE"
             imageView.setOnClickListener(View.OnClickListener {
