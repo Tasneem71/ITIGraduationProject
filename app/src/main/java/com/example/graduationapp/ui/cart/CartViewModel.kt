@@ -17,6 +17,11 @@ class CartViewModel(application: Application) : AndroidViewModel(application) {
     //var count : MutableLiveData<Int> = MutableLiveData<Int>()
 
 
+    fun addToCart(item: Favorite){
+        viewModelScope.launch {
+            local.addToFavorite(item)
+        }
+    }
     fun getAllCarts(){
         var sumPrices :Int =0
         viewModelScope.launch {

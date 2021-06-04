@@ -25,7 +25,7 @@ class CartAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         //TODO bind item
         holder.title.text=carts[position].title
-        holder.price.text=carts[position].price.toString()
+        holder.price.text=carts[position].price.toString() +" .LE"
         holder.quentity.text=carts[position].count.toString()
         Glide.with(holder.image.context).load(carts[position].image).placeholder(R.drawable.ic_search).into(holder.image)
 

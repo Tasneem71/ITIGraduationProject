@@ -90,7 +90,7 @@ class CartActivity : AppCompatActivity(), CartAdapter.OnCartItemListener {
 
             Snackbar.make(binding.recyclerShopBag, "Item Is Removed", Snackbar.LENGTH_LONG)
                 .setAction("Undo", View.OnClickListener {
-                    // cartViewModel.addTocart(x)
+                     cartViewModel.addToCart(x)
                     cartViewModel.getAllCarts()
                 }).show()
 
