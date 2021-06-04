@@ -21,28 +21,34 @@ class CustomerDataActivity : AppCompatActivity() {
         binding = ActivityCustomerDataBinding.inflate(layoutInflater)
         setContentView(binding.root)
         customerDataViewModel = ViewModelProvider(this).get(CustomerDataViewModel::class.java)
-        if (SharedPref.isHaveOneAddress()){
-            checkAddressExist()
-            customerDataViewModel.editAddressLiveData.observe(this, Observer {
-                Log.i("Menna","999999999999999999999999999999999999999999999999999999999999999999"+it?.address)
-                if (it?.address?.province.isNullOrEmpty())
-                {
-                    Toast.makeText(this,"Please, Enter Valid Country, province and Address ",Toast.LENGTH_SHORT).show()
-                }
-            })
-        }
-        else{
-            customerDataViewModel.createAddressLiveData.observe(this, Observer {
-            Log.i("Menna",it?.addressList.toString())
-            if (it?.addressList.isNullOrEmpty() )
-            {
-                Toast.makeText(this,"ADD Please, Enter Valid Country, province and Address ",Toast.LENGTH_SHORT).show()
-            }
-        })
-        }
+        //get id
         Log.i("Menna", "My id === "+SharedPref.getUserID().toString())
-
-
+        customerDataViewModel.getCustomerAddress(SharedPref.getUserID().toString())
+        //check
+        customerDataViewModel.allAddressDetails.observe(this) {
+            Log.i("Menna","Chheck if empty "+it)
+           if (it.isNullOrEmpty()) {
+                SharedPref.haveOneAddress(false)
+               customerDataViewModel.createAddressLiveData.observe(this, Observer {
+                   Log.i("Menna",""+it?.address)
+                   if (it?.address?.province.isNullOrEmpty() )
+                   {
+                       Toast.makeText(this,"ADD Please, Enter Valid Country, province and Address ",Toast.LENGTH_SHORT).show()
+                   }
+               })
+           }
+           else{
+               SharedPref.haveOneAddress(true)
+               fillIfAddressExist()
+               customerDataViewModel.editAddressLiveData.observe(this, Observer {
+                   Log.i("Menna","edit address ***** "+it?.address)
+                   if (it?.address?.province.isNullOrEmpty())
+                   {
+                       Toast.makeText(this,"Please, Enter Valid Country, province and Address ",Toast.LENGTH_SHORT).show()
+                   }
+               })
+           }
+        }
         binding.saveBtn.setOnClickListener(View.OnClickListener {
             if (SharedPref.isHaveOneAddress()){
                 editCustomerData()
@@ -52,37 +58,29 @@ class CustomerDataActivity : AppCompatActivity() {
         })
 
     }
-    private fun checkAddressExist(){
-        val customerId =SharedPref.getUserID().toString()
-        customerDataViewModel.getCustomerAddress(customerId)
-        customerDataViewModel.addressDetails.observe(this) {
+    private fun fillIfAddressExist(){
+        customerDataViewModel.allAddressDetails.observe(this) {
             it?.let {
-                SharedPref.setAddressIp(it.addressList?.get(0)?.id)
-                binding.address1.text = SpannableStringBuilder("${it.addressList?.get(0)?.address1?:' '}")
-                binding.city.text =  SpannableStringBuilder("${it.addressList?.get(0)?.city?:' '}")
-                binding.company.text =  SpannableStringBuilder("${it.addressList?.get(0)?.company?:' '}")
-                binding.phone.text = SpannableStringBuilder("${it.addressList?.get(0)?.phone?:' '}")
-                binding.province.text = SpannableStringBuilder("${it.addressList?.get(0)?.province?:' '}")
-                binding.country.text = SpannableStringBuilder("${it.addressList?.get(0)?.country?:' '}")
-                binding.zip.text = SpannableStringBuilder("${it.addressList?.get(0)?.zip?:' '}")
-                Log.i("Menna","checkAddressExist **** $it")
+                SharedPref.setAddressID(it[0]?.id)
+                binding.address1.text = SpannableStringBuilder("${it[0]?.address1 ?:' '}")
+                binding.city.text =  SpannableStringBuilder("${it[0]?.city ?:' '}")
+                binding.phone.text = SpannableStringBuilder("${it[0]?.phone ?:' '}")
+                binding.province.text = SpannableStringBuilder("${it[0]?.province ?:' '}")
+                binding.country.text = SpannableStringBuilder("${it[0]?.country ?:' '}")
+                binding.zip.text = SpannableStringBuilder("${it[0]?.zip ?:' '}")
             }
         }
     }
     private fun addCustomerData() {
         val customerId =SharedPref.getUserID().toString()
         val customerFname =SharedPref.getUserFname().toString()
-        val customerLname =SharedPref.getUserFname().toString()
-        val name = SharedPref.getUserFname() +" "+SharedPref.getUserFname()
         val add1 = binding.address1.text.toString()
-
         val city = binding.city.text.toString()
-        val company = binding.company.text.toString()
         val phone = binding.phone.text.toString()
         val province = binding.province.text.toString()
         val country = binding.country.text.toString()
         val zip = binding.zip.text.toString()
-        val address = Address(add1,null,city,company,customerFname,customerLname,phone,province,country,zip,name,null,null,null)
+        val address = Address(add1,city,customerFname,phone,province,country,zip)
         val addressJson= CreateAddress(address)
         if (checkPhoneNum(phone) ){
             customerDataViewModel.createCustomerAddress(customerId, addressJson)
@@ -90,21 +88,17 @@ class CustomerDataActivity : AppCompatActivity() {
 
     }
     private fun editCustomerData() {
-        val id = SharedPref.getAddressIp().toString()
+        val id = SharedPref.getAddressID().toString()
         val customerId =SharedPref.getUserID().toString()
         val customerFname =SharedPref.getUserFname().toString()
-        val customerLname =SharedPref.getUserFname().toString()
-        val name = SharedPref.getUserFname() +" "+SharedPref.getUserFname()
         val add1 = binding.address1.text.toString()
         val city = binding.city.text.toString()
-        val company = binding.company.text.toString()
         val phone = binding.phone.text.toString()
         val province = binding.province.text.toString()
         val country = binding.country.text.toString()
         val zip = binding.zip.text.toString()
 
-
-        val address = Address(add1,null,city,company,customerFname,customerLname,phone,province,country,zip,name,null,null,null)
+        val address = Address(add1,city,customerFname,phone,province,country,zip)
         val addressJson= CreateAddress(address)
         if (checkPhoneNum(phone) ) {
             customerDataViewModel.editCustomerAddress(customerId, id,addressJson)

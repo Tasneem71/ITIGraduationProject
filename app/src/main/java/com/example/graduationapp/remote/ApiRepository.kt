@@ -158,18 +158,15 @@ class ApiRepository {
 
     }
     //*************
-    suspend fun getCustomerAddress(id:String):AddressData? {
+    suspend fun getCustomerAddress(id:String): List<Addresse?>? {
 
         val response = ApiServes.shopfiyService.getCustomerAddById(id)
         try {
             if (response.isSuccessful) {
-                Log.i("Menna", "getCustomerAddById: enteeereeed")
                 response.body()?.let {
-                    Log.i("Menna", "getCustomerAddById: Donnnnnnnnnnnnnnnne")
-                    return it
-
+                    Log.i("Menna", "getCustomeraddress success")
+                    return it.allAddressList
                 }
-                Log.i("Menna", "getCustomerAddById: dddddddddddddd")
             } else {
                 Log.i("Menna", "not success")
 
@@ -183,13 +180,12 @@ class ApiRepository {
     }
 
     suspend fun createCustomerAdd(id:String,addressJson: CreateAddress): AddressData? {
-
         val response = ApiServes.shopfiyService.createNewCustomerAddById(id,addressJson)
         try {
             if (response.isSuccessful) {
                 response.body()?.let {
-                    Log.i("Menna", "response succcess****************" + it)
-                    SharedPref.haveOneAddress(true)
+                    Log.i("Menna", "response Add cusstomer succcess**" + it)
+                    //SharedPref.haveOneAddress(true)
                     return it
                 }
             } else {
@@ -210,11 +206,11 @@ class ApiRepository {
         try {
             if (response.isSuccessful) {
                 response.body()?.let {
-                    Log.i("Menna", "response  EdiiiitCustomerAdd succcess*-------------" + it)
+                    Log.i("Menna", "response  EdiiiitCustomerAdd succcess")
                     return it
                 }
             } else {
-                Log.i("Menna", "response failuer ------------ " + response.errorBody().toString())
+                Log.i("Menna", "response Ediit failuer ------------ " + response.errorBody().toString())
             }
         } catch (e: Exception) {
             e.printStackTrace()

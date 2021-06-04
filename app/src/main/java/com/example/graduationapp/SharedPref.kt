@@ -48,12 +48,12 @@ object SharedPref{
     fun getUserFname(): String? {
         return pref!!.getString("user-info", " ")
     }
-    fun setAddressIp(addressIp: String?) {
+    fun setAddressID(addressIp: String?) {
         val editor: SharedPreferences.Editor = pref!!.edit()
         editor.putString("address_ip", addressIp)
         editor.apply()
     }
-    fun getAddressIp(): String? {
+    fun getAddressID(): String? {
         return pref!!.getString("address_ip", " ")
     }
     fun haveOneAddress(addressIp: Boolean) {

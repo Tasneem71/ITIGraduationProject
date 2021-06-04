@@ -47,7 +47,7 @@ interface ShopfiyApi {
     suspend fun deleteCustomer(@Path("customers_id") id:String): Response<String>//what is the response?
 
     //address
-    @GET("customers/{customer_id}/addresses.json")
+    @GET("customers/{customer_id}/addresses.json?limit=1")
     suspend fun getCustomerAddById(@Path("customer_id") id:String): Response<AddressData>
 
     @POST("customers/{customer_id}/addresses.json")

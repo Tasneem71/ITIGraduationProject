@@ -13,7 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class CustomerDataViewModel : ViewModel(){
-    var addressDetails  = MutableLiveData<AddressData>()
+    var allAddressDetails  = MutableLiveData<List<Addresse?>?>()
     var createAddressLiveData = MutableLiveData<AddressData?>()
     var editAddressLiveData = MutableLiveData<AddressData?>()
 
@@ -26,7 +26,7 @@ class CustomerDataViewModel : ViewModel(){
     fun getCustomerAddress(id:String) {
         CoroutineScope(Dispatchers.IO).launch {
             apiRepository.getCustomerAddress(id).let {
-                addressDetails.postValue(it)
+                allAddressDetails.postValue(it)
             }
         }
 
