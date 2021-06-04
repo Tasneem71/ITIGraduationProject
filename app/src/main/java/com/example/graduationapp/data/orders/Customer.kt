@@ -23,7 +23,7 @@ data class Customer (
 	@SerializedName("orders_count") val orders_count : Int,
 	@SerializedName("state") val state : String,
 	@SerializedName("total_spent") val total_spent : Double,
-	@SerializedName("last_order_id") val last_order_id : Int,
+	@SerializedName("last_order_id") val last_order_id : String,
 	@SerializedName("note") val note : String,
 	@SerializedName("verified_email") val verified_email : Boolean,
 	@SerializedName("multipass_identifier") val multipass_identifier : String,

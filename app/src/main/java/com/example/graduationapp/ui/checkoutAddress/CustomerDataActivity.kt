@@ -51,6 +51,7 @@ class CustomerDataActivity : AppCompatActivity() {
 
 
         binding.saveBtn.setOnClickListener(View.OnClickListener {
+
             if (SharedPref.isHaveOneAddress()){
                 editCustomerData()
             }else{

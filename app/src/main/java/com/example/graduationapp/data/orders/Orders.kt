@@ -7,7 +7,7 @@ data class Orders (
 
 	@SerializedName("id") val id : String,
 	@SerializedName("admin_graphql_api_id") val admin_graphql_api_id : String,
-	@SerializedName("app_id") val app_id : Int,
+	@SerializedName("app_id") val app_id : String,
 	@SerializedName("browser_ip") val browser_ip : String,
 	@SerializedName("buyer_accepts_marketing") val buyer_accepts_marketing : Boolean,
 	@SerializedName("cancel_reason") val cancel_reason : String,
