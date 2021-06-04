@@ -23,6 +23,5 @@ class MainActivity : AppCompatActivity() {
         //setupActionBarWithNavController(navController, appBarConfiguration)
         SharedPref.createPrefObject(this)
         navView.setupWithNavController(navController)
-        SharedPref.createPrefObject(this)
     }
 }

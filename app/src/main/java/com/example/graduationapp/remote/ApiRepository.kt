@@ -1,20 +1,17 @@
 package com.example.graduationapp.remote
 
 import android.app.Application
-import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.graduationapp.SharedPref
 import com.example.graduationapp.data.*
+import com.example.graduationapp.data.orders.OrderAPI
+import com.example.graduationapp.local.LocalSource
 import com.example.graduationapp.remote.retro.ApiServes
-import kotlinx.coroutines.*
 import retrofit2.Response
 
-class ApiRepository {
+class ApiRepository(application: Application) {
     //    var localDataSource: LocalDataSource
     var apiCollection = MutableLiveData<ApiCollections>()
     var apiSmartCollection = MutableLiveData<ApiCollections>()
@@ -24,6 +21,8 @@ class ApiRepository {
     var apiSmart4Collection = MutableLiveData<CollectionProducts>()
     var apiSmart5Collection = MutableLiveData<CollectionProducts>()
     var apiproduct = MutableLiveData<CollectionProducts>()
+     val local = LocalSource(application)
+
 
 
     suspend fun fetchCustomCollectionData() {
@@ -84,7 +83,7 @@ class ApiRepository {
         //}
     }
 
-    suspend fun fetchSmartProductsData(id: String,num: Int) {
+    suspend fun fetchSmartProductsData(id: String, num: Int) {
         //if (isOnline(context)) {
         val response = ApiServes.shopfiyService.getProductFromCollection(id)
         try {
@@ -137,6 +136,33 @@ class ApiRepository {
 
     }
 
+
+    suspend fun fetchAllOrders(): Response<OrderAPI> {
+
+        val response = ApiServes.shopfiyService.getAllOrder()
+        return response
+
+    }
+
+    suspend fun createOrder(orderJson: CreatedOrder): OrderAPI? {
+        Log.i("order","  orderrrrrr"+ orderJson)
+        val response = ApiServes.shopfiyService.createOrder(orderJson)
+        try {
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    Log.i("order", "response" + it)
+                    return it
+                }
+            } else {
+                Log.i("order", "response failuer" + response.errorBody().toString())
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.i("order", " error?" + e.printStackTrace())
+        }
+        return null
+    }
+
     suspend fun getAllProducts(): CollectionProducts? {
 
         val response = ApiServes.shopfiyService.getAllProduct()
@@ -153,23 +179,22 @@ class ApiRepository {
             e.printStackTrace()
             Log.i("Tasneem", " error?" + e.printStackTrace())
 
+
         }
         return null
 
     }
+
     //*************
-    suspend fun getCustomerAddress(id:String):AddressData? {
+    suspend fun getCustomerAddress(id:String): List<Addresse?>? {
 
         val response = ApiServes.shopfiyService.getCustomerAddById(id)
         try {
             if (response.isSuccessful) {
-                Log.i("Menna", "getCustomerAddById: enteeereeed")
                 response.body()?.let {
-                    Log.i("Menna", "getCustomerAddById: Donnnnnnnnnnnnnnnne")
-                    return it
-
+                    Log.i("Menna", "getCustomeraddress success")
+                    return it.allAddressList
                 }
-                Log.i("Menna", "getCustomerAddById: dddddddddddddd")
             } else {
                 Log.i("Menna", "not success")
 
@@ -183,13 +208,12 @@ class ApiRepository {
     }
 
     suspend fun createCustomerAdd(id:String,addressJson: CreateAddress): AddressData? {
-
         val response = ApiServes.shopfiyService.createNewCustomerAddById(id,addressJson)
         try {
             if (response.isSuccessful) {
                 response.body()?.let {
-                    Log.i("Menna", "response succcess****************" + it)
-                    SharedPref.haveOneAddress(true)
+                    Log.i("Menna", "response Add cusstomer succcess**" + it)
+                    //SharedPref.haveOneAddress(true)
                     return it
                 }
             } else {
@@ -203,18 +227,17 @@ class ApiRepository {
         return null
 
     }
-
     suspend fun editCustomerAdd(id:String,addressIP:String,addressJson: CreateAddress): AddressData? {
 
         val response = ApiServes.shopfiyService.editCustomerAdd(id,addressIP,addressJson)
         try {
             if (response.isSuccessful) {
                 response.body()?.let {
-                    Log.i("Menna", "response  createCustomerAdd succcess****************" + it)
+                    Log.i("Menna", "response  EdiiiitCustomerAdd succcess")
                     return it
                 }
             } else {
-                Log.i("Menna", "response failuer ************ " + response.errorBody().toString())
+                Log.i("Menna", "response Ediit failuer ------------ " + response.errorBody().toString())
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -247,4 +270,10 @@ class ApiRepository {
 
     }
 
+
+
 }
+
+
+
+

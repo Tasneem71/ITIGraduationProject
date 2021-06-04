@@ -22,10 +22,8 @@ class LoginViewModel (application: Application) : AndroidViewModel(application) 
     var apiRepository: ApiRepository
 
     init{
-        apiRepository = ApiRepository()
+        apiRepository = ApiRepository(application)
     }
-
-
 
     fun loadData(context: Context){
         Log.i("Tasneem","inside the load")

@@ -36,12 +36,12 @@ class CategoryAdapter :RecyclerView.Adapter<CategoryAdapter.ViewHolder>(){
     }
 
     override fun getItemCount(): Int {
-        return data?.size?:0;
+        return data.size ?:0;
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item= data?.get(position)
-        holder.categoryName.setText(item?.title)
+        val item= data.get(position)
+        holder.categoryName.setText(item.title)
         //item?.image?.let { holder.categoryImage.setImageResource(item?.images[0].src) };
         context?.let {
             Glide.with(it).load(item?.images[0].src).into(holder.categoryImage)
@@ -49,7 +49,7 @@ class CategoryAdapter :RecyclerView.Adapter<CategoryAdapter.ViewHolder>(){
 
         holder.categoryImage.setOnClickListener(View.OnClickListener {
             val intent= Intent(context, ProductDetails::class.java)
-            intent.putExtra("product_id",item?.id.toString())
+            intent.putExtra("product_id", item.id.toString())
             Log.i("TAG", "onBindViewHolder: mohamed abdallah")
             context.startActivity(intent)
         })

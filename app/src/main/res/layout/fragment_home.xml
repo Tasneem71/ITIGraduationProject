@@ -42,7 +42,8 @@
                         android:layout_width="40dp"
                         android:layout_height="48dp"
                         android:layout_gravity="center"
-                        android:src="@drawable/ic_search"
+                        android:src="@drawable/search"
+                        android:layout_marginEnd="5dp"
                         app:layout_constraintEnd_toStartOf="@+id/cart"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -53,7 +54,7 @@
                         android:textStyle="bold"
                         android:layout_marginStart="40dp"
                         android:gravity="center"
-                        android:textColor="@color/black"
+                        android:textColor="@color/darkPurple"
                         android:textSize="25sp"
                         app:layout_constraintStart_toEndOf="@+id/favo"
                         app:layout_constraintTop_toTopOf="parent"
@@ -63,7 +64,7 @@
                         android:id="@+id/cart"
                         android:layout_width="40dp"
                         android:layout_height="48dp"
-                        android:src="@drawable/ic_black_shopping_cart_24"
+                        android:src="@drawable/commercial"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -71,7 +72,7 @@
                         android:id="@+id/favo"
                         android:layout_width="40dp"
                         android:layout_height="48dp"
-                        android:src="@drawable/ic_baseline_favorite_24"
+                        android:src="@drawable/heart"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -79,18 +80,7 @@
 
             </androidx.appcompat.widget.Toolbar>
 
-            <TextView
-                android:id="@+id/adds"
-                app:layout_constraintTop_toBottomOf="@+id/appBar"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_margin="5dp"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/adds"/>
+
 
             <ViewFlipper
                 android:layout_marginTop="10dp"
@@ -101,7 +91,7 @@
                 android:background="#271047"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/adds">
+                app:layout_constraintTop_toBottomOf="@+id/appBar">
 
             </ViewFlipper>
 
@@ -194,7 +184,7 @@
                 android:gravity="center"
                 android:textSize="25sp"
                 android:textStyle="bold"
-                android:textColor="@color/black"
+                android:textColor="@color/darkPurple"
                 android:text="ADIDAS"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/flipper" />
@@ -207,7 +197,7 @@
                 android:gravity="center"
                 android:textSize="25sp"
                 android:textStyle="bold"
-                android:textColor="@color/black"
+                android:textColor="@color/darkPurple"
                 android:text="NIKE"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/recycler_shop_category" />
@@ -220,7 +210,7 @@
                 android:gravity="center"
                 android:textSize="25sp"
                 android:textStyle="bold"
-                android:textColor="@color/black"
+                android:textColor="@color/darkPurple"
                 android:text="PUMA"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/second" />
@@ -232,7 +222,7 @@
                 android:gravity="center"
                 android:textSize="25sp"
                 android:textStyle="bold"
-                android:textColor="@color/black"
+                android:textColor="@color/darkPurple"
                 android:text="CONVERSE"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/third" />
@@ -244,7 +234,7 @@
                 android:gravity="center"
                 android:textSize="25sp"
                 android:textStyle="bold"
-                android:textColor="@color/black"
+                android:textColor="@color/darkPurple"
                 android:text="ASICS TIGER"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/fourth" />

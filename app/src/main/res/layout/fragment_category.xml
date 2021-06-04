@@ -13,27 +13,67 @@
         android:layout_height="match_parent"
         tools:context=".ui.category.CategoryFragment"
         android:background="@color/medGray">
-
-        <ImageView
-            android:id="@+id/cart_icon"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/appBar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/white"
+            android:paddingHorizontal="20dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:gravity="center"
-            android:layout_marginTop="10dp"
-            app:srcCompat="@drawable/ic_cart" />
-        <ImageView
-            android:id="@+id/search_icon"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            app:layout_constraintEnd_toStartOf="@id/cart_icon"
-            app:layout_constraintTop_toTopOf="parent"
-            android:gravity="center"
-            app:srcCompat="@drawable/ic_search" />
+            app:subtitleTextColor="@color/white"
+            app:titleTextColor="@color/white">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                tools:layout_editor_absoluteX="16dp">
+
+                <ImageView
+                    android:id="@+id/search_icon"
+                    android:layout_width="40dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/search"
+                    android:layout_marginEnd="5dp"
+                    app:layout_constraintEnd_toStartOf="@+id/cart_icon"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/titletv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:textStyle="bold"
+                    android:layout_marginStart="40dp"
+                    android:gravity="center"
+                    android:textColor="@color/darkPurple"
+                    android:textSize="25sp"
+                    app:layout_constraintStart_toEndOf="@+id/favo"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:text="Shopfy" />
+
+                <ImageView
+                    android:id="@+id/cart_icon"
+                    android:layout_width="40dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/commercial"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/favo"
+                    android:layout_width="40dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/heart"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.appcompat.widget.Toolbar>
+
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_layout"
@@ -62,7 +102,7 @@
                     android:id="@+id/acce"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    android:textColor="@color/black"
+                    android:textColor="@color/darkPurple"
                     android:background="@color/white"
                     android:text="@string/accessories"
                     app:backgroundTint="@null"/>
@@ -70,7 +110,7 @@
                     android:id="@+id/tshirt"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
-                    android:textColor="@color/black"
+                    android:textColor="@color/darkPurple"
                     android:background="@color/white"
                     android:text="@string/Tshirt"
                     app:backgroundTint="@null"/>
@@ -78,7 +118,7 @@
                     android:id="@+id/shoes"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
-                    android:textColor="@color/black"
+                    android:textColor="@color/darkPurple"
                     android:background="@color/white"
                     android:text="@string/shoes"
                     app:backgroundTint="@null"/>

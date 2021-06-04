@@ -24,7 +24,8 @@
             android:layout_height="150dp"
             android:layout_width="match_parent"
             android:weightSum="4"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="@drawable/background2">
 
 
             <androidx.cardview.widget.CardView
@@ -49,6 +50,7 @@
                 android:padding="5dp"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
+                android:maxLines="1"
                 android:layout_weight="1"
                 android:id="@+id/title"
                 tools:text="Name"

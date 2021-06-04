@@ -42,18 +42,20 @@ object SharedPref{
     fun getUserEmail(): String? {
         return pref!!.getString("user-email", " ")
     }
+
     fun getUserID(): String? {
         return pref!!.getString("user-id", " ")
     }
     fun getUserFname(): String? {
         return pref!!.getString("user-info", " ")
     }
-    fun setAddressIp(addressIp: String?) {
+
+    fun setAddressID(addressIp: String?) {
         val editor: SharedPreferences.Editor = pref!!.edit()
         editor.putString("address_ip", addressIp)
         editor.apply()
     }
-    fun getAddressIp(): String? {
+    fun getAddressID(): String? {
         return pref!!.getString("address_ip", " ")
     }
     fun haveOneAddress(addressIp: Boolean) {
@@ -65,6 +67,7 @@ object SharedPref{
         return pref!!.getBoolean("have_address", false)
     }
 
+
     fun getUserInfo(): String? {
         return pref!!.getString("user-info", " ")
     }
@@ -73,6 +76,7 @@ object SharedPref{
         Log.i("tasneem",""+pref!!.getBoolean("user-state", false))
         return pref!!.getBoolean("user-state", false)
     }
+
 
     fun checkLoginWithFirebase(): Boolean? {
         return pref!!.getBoolean("login-firebase", false)
