@@ -25,8 +25,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.AuthCredential
-import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import java.util.*
 import java.util.logging.Logger
@@ -52,6 +50,7 @@ open class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
         //setContentView(R.layout.activity_login)
         //@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+
         loginViewMode = ViewModelProvider(this).get(LoginViewModel::class.java)
 
         fAuth = FirebaseAuth.getInstance()
@@ -65,6 +64,7 @@ open class LoginActivity : AppCompatActivity() {
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
         binding.googleSignInButton.setSize(SignInButton.SIZE_STANDARD)
         binding.googleSignInButton.setOnClickListener({ signIn() })
+
 
 
         FacebookSdk.sdkInitialize(getApplicationContext())
@@ -86,6 +86,7 @@ open class LoginActivity : AppCompatActivity() {
                             loginResult.accessToken
                         ) { `object`, response ->
                             Log.d("LoginActivity", response.toString())
+
                             val email = `object`.getString("email")
                             val fname = `object`.getString("first_name")
                             val lname = `object`.getString("last_name")
@@ -93,19 +94,24 @@ open class LoginActivity : AppCompatActivity() {
                             signInApi(email,fname,lname)
                             Log.d("LoginActivity", email)
 
+
                         }
                         val parameters = Bundle()
                         parameters.putString("fields", "id,name,email,first_name,last_name,gender,birthday")
                         request.parameters = parameters
                         request.executeAsync()
+
+                        val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                        startActivity(intent)
+
                     }
 
                     override fun onCancel() {
-                        Log.d("MainActivity", "Facebook onCancel.")
+                        Log.d("LoginActivity", "Facebook onCancel.")
                     }
 
                     override fun onError(error: FacebookException) {
-                        Log.d("MainActivity", "Facebook onError.")
+                        Log.d("LoginActivity", "Facebook onError.")
                     }
                 })
         }
@@ -147,10 +153,10 @@ open class LoginActivity : AppCompatActivity() {
             val personId = account.id
             val personPhoto = account.photoUrl
             if (personEmail!=null&&personName!=null&&personFamilyName!=null){
-                Log.i("tasneem","nothing is null")
-                signInApi(personEmail,personName,personFamilyName)
+                Log.i("tasneem", "nothing is null")
+                signInApi(personEmail, personName, personFamilyName)
             }else{
-                Log.i("tasneem","something is null")
+                Log.i("tasneem", "something is null")
             }
 
            Log.d("user", personName + personEmail + personId)

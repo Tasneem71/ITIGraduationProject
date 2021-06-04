@@ -11,7 +11,6 @@ data class CreatedCustomer (
     val customer : Customer
 )
 
-
 data class Customer(
 
     val first_name: String,

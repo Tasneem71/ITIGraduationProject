@@ -14,7 +14,13 @@
         android:theme="@style/Theme.GraduationApp.noActionBar"
         android:usesCleartextTraffic="true">
 
+
+        <activity android:name=".create_order.CreateOrderActivity"></activity>
+
+
         <activity android:name=".ui.checkoutAddress.CustomerDataActivity"></activity>
+
+
         <activity
             android:name=".ScrollingActivity"
             android:label="@string/title_activity_scrolling"
@@ -24,7 +30,9 @@
         </activity>
 
         <activity android:name=".SearchActivity" />
+
         <activity android:name=".ui.cart.CartActivity" />
+
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -48,7 +56,9 @@
         </activity>
         <activity android:name=".RegistrationActivity" />
         <activity android:name=".LoginActivity" />
+
         <activity android:name=".ui.productPageFeature.ProductDetails" />
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name">

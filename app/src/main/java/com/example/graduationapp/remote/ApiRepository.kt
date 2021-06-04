@@ -1,20 +1,17 @@
 package com.example.graduationapp.remote
 
 import android.app.Application
-import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.graduationapp.SharedPref
 import com.example.graduationapp.data.*
+import com.example.graduationapp.data.orders.OrderAPI
+import com.example.graduationapp.local.LocalSource
 import com.example.graduationapp.remote.retro.ApiServes
-import kotlinx.coroutines.*
 import retrofit2.Response
 
-class ApiRepository {
+class ApiRepository(application: Application) {
     //    var localDataSource: LocalDataSource
     var apiCollection = MutableLiveData<ApiCollections>()
     var apiSmartCollection = MutableLiveData<ApiCollections>()
@@ -24,6 +21,8 @@ class ApiRepository {
     var apiSmart4Collection = MutableLiveData<CollectionProducts>()
     var apiSmart5Collection = MutableLiveData<CollectionProducts>()
     var apiproduct = MutableLiveData<CollectionProducts>()
+     val local = LocalSource(application)
+
 
 
     suspend fun fetchCustomCollectionData() {
@@ -84,7 +83,7 @@ class ApiRepository {
         //}
     }
 
-    suspend fun fetchSmartProductsData(id: String,num: Int) {
+    suspend fun fetchSmartProductsData(id: String, num: Int) {
         //if (isOnline(context)) {
         val response = ApiServes.shopfiyService.getProductFromCollection(id)
         try {
@@ -137,6 +136,33 @@ class ApiRepository {
 
     }
 
+
+    suspend fun fetchAllOrders(): Response<OrderAPI> {
+
+        val response = ApiServes.shopfiyService.getAllOrder()
+        return response
+
+    }
+
+    suspend fun createOrder(orderJson: CreatedOrder): OrderAPI? {
+        Log.i("order","  orderrrrrr"+ orderJson)
+        val response = ApiServes.shopfiyService.createOrder(orderJson)
+        try {
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    Log.i("order", "response" + it)
+                    return it
+                }
+            } else {
+                Log.i("order", "response failuer" + response.errorBody().toString())
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.i("order", " error?" + e.printStackTrace())
+        }
+        return null
+    }
+
     suspend fun getAllProducts(): CollectionProducts? {
 
         val response = ApiServes.shopfiyService.getAllProduct()
@@ -153,10 +179,12 @@ class ApiRepository {
             e.printStackTrace()
             Log.i("Tasneem", " error?" + e.printStackTrace())
 
+
         }
         return null
 
     }
+
     //*************
     suspend fun getCustomerAddress(id:String): List<Addresse?>? {
 
@@ -199,7 +227,6 @@ class ApiRepository {
         return null
 
     }
-
     suspend fun editCustomerAdd(id:String,addressIP:String,addressJson: CreateAddress): AddressData? {
 
         val response = ApiServes.shopfiyService.editCustomerAdd(id,addressIP,addressJson)
@@ -243,4 +270,10 @@ class ApiRepository {
 
     }
 
+
+
 }
+
+
+
+

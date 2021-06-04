@@ -19,7 +19,7 @@ class MeAdapter(var wishList: ArrayList<Favorite>) :
     fun updateList(newCategory: List<Favorite>) {
 
         wishList.clear()
-        wishList= newCategory as ArrayList<Favorite>
+        wishList.addAll(newCategory)
         notifyDataSetChanged()
     }
 
