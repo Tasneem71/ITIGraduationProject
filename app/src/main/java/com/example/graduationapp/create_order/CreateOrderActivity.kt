@@ -6,10 +6,12 @@ import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.util.Log
 import android.view.View
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.domain.core.feature.favoriteFeature.Favorite
 import com.example.graduationapp.LoginViewModel
 import com.example.graduationapp.MainActivity
 import com.example.graduationapp.R
@@ -18,6 +20,7 @@ import com.example.graduationapp.data.*
 import com.example.graduationapp.databinding.ActivityCreateOrderBinding
 import com.example.graduationapp.databinding.ActivityLoginBinding
 import com.example.graduationapp.ui.cart.CartAdapter
+import com.example.graduationapp.ui.cart.CartViewModel
 import com.example.graduationapp.ui.cart.SwipeToDelete
 
 class CreateOrderActivity : AppCompatActivity() {
@@ -31,37 +34,39 @@ class CreateOrderActivity : AppCompatActivity() {
         setContentView(R.layout.activity_create_order)
         binding = ActivityCreateOrderBinding.inflate(layoutInflater)
         createOrderViewModel = ViewModelProvider(this).get(CreateOrderViewModel::class.java)
+
         initUI()
 
+        createOrderViewModel.getAllOrderd()
+
+        createOrderViewModel.orders?.observe(this, Observer {
+            Log.d("tag","in observe")
+            it?.let {
+                var count = it.map { it.count*it.price }.reduce { acc, i ->  acc+i  }.toString()
+                Log.d("tag","count"+count)
+                val email = SharedPref.getUserEmail().toString()
+                val listOfOrder = createOrderApi(it)
+              createOrderViewModel.createOrder(CreatedOrder(Order(email,"fulfilled",count,listOfOrder)))
+                Log.d("tag","list"+listOfOrder)
+
+            }
+        })
+
     }
 
-    private fun createOrderApi() {
-//        Log.d("order", "post")
-//        val customerEmail =SharedPref.getUserEmail()
-//        val title = binding.order.titile.text.toString()
-//        val price = binding.order.price.text.toString()
-//        val quantity = binding.order.count.text.toString()
-//        val order_number = 5
-//        val list : List<LineItems> = mutableListOf<LineItems>(LineItems(title,price,quantity ,order_number))
-//        val orders = Order(customerEmail!!,"fulfilled","200",list)
-//        val orderJson= CreatedOrder(orders)
-//        createOrderViewModel.createOrder(orderJson)
+    private fun createOrderApi(list:List<Favorite>) : List<LineItems> {
+        val lines : MutableList<LineItems> = mutableListOf<LineItems>()
+       for (item in list){
+           val lineObject : LineItems = LineItems(item.title,item.price.toString(),item.count,item.varient_id)
+           lines.add(lineObject)
+       }
+        return lines
     }
 
-    private fun checkOrderCreated(){
-
-//        createOrderViewModel.loadData(this)
-//        createOrderViewModel.addressDetails.observe(this) {
-//            it?.let {
-//
-//                binding.countryName.text = SpannableStringBuilder("${it.addressList?.get(0)?.country_name?:' '}")
-//                Log.i("Menna","checkAddressExist **** $it")
-//            }
-//        }
-    }
 
     private fun initUI() {
-//        binding.order.recyclerShopBag.apply {
+        binding.order.titile
+//        binding.order.apply {
 //            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 //            adapter = cartAdapter
 //        }

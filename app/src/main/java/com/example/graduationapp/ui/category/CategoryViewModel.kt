@@ -21,7 +21,7 @@ class CategoryViewModel (application: Application) : AndroidViewModel(applicatio
     var apiRepository: ApiRepository
 
     init{
-        apiRepository = ApiRepository()
+        apiRepository = ApiRepository(application)
     }
 
     fun loadData(context: Context): MutableLiveData<ApiCollections> {

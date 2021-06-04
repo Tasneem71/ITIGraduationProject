@@ -16,7 +16,6 @@ data class LineItems (
     val title : String,
     val price : String,
     val quantity : Int,
-    val variant_id : String,
-    val order_number : Int
+    val variant_id : String
 
 )

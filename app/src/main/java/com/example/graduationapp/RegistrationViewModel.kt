@@ -24,7 +24,7 @@ class RegistrationViewModel (application: Application) : AndroidViewModel(applic
     var apiRepository: ApiRepository
 
     init{
-        apiRepository = ApiRepository()
+        apiRepository = ApiRepository(application)
     }
 
 

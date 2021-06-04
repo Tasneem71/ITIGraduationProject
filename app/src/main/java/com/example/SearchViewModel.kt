@@ -19,7 +19,7 @@ class SearchViewModel (application: Application) : AndroidViewModel(application)
     var apiRepository: ApiRepository
 
     init{
-        apiRepository = ApiRepository()
+        apiRepository = ApiRepository(application)
     }
 
 

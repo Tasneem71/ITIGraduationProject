@@ -7,6 +7,7 @@ import com.example.graduationapp.data.CollectionProducts
 import com.example.graduationapp.data.ProductDetails
 import com.example.graduationapp.data.Products
 import com.example.graduationapp.data.*
+import com.example.graduationapp.data.orders.OrderAPI
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -47,10 +48,10 @@ interface ShopfiyApi {
 
 
     @POST("orders.json")
-    suspend fun createOrder(@Body orderJson:CreatedOrder): Response<OrdersItem>//what is the response?
+    suspend fun createOrder(@Body orderJson:CreatedOrder): Response<OrderAPI>//what is the response?
 
     @GET("orders.json")
-    suspend fun getAllOrder(): Response<Orders>
+    suspend fun getAllOrder(): Response<OrderAPI>
 
     @DELETE("orders/{order_id}.json")
     suspend fun deleteOrder(@Path("order_id") id:String): Response<String>//what is the response?

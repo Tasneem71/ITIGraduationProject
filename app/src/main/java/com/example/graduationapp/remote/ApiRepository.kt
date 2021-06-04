@@ -1,14 +1,17 @@
 package com.example.graduationapp.remote
 
+import android.app.Application
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.graduationapp.SharedPref
 import com.example.graduationapp.data.*
+import com.example.graduationapp.data.orders.OrderAPI
+import com.example.graduationapp.local.LocalSource
 import com.example.graduationapp.remote.retro.ApiServes
 import retrofit2.Response
 
-class ApiRepository {
+class ApiRepository(application: Application) {
     //    var localDataSource: LocalDataSource
     var apiCollection = MutableLiveData<ApiCollections>()
     var apiSmartCollection = MutableLiveData<ApiCollections>()
@@ -18,6 +21,8 @@ class ApiRepository {
     var apiSmart4Collection = MutableLiveData<CollectionProducts>()
     var apiSmart5Collection = MutableLiveData<CollectionProducts>()
     var apiproduct = MutableLiveData<CollectionProducts>()
+     val local = LocalSource(application)
+
 
 
     suspend fun fetchCustomCollectionData() {
@@ -132,14 +137,15 @@ class ApiRepository {
     }
 
 
-    suspend fun fetchAllOrders(): Response<Orders> {
+    suspend fun fetchAllOrders(): Response<OrderAPI> {
 
         val response = ApiServes.shopfiyService.getAllOrder()
         return response
 
     }
 
-    suspend fun createOrder(orderJson: CreatedOrder): OrdersItem? {
+    suspend fun createOrder(orderJson: CreatedOrder): OrderAPI? {
+        Log.i("order","  orderrrrrr"+ orderJson)
         val response = ApiServes.shopfiyService.createOrder(orderJson)
         try {
             if (response.isSuccessful) {

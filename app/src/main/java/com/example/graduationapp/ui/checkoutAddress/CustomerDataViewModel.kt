@@ -1,5 +1,7 @@
 package com.example.graduationapp.ui.checkoutAddress
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.graduationapp.data.AddressData
@@ -12,7 +14,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class CustomerDataViewModel : ViewModel(){
+class CustomerDataViewModel (application: Application) : AndroidViewModel(application){
     var addressDetails  = MutableLiveData<AddressData>()
     var createAddressLiveData = MutableLiveData<AddressData?>()
     var editAddressLiveData = MutableLiveData<AddressData?>()
@@ -20,7 +22,7 @@ class CustomerDataViewModel : ViewModel(){
     var apiRepository: ApiRepository
 
     init{
-        apiRepository = ApiRepository()
+        apiRepository = ApiRepository(application )
     }
 
     fun getCustomerAddress(id:String) {
