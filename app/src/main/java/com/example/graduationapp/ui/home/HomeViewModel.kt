@@ -11,12 +11,17 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.graduationapp.data.ApiCollections
 import com.example.graduationapp.data.CollectionProducts
+import com.example.graduationapp.data.Customers
+import com.example.graduationapp.data.priceRules.CreatedDiscount
+import com.example.graduationapp.data.priceRules.DiscountCode
+import com.example.graduationapp.data.priceRules.DiscountCodeClass
 import com.example.graduationapp.remote.ApiRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class HomeViewModel (application: Application) : AndroidViewModel(application) {
+    var generatedDiscountLiveData = MutableLiveData<DiscountCodeClass?>()
 
     var apiRepository: ApiRepository
 
@@ -52,6 +57,13 @@ class HomeViewModel (application: Application) : AndroidViewModel(application) {
         return apiRepository.apiproduct
     }
 
+    fun generatingDiscount(priceRule:String,discount: CreatedDiscount){
+        CoroutineScope(Dispatchers.IO).launch {
+            val response=apiRepository.generateDiscount(priceRule,discount)
+            generatedDiscountLiveData.postValue(response?.discount_code)
+        }
 
+
+    }
 
 }

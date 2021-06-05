@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -14,7 +15,10 @@ import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.graduationapp.R
 import com.example.graduationapp.SearchActivity
+import com.example.graduationapp.SharedPref
 import com.example.graduationapp.data.Products
+import com.example.graduationapp.data.priceRules.CreatedDiscount
+import com.example.graduationapp.data.priceRules.Discount
 import com.example.graduationapp.databinding.FragmentHomeBinding
 import com.example.graduationapp.ui.cart.CartActivity
 import com.example.graduationapp.ui.category.CategoryViewModel
@@ -42,7 +46,7 @@ class HomeFragment : Fragment()  {
 
         homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
-        imgas =arrayOf(R.drawable.onlineshopping,R.drawable.op ,R.drawable.lap)
+        imgas =arrayOf(R.drawable.discount,R.drawable.op ,R.drawable.lap)
 
         for (item in imgas)
              showPhotos(item)
@@ -55,7 +59,13 @@ class HomeFragment : Fragment()  {
         asicsList = ArrayList()
 
         //*********************************
-
+        binding.flipper.setOnClickListener {
+            if (SharedPref.getUserDiscount()==0L) {
+                homeViewModel.generatingDiscount("951388569798", CreatedDiscount(Discount("SUMMERSALE10OFF")))
+            }else{
+                Toast.makeText(context,"Discount has already been activated",Toast.LENGTH_SHORT).show()
+            }
+        }
 
         binding.cart.setOnClickListener {
             val intent= Intent(this.context, CartActivity::class.java)
@@ -86,6 +96,13 @@ class HomeFragment : Fragment()  {
         loadProducts("268359401670",2)
         loadProducts("268359303366",3)
         loadProducts("268359336134",4)
+
+        homeViewModel.generatedDiscountLiveData.observe(requireActivity()) {
+            it?.let {
+                SharedPref.setUserDiscount(it.id)
+                Toast.makeText(context,"Discount activated",Toast.LENGTH_SHORT).show()
+            }
+        }
 
 
         return binding.root

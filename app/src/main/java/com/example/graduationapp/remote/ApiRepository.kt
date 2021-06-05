@@ -7,6 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.graduationapp.SharedPref
 import com.example.graduationapp.data.*
 import com.example.graduationapp.data.orders.OrderAPI
+import com.example.graduationapp.data.priceRules.CreatedDiscount
+import com.example.graduationapp.data.priceRules.DiscountCode
 import com.example.graduationapp.local.LocalSource
 import com.example.graduationapp.remote.retro.ApiServes
 import retrofit2.Response
@@ -260,6 +262,30 @@ class ApiRepository(application: Application) {
                 }
             } else {
                 Log.i("Tasneem", "response failuer" + response.errorBody().toString())
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.i("Tasneem", " error?" + e.printStackTrace())
+
+        }
+        return null
+
+    }
+
+
+    suspend fun generateDiscount(priceRule:String,discount: CreatedDiscount): DiscountCode? {
+
+        Log.i("Tasneem", "response$priceRule , $discount")
+
+        val response = ApiServes.shopfiyService.generatingDiscount(priceRule,discount)
+        try {
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    Log.i("Tasneem", "response$it")
+                    return it
+                }
+            } else {
+                Log.i("Tasneem", "response failuer" + response.toString())
             }
         } catch (e: Exception) {
             e.printStackTrace()
