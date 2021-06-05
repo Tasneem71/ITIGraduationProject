@@ -151,4 +151,8 @@ dependencies {
     //for paytab enable scanner
     implementation 'cards.pay:paycardsrecognizer:1.1.0'
 
+
+
+    implementation 'com.etebarian:meow-bottom-navigation:1.2.0'
+
 }
