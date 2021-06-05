@@ -33,9 +33,9 @@ class CustomerDataViewModel (application: Application) : AndroidViewModel(applic
         apiRepository = ApiRepository(application )
     }
 
-    fun getAllCarts(){
+    fun getAllCarts(userId: String){
         viewModelScope.launch {
-            val result= async{local.getAllCart()}
+            val result= async{local.getAllCart(userId)}
             result.join()
             carts?.value=result.await()
         }

@@ -27,6 +27,8 @@ class CreateOrderActivity : AppCompatActivity() {
     private lateinit var createOrderViewModel: CreateOrderViewModel
     private lateinit var binding: ActivityCreateOrderBinding
     lateinit var  cartAdapter : CartAdapter
+    val userId = SharedPref.getUserID().toString()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +38,7 @@ class CreateOrderActivity : AppCompatActivity() {
 
         initUI()
 
-        createOrderViewModel.getAllOrderd()
+        createOrderViewModel.getAllOrderd(userId)
 
         createOrderViewModel.orders?.observe(this, Observer {
             Log.d("tag","in observe")

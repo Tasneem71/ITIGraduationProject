@@ -14,6 +14,7 @@ import com.example.domain.core.feature.favoriteFeature.Favorite
 import com.example.domain.core.subFeature.GridSpacingItemDecoration
 import com.example.domain.core.subFeature.RecyclerViewAnimation
 import com.example.graduationapp.R
+import com.example.graduationapp.SharedPref
 import com.example.graduationapp.databinding.ActivityFavoriteBinding
 import com.example.graduationapp.databinding.ActivityScrollingBinding
 import com.example.graduationapp.ui.favoriteFeature.adapater.FavoriteAdapter
@@ -25,12 +26,15 @@ class FavoriteActivity : AppCompatActivity(),FavoriteAdapter.OnEditFavoriteListe
     lateinit var binding: ActivityFavoriteBinding
     private lateinit var favoriteViewModel: FavoriteViewModel
     private  var favoriteAdapter= FavoriteAdapter(emptyList(),this)
+    private lateinit var userId :String
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityFavoriteBinding.inflate(layoutInflater)
         setContentView(binding.root)
         favoriteViewModel = ViewModelProvider(this).get(FavoriteViewModel::class.java)
+        userId = SharedPref.getUserID().toString()
 
 
         binding.favoriteRecyclerView.layoutManager =
@@ -47,17 +51,17 @@ class FavoriteActivity : AppCompatActivity(),FavoriteAdapter.OnEditFavoriteListe
 
         })
 
-        favoriteViewModel.getAllFavorite()
+        favoriteViewModel.getAllFavorite(userId)
     }
 
     override fun onRemoveFavoriteClick(item: Favorite) {
         favoriteViewModel.deleteFromFavorite(item)
-        favoriteViewModel.getAllFavorite()
+        favoriteViewModel.getAllFavorite(userId)
 
     }
     override fun onAddToCartClick(item: Favorite) {
         lifecycleScope.launch(Dispatchers.IO) {
-            Log.i("TAG", "onAddToCartClick:${favoriteViewModel.isFavorite(item.id)} ")
+            Log.i("TAG", "onAddToCartClick:${favoriteViewModel.isFavorite(item.id,userId)} ")
         }
     }
     override fun onImageClick(item: Favorite) {

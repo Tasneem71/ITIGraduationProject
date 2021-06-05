@@ -15,15 +15,15 @@ interface FavoriteDao {
     @Query("delete from Favorite where id is :id")
     suspend fun deleteFromFavorite(id: Long)
 
-    @Query("select * from Favorite where page = 70")
-    suspend fun getAllFavorite(): List<Favorite>?
+    @Query("select * from Favorite where page = 70 and userId= :userId")
+    suspend fun getAllFavorite(userId: String): List<Favorite>?
 
-    @Query("SELECT COUNT() FROM Favorite WHERE id = :id And page = 70 ")
-    suspend fun isFavorite(id: Long): Int
+    @Query("SELECT COUNT() FROM Favorite WHERE id = :id And page = 70 and userId= :userId")
+    suspend fun isFavorite(id: Long,userId: String): Int
 
-    @Query("select * from Favorite where page = 67")
-    suspend fun getAllCart(): List<Favorite>?
+    @Query("select * from Favorite where page = 67 and userId= :userId")
+    suspend fun getAllCart(userId: String): List<Favorite>?
 
-    @Query("UPDATE Favorite SET count=:count WHERE id = :id")
-    fun updateCount( id: Long,count: Int)
+    @Query("UPDATE Favorite SET count=:count WHERE id = :id and userId= :userId")
+    fun updateCount( id: Long,count: Int,userId: String)
 }

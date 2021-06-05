@@ -17,12 +17,11 @@ import com.example.graduationapp.SearchActivity
 import com.example.graduationapp.data.Products
 import com.example.graduationapp.databinding.FragmentHomeBinding
 import com.example.graduationapp.ui.cart.CartActivity
-import com.example.graduationapp.ui.category.CategoryViewModel
 import com.example.graduationapp.ui.favoriteFeature.FavoriteActivity
 import com.example.graduationapp.ui.productPageFeature.ProductDetails
 
 
-class HomeFragment : Fragment()  {
+class HomeFragment : Fragment()  , ShopCategoryAdapter.OnHomeItemListener {
 
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var binding: FragmentHomeBinding
@@ -32,11 +31,11 @@ class HomeFragment : Fragment()  {
     private lateinit var pumaList:ArrayList<Products>
     private lateinit var converceList:ArrayList<Products>
     private lateinit var asicsList:ArrayList<Products>
-    var  adidasAdapter = ShopCategoryAdapter(arrayListOf())
-    var  nikeAdapter = ShopCategoryAdapter(arrayListOf())
-    var  pumaAdapter = ShopCategoryAdapter(arrayListOf())
-    var  converceAdapter = ShopCategoryAdapter(arrayListOf())
-    var  asicsAdapter = ShopCategoryAdapter(arrayListOf())
+    var  adidasAdapter = ShopCategoryAdapter(arrayListOf(),this)
+    var  nikeAdapter = ShopCategoryAdapter(arrayListOf(),this)
+    var  pumaAdapter = ShopCategoryAdapter(arrayListOf(),this)
+    var  converceAdapter = ShopCategoryAdapter(arrayListOf(),this)
+    var  asicsAdapter = ShopCategoryAdapter(arrayListOf(),this)
 
     override fun onCreateView(inflater: LayoutInflater,container: ViewGroup?,savedInstanceState: Bundle?): View {
 
@@ -150,6 +149,12 @@ class HomeFragment : Fragment()  {
         binding.flipper.flipInterval = 4000
         binding.flipper.isAutoStart = true
 
+    }
+
+    override fun onImageClick(item: Products) {
+        val intent= Intent(this.context, ProductDetails::class.java)
+        intent.putExtra("product_id",item.id .toString())
+        this.context?.startActivity(intent)
     }
 
 }

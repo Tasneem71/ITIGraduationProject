@@ -22,10 +22,10 @@ class CartViewModel(application: Application) : AndroidViewModel(application) {
             local.addToFavorite(item)
         }
     }
-    fun getAllCarts(){
+    fun getAllCarts(userId: String){
         var sumPrices :Int =0
         viewModelScope.launch {
-            val result= async{local.getAllCart()}
+            val result= async{local.getAllCart(userId)}
             result.join()
             carts?.value=result.await()
             for(item in carts?.value?.toList()!!){
@@ -43,9 +43,9 @@ class CartViewModel(application: Application) : AndroidViewModel(application) {
         }
         sumOfItems.postValue(sumPrices)
     }
-    fun updateCount(id:Long,count:Int){
+    fun updateCount(id:Long,count:Int,userId: String){
         viewModelScope.launch {
-            local.updateCount(id,count)
+            local.updateCount(id,count,userId)
         }
     }
     fun deleteFromFavorite(item: Favorite){

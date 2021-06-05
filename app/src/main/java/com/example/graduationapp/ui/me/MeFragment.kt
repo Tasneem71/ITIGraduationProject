@@ -31,12 +31,15 @@ class MeFragment : Fragment() {
     private lateinit var favoriteViewModel: FavoriteViewModel
     private lateinit var wishAdapter: MeAdapter
     private lateinit var wishList:ArrayList<Favorite>
+    private lateinit var userId :String
+
 
     override fun onCreateView(inflater: LayoutInflater,container: ViewGroup?,savedInstanceState: Bundle?): View? {
 
         binding = FragmentMeBinding.inflate(layoutInflater)
         fAuth = FirebaseAuth.getInstance()
         favoriteViewModel = ViewModelProvider(this).get(FavoriteViewModel::class.java)
+        userId = SharedPref.getUserID().toString()
 
         wishList = ArrayList()
         wishAdapter= MeAdapter(wishList)
@@ -45,7 +48,7 @@ class MeFragment : Fragment() {
 
         settingUI(SharedPref.getUserStatus())
         if (SharedPref.getUserStatus()){
-            favoriteViewModel.getAllFavorite()
+            favoriteViewModel.getAllFavorite(userId)
         }
 
         favoriteViewModel.favorites?.observe(viewLifecycleOwner, Observer {
