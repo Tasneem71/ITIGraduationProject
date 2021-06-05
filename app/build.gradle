@@ -64,6 +64,7 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.preference:preference:1.1.1'
     implementation 'com.google.firebase:firebase-auth:21.0.1'
+    implementation project(path: ':paytabs_sdk-v4.0.1')
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
@@ -132,7 +133,22 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics-ktx'
 
 
+    implementation 'com.github.dbachelder:CreditCardEntry:1.4.9'
+    implementation "androidx.cardview:cardview:1.0.0"
     // circle image
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    implementation project(path: ':paytabs_sdk-v4.0.1')
+
+    // To enable Card Scanner in the payment page, you have to include the following dependency
+    //for paytab enable scanner
+
+    implementation 'com.shamanland:fonticon:0.1.9'
+    implementation 'com.victor:lib:1.0.4'
+
+
+    // To enable Card Scanner in the payment page, you have to include the following dependency
+    //for paytab enable scanner
+    implementation 'cards.pay:paycardsrecognizer:1.1.0'
 
 }
