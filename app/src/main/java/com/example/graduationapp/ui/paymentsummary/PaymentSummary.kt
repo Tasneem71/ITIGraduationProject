@@ -5,7 +5,19 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import com.example.domain.core.feature.favoriteFeature.Favorite
+import com.example.graduationapp.MainActivity
 import com.example.graduationapp.R
+import com.example.graduationapp.SharedPref
+import com.example.graduationapp.create_order.CreateOrderViewModel
+import com.example.graduationapp.data.CreatedOrder
+import com.example.graduationapp.data.LineItems
+import com.example.graduationapp.data.Order
+import com.example.graduationapp.data.orders.Orders
 import com.example.graduationapp.databinding.ActivityLoginBinding
 import com.example.graduationapp.databinding.ActivityPaymentSummaryBinding
 import com.paytabs.paytabs_sdk.payment.ui.activities.PayTabActivity
@@ -13,19 +25,72 @@ import com.paytabs.paytabs_sdk.utils.PaymentParams
 
 class PaymentSummary : AppCompatActivity() {
     lateinit var binding: ActivityPaymentSummaryBinding
+    private lateinit var createOrderViewModel: CreateOrderViewModel
+    var createOrderLiveData = MutableLiveData<Orders?>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPaymentSummaryBinding.inflate(layoutInflater)
+        createOrderViewModel = ViewModelProvider(this).get(CreateOrderViewModel::class.java)
+
         setContentView(binding.root)
 
-        binding.fabContinue.setOnClickListener{
+        val intent=intent
+        var province=""
+        var phone=""
+        var address1=""
+        var price=""
+        if (intent!=null){
+            province= intent.getStringExtra("province").toString()
+            phone= intent.getStringExtra("phone").toString()
+            address1= intent.getStringExtra("address1").toString()
+            price= intent.getStringExtra("price").toString()
 
-            goPayTab()
+        }
 
+        createOrderViewModel.orders?.observe(this, Observer {
+            it?.let {
+                var count = it.map { it.count*it.price }.reduce { acc, i ->  acc+i  }.toString()
+                Log.d("tag","count"+count)
+                val email = SharedPref.getUserEmail().toString()
+                val listOfOrder = createOrderApi(it)
+                createOrderViewModel.createOrder(CreatedOrder(Order(email,"fulfilled",count,listOfOrder)))
+                Log.d("tag","list"+listOfOrder)
+
+            }
+        })
+        createOrderViewModel.createOrderLiveData.observe(this, Observer{
+            it?.let {
+                createOrderViewModel.deleteListFromCart()
+                orderDone()
+            }
+        })
+
+        binding.tvNotificationOnOff.text = province+"\n"+phone+"\n"+address1
+        binding.tvPrice.text= price
+
+            binding.fabContinue.setOnClickListener{
+            if (binding.cash.isChecked){
+                createOrderViewModel.getAllOrderd()
+
+            }else{
+                goPayTab()
+
+            }
         }
 
 
     }
+
+    private fun createOrderApi(list:List<Favorite>) : List<LineItems> {
+        val lines : MutableList<LineItems> = mutableListOf<LineItems>()
+        for (item in list){
+            val lineObject : LineItems = LineItems(item.title,item.price.toString(),item.count,item.varient_id)
+            lines.add(lineObject)
+        }
+        return lines
+    }
+
 
     fun goPayTab() {
         val intent = Intent(applicationContext, PayTabActivity::class.java)
@@ -113,6 +178,19 @@ class PaymentSummary : AppCompatActivity() {
 
         }
 
+    }
+    private fun orderDone() {
+        val orderDialogBuilder = AlertDialog.Builder(this)
+        orderDialogBuilder.setTitle(this.getString(R.string.order))
+        orderDialogBuilder.setMessage(this.getString(R.string.order_created))
+        orderDialogBuilder.setPositiveButton(this.getString(R.string.ok)) { dialog, which ->
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            dialog.dismiss()
+            finish()
+        }
+        orderDialogBuilder.setCancelable(false)
+        orderDialogBuilder.show()
     }
 
     override fun onDestroy() {
