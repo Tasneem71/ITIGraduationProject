@@ -10,9 +10,6 @@ data class ApiCustomers (
     @SerializedName("customers") val customers : List<Customers>?,
     @SerializedName("customer") val customer : Customers?
 )
-
-
-
 data class Customers (
 
     @SerializedName("id") val id : String,

@@ -144,7 +144,7 @@ class HomeFragment : Fragment()  {
 
     }
     private fun showPhotos(img: Int){
-        val image:ImageView = ImageView(context)
+        val image = ImageView(context)
         image.setBackgroundResource(img)
         binding.flipper.addView(image)
         binding.flipper.flipInterval = 4000

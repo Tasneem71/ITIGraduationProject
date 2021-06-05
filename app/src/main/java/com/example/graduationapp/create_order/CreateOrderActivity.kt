@@ -19,9 +19,8 @@ import com.example.graduationapp.SharedPref
 import com.example.graduationapp.data.*
 import com.example.graduationapp.databinding.ActivityCreateOrderBinding
 import com.example.graduationapp.databinding.ActivityLoginBinding
-import com.example.graduationapp.ui.cart.CartAdapter
 import com.example.graduationapp.ui.cart.CartViewModel
-import com.example.graduationapp.ui.cart.SwipeToDelete
+import com.example.graduationapp.ui.cart.adapter.CartAdapter
 
 class CreateOrderActivity : AppCompatActivity() {
 
