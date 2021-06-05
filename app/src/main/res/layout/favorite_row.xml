@@ -72,18 +72,18 @@
             android:layout_marginTop="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_cart_outline" />
+            app:srcCompat="@drawable/addtobasket" />
 
         <ImageView
             android:id="@+id/favorite_remove_img"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:clickable="true"
-            app:srcCompat="@drawable/ic_delete" />
+            app:srcCompat="@drawable/cancel" />
 
         <TextView
             android:id="@+id/favorite_discount"

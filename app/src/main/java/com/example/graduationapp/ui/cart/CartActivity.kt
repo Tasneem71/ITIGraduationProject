@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.domain.core.feature.favoriteFeature.Favorite
+import com.example.graduationapp.SharedPref
 import com.example.graduationapp.databinding.ActivityOrderBinding
 import com.example.graduationapp.ui.cart.adapter.CartAdapter
 import com.example.graduationapp.ui.checkoutAddress.CustomerDataActivity
@@ -36,7 +37,19 @@ class CartActivity : AppCompatActivity(), CartAdapter.OnCartItemListener {
         cartViewModel = ViewModelProvider(this).get(CartViewModel::class.java)
         initUI()
 
-        cartViewModel.getAllCarts()
+        if (SharedPref.getUserStatus()){
+            cartViewModel.getAllCarts()
+            binding.notLoged.visibility=View.GONE
+            binding.recyclerShopBag.visibility=View.VISIBLE
+            binding.checkOut.visibility=View.VISIBLE
+            binding.total.visibility=View.VISIBLE
+        }else{
+            binding.notLoged.visibility=View.VISIBLE
+            binding.recyclerShopBag.visibility=View.GONE
+            binding.checkOut.visibility=View.GONE
+            binding.total.visibility=View.GONE
+        }
+
         cartViewModel.carts?.observe(this, Observer {
             cartAdapter.setData(it)
         })

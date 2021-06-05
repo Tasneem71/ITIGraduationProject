@@ -47,18 +47,19 @@
 
                 <ImageView
                     android:id="@+id/close"
-                    android:layout_width="40dp"
-                    android:layout_height="48dp"
-                    android:src="@drawable/swords"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/cancel"
+                    android:layout_marginTop="10dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
                     android:id="@+id/favorite"
-                    android:layout_width="40dp"
-                    android:layout_height="48dp"
-                    android:layout_marginEnd="20dp"
-                    android:src="@drawable/heart"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/heart3"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -79,6 +80,26 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/appBar"
             tools:listitem="@layout/shop_bag_item" />
+
+        <LinearLayout
+            android:id="@+id/notLoged"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/appBar">
+            <ImageView
+                android:layout_marginTop="100dp"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:src="@drawable/removefromcart2"/>
+            <TextView
+                android:layout_marginTop="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/LoginToSee"/>
+        </LinearLayout>
 
         <TextView
             android:id="@+id/total"

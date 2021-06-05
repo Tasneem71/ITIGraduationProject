@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -14,6 +15,7 @@ import com.example.domain.core.feature.favoriteFeature.Favorite
 import com.example.domain.core.subFeature.GridSpacingItemDecoration
 import com.example.domain.core.subFeature.RecyclerViewAnimation
 import com.example.graduationapp.R
+import com.example.graduationapp.SharedPref
 import com.example.graduationapp.databinding.ActivityFavoriteBinding
 import com.example.graduationapp.databinding.ActivityScrollingBinding
 import com.example.graduationapp.ui.favoriteFeature.adapater.FavoriteAdapter
@@ -46,8 +48,14 @@ class FavoriteActivity : AppCompatActivity(),FavoriteAdapter.OnEditFavoriteListe
             favoriteAdapter.setData(it)
 
         })
-
-        favoriteViewModel.getAllFavorite()
+        if(SharedPref.getUserStatus()){
+            favoriteViewModel.getAllFavorite()
+            binding.notLoged.visibility=View.GONE
+            binding.favoriteRecyclerView.visibility=View.VISIBLE
+        }else{
+            binding.notLoged.visibility=View.VISIBLE
+            binding.favoriteRecyclerView.visibility=View.GONE
+        }
     }
 
     override fun onRemoveFavoriteClick(item: Favorite) {
