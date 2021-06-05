@@ -3,25 +3,19 @@ package com.example.graduationapp.ui.checkoutAddress
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.Settings
+
 import android.text.SpannableStringBuilder
 import android.util.Log
-import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
-import androidx.core.app.ActivityCompat
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import com.example.domain.core.feature.favoriteFeature.Favorite
-import com.example.graduationapp.MainActivity
 import com.example.graduationapp.R
 import com.example.graduationapp.SharedPref
-import com.example.graduationapp.create_order.CreateOrderActivity
 import com.example.graduationapp.data.*
 import com.example.graduationapp.databinding.ActivityCustomerDataBinding
-import com.example.graduationapp.ui.favoriteFeature.FavoriteViewModel
+import com.example.graduationapp.ui.paymentsummary.PaymentSummary
 
 class CustomerDataActivity : AppCompatActivity() {
     private lateinit var customerDataViewModel: CustomerDataViewModel
@@ -46,13 +40,9 @@ class CustomerDataActivity : AppCompatActivity() {
                    if (it?.address?.province.isNullOrEmpty() )
                    {
                        Toast.makeText(this,this.getString(R.string.valid),Toast.LENGTH_SHORT).show()
+                   }else{
+                       goToSummary(it!!)
                    }
-
-//                   else{
-//                       customerDataViewModel.carts?.observe(this,{
-//                           orderDone(it)
-//                       })
-//                   }
 
                })
            }
@@ -64,14 +54,9 @@ class CustomerDataActivity : AppCompatActivity() {
                    if (it?.address?.province.isNullOrEmpty())
                    {
                        Toast.makeText(this,this.getString(R.string.valid),Toast.LENGTH_SHORT).show()
+                   }else{
+                      goToSummary(it!!)
                    }
-
-//                   else{
-//                       customerDataViewModel.carts?.observe(this,{
-//                           orderDone(it)
-//                       })
-//
-//                   }
 
                })
            }
@@ -83,36 +68,19 @@ class CustomerDataActivity : AppCompatActivity() {
             } else {
                 addCustomerData()
             }
-            customerDataViewModel.carts?.observe(this, Observer {
-                Log.d("tag", "in observe")
-                it?.let {
-                    var count =
-                        it.map { it.count * it.price }.reduce { acc, i -> acc + i }.toString()
-                    Log.d("tag", "count" + count)
-                    val email = SharedPref.getUserEmail().toString()
-                    val listOfOrder = createOrderApi(it)
-                    customerDataViewModel.createOrder(
-                        CreatedOrder(
-                            Order(
-                                email,
-                                "fulfilled",
-                                count,
-                                listOfOrder
-                            )
-                        )
-                    )
-                    Log.d("tag", "list" + listOfOrder)
-                    if (it.isNullOrEmpty()) {
-                        Toast.makeText(this, "Failuer", Toast.LENGTH_SHORT).show()
-                    } else {
-                        orderDone(it)
-                    }
 
-                }
-            })
         }
 
     }
+    fun goToSummary(it : AddressData){
+        val intent1= Intent(this, PaymentSummary::class.java)
+        intent1.putExtra("province",(it?.address?.province+it?.address?.city))
+        intent1.putExtra("phone",(it?.address?.phone))
+        intent1.putExtra("address1",(it?.address?.address1))
+        intent1.putExtra("price",intent.getStringExtra("price").toString())
+        startActivity(intent1)
+    }
+
     private fun fillIfAddressExist(){
         customerDataViewModel.allAddressDetails.observe(this) {
             it?.let {
@@ -173,23 +141,7 @@ class CustomerDataActivity : AppCompatActivity() {
             true
         }
     }
-    private fun orderDone(list : List<Favorite>) {
-        val orderDialogBuilder = AlertDialog.Builder(this)
-        orderDialogBuilder.setTitle(this.getString(R.string.order))
-        orderDialogBuilder.setMessage(this.getString(R.string.order_created))
-        orderDialogBuilder.setPositiveButton(this.getString(R.string.ok)) { dialog, which ->
-            for (item in list){
-                Log.d("del","delete " + item)
-                customerDataViewModel.deleteFromFavorite(item)
 
-            }
-            val intent = Intent(this,MainActivity::class.java)
-            startActivity(intent)
-            dialog.dismiss()
-        }
-        orderDialogBuilder.setCancelable(false)
-        orderDialogBuilder.show()
-    }
     private fun createOrderApi(list:List<Favorite>) : List<LineItems> {
         val lines : MutableList<LineItems> = mutableListOf<LineItems>()
         for (item in list){

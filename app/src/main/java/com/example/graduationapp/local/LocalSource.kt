@@ -16,6 +16,10 @@ class LocalSource (application:Application) {
     suspend fun deleteFromFavorite(item: Favorite){
         database.dao.deleteFromFavorite(item)
     }
+    suspend fun deleteListFromCart(){
+      database.dao.deleteListFromCart()
+    }
+
 
     suspend fun deleteFromFavorite(id: Long){
         database.dao.deleteFromFavorite(id)

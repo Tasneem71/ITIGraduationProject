@@ -48,6 +48,7 @@ class CartActivity : AppCompatActivity(), CartAdapter.OnCartItemListener {
 
         binding.checkOut.setOnClickListener(View.OnClickListener {
             val intent = Intent(this, CustomerDataActivity::class.java)
+            intent.putExtra("price",binding.total.text.toString())
             Log.i("Menna", "CustomerDataActivity")
             startActivity(intent)
         })
