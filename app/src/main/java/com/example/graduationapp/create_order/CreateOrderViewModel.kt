@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.core.feature.favoriteFeature.Favorite
+import com.example.graduationapp.data.CancelOrder
 import com.example.graduationapp.data.CreatedOrder
 import com.example.graduationapp.data.orders.Orders
 import com.example.graduationapp.local.LocalSource
@@ -41,6 +42,13 @@ class CreateOrderViewModel(application: Application) : AndroidViewModel(applicat
     fun createOrder(orderJson: CreatedOrder) {
         CoroutineScope(Dispatchers.IO).launch {
             val response=apiRepository.createOrder(orderJson)
+            createOrderLiveData.postValue(response?.order!!)
+        }
+    }
+
+    fun cancelOrder(orderJson: CancelOrder) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val response=apiRepository.cancelOrder(orderJson)
             createOrderLiveData.postValue(response?.order!!)
         }
     }

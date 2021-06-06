@@ -54,7 +54,7 @@ class PaymentSummary : AppCompatActivity() {
                 Log.d("tag","count"+count)
                 val email = SharedPref.getUserEmail().toString()
                 val listOfOrder = createOrderApi(it)
-                createOrderViewModel.createOrder(CreatedOrder(Order(email,"fulfilled",count,listOfOrder)))
+                createOrderViewModel.createOrder(CreatedOrder(Order(email,null,count,listOfOrder)))
                 Log.d("tag","list"+listOfOrder)
 
             }

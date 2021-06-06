@@ -165,6 +165,26 @@ class ApiRepository(application: Application) {
         return null
     }
 
+    suspend fun cancelOrder(orderJson: CancelOrder): OrderAPI? {
+        Log.i("order","  orderrrrrrCancel"+ orderJson)
+        val response = ApiServes.shopfiyService.cancelOrder(orderJson)
+        try {
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    Log.i("order", "response" + it)
+                    return it
+                }
+            } else {
+                Log.i("order", "response failuer" + response.errorBody().toString())
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.i("order", " error?" + e.printStackTrace())
+        }
+        return null
+    }
+
+
     suspend fun getAllProducts(): CollectionProducts? {
 
         val response = ApiServes.shopfiyService.getAllProduct()
