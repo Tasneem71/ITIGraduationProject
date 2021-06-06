@@ -33,6 +33,7 @@ class MeViewModel (application: Application) : AndroidViewModel(application) {
     fun getOpenOrders() {
         CoroutineScope(Dispatchers.IO).launch {
             val response=apiRepository.fetchOpenOrders()
+            Log.i("tasneem", ""+response)
             openOrdersLiveData.postValue(response?.orders)
         }
     }

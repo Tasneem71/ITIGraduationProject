@@ -23,7 +23,7 @@ data class Default_address (
 	@SerializedName("city") val city : String,
 	@SerializedName("province") val province : String,
 	@SerializedName("country") val country : String,
-	@SerializedName("zip") val zip : Int,
+	@SerializedName("zip") val zip : String,
 	@SerializedName("phone") val phone : String,
 	@SerializedName("name") val name : String,
 	@SerializedName("province_code") val province_code : String,

@@ -77,8 +77,7 @@ class MeFragment : Fragment() ,  TabLayout.OnTabSelectedListener {
 
         viewModel.openOrdersLiveData?.observe(viewLifecycleOwner, Observer {
             it?.let {
-                if (!it.isNullOrEmpty())
-                    orderAdapter.updateList(it.filter { it.email==SharedPref.getUserEmail() })
+                    orderAdapter.updateList(it.filter { it.contact_email==SharedPref.getUserEmail() })
             }
 
         })
@@ -165,12 +164,14 @@ class MeFragment : Fragment() ,  TabLayout.OnTabSelectedListener {
                 Log.i("tasneem","wish")
                 binding.categoryRecycler.visibility=View.VISIBLE
                 binding.orderRecycler.visibility=View.GONE
+                binding.seeMore.visibility=View.VISIBLE
 
             }
             1 -> {
                 Log.i("tasneem","order")
                 binding.categoryRecycler.visibility=View.GONE
                 binding.orderRecycler.visibility=View.VISIBLE
+                binding.seeMore.visibility=View.GONE
 
             }
 

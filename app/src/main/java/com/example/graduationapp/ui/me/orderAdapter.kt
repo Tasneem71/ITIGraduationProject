@@ -1,5 +1,6 @@
 package com.example.graduationapp.ui.me
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,14 +13,13 @@ class orderAdapter(var orderList: ArrayList<Orders>) :
     RecyclerView.Adapter<orderAdapter.OrderViewHolder>() {
 
     fun updateList(newCategory: List<Orders>) {
-
         orderList.clear()
         orderList.addAll(newCategory)
         notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int) = OrderViewHolder(
-        LayoutInflater.from(parent.context).inflate(R.layout.card, parent, false))
+        LayoutInflater.from(parent.context).inflate(R.layout.order_item, parent, false))
     override fun getItemCount() = orderList.size
     override fun onBindViewHolder(holder: OrderViewHolder, position: Int) {
         holder.bind(orderList[position])

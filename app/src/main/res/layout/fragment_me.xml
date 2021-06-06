@@ -155,6 +155,7 @@
                     android:gravity="center"/>
 
             <androidx.recyclerview.widget.RecyclerView
+                android:visibility="gone"
                 android:id="@+id/order_recycler"
                 android:layout_marginTop="20dp"
                 android:layout_marginStart="20dp"
