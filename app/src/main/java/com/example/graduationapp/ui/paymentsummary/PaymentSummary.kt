@@ -61,7 +61,7 @@ class PaymentSummary : AppCompatActivity() {
         })
         createOrderViewModel.createOrderLiveData.observe(this, Observer{
             it?.let {
-                createOrderViewModel.deleteListFromCart()
+                createOrderViewModel.deleteListFromCart(SharedPref.getUserID().toString())
                 orderDone()
             }
         })
@@ -71,7 +71,7 @@ class PaymentSummary : AppCompatActivity() {
 
             binding.fabContinue.setOnClickListener{
             if (binding.cash.isChecked){
-                createOrderViewModel.getAllOrderd()
+                createOrderViewModel.getAllOrderd(SharedPref.getUserID().toString())
 
             }else{
                 goPayTab()

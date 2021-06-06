@@ -13,8 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.domain.core.feature.favoriteFeature.Favorite
 import com.example.graduationapp.SharedPref
-import com.example.graduationapp.R
-import com.example.graduationapp.SharedPref
 import com.example.graduationapp.databinding.ActivityOrderBinding
 import com.example.graduationapp.ui.cart.adapter.CartAdapter
 import com.example.graduationapp.ui.checkoutAddress.CustomerDataActivity
@@ -45,7 +43,7 @@ class CartActivity : AppCompatActivity(), CartAdapter.OnCartItemListener {
         initUI()
 
         if (SharedPref.getUserStatus()){
-            cartViewModel.getAllCarts()
+            cartViewModel.getAllCarts(userId)
             binding.notLoged.visibility=View.GONE
             binding.recyclerShopBag.visibility=View.VISIBLE
             binding.checkOut.visibility=View.VISIBLE

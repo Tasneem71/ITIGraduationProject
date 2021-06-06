@@ -44,9 +44,9 @@ class CreateOrderViewModel(application: Application) : AndroidViewModel(applicat
             createOrderLiveData.postValue(response?.order!!)
         }
     }
-    fun deleteListFromCart(){
+    fun deleteListFromCart(id:String){
         viewModelScope.launch {
-           local.deleteListFromCart()
+           local.deleteListFromCart(id)
         }
     }
 }
