@@ -58,6 +58,7 @@ class CartAdapter(
         init {
             addCount.setOnClickListener(this)
             minCount.setOnClickListener(this)
+            image.setOnClickListener(this)
         }
         override fun onClick(p0: View?) {
             when(p0){
@@ -67,6 +68,9 @@ class CartAdapter(
                 addCount->{
                     listener.onIncreaseCountClick(carts[adapterPosition])
                 }
+                image->{
+                    listener.onImageCountClick(carts[adapterPosition])
+                }
             }
         }
     }
@@ -74,6 +78,7 @@ class CartAdapter(
     {
         fun onIncreaseCountClick(item: Favorite)
         fun onDecreaseCountClick(item: Favorite)
+        fun onImageCountClick(item: Favorite)
     }
     override fun getItemCount(): Int {
         return carts.size

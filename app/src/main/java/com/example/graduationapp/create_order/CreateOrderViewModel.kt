@@ -30,9 +30,9 @@ class CreateOrderViewModel(application: Application) : AndroidViewModel(applicat
         apiRepository = ApiRepository(application)
     }
 
-    fun getAllOrderd(){
+    fun getAllOrderd(userId: String){
         viewModelScope.launch {
-            val result= async{apiRepository.local.getAllCart()}
+            val result= async{apiRepository.local.getAllCart(userId)}
             result.join()
             orders?.value=result.await()
         }

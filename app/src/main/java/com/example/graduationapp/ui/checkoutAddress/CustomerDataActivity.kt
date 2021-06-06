@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
@@ -20,21 +21,28 @@ import com.example.graduationapp.ui.paymentsummary.PaymentSummary
 class CustomerDataActivity : AppCompatActivity() {
     private lateinit var customerDataViewModel: CustomerDataViewModel
     private lateinit var binding: ActivityCustomerDataBinding
+    private lateinit var userId :String
+    var haveOneAddress :Boolean = false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCustomerDataBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        userId = SharedPref.getUserID().toString()
+        Log.i("Menna", "CustomerDataActivity user id == "+userId)
+
+
         customerDataViewModel = ViewModelProvider(this).get(CustomerDataViewModel::class.java)
 
-           customerDataViewModel.getAllCarts()
+        customerDataViewModel.getAllCarts(userId)
         Log.i("Menna", "My id === "+SharedPref.getUserID().toString())
         customerDataViewModel.getCustomerAddress(SharedPref.getUserID().toString())
         //check
         customerDataViewModel.allAddressDetails.observe(this) {
             Log.i("Menna","Chheck if empty "+it)
            if (it.isNullOrEmpty()) {
-                SharedPref.haveOneAddress(false)
+               haveOneAddress = false
                customerDataViewModel.createAddressLiveData.observe(this, Observer {
                    Log.i("Menna",""+it?.address)
                    if (it?.address?.province.isNullOrEmpty() )
@@ -47,7 +55,7 @@ class CustomerDataActivity : AppCompatActivity() {
                })
            }
            else{
-               SharedPref.haveOneAddress(true)
+               haveOneAddress = true
                fillIfAddressExist()
                customerDataViewModel.editAddressLiveData.observe(this, Observer {
                    Log.i("Menna","edit address ***** "+it?.address)
@@ -63,7 +71,7 @@ class CustomerDataActivity : AppCompatActivity() {
         }
 
         binding.saveBtn.setOnClickListener {
-            if (SharedPref.isHaveOneAddress()) {
+            if (haveOneAddress) {
                 editCustomerData()
             } else {
                 addCustomerData()
@@ -112,7 +120,6 @@ class CustomerDataActivity : AppCompatActivity() {
     }
     private fun editCustomerData() {
         val id = SharedPref.getAddressID().toString()
-        val customerId =SharedPref.getUserID().toString()
         val customerFname =SharedPref.getUserFname().toString()
         val add1 = binding.address1.text.toString()
         val city = binding.city.text.toString()
@@ -125,7 +132,7 @@ class CustomerDataActivity : AppCompatActivity() {
         val addressJson= CreateAddress(address)
 
         if (checkPhoneNum(phone) ) {
-            customerDataViewModel.editCustomerAddress(customerId, id,addressJson)
+            customerDataViewModel.editCustomerAddress(userId, id,addressJson)
         }
 
     }

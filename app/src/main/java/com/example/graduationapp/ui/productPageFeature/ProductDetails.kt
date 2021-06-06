@@ -14,6 +14,7 @@ import com.example.ViewPagerAdapter
 import com.example.domain.core.feature.favoriteFeature.Favorite
 import com.example.graduationapp.MainActivity
 import com.example.graduationapp.R
+import com.example.graduationapp.SharedPref
 import com.example.graduationapp.data.Products
 import com.example.graduationapp.databinding.ActivityScrollingBinding
 import com.example.graduationapp.ui.cart.CartActivity
@@ -31,6 +32,7 @@ ProductDetails : AppCompatActivity() {
     lateinit var binding:ActivityScrollingBinding
     var currentProduct :Products? = null
     private lateinit var viewPager2: ViewPager2
+    val userId = SharedPref.getUserID().toString()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,7 +90,7 @@ ProductDetails : AppCompatActivity() {
         binding.content.productPageAddToCart.setOnClickListener(View.OnClickListener {
             favoriteViewModel.addToCart(Favorite(currentProduct!!.id.toLong(), currentProduct!!.title,
                 currentProduct!!.handle, currentProduct?.variants?.get(0)?.price!!.toInt(),currentProduct!!.image.src,'C',1
-                ,currentProduct?.variants?.get(0)!!.id))
+                ,currentProduct?.variants?.get(0)!!.id,userId))
 
         })
 
@@ -98,7 +100,7 @@ ProductDetails : AppCompatActivity() {
             {
                 resources.getDrawable(R.drawable.favorite).constantState -> {
                     favoriteViewModel.addToFavorite(Favorite(currentProduct!!.id.toLong(), currentProduct!!.title,
-                        currentProduct!!.handle, currentProduct?.variants?.get(0)?.price!!.toInt(),currentProduct!!.image.src,'F',1,currentProduct?.variants?.get(0)!!.id))
+                        currentProduct!!.handle, currentProduct?.variants?.get(0)?.price!!.toInt(),currentProduct!!.image.src,'F',1,currentProduct?.variants?.get(0)!!.id,userId))
                     binding.content.productPageAddToFavorite.setImageResource(R.drawable.favorite2)
                 }
                 resources.getDrawable(R.drawable.favorite2).constantState -> {
@@ -110,14 +112,14 @@ ProductDetails : AppCompatActivity() {
             }
             favoriteViewModel.addToFavorite(Favorite(currentProduct!!.id.toLong(), currentProduct!!.title,
                 currentProduct!!.handle, currentProduct?.variants?.get(0)?.price!!.toInt(),currentProduct!!.image.src,'F',1,
-                currentProduct?.variants?.get(0)!!.id))
+                currentProduct?.variants?.get(0)!!.id,userId))
 
         })
 
     }
     private fun setFavoriteImage(id: Long) {
         lifecycleScope.launch(Dispatchers.IO) {
-            var result=favoriteViewModel.isFavorite(id)
+            var result=favoriteViewModel.isFavorite(id,userId)
             withContext(Dispatchers.Main){
                 when(result){
                     0 -> {binding.content.productPageAddToFavorite.setImageResource(R.drawable.favorite) }

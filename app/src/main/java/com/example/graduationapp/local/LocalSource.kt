@@ -25,19 +25,19 @@ class LocalSource (application:Application) {
         database.dao.deleteFromFavorite(id)
     }
 
-    suspend fun getAllFavorite(): List<Favorite>?{
-        return database.dao.getAllFavorite()
+    suspend fun getAllFavorite(userId: String): List<Favorite>?{
+        return database.dao.getAllFavorite(userId)
     }
 
-    suspend fun isFavorite(id: Long): Int{
-        return database.dao.isFavorite(id)
+    suspend fun isFavorite(id: Long,userId: String): Int{
+        return database.dao.isFavorite(id,userId)
     }
 
-    suspend fun getAllCart(): List<Favorite>?{
-        return database.dao.getAllCart()
+    suspend fun getAllCart(userId: String): List<Favorite>?{
+        return database.dao.getAllCart(userId)
     }
-    suspend fun updateCount( id: Long,count: Int){
-        database.dao.updateCount(id,count)
+    suspend fun updateCount( id: Long,count: Int,userId: String){
+        database.dao.updateCount(id,count,userId)
     }
 
 }

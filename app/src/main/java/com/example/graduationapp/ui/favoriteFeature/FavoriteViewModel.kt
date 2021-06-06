@@ -30,17 +30,17 @@ class FavoriteViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-     fun getAllFavorite(){
+     fun getAllFavorite(userId: String){
          viewModelScope.launch {
-            val result= async{local.getAllFavorite()}
+            val result= async{local.getAllFavorite(userId)}
              result.join()
              favorites?.value=result.await()
          }
     }
 
-     suspend fun isFavorite(id: Long):Int{
+     suspend fun isFavorite(id: Long,userId: String):Int{
          return viewModelScope.async {
-             local.isFavorite(id)
+             local.isFavorite(id,userId)
          }.await()
 //         var isFavorite=false
 //         viewModelScope.launch {

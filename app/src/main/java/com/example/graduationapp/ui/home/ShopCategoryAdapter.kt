@@ -12,11 +12,11 @@ import com.bumptech.glide.Glide
 import com.example.domain.core.subFeature.RecyclerViewAnimation
 import com.example.graduationapp.R
 import com.example.graduationapp.data.Products
+import com.example.graduationapp.ui.cart.adapter.CartAdapter
 import com.example.graduationapp.ui.productPageFeature.ProductDetails
 
-class ShopCategoryAdapter(var categorys: ArrayList<Products>) :
+class ShopCategoryAdapter(var categorys: ArrayList<Products>, var listener: OnHomeItemListener) :
         RecyclerView.Adapter<ShopCategoryAdapter.CategoryViewHolder>() {
-
     private var previousPosition=0
     fun updateCategory(newCategory: List<Products>) {
         categorys.clear()
@@ -36,29 +36,30 @@ class ShopCategoryAdapter(var categorys: ArrayList<Products>) :
             RecyclerViewAnimation.animate(holder, false)
         }
         previousPosition = position
-
-
     }
-
-
-    class CategoryViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+    inner class CategoryViewHolder(val view: View) : RecyclerView.ViewHolder(view) , View.OnClickListener {
         private val name = view.findViewById<TextView>(R.id.title)
         private val price = view.findViewById<TextView>(R.id.price)
         private val imageView = view.findViewById<ImageView>(R.id.thumbnail)
         //private val addCart = view.findViewById<ImageView>(R.id.add_card)
         fun bind(category: Products) {
             Glide.with(imageView.context).load(category.images[0].src).placeholder(R.drawable.ic_search).into(imageView)
-
             name.text =category.title
-            //price.text ="18 LE"
-            imageView.setOnClickListener(View.OnClickListener {
-                val intent= Intent(it.context, ProductDetails::class.java)
-                intent.putExtra("product_id",category.id.toString())
-                Log.i("TAG", "onBindViewHolder: mohamed abdallah")
-                it.context.startActivity(intent)
-            })
-
 
         }
+        init {
+            imageView.setOnClickListener(this)
+        }
+        override fun onClick(p0: View?) {
+            when(p0){
+                imageView->{
+                    listener.onImageClick(categorys[adapterPosition])
+                }
+            }
+        }
+    }
+    interface OnHomeItemListener
+    {
+        fun onImageClick(item: Products)
     }
 }

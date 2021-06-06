@@ -1,12 +1,12 @@
 package com.example.graduationapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.transition.AutoTransition
 import android.transition.TransitionManager
 import android.view.View
-import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
@@ -16,14 +16,15 @@ import com.example.SearchViewModel
 import com.example.graduationapp.data.Products
 import com.example.graduationapp.databinding.ActivitySearchBinding
 import com.example.graduationapp.ui.home.ShopCategoryAdapter
+import com.example.graduationapp.ui.productPageFeature.ProductDetails
 
 
-class SearchActivity : AppCompatActivity() {
+class SearchActivity : AppCompatActivity() , ShopCategoryAdapter.OnHomeItemListener{
     lateinit var binding: ActivitySearchBinding
     private lateinit var searchViewMode: SearchViewModel
     private lateinit var filteredList: ArrayList<Products>
     private lateinit var allList: ArrayList<Products>
-    var searchAdapter = ShopCategoryAdapter(arrayListOf())
+    var searchAdapter = ShopCategoryAdapter(arrayListOf(),this)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //setContentView(R.layout.activity_search)
@@ -119,6 +120,12 @@ class SearchActivity : AppCompatActivity() {
 
             }
         }
+    }
+
+    override fun onImageClick(item: Products) {
+        val intent= Intent(this, ProductDetails::class.java)
+        intent.putExtra("product_id",item.id .toString())
+        startActivity(intent)
     }
 }
 
