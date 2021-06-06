@@ -52,8 +52,8 @@ interface ShopfiyApi {
     @POST("orders.json")
     suspend fun createOrder(@Body orderJson:CreatedOrder): Response<OrderAPI>//what is the response?
 
-    @GET("orders.json")
-    suspend fun getAllOrder(): Response<OrderAPI>
+    @GET("orders.json?status=open")
+    suspend fun getOpenOrders(): Response<OrderAPI>
 
     @DELETE("orders/{order_id}.json")
     suspend fun deleteOrder(@Path("order_id") id:String): Response<String>//what is the response?

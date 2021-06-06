@@ -28,9 +28,9 @@ class MainActivity : AppCompatActivity() {
         //navView.setupWithNavController(navController)
 
         bottomNavigationView = findViewById(R.id.bottom_navigation)
-        bottomNavigationView.add(MeowBottomNavigation.Model(1,R.drawable.com_facebook_button_icon))
-        bottomNavigationView.add(MeowBottomNavigation.Model(2,R.drawable.ic_favorite))
-        bottomNavigationView.add(MeowBottomNavigation.Model(3,R.drawable.ic_action_favorite))
+        bottomNavigationView.add(MeowBottomNavigation.Model(1,R.drawable.home1))
+        bottomNavigationView.add(MeowBottomNavigation.Model(2,R.drawable.hanger))
+        bottomNavigationView.add(MeowBottomNavigation.Model(3,R.drawable.follower))
 
         bottomNavigationView.setOnClickMenuListener {
             when(it.id) {

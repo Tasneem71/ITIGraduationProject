@@ -2,9 +2,11 @@ package com.example.graduationapp.ui.me
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 
 import androidx.lifecycle.Observer
@@ -13,24 +15,32 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.domain.core.feature.favoriteFeature.Favorite
 
 import com.example.graduationapp.LoginActivity
 import com.example.graduationapp.R
 import com.example.graduationapp.SharedPref
+import com.example.graduationapp.data.Custom_collections
+import com.example.graduationapp.data.orders.Orders
 import com.example.graduationapp.databinding.FragmentMeBinding
+import com.example.graduationapp.ui.cart.CartActivity
 import com.example.graduationapp.ui.favoriteFeature.FavoriteActivity
 import com.example.graduationapp.ui.favoriteFeature.FavoriteViewModel
+import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
 
 
-class MeFragment : Fragment() {
+class MeFragment : Fragment() ,  TabLayout.OnTabSelectedListener {
 
     lateinit var binding: FragmentMeBinding
     var fAuth: FirebaseAuth? = null
     private lateinit var favoriteViewModel: FavoriteViewModel
+    private lateinit var viewModel: MeViewModel
     private lateinit var wishAdapter: MeAdapter
+    private lateinit var orderAdapter: orderAdapter
     private lateinit var wishList:ArrayList<Favorite>
+    private lateinit var orderList:ArrayList<Orders>
     private lateinit var userId :String
 
 
@@ -39,16 +49,21 @@ class MeFragment : Fragment() {
         binding = FragmentMeBinding.inflate(layoutInflater)
         fAuth = FirebaseAuth.getInstance()
         favoriteViewModel = ViewModelProvider(this).get(FavoriteViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(MeViewModel::class.java)
         userId = SharedPref.getUserID().toString()
 
         wishList = ArrayList()
+        orderList = ArrayList()
+        orderAdapter= orderAdapter(orderList)
         wishAdapter= MeAdapter(wishList)
         initUi()
+
 
 
         settingUI(SharedPref.getUserStatus())
         if (SharedPref.getUserStatus()){
             favoriteViewModel.getAllFavorite(userId)
+            viewModel.getOpenOrders()
         }
 
         favoriteViewModel.favorites?.observe(viewLifecycleOwner, Observer {
@@ -58,6 +73,16 @@ class MeFragment : Fragment() {
             }
 
         })
+
+
+        viewModel.openOrdersLiveData?.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                if (!it.isNullOrEmpty())
+                    orderAdapter.updateList(it.filter { it.email==SharedPref.getUserEmail() })
+            }
+
+        })
+
         binding.registerLogin.setOnClickListener {
 
             val intent = Intent(context, LoginActivity::class.java)
@@ -72,7 +97,11 @@ class MeFragment : Fragment() {
             val intent = Intent(context, FavoriteActivity::class.java)
             startActivity(intent)
         }
-
+        binding.cartPic.setOnClickListener {
+            val intent = Intent(context, CartActivity::class.java)
+            startActivity(intent)
+        }
+        setUpTabLayoute()
         return binding.root
     }
 
@@ -80,6 +109,12 @@ class MeFragment : Fragment() {
         binding.categoryRecycler.apply {
             layoutManager = GridLayoutManager(context,2,RecyclerView.VERTICAL,false)
             adapter = wishAdapter
+
+        }
+
+        binding.orderRecycler.apply {
+            layoutManager = LinearLayoutManager(context,RecyclerView.VERTICAL,false)
+            adapter = orderAdapter
 
         }
     }
@@ -109,7 +144,44 @@ class MeFragment : Fragment() {
 
     }
 
+    private fun setUpTabLayoute() {
 
+        val tab1 = binding.tabs.newTab()
+        val tab2 = binding.tabs.newTab()
+        tab1.setText("wish list")
+        tab2.setText("order list")
+        //tab.setTag(source)
+        binding.tabs.addTab(tab1)
+        binding.tabs.addTab(tab2)
+        binding.tabs.addOnTabSelectedListener(this)
+        binding.tabs.getTabAt(0)?.select()
+    }
+
+    override fun onTabSelected(tab: TabLayout.Tab?) {
+        Log.i("tasneem","tabs"+tab?.position)
+
+        when (tab?.position) {
+            0 -> {
+                Log.i("tasneem","wish")
+                binding.categoryRecycler.visibility=View.VISIBLE
+                binding.orderRecycler.visibility=View.GONE
+
+            }
+            1 -> {
+                Log.i("tasneem","order")
+                binding.categoryRecycler.visibility=View.GONE
+                binding.orderRecycler.visibility=View.VISIBLE
+
+            }
+
+        }
+    }
+
+    override fun onTabUnselected(tab: TabLayout.Tab?) {
+    }
+
+    override fun onTabReselected(tab: TabLayout.Tab?) {
+    }
 }
 
 
