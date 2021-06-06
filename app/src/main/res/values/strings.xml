@@ -14,6 +14,7 @@
     <string name="Shopfiy">Shopfiy</string>
     <string name="RegisterLogin">SIGN IN / REGISTER</string>
     <string name="wishList">Wish List</string>
+    <string name="orderList">Order List</string>
     <string name="LoginToSee">Please Login to See your Wish List</string>
     <string name="logout">LogOut</string>
     <string name="facebook_app_id">2922863254703231</string>
@@ -168,6 +169,7 @@
     <string name="valid_num">Enter valid Phone Number</string>
     <string name="valid_code">please Enter Country Code in the First , like +2 for Egypt</string>
     <string name="valid">"Please, Enter Valid Country, province and Address "</string>
+    <string name="orderId">Order ID:</string>
 
 
 </resources>

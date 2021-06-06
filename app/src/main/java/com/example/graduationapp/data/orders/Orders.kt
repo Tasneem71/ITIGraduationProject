@@ -59,7 +59,6 @@ data class Orders (
 	@SerializedName("subtotal_price") val subtotal_price : Double,
 	@SerializedName("subtotal_price_set") val subtotal_price_set : Subtotal_price_set,
 	@SerializedName("tags") val tags : String,
-	@SerializedName("tax_lines") val tax_lines : List<String>,
 	@SerializedName("taxes_included") val taxes_included : Boolean,
 	@SerializedName("test") val test : Boolean,
 	@SerializedName("token") val token : String,

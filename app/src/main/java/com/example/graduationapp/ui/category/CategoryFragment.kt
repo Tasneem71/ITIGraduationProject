@@ -19,6 +19,8 @@ import com.example.graduationapp.SearchActivity
 import com.example.graduationapp.data.Custom_collections
 import com.example.graduationapp.data.Products
 import com.example.graduationapp.databinding.FragmentCategoryBinding
+import com.example.graduationapp.ui.cart.CartActivity
+import com.example.graduationapp.ui.favoriteFeature.FavoriteActivity
 import com.google.android.material.tabs.TabLayout
 
 
@@ -74,6 +76,14 @@ class CategoryFragment : Fragment() ,  TabLayout.OnTabSelectedListener {
 
         binding.searchIcon.setOnClickListener {
             val intent= Intent(this.context, SearchActivity::class.java)
+            startActivity(intent)
+        }
+        binding.favo.setOnClickListener {
+            val intent= Intent(this.context, FavoriteActivity::class.java)
+            startActivity(intent)
+        }
+        binding.cartIcon.setOnClickListener {
+            val intent= Intent(this.context, CartActivity::class.java)
             startActivity(intent)
         }
 
