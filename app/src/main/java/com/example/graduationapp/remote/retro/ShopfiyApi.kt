@@ -8,6 +8,8 @@ import com.example.graduationapp.data.ProductDetails
 import com.example.graduationapp.data.Products
 import com.example.graduationapp.data.*
 import com.example.graduationapp.data.orders.OrderAPI
+import com.example.graduationapp.data.priceRules.CreatedDiscount
+import com.example.graduationapp.data.priceRules.DiscountCode
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -67,9 +69,13 @@ interface ShopfiyApi {
     suspend fun editCustomerAdd(@Path("customer_id") id:String,@Path("address_id") addId:String,@Body addressJson:CreateAddress): Response<AddressData>
 
    //   GET
-    @POST("/orders/{order_id}/transactions.json")
+    @POST("orders/{order_id}/transactions.json")
     suspend fun getAllTransactions(@Path("order_id") id:String,@Body transactions:Transactions): Response<Transactions>
 
-    @POST("/orders/{order_id}/transactions.json")
+    @POST("orders/{order_id}/transactions.json")
     suspend fun createTransaction(@Path("order_id") id:String,@Body transactions:CreatedTransaction): Response<Transactions>
+
+
+    @POST("price_rules/{price_rules_id}/discount_codes.json")
+    suspend fun generatingDiscount(@Path("price_rules_id") id:String,@Body discount: CreatedDiscount): Response<DiscountCode>
 }

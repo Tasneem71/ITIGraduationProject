@@ -11,7 +11,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:background="@drawable/background">
+        android:background="@drawable/background2">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
@@ -36,7 +36,7 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_baseline_shopping_cart_24"/>
+                    android:src="@drawable/whitshoppingbag"/>
 
                 <TextView
                     android:id="@+id/titletv"
@@ -58,7 +58,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:src="@drawable/ic_baseline_settings_24"/>
+                    android:src="@drawable/settings"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -125,7 +125,7 @@
                     android:layout_marginTop="40dp"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
-                    android:src="@drawable/heart2"/>
+                    android:src="@drawable/brokenheart"/>
                 <TextView
                     android:layout_marginTop="15dp"
                     android:layout_width="wrap_content"

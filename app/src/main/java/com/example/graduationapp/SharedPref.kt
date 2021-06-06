@@ -39,6 +39,12 @@ object SharedPref{
         editor.apply()
     }
 
+    fun setUserDiscount(id: Long) {
+        val editor: SharedPreferences.Editor = pref!!.edit()
+        editor.putLong("user-discount", id)
+        editor.apply()
+    }
+
     fun getUserEmail(): String? {
         return pref!!.getString("user-email", " ")
     }
@@ -46,8 +52,13 @@ object SharedPref{
     fun getUserID(): String? {
         return pref!!.getString("user-id", " ")
     }
+
     fun getUserFname(): String? {
         return pref!!.getString("user-info", " ")
+    }
+
+    fun getUserDiscount(): Long? {
+        return pref!!.getLong("user-discount", 0)
     }
 
     fun setAddressID(addressIp: String?) {
