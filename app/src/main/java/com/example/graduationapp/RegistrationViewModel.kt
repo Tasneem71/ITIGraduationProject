@@ -20,6 +20,7 @@ import kotlinx.coroutines.launch
 class RegistrationViewModel (application: Application) : AndroidViewModel(application) {
 
     var customerLiveData = MutableLiveData<Customers?>()
+    var network =MutableLiveData<Boolean>()
 
     var apiRepository: ApiRepository
 
@@ -29,27 +30,31 @@ class RegistrationViewModel (application: Application) : AndroidViewModel(applic
 
 
     fun validate_Registration(customer: CreatedCustomer) {
+        if (Validation.isOnline(getApplication())){
+            if (!customer.customer.first_name.isNullOrEmpty() && !customer.customer.password.isNullOrEmpty()
+                && !customer.customer.password_confirmation.isNullOrEmpty() && !customer.customer.last_name.isNullOrEmpty()
+                && !customer.customer.email.isNullOrEmpty()) {
+                viewModelScope.launch {
+                    if (Validation.validateRegistration(customer.customer.email, customer.customer.password)) {
+                        println(customer.customer)
+                        val customers= apiRepository.createCustomer(customer)
+                        println(customer.customer)
+                        if (customers != null){
 
-        if (!customer.customer.first_name.isNullOrEmpty() && !customer.customer.password.isNullOrEmpty()
-            && !customer.customer.password_confirmation.isNullOrEmpty() && !customer.customer.last_name.isNullOrEmpty()
-            && !customer.customer.email.isNullOrEmpty()) {
-            viewModelScope.launch {
-                if (Validation.validateRegistration(customer.customer.email, customer.customer.password)) {
-                    println(customer.customer)
-                    val customers= apiRepository.createCustomer(customer)
-                    println(customer.customer)
-                    if (customers != null){
+                            customerLiveData.postValue(customers.customer)
 
-                        customerLiveData.postValue(customers.customer)
-
+                        }else{
+                            Toast.makeText(getApplication(), "has already been taken", Toast.LENGTH_SHORT).show() }
                     }else{
-                        Toast.makeText(getApplication(), "has already been taken", Toast.LENGTH_SHORT).show() }
-                }else{
-                    Toast.makeText(getApplication(), "your email and pass don't match", Toast.LENGTH_SHORT).show() }
-            }
-        }else{
-            Toast.makeText(getApplication(), "User name and password can't be Empty", Toast.LENGTH_SHORT).show() }
-
+                        Toast.makeText(getApplication(), "your email and pass don't match", Toast.LENGTH_SHORT).show() }
+                }
+            }else{
+                Toast.makeText(getApplication(), "User name and password can't be Empty", Toast.LENGTH_SHORT).show() }
+        }
+        else
+        {
+            network.postValue(false)
+        }
 
     }
 
