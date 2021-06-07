@@ -106,13 +106,27 @@
             android:layout_width="wrap_content"
             android:layout_height="48dp"
             android:gravity="center"
-            android:text="Thhhhhh"
+            android:text="Total= "
             android:layout_marginStart="20dp"
             android:textColor="@color/black"
             android:textSize="25sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@id/check_out"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/total2"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:gravity="center"
+            tools:text="Thhhhhh"
+            android:layout_marginStart="20dp"
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/check_out"
+            app:layout_constraintStart_toEndOf="@+id/total" />
+
 
         <Button
             android:id="@+id/check_out"
