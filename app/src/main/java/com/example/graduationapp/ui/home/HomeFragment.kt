@@ -60,9 +60,12 @@ class HomeFragment : Fragment()  , ShopCategoryAdapter.OnHomeItemListener {
 
         //*********************************
         binding.flipper.setOnClickListener {
+            Log.i("discount","pressed")
             if (SharedPref.getUserDiscount()==0L) {
-                homeViewModel.generatingDiscount("951388569798", CreatedDiscount(Discount("SUMMERSALE10OFF")))
+                Log.i("discount","pressed if")
+                homeViewModel.getDiscount10()
             }else{
+                Log.i("discount","pressed else")
                 Toast.makeText(context,"Discount has already been activated",Toast.LENGTH_SHORT).show()
             }
         }

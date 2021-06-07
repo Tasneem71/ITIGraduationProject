@@ -90,6 +90,7 @@ class ApiRepository(application: Application) {
         val response = ApiServes.shopfiyService.getProductFromCollection(id)
         try {
             if (response.isSuccessful) {
+                Log.i("Tasneem", "response: smart" + response)
                 response.body()?.let {
                     when (num) {
                         0 -> apiSmart1Collection.postValue(it)
@@ -139,10 +140,24 @@ class ApiRepository(application: Application) {
     }
 
 
-    suspend fun fetchAllOrders(): Response<OrderAPI> {
+    suspend fun fetchOpenOrders(): OrderAPI? {
 
-        val response = ApiServes.shopfiyService.getAllOrder()
-        return response
+        val response = ApiServes.shopfiyService.getOpenOrders()
+        try {
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    Log.i("Tasneem", "response" + it)
+                    return it
+                }
+            } else {
+                Log.i("Tasneem", "response failuer" + response.errorBody().toString())
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.i("Tasneem", " error?" + e.printStackTrace())
+
+        }
+        return null
 
     }
 
@@ -164,6 +179,26 @@ class ApiRepository(application: Application) {
         }
         return null
     }
+
+    suspend fun cancelOrder(id : String,orderJson: CancelOrder): OrderAPI? {
+        Log.i("order","  orderrrrrrCancel"+ orderJson)
+        val response = ApiServes.shopfiyService.cancelOrder(id,orderJson)
+        try {
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    Log.i("order", "response" + it)
+                    return it
+                }
+            } else {
+                Log.i("order", "response failuer" + response.errorBody().toString())
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.i("order", " error?" + e.printStackTrace())
+        }
+        return null
+    }
+
 
     suspend fun getAllProducts(): CollectionProducts? {
 
@@ -278,6 +313,28 @@ class ApiRepository(application: Application) {
         Log.i("Tasneem", "response$priceRule , $discount")
 
         val response = ApiServes.shopfiyService.generatingDiscount(priceRule,discount)
+        try {
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    Log.i("Tasneem", "response$it")
+                    return it
+                }
+            } else {
+                Log.i("Tasneem", "response failuer" + response.toString())
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.i("Tasneem", " error?" + e.printStackTrace())
+
+        }
+        return null
+
+    }
+
+    suspend fun getDiscount10(): DiscountCode? {
+
+
+        val response = ApiServes.shopfiyService.getDiscount10()
         try {
             if (response.isSuccessful) {
                 response.body()?.let {

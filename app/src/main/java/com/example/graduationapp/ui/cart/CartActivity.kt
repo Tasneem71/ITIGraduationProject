@@ -6,12 +6,15 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.domain.core.feature.favoriteFeature.Favorite
+import com.example.graduationapp.MainActivity
+import com.example.graduationapp.R
 import com.example.graduationapp.SharedPref
 import com.example.graduationapp.databinding.ActivityOrderBinding
 import com.example.graduationapp.ui.cart.adapter.CartAdapter
@@ -61,16 +64,26 @@ class CartActivity : AppCompatActivity(), CartAdapter.OnCartItemListener {
         })
 
         cartViewModel.sumOfItems.observe(this, Observer {
-            binding.total.text ="Total = "+ it.toString()
+            binding.total2.text =it.toString()
         })
 
 
-        binding.checkOut.setOnClickListener(View.OnClickListener {
-            val intent = Intent(this, CustomerDataActivity::class.java)
-            intent.putExtra("price",binding.total.text.toString())
-            Log.i("Menna", "CustomerDataActivity")
-            startActivity(intent)
-        })
+        binding.checkOut.setOnClickListener {
+
+            if (SharedPref.getUserDiscount() != 0L) {
+
+                useDiscount()
+
+            } else {
+
+                val intent = Intent(this, CustomerDataActivity::class.java)
+                intent.putExtra("price", binding.total2.text.toString())
+                Log.i("Menna", "CustomerDataActivity")
+                startActivity(intent)
+            }
+        }
+
+
         binding.close.setOnClickListener {
             finish()
         }
@@ -137,6 +150,23 @@ class CartActivity : AppCompatActivity(), CartAdapter.OnCartItemListener {
         intent.putExtra("product_id",item.id .toString())
         startActivity(intent)
     }
+
+
+    private fun useDiscount() {
+        val orderDialogBuilder = AlertDialog.Builder(this)
+        orderDialogBuilder.setTitle(this.getString(R.string.discount))
+        orderDialogBuilder.setMessage(this.getString(R.string.usecode))
+        orderDialogBuilder.setPositiveButton(this.getString(R.string.ok)) { dialog, which ->
+            val intent = Intent(this, CustomerDataActivity::class.java)
+            Log.i("cart",""+(binding.total2.text.toString().toDouble())*.9)
+            intent.putExtra("price",((binding.total2.text.toString().toDouble())*.9).toString())
+            Log.i("Menna", "CustomerDataActivity")
+            startActivity(intent)
+        }
+        orderDialogBuilder.setCancelable(false)
+        orderDialogBuilder.show()
+    }
+
 
 }
 

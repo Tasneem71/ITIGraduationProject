@@ -52,8 +52,11 @@ interface ShopfiyApi {
     @POST("orders.json")
     suspend fun createOrder(@Body orderJson:CreatedOrder): Response<OrderAPI>//what is the response?
 
-    @GET("orders.json")
-    suspend fun getAllOrder(): Response<OrderAPI>
+    @GET("orders.json?status=open")
+    suspend fun getOpenOrders(): Response<OrderAPI>
+
+    @POST("orders/{order_id}/cancel.json")
+    suspend fun cancelOrder(@Path("order_id") id:String,@Body orderJson:CancelOrder): Response<OrderAPI>//what is the response?
 
     @DELETE("orders/{order_id}.json")
     suspend fun deleteOrder(@Path("order_id") id:String): Response<String>//what is the response?
@@ -78,4 +81,7 @@ interface ShopfiyApi {
 
     @POST("price_rules/{price_rules_id}/discount_codes.json")
     suspend fun generatingDiscount(@Path("price_rules_id") id:String,@Body discount: CreatedDiscount): Response<DiscountCode>
+
+    @GET("price_rules/951388569798/discount_codes/11218018074822.json")
+    suspend fun getDiscount10(): Response<DiscountCode>
 }

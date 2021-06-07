@@ -6,7 +6,10 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.transition.AutoTransition
 import android.transition.TransitionManager
+import android.util.Log
 import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
@@ -19,10 +22,11 @@ import com.example.graduationapp.ui.home.ShopCategoryAdapter
 import com.example.graduationapp.ui.productPageFeature.ProductDetails
 
 
-class SearchActivity : AppCompatActivity() , ShopCategoryAdapter.OnHomeItemListener{
+class SearchActivity : AppCompatActivity() , ShopCategoryAdapter.OnHomeItemListener , AdapterView.OnItemSelectedListener{
     lateinit var binding: ActivitySearchBinding
     private lateinit var searchViewMode: SearchViewModel
     private lateinit var filteredList: ArrayList<Products>
+    private lateinit var vendorFilteredList: ArrayList<Products>
     private lateinit var allList: ArrayList<Products>
     var searchAdapter = ShopCategoryAdapter(arrayListOf(),this)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,6 +37,7 @@ class SearchActivity : AppCompatActivity() , ShopCategoryAdapter.OnHomeItemListe
 
         searchViewMode = ViewModelProvider(this).get(SearchViewModel::class.java)
         filteredList = ArrayList()
+        vendorFilteredList = ArrayList()
         allList = ArrayList()
         initUi()
         searchAdapter.updateCategory(filteredList)
@@ -42,6 +47,9 @@ class SearchActivity : AppCompatActivity() , ShopCategoryAdapter.OnHomeItemListe
 
             it?.let {
                 allList = it.products as ArrayList<Products>
+                filteredList=allList
+                vendorFilteredList = allList
+                searchAdapter.updateCategory(filteredList)
             }
 
         }
@@ -84,7 +92,7 @@ class SearchActivity : AppCompatActivity() , ShopCategoryAdapter.OnHomeItemListe
 
     private fun filter(text: String) {
         val filteredList1: ArrayList<Products> = ArrayList()
-        for (item in allList) {
+        for (item in vendorFilteredList) {
             if (item.title.toLowerCase()
                     .contains(text.toLowerCase()) || item.product_type.toLowerCase()
                     .contains(text.toLowerCase())
@@ -92,16 +100,24 @@ class SearchActivity : AppCompatActivity() , ShopCategoryAdapter.OnHomeItemListe
                 filteredList1.add(item)
             }
         }
+
         filteredList = filteredList1
-        searchAdapter.updateCategory(filteredList1)
+        searchAdapter.updateCategory(filteredList)
     }
 
 
     private fun initUi() {
         binding.searchRecycle.apply {
-            layoutManager = GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)
+            layoutManager = GridLayoutManager(context, 3, RecyclerView.VERTICAL, false)
             adapter = searchAdapter
 
+        }
+
+        ArrayAdapter.createFromResource(this,R.array.vendor_options,android.R.layout.simple_spinner_item).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            // Apply the adapter to the spinner
+            binding.spinner.adapter = adapter
+            binding.spinner.onItemSelectedListener=this
         }
 
 
@@ -126,6 +142,67 @@ class SearchActivity : AppCompatActivity() , ShopCategoryAdapter.OnHomeItemListe
         val intent= Intent(this, ProductDetails::class.java)
         intent.putExtra("product_id",item.id .toString())
         startActivity(intent)
+    }
+
+    private fun vendorFilter(vendor: String) {
+        if (vendor=="ALL"){
+            filteredList=allList
+            vendorFilteredList= allList
+        }else{
+            Log.i("search",""+vendor)
+            val list=allList.filter { it.vendor == vendor}
+            Log.i("search",""+list)
+            vendorFilteredList= list as ArrayList<Products>
+            filteredList= list as ArrayList<Products>
+        }
+
+
+        Log.i("search",""+filteredList)
+        searchAdapter.updateCategory(filteredList)
+
+
+    }
+
+    private fun getEventActivity(){
+        var event = ""
+        var arr = this.resources.getStringArray(R.array.vendor_options)
+        when (binding.spinner.selectedItemPosition) {
+            0 -> vendorFilter(arr[0])
+            1 -> vendorFilter(arr[1])
+            2 -> vendorFilter(arr[2])
+            3 -> vendorFilter(arr[3])
+            4 -> vendorFilter(arr[4])
+            5 -> vendorFilter(arr[5])
+            6 -> vendorFilter(arr[6])
+            7 -> vendorFilter(arr[7])
+            8 -> vendorFilter(arr[8])
+            9 -> vendorFilter(arr[9])
+            10 -> vendorFilter(arr[10])
+            11 -> vendorFilter(arr[11])
+        }
+    }
+
+    override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+        Log.i("search","----------------------------------------------"+p2)
+        var arr = this.resources.getStringArray(R.array.vendor_options)
+        when (p2) {
+            0 -> vendorFilter(arr[0])
+            1 -> vendorFilter(arr[1])
+            2 -> vendorFilter(arr[2])
+            3 -> vendorFilter(arr[3])
+            4 -> vendorFilter(arr[4])
+            5 -> vendorFilter(arr[5])
+            6 -> vendorFilter(arr[6])
+            7 -> vendorFilter(arr[7])
+            8 -> vendorFilter(arr[8])
+            9 -> vendorFilter(arr[9])
+            10 -> vendorFilter(arr[10])
+            11 -> vendorFilter(arr[11])
+            12 -> vendorFilter(arr[12])
+        }
+    }
+
+    override fun onNothingSelected(p0: AdapterView<*>?) {
     }
 }
 

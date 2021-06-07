@@ -13,6 +13,6 @@ package com.example.graduationapp.data.orders
 import com.google.gson.annotations.SerializedName
 data class Shop_money (
 
-	@SerializedName("amount") val amount : Double,
+	@SerializedName("amount") val amount : String,
 	@SerializedName("currency_code") val currency_code : String
 )

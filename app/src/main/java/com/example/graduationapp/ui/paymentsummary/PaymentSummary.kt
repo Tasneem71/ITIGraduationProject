@@ -17,7 +17,9 @@ import com.example.graduationapp.create_order.CreateOrderViewModel
 import com.example.graduationapp.data.CreatedOrder
 import com.example.graduationapp.data.LineItems
 import com.example.graduationapp.data.Order
+import com.example.graduationapp.data.Transactions
 import com.example.graduationapp.data.orders.Orders
+import com.example.graduationapp.databinding.ActivityLoginBinding
 import com.example.graduationapp.databinding.ActivityPaymentSummaryBinding
 import com.paytabs.paytabs_sdk.payment.ui.activities.PayTabActivity
 import com.paytabs.paytabs_sdk.utils.PaymentParams
@@ -26,6 +28,8 @@ class PaymentSummary : AppCompatActivity() {
     lateinit var binding: ActivityPaymentSummaryBinding
     private lateinit var createOrderViewModel: CreateOrderViewModel
     var createOrderLiveData = MutableLiveData<Orders?>()
+    var credit =false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,17 +53,24 @@ class PaymentSummary : AppCompatActivity() {
 
         createOrderViewModel.orders?.observe(this, Observer {
             it?.let {
-                var count = it.map { it.count*it.price }.reduce { acc, i ->  acc+i  }.toString()
+                var count = price
                 Log.d("tag","count"+count)
                 val email = SharedPref.getUserEmail().toString()
                 val listOfOrder = createOrderApi(it)
-                createOrderViewModel.createOrder(CreatedOrder(Order(email,null,count,listOfOrder)))
+                if (credit==false){
+                createOrderViewModel.createOrder(CreatedOrder(Order(email,null,count,listOfOrder,null)))
                 Log.d("tag","list"+listOfOrder)
+                }else{
+                    var trans: MutableList<Transactions> = mutableListOf<Transactions>()
+                    trans.add(Transactions("sale","success",count.toDouble()))
+                    createOrderViewModel.createOrder(CreatedOrder(Order(email,null,count,listOfOrder,trans)))
+                }
 
             }
         })
         createOrderViewModel.createOrderLiveData.observe(this, Observer{
             it?.let {
+                credit=false
                 createOrderViewModel.deleteListFromCart(SharedPref.getUserID().toString())
                 orderDone()
             }
@@ -162,18 +173,26 @@ class PaymentSummary : AppCompatActivity() {
                 Log.e("Tag", data.getStringExtra(PaymentParams.CUSTOMER_EMAIL)!!)
                 Log.e("Tag", data.getStringExtra(PaymentParams.CUSTOMER_PASSWORD)!!)
             }
+            when(PaymentParams.RESPONSE_CODE as? Int){
+                100 -> {
+                    credit=true
+                    createOrderViewModel.getAllOrderd(SharedPref.getUserID().toString())
+                }
+                else ->{
+                    var i = Intent(MainActivity@ this, PaymentResult::class.java)
 
-            var i = Intent(MainActivity@ this, PaymentResult::class.java)
+                    i.putExtra("response_code", data.getStringExtra(PaymentParams.RESPONSE_CODE))
 
-            i.putExtra("response_code", data.getStringExtra(PaymentParams.RESPONSE_CODE))
+                    i.putExtra("transcation_id", data.getStringExtra(PaymentParams.TRANSACTION_ID))
+                    i.putExtra("customer_email", data.getStringExtra(PaymentParams.CUSTOMER_EMAIL))
+                    i.putExtra("token", data.getStringExtra(PaymentParams.TOKEN));
+                    i.putExtra("customer_password", data.getStringExtra(PaymentParams.CUSTOMER_PASSWORD))
 
-            i.putExtra("transcation_id", data.getStringExtra(PaymentParams.TRANSACTION_ID))
-            i.putExtra("customer_email", data.getStringExtra(PaymentParams.CUSTOMER_EMAIL))
-            i.putExtra("token", data.getStringExtra(PaymentParams.TOKEN));
-            i.putExtra("customer_password", data.getStringExtra(PaymentParams.CUSTOMER_PASSWORD))
+                    startActivity(i)
+                    finish()
 
-            startActivity(i)
-            finish()
+                }
+            }
 
         }
 
