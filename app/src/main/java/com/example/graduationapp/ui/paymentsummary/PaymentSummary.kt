@@ -17,6 +17,7 @@ import com.example.graduationapp.create_order.CreateOrderViewModel
 import com.example.graduationapp.data.CreatedOrder
 import com.example.graduationapp.data.LineItems
 import com.example.graduationapp.data.Order
+import com.example.graduationapp.data.Transactions
 import com.example.graduationapp.data.orders.Orders
 import com.example.graduationapp.databinding.ActivityLoginBinding
 import com.example.graduationapp.databinding.ActivityPaymentSummaryBinding
@@ -27,6 +28,7 @@ class PaymentSummary : AppCompatActivity() {
     lateinit var binding: ActivityPaymentSummaryBinding
     private lateinit var createOrderViewModel: CreateOrderViewModel
     var createOrderLiveData = MutableLiveData<Orders?>()
+    var credit =false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,13 +57,20 @@ class PaymentSummary : AppCompatActivity() {
                 Log.d("tag","count"+count)
                 val email = SharedPref.getUserEmail().toString()
                 val listOfOrder = createOrderApi(it)
+                if (credit==false){
                 createOrderViewModel.createOrder(CreatedOrder(Order(email,null,count,listOfOrder,null)))
                 Log.d("tag","list"+listOfOrder)
+                }else{
+                    var trans: MutableList<Transactions> = mutableListOf<Transactions>()
+                    trans.add(Transactions("sale","success",count.toDouble()))
+                    createOrderViewModel.createOrder(CreatedOrder(Order(email,null,count,listOfOrder,trans)))
+                }
 
             }
         })
         createOrderViewModel.createOrderLiveData.observe(this, Observer{
             it?.let {
+                credit=false
                 createOrderViewModel.deleteListFromCart(SharedPref.getUserID().toString())
                 orderDone()
             }
@@ -166,7 +175,7 @@ class PaymentSummary : AppCompatActivity() {
             }
             when(PaymentParams.RESPONSE_CODE as? Int){
                 100 -> {
-
+                    credit=true
                     createOrderViewModel.getAllOrderd(SharedPref.getUserID().toString())
                 }
                 else ->{
