@@ -191,6 +191,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/base_cardview"/>
 
+    <Spinner
+        app:layout_constraintTop_toBottomOf="@+id/base_cardview"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/spinner"
+        android:layout_margin="7dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/search_recycle"
         android:layout_width="match_parent"

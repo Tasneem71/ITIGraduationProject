@@ -66,4 +66,13 @@ class HomeViewModel (application: Application) : AndroidViewModel(application) {
 
     }
 
+    fun getDiscount10(){
+        CoroutineScope(Dispatchers.IO).launch {
+            val response=apiRepository.getDiscount10()
+            generatedDiscountLiveData.postValue(response?.discount_code)
+        }
+
+
+    }
+
 }

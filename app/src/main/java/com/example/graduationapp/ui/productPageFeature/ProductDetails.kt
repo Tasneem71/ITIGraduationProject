@@ -116,6 +116,14 @@ ProductDetails : AppCompatActivity() {
 
         })
 
+        if (SharedPref.getUserStatus()){
+            binding.content.productPageAddToCart.visibility=View.VISIBLE
+            binding.content.productPageAddToFavorite.visibility=View.VISIBLE
+        }else{
+            binding.content.productPageAddToCart.visibility=View.GONE
+            binding.content.productPageAddToFavorite.visibility=View.GONE
+        }
+
     }
     private fun setFavoriteImage(id: Long) {
         lifecycleScope.launch(Dispatchers.IO) {

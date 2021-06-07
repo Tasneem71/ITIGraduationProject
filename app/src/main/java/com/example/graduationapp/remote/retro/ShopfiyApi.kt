@@ -81,4 +81,7 @@ interface ShopfiyApi {
 
     @POST("price_rules/{price_rules_id}/discount_codes.json")
     suspend fun generatingDiscount(@Path("price_rules_id") id:String,@Body discount: CreatedDiscount): Response<DiscountCode>
+
+    @GET("price_rules/951388569798/discount_codes/11218018074822.json")
+    suspend fun getDiscount10(): Response<DiscountCode>
 }
