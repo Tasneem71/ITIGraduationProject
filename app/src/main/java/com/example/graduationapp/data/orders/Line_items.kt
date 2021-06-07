@@ -38,5 +38,5 @@ data class Line_items (
 	@SerializedName("variant_title") val variant_title : String,
 	@SerializedName("vendor") val vendor : String,
 	@SerializedName("duties") val duties : List<String>,
-	@SerializedName("discount_allocations") val discount_allocations : List<String>
+	@SerializedName("discount_allocations") val discount_allocations : List<Any>
 )

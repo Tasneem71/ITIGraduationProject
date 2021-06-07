@@ -3,6 +3,8 @@ package com.example.graduationapp.data.orders
 
 import com.google.gson.annotations.SerializedName
 
+
+
 data class Orders (
 
 	@SerializedName("id") val id : String,
@@ -31,7 +33,7 @@ data class Orders (
 	@SerializedName("current_total_tax_set") val current_total_tax_set : Current_total_tax_set,
 	@SerializedName("customer_locale") val customer_locale : String,
 	@SerializedName("device_id") val device_id : String,
-	@SerializedName("discount_codes") val discount_codes : List<String>,
+	@SerializedName("discount_codes") val discount_codes : List<Discount_codes>,
 	@SerializedName("email") val email : String,
 	@SerializedName("financial_status") val financial_status : String,
 	@SerializedName("fulfillment_status") val fulfillment_status : String,
@@ -78,9 +80,16 @@ data class Orders (
 	@SerializedName("updated_at") val updated_at : String,
 	@SerializedName("user_id") val user_id : String,
 	@SerializedName("customer") val customer : Customer,
-	@SerializedName("discount_applications") val discount_applications : List<String>,
-	@SerializedName("fulfillments") val fulfillments : List<Fulfillments>,
+	@SerializedName("discount_applications") val discount_applications : List<Discount_applications>,
+	@SerializedName("fulfillments") val fulfillments : List<String>,
 	@SerializedName("line_items") val line_items : List<Line_items>,
-	@SerializedName("refunds") val refunds : List<String>,
+	@SerializedName("refunds") val refunds : List<Refunds>,
 	@SerializedName("shipping_lines") val shipping_lines : List<String>
+)
+
+data class Discount_codes (
+
+	@SerializedName("code") val code : String,
+	@SerializedName("amount") val amount : Double,
+	@SerializedName("type") val type : String
 )

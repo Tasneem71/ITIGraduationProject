@@ -171,8 +171,8 @@
     <string name="valid">"Please, Enter Valid Country, province and Address "</string>
     <string name="orderId">Order ID:</string>
     <string name="order_canceled">Your Order Cancelled</string>
-
-
+    <string name="discount">Discount</string>
+    <string name="usecode">Using the discount code will reduce the total by 10%</string>
 
 
 
