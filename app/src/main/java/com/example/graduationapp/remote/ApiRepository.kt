@@ -311,6 +311,28 @@ class ApiRepository(application: Application) {
 
     }
 
+    suspend fun getDiscount10(): DiscountCode? {
+
+
+        val response = ApiServes.shopfiyService.getDiscount10()
+        try {
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    Log.i("Tasneem", "response$it")
+                    return it
+                }
+            } else {
+                Log.i("Tasneem", "response failuer" + response.toString())
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.i("Tasneem", " error?" + e.printStackTrace())
+
+        }
+        return null
+
+    }
+
 
 
 }

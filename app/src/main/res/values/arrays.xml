@@ -10,6 +10,24 @@
         <item>ar</item>
     </string-array>
 
+
+    <string-array name="vendor_options">
+        <item>ALL</item>
+        <item>ADIDAS</item>
+        <item>CONVERSE</item>
+        <item>NIKE</item>
+        <item>PUMA</item>
+        <item>VANS</item>
+        <item>TIMBERLAND</item>
+        <item>HERSCHEL</item>
+        <item>SUPRA</item>
+        <item>PALLADIUM</item>
+        <item>ASICS TIGER</item>
+        <item>FLEX FIT</item>
+        <item>DR MARTENS</item>
+
+    </string-array>
+
 </resources>
 
 
