@@ -162,7 +162,6 @@ class ApiRepository(application: Application) {
     }
 
     suspend fun createOrder(orderJson: CreatedOrder): OrderAPI? {
-        Log.i("order","  orderrrrrr"+ orderJson)
         val response = ApiServes.shopfiyService.createOrder(orderJson)
         try {
             if (response.isSuccessful) {
