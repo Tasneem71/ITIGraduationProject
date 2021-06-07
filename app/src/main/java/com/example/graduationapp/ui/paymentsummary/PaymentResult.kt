@@ -18,8 +18,8 @@ class PaymentResult : AppCompatActivity() {
 
         var intent: Intent = getIntent()
 
-        var response_code = intent.getStringExtra("response_code")
-        var transcation_id = intent.getStringExtra("transcation_id")
+        var response_code = intent.getStringExtra("response_code")  // 100 for succeeded
+        var transcation_id = intent.getStringExtra("transcation_id")  // trans id
         var customer_email = intent.getStringExtra("customer_email")
         var token = intent.getStringExtra("token")
         var customer_password = intent.getStringExtra("customer_password")

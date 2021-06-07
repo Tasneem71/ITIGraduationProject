@@ -18,7 +18,6 @@ import com.example.graduationapp.data.CreatedOrder
 import com.example.graduationapp.data.LineItems
 import com.example.graduationapp.data.Order
 import com.example.graduationapp.data.orders.Orders
-import com.example.graduationapp.databinding.ActivityLoginBinding
 import com.example.graduationapp.databinding.ActivityPaymentSummaryBinding
 import com.paytabs.paytabs_sdk.payment.ui.activities.PayTabActivity
 import com.paytabs.paytabs_sdk.utils.PaymentParams
@@ -54,7 +53,7 @@ class PaymentSummary : AppCompatActivity() {
                 Log.d("tag","count"+count)
                 val email = SharedPref.getUserEmail().toString()
                 val listOfOrder = createOrderApi(it)
-                createOrderViewModel.createOrder(CreatedOrder(Order(email,"fulfilled",count,listOfOrder)))
+                createOrderViewModel.createOrder(CreatedOrder(Order(email,null,count,listOfOrder)))
                 Log.d("tag","list"+listOfOrder)
 
             }

@@ -33,6 +33,10 @@ class LocalSource (application:Application) {
         return database.dao.isFavorite(id,userId)
     }
 
+    suspend fun getCartCount(userId: String): Int{
+        return database.dao.cartCount(userId)
+    }
+
     suspend fun getAllCart(userId: String): List<Favorite>?{
         return database.dao.getAllCart(userId)
     }

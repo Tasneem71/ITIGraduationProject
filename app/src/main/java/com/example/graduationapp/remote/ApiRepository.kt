@@ -296,6 +296,10 @@ class ApiRepository(application: Application) {
 
     }
 
+    suspend fun getUpdatedCount(userId :String): Int {
+        return local.getCartCount(userId)
+
+    }
 
 
 }

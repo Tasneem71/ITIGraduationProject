@@ -68,6 +68,22 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
+                    <com.nex3z.notificationbadge.NotificationBadge
+                        app:layout_constraintEnd_toStartOf="@id/cart"
+                        app:layout_constraintStart_toEndOf="@id/search"
+                        android:id="@+id/badge"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        app:nbMaxTextLength="2"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_toLeftOf="@id/cart"
+                        android:layout_alignTop="@id/cart"
+                        tools:ignore="MissingConstraints">
+                    </com.nex3z.notificationbadge.NotificationBadge>
+
+
+
                     <ImageView
                         android:id="@+id/favo"
                         android:layout_width="30dp"

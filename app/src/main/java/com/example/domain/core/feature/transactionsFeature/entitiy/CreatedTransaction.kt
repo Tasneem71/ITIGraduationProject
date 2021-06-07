@@ -14,6 +14,6 @@ data class TransactionBody(
     val currency: String,
     val amount: Double,
     val kind: String,
-    val parent_id: Long
+    val parent_id: Long  //transcation_id created by paytab
 
 )

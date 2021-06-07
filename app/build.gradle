@@ -153,6 +153,11 @@ dependencies {
 
 
 
+    // curved navigation component
     implementation 'com.etebarian:meow-bottom-navigation:1.2.0'
+
+    // notification badage
+    implementation 'com.nex3z:notification-badge:1.0.4'
+
 
 }

@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -82,6 +83,9 @@ class HomeFragment : Fragment()  , ShopCategoryAdapter.OnHomeItemListener {
 
         })
 
+//        updateBadge()
+
+
 
         adidasAdapter.updateCategory(adidusList)
         nikeAdapter.updateCategory(nikeList)
@@ -103,9 +107,25 @@ class HomeFragment : Fragment()  , ShopCategoryAdapter.OnHomeItemListener {
             }
         }
 
+        homeViewModel.cartCount.observe(viewLifecycleOwner, Observer {
+
+            Log.i("BADGE", "onCreateView: BADGE #  $it")
+            when(it){
+                0 -> {
+                    binding.badge.visibility=View.INVISIBLE
+                }
+                else -> {
+                    binding.badge.visibility=View.VISIBLE
+                    binding.badge.setText(it.toString())
+
+                }
+            }
+        })
+
 
         return binding.root
     }
+
     private fun loadProducts(id:String,num:Int) {
         homeViewModel.loadProductData(id,num).observe(requireActivity()) {
             Log.d("data", "  products"+it.products[0].title)
@@ -172,6 +192,11 @@ class HomeFragment : Fragment()  , ShopCategoryAdapter.OnHomeItemListener {
         val intent= Intent(this.context, ProductDetails::class.java)
         intent.putExtra("product_id",item.id .toString())
         this.context?.startActivity(intent)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        homeViewModel.cartCount(SharedPref.getUserID().toString())
     }
 
 }
