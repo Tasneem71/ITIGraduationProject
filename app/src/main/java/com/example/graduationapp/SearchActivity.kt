@@ -48,6 +48,7 @@ class SearchActivity : AppCompatActivity() , ShopCategoryAdapter.OnHomeItemListe
             it?.let {
                 allList = it.products as ArrayList<Products>
                 filteredList=allList
+                vendorFilteredList = allList
                 searchAdapter.updateCategory(filteredList)
             }
 
@@ -99,6 +100,7 @@ class SearchActivity : AppCompatActivity() , ShopCategoryAdapter.OnHomeItemListe
                 filteredList1.add(item)
             }
         }
+
         filteredList = filteredList1
         searchAdapter.updateCategory(filteredList)
     }
