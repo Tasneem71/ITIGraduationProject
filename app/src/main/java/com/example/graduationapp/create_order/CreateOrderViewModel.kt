@@ -46,12 +46,6 @@ class CreateOrderViewModel(application: Application) : AndroidViewModel(applicat
         }
     }
 
-    fun cancelOrder(orderJson: CancelOrder) {
-        CoroutineScope(Dispatchers.IO).launch {
-            val response=apiRepository.cancelOrder(orderJson)
-            createOrderLiveData.postValue(response?.order!!)
-        }
-    }
     fun deleteListFromCart(id:String){
         viewModelScope.launch {
            local.deleteListFromCart(id)

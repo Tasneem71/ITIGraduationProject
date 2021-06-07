@@ -180,9 +180,9 @@ class ApiRepository(application: Application) {
         return null
     }
 
-    suspend fun cancelOrder(orderJson: CancelOrder): OrderAPI? {
+    suspend fun cancelOrder(id : String,orderJson: CancelOrder): OrderAPI? {
         Log.i("order","  orderrrrrrCancel"+ orderJson)
-        val response = ApiServes.shopfiyService.cancelOrder(orderJson)
+        val response = ApiServes.shopfiyService.cancelOrder(id,orderJson)
         try {
             if (response.isSuccessful) {
                 response.body()?.let {

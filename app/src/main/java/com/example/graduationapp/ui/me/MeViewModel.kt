@@ -9,10 +9,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.graduationapp.data.ApiCollections
-import com.example.graduationapp.data.CollectionProducts
-import com.example.graduationapp.data.CreatedCustomer
-import com.example.graduationapp.data.Customers
+import com.example.graduationapp.data.*
 import com.example.graduationapp.data.orders.OrderAPI
 import com.example.graduationapp.data.orders.Orders
 import com.example.graduationapp.remote.ApiRepository
@@ -23,6 +20,7 @@ import kotlinx.coroutines.launch
 class MeViewModel (application: Application) : AndroidViewModel(application) {
 
     var openOrdersLiveData = MutableLiveData<List<Orders>?>()
+    var cancelOrderLiveData = MutableLiveData<Orders?>()
 
     var apiRepository: ApiRepository
 
@@ -38,8 +36,12 @@ class MeViewModel (application: Application) : AndroidViewModel(application) {
         }
     }
 
-
-
+    fun cancelOrder(id : String,orderJson: CancelOrder) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val response=apiRepository.cancelOrder(id , orderJson)
+            cancelOrderLiveData.postValue(response?.order)
+        }
+    }
 
     fun isOnline(context: Context): Boolean {
         val connectivityManager =

@@ -1,12 +1,12 @@
 package com.example.graduationapp.data
 
-data class CancelOrder(
-    val canceledOrder : CanceledOrder
-)
+ class CancelOrder(){
+
+}
 
 data class CanceledOrder(
     val email: String,
     val fulfillment_status: String?,
-    val amount : String,
+    val amount : Double,
     val currency:  String
 )

@@ -170,6 +170,7 @@
     <string name="valid_code">please Enter Country Code in the First , like +2 for Egypt</string>
     <string name="valid">"Please, Enter Valid Country, province and Address "</string>
     <string name="orderId">Order ID:</string>
+    <string name="order_canceled">Your Order Cancelled</string>
 
 
 </resources>

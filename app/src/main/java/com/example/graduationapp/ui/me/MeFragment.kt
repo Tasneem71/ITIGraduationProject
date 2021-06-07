@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 
 import androidx.lifecycle.Observer
@@ -19,8 +20,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.domain.core.feature.favoriteFeature.Favorite
 
 import com.example.graduationapp.LoginActivity
+import com.example.graduationapp.MainActivity
 import com.example.graduationapp.R
 import com.example.graduationapp.SharedPref
+import com.example.graduationapp.data.CancelOrder
+import com.example.graduationapp.data.CanceledOrder
 import com.example.graduationapp.data.Custom_collections
 import com.example.graduationapp.data.orders.Orders
 import com.example.graduationapp.databinding.FragmentMeBinding
@@ -31,7 +35,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
 
 
-class MeFragment : Fragment() ,  TabLayout.OnTabSelectedListener {
+class MeFragment : Fragment() ,  TabLayout.OnTabSelectedListener , orderAdapter.OnCancelOrderListener {
 
     lateinit var binding: FragmentMeBinding
     var fAuth: FirebaseAuth? = null
@@ -54,7 +58,7 @@ class MeFragment : Fragment() ,  TabLayout.OnTabSelectedListener {
 
         wishList = ArrayList()
         orderList = ArrayList()
-        orderAdapter= orderAdapter(orderList)
+        orderAdapter= orderAdapter(orderList,this)
         wishAdapter= MeAdapter(wishList)
         initUi()
 
@@ -74,14 +78,22 @@ class MeFragment : Fragment() ,  TabLayout.OnTabSelectedListener {
 
         })
 
-
         viewModel.openOrdersLiveData?.observe(viewLifecycleOwner, Observer {
+          Log.d("tag","iddddddddddd"+  it!![0].id)
             it?.let {
                     orderAdapter.updateList(it.filter { it.contact_email==SharedPref.getUserEmail() })
             }
 
         })
 
+
+        viewModel.cancelOrderLiveData.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                cancelOrderDone()
+                viewModel.getOpenOrders()
+            }
+
+        })
         binding.registerLogin.setOnClickListener {
 
             val intent = Intent(context, LoginActivity::class.java)
@@ -183,6 +195,25 @@ class MeFragment : Fragment() ,  TabLayout.OnTabSelectedListener {
 
     override fun onTabReselected(tab: TabLayout.Tab?) {
     }
+
+    override fun onCancelClick(it: Orders) {
+        val email = SharedPref.getUserEmail()
+        val amount = it.total_price
+        viewModel.cancelOrder(it.id,CancelOrder())
+    }
+
+    private fun cancelOrderDone() {
+        val orderDialogBuilder = AlertDialog.Builder(requireContext())
+        orderDialogBuilder.setTitle(this.getString(R.string.order))
+        orderDialogBuilder.setMessage(this.getString(R.string.order_canceled))
+        orderDialogBuilder.setPositiveButton(this.getString(R.string.ok)) { dialog, which ->
+            dialog.dismiss()
+
+        }
+        orderDialogBuilder.setCancelable(false)
+        orderDialogBuilder.show()
+    }
+
 }
 
 
