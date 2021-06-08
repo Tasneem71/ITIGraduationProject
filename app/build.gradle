@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'com.google.gms.google-services'
     id 'kotlin-kapt'
+    id "com.apollographql.android"
 }
 
 
@@ -158,6 +159,21 @@ dependencies {
 
     // notification badage
     implementation 'com.nex3z:notification-badge:1.0.4'
+
+
+    // graphQl
+
+    // The core runtime dependencies
+    implementation 'com.apollographql.apollo:apollo-runtime:1.2.0'
+    // optional: for coroutines support
+    implementation("com.apollographql.apollo:apollo-coroutines-support:1.2.0")
+    // optional: Most of apollo-android does not depend on Android in practice and runs on any JVM or on Kotlin native. apollo-android-support contains a few Android-only helper classes. For an example to send logs to logcat or run callbacks on the main thread.
+    implementation("com.apollographql.apollo:apollo-android-support:1.2.0")
+
+
+    compileOnly 'org.jetbrains:annotations:13.0'
+    testCompileOnly 'org.jetbrains:annotations:13.0'
+
 
 
 }

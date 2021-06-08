@@ -13,17 +13,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GraduationApp.noActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.paymentsummary.PaymentSummary">
+        <activity android:name=".graphql.GraphQlProducts">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
-        <activity android:name=".ui.paymentsummary.PaymentResult"></activity>
+        <activity android:name=".ui.paymentsummary.PaymentSummary"></activity>
+        <activity android:name=".ui.paymentsummary.PaymentResult" />
         <activity android:name=".ui.checkoutAddress.CustomerDataActivity" />
-
         <activity
             android:name=".ui.favoriteFeature.FavoriteActivity"
-            android:parentActivityName=".MainActivity">
-
-        </activity>
+            android:parentActivityName=".MainActivity"></activity>
         <activity android:name=".SearchActivity" />
         <activity android:name=".ui.cart.CartActivity" />
 
@@ -53,12 +55,6 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
 
         </activity>
     </application>
