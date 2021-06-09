@@ -3,42 +3,55 @@ package com.example.graduationapp.graphql
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.apollographql.apollo.ApolloCall
-import com.apollographql.apollo.ApolloClient
-import com.apollographql.apollo.api.Response
-import com.apollographql.apollo.exception.ApolloException
-import com.example.graduationapp.GetProductsQuery
-import com.example.graduationapp.R
-import com.example.graduationapp.remote.retro.ApiServes
-import com.example.graduationapp.type.CustomType
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import okhttp3.Interceptor
-import okhttp3.OkHttpClient
-import java.io.IOException
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.domain.core.subFeature.GridSpacingItemDecoration
+import com.example.domain.core.subFeature.RecyclerViewAnimation
+import com.example.graduationapp.HomeCollectionQuery
+import com.example.graduationapp.data.Products
+import com.example.graduationapp.databinding.ActivityGraphQlProductsBinding
 
 
-class GraphQlProducts : AppCompatActivity() {
+class GraphQlProducts : AppCompatActivity() ,CollectionsGraphAdapter.OnHomeItemListener{
+    private lateinit var homeViewModel: GraphViewModel
+    private lateinit var binding: ActivityGraphQlProductsBinding
+    private lateinit var adidusList:ArrayList<Products>
+    private lateinit var nikeList:ArrayList<Products>
+    private lateinit var pumaList:ArrayList<Products>
+    private lateinit var converceList:ArrayList<Products>
+    private lateinit var asicsList:ArrayList<Products>
+
+    var  adidasAdapter = CollectionsGraphAdapter(arrayListOf(),this)
+    var  nikeAdapter = CollectionsGraphAdapter(arrayListOf(),this)
+    var  pumaAdapter = CollectionsGraphAdapter(arrayListOf(),this)
+    var  converceAdapter = CollectionsGraphAdapter(arrayListOf(),this)
+    var  asicsAdapter = CollectionsGraphAdapter(arrayListOf(),this)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_graph_ql_products)
+        binding = ActivityGraphQlProductsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
+        homeViewModel = ViewModelProvider(this).get(GraphViewModel::class.java)
 
-        var client = MyApolloClient.getApolloClient()
+        binding.fifth.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        binding.fifth.setHasFixedSize(true)
+        binding.fifth.addItemDecoration(
+            GridSpacingItemDecoration(1,
+                RecyclerViewAnimation.dpToPx(6),true)
+        )
+        binding.fifth.itemAnimator= DefaultItemAnimator()
+        binding.fifth.adapter = adidasAdapter
+        homeViewModel.nike?.observe(this, Observer {
+            adidasAdapter.setData(it)
+        })
 
-        GlobalScope.launch {
-            try {
-                val response =
-                    client.suspendQuery(GetProductsQuery()).data()
-                val error =
-                    client.suspendQuery(GetProductsQuery()).errors()
-                var x = response?.products?.edges?.get(0)?.node?.tags
-                var d = response?.products?.edges?.get(0)?.node?.featuredImage?.originalSrc
+    }
 
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
+    override fun onImageClick(item: HomeCollectionQuery.Edge1) {
 
     }
 }

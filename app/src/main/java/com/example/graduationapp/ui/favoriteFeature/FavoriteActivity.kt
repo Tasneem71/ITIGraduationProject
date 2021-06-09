@@ -34,6 +34,7 @@ class FavoriteActivity : AppCompatActivity(),FavoriteAdapter.OnEditFavoriteListe
         super.onCreate(savedInstanceState)
         binding = ActivityFavoriteBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         favoriteViewModel = ViewModelProvider(this).get(FavoriteViewModel::class.java)
         userId = SharedPref.getUserID().toString()
 

@@ -17,12 +17,12 @@ query getProducts{
 }
 
 query homeCollection {
-    collections(first: 10) {
+    collections(first: 9) {
         edges {
             node {
                 id
                 handle
-                products(first: 50) {
+                products(first: 10) {
                     edges {
                         node {
                             id
@@ -30,6 +30,14 @@ query homeCollection {
                             description
                             tags
                             vendor
+                            variants(first :1) {
+                                edges {
+                                    node {
+                                        price
+
+                                    }
+                                }
+                            }
                             featuredImage {
                                 originalSrc
                             }
