@@ -21,6 +21,7 @@ import com.example.graduationapp.data.Transactions
 import com.example.graduationapp.data.orders.Orders
 import com.example.graduationapp.databinding.ActivityLoginBinding
 import com.example.graduationapp.databinding.ActivityPaymentSummaryBinding
+import com.example.graduationapp.ui.checkoutAddress.CustomerDataActivity
 import com.paytabs.paytabs_sdk.payment.ui.activities.PayTabActivity
 import com.paytabs.paytabs_sdk.utils.PaymentParams
 
@@ -29,7 +30,7 @@ class PaymentSummary : AppCompatActivity() {
     private lateinit var createOrderViewModel: CreateOrderViewModel
     var createOrderLiveData = MutableLiveData<Orders?>()
     var credit =false
-
+    var price=""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +43,7 @@ class PaymentSummary : AppCompatActivity() {
         var province=""
         var phone=""
         var address1=""
-        var price=""
+
         if (intent!=null){
             province= intent.getStringExtra("province").toString()
             phone= intent.getStringExtra("phone").toString()
@@ -81,13 +82,25 @@ class PaymentSummary : AppCompatActivity() {
         binding.province.text = province
         binding.tvPrice.text= price+" EGP"
 
-            binding.fabContinue.setOnClickListener{
+        binding.fabContinue.setOnClickListener{
             if (binding.cash.isChecked){
                 createOrderViewModel.getAllOrderd(SharedPref.getUserID().toString())
 
             }else{
                 goPayTab()
 
+            }
+        }
+
+        binding.applyDiscount.setOnClickListener {
+            if (SharedPref.getUserDiscount() != 0L) {
+
+                price = ((price.toDouble())*.9).toString()
+                binding.tvPrice.text=price
+
+            } else {
+
+                noDiscountFound()
             }
         }
 
@@ -119,7 +132,7 @@ class PaymentSummary : AppCompatActivity() {
 
         intent.putExtra(PaymentParams.LANGUAGE, PaymentParams.ENGLISH)
         intent.putExtra(PaymentParams.TRANSACTION_TITLE, "Customer Name")
-        intent.putExtra(PaymentParams.AMOUNT, 199.0)
+        intent.putExtra(PaymentParams.AMOUNT, price.toDouble())
 
 
 
@@ -134,10 +147,7 @@ class PaymentSummary : AppCompatActivity() {
         intent.putExtra(PaymentParams.CITY_BILLING, "Manama")
         intent.putExtra(PaymentParams.STATE_BILLING, "Manama")
         intent.putExtra(PaymentParams.COUNTRY_BILLING, "BHR")
-        intent.putExtra(
-            PaymentParams.POSTAL_CODE_BILLING,
-            "00973"
-        ) //Put Country Phone code if Postal code not available '00973'
+        intent.putExtra(PaymentParams.POSTAL_CODE_BILLING,"00973") //Put Country Phone code if Postal code not available '00973'
 
         //Shipping Address
         intent.putExtra(PaymentParams.ADDRESS_SHIPPING, "Flat 1,Building 123, Road 2345")
@@ -217,4 +227,16 @@ class PaymentSummary : AppCompatActivity() {
         super.onDestroy()
 
     }
+
+    private fun noDiscountFound() {
+        val orderDialogBuilder = AlertDialog.Builder(this)
+        orderDialogBuilder.setTitle(this.getString(R.string.discount))
+        orderDialogBuilder.setMessage(this.getString(R.string.nocode))
+        orderDialogBuilder.setPositiveButton(this.getString(R.string.ok)) { dialog, which ->
+            dialog.dismiss()
+        }
+        orderDialogBuilder.setCancelable(false)
+        orderDialogBuilder.show()
+    }
+
 }

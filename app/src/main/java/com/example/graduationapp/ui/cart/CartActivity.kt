@@ -70,17 +70,11 @@ class CartActivity : AppCompatActivity(), CartAdapter.OnCartItemListener {
 
         binding.checkOut.setOnClickListener {
 
-            if (SharedPref.getUserDiscount() != 0L) {
+            val intent = Intent(this, CustomerDataActivity::class.java)
+            intent.putExtra("price", binding.total2.text.toString())
+            Log.i("Menna", "CustomerDataActivity")
+            startActivity(intent)
 
-                useDiscount()
-
-            } else {
-
-                val intent = Intent(this, CustomerDataActivity::class.java)
-                intent.putExtra("price", binding.total2.text.toString())
-                Log.i("Menna", "CustomerDataActivity")
-                startActivity(intent)
-            }
         }
 
 
@@ -151,21 +145,6 @@ class CartActivity : AppCompatActivity(), CartAdapter.OnCartItemListener {
         startActivity(intent)
     }
 
-
-    private fun useDiscount() {
-        val orderDialogBuilder = AlertDialog.Builder(this)
-        orderDialogBuilder.setTitle(this.getString(R.string.discount))
-        orderDialogBuilder.setMessage(this.getString(R.string.usecode))
-        orderDialogBuilder.setPositiveButton(this.getString(R.string.ok)) { dialog, which ->
-            val intent = Intent(this, CustomerDataActivity::class.java)
-            Log.i("cart",""+(binding.total2.text.toString().toDouble())*.9)
-            intent.putExtra("price",((binding.total2.text.toString().toDouble())*.9).toString())
-            Log.i("Menna", "CustomerDataActivity")
-            startActivity(intent)
-        }
-        orderDialogBuilder.setCancelable(false)
-        orderDialogBuilder.show()
-    }
 
 
 }

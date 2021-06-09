@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="500dp"
         android:fitsSystemWindows="true"
-        android:theme="@style/Theme.GraduationApp.noActionBar.AppBarOverlay">
+        android:theme="@style/Theme.GraduationApp.noActionBar.PopupOverlay">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/toolbar_layout"
