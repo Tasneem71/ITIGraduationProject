@@ -52,6 +52,11 @@ class FavoriteViewModel(application: Application) : AndroidViewModel(application
 //         }
 //         return isFavorite
     }
+    suspend fun isCart(id: Long,userId: String):Int{
+        return viewModelScope.async {
+            local.isCart(id,userId)
+        }.await()
+    }
 
     fun addToCart(item: Favorite){
         viewModelScope.launch {

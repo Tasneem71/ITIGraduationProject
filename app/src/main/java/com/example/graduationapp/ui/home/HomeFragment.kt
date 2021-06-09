@@ -133,6 +133,7 @@ class HomeFragment : Fragment()  , ShopCategoryAdapter.OnHomeItemListener {
         homeViewModel.loadProductData(id,num).observe(requireActivity()) {
             Log.d("data", "  products"+it.products[0].title)
             it?.let {
+                binding.progressBar.visibility=View.GONE
                 when (num) {
                     0 -> {
                         adidusList= it.products as ArrayList<Products>

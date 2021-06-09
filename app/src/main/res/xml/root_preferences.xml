@@ -2,8 +2,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     >
     <PreferenceCategory app:title="@string/general_setting"
-        app:icon="@drawable/ic_favorite_red_24dp"
-        android:textColor="@color/white">
+        app:icon="@drawable/leftarrow">
 
         <ListPreference
             app:defaultValue="English"
@@ -12,7 +11,8 @@
             app:key="language"
             android:textColorPrimary="#6200EA"
             app:title="@string/default_language"
-            app:useSimpleSummaryProvider="true" />
+            app:useSimpleSummaryProvider="true"
+            app:icon="@drawable/translate"/>
 
         <CheckBoxPreference
             app:key="background_mode"
@@ -23,7 +23,8 @@
 
         <Preference
             app:key="about"
-            app:title="@string/about_setting">
+            app:title="@string/about_setting"
+            app:icon="@drawable/exclamation2">
 
         </Preference>
 
@@ -34,7 +35,8 @@
 
         <Preference
             app:key="logout"
-            app:title="@string/logout">
+            app:title="@string/logout"
+            app:icon="@drawable/logout">
 
         </Preference>
 

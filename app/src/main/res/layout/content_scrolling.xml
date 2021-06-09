@@ -185,6 +185,7 @@
                 android:layout_marginEnd="20dp"/>
 
             <Button
+                android:visibility="visible"
                 android:id="@+id/product_page_add_to_cart"
                 android:layout_width="0dp"
                 android:layout_weight="3"
@@ -193,6 +194,16 @@
                 app:backgroundTint="@null"
                 android:textColor="@color/white"
                 android:text="@string/addtocart"/>
+            <Button
+                android:visibility="gone"
+                android:id="@+id/product_page_in_cart"
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background2"
+                app:backgroundTint="@null"
+                android:textColor="@color/darkPurple"
+                android:text="@string/inCart"/>
 
         </LinearLayout>
 

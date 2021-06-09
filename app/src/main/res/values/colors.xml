@@ -11,11 +11,13 @@
     <color name="medGray">#F6F6F6</color>
 
     <color name="gray">#756E6E</color>
+    <color name="veryLightGray">#D6D2D2</color>
     <color name="colorPurple">#983CFF</color>
     <color name="colorPurpleT">#64983cff</color>
     <color name="colorBlue">#2FB4FF</color>
     <color name="colorBlueT">#642fb4ff</color>
     <color name="darkPurple">#271047</color>
+    <color name="darkBlue">#046FAC</color>
 
     <color name="semiTransparentColor">#4DFFFFFF</color>
     <color name="semiTransparentColorBorder">#66FFFFFF</color>

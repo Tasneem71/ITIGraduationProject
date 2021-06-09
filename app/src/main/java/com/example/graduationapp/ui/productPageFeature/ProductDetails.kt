@@ -49,6 +49,7 @@ ProductDetails : AppCompatActivity() {
             x= intent.getStringExtra("product_id").toString()
 
         setFavoriteImage(x.toLong())
+        isCart(x.toLong())
 
         productPageViewModel.getProductDetails(x)
         productPageViewModel.productDetails.observe(this, Observer {
@@ -91,6 +92,9 @@ ProductDetails : AppCompatActivity() {
             favoriteViewModel.addToCart(Favorite(currentProduct!!.id.toLong(), currentProduct!!.title,
                 currentProduct!!.handle, currentProduct?.variants?.get(0)?.price!!.toInt(),currentProduct!!.image.src,'C',1
                 ,currentProduct?.variants?.get(0)!!.id,userId))
+            Toast.makeText(this,"Item has been added to cart",Toast.LENGTH_LONG).show()
+            binding.content.productPageAddToCart.visibility=View.GONE
+            binding.content.productPageInCart.visibility=View.VISIBLE
 
         })
 
@@ -132,6 +136,22 @@ ProductDetails : AppCompatActivity() {
                 when(result){
                     0 -> {binding.content.productPageAddToFavorite.setImageResource(R.drawable.favorite) }
                     1 -> {binding.content.productPageAddToFavorite.setImageResource(R.drawable.favorite2) }
+                }
+            }
+
+        }
+    }
+
+    private fun isCart(id: Long) {
+        lifecycleScope.launch(Dispatchers.IO) {
+            var result=favoriteViewModel.isCart(id,userId)
+            withContext(Dispatchers.Main){
+                if (result==1){
+                    binding.content.productPageAddToCart.visibility=View.GONE
+                    binding.content.productPageInCart.visibility=View.VISIBLE
+                }else{
+                    binding.content.productPageAddToCart.visibility=View.VISIBLE
+                    binding.content.productPageInCart.visibility=View.GONE
                 }
             }
 

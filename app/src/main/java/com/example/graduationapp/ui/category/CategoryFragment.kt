@@ -93,6 +93,7 @@ class CategoryFragment : Fragment() ,  TabLayout.OnTabSelectedListener {
     private fun loadProducts(id:String) {
         categoryViewMode.loadProductData(id).observe(requireActivity()) {
             it?.let {
+                binding.progressBar.visibility=View.GONE
                 data= it.products as ArrayList<Products>
                 orignalList=data
                 adapter.setData(data, requireContext())

@@ -76,8 +76,10 @@ class PaymentSummary : AppCompatActivity() {
             }
         })
 
-        binding.tvNotificationOnOff.text = province+"\n"+phone+"\n"+address1
-        binding.tvPrice.text= price
+        binding.phone.text= phone
+        binding.address.text=address1
+        binding.province.text = province
+        binding.tvPrice.text= price+" EGP"
 
             binding.fabContinue.setOnClickListener{
             if (binding.cash.isChecked){

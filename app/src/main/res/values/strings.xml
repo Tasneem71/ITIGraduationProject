@@ -173,7 +173,11 @@
     <string name="order_canceled">Your Order Cancelled</string>
     <string name="discount">Discount</string>
     <string name="usecode">Using the discount code will reduce the total by 10%</string>
-
+    <string name="inCart">In Cart</string>
+    <string name="address_data">Address Data</string>
+    <string name="total_pric">TOTAL PRICE</string>
+    <string name="order_summary">ORDER SUMMARY</string>
+    <string name="discount_code">Discount Code</string>
 
 
 </resources>
