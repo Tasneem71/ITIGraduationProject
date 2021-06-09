@@ -28,63 +28,17 @@ class GraphQlProducts : AppCompatActivity() {
 
         GlobalScope.launch {
             try {
-                val response = MyApolloClient.getApolloClient().suspendQuery(GetProductsQuery()).data()
-                var x= response?.products?.edges?.get(0)?.node?.tags
-                var d= response?.products?.edges?.get(0)?.node?.featuredImage?.originalSrc
+                val response =
+                    client.suspendQuery(GetProductsQuery()).data()
+                val error =
+                    client.suspendQuery(GetProductsQuery()).errors()
+                var x = response?.products?.edges?.get(0)?.node?.tags
+                var d = response?.products?.edges?.get(0)?.node?.featuredImage?.originalSrc
 
-            }catch (e: Exception) {
+            } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
 
-
-//        client.query(GetProductsQuery.builder().build()).enqueue(
-//            object : ApolloCall.Callback<GetProductsQuery.Data>()
-//            {
-//                override fun onFailure(e: ApolloException) {
-//                    Log.i("GraphQl", "onFailure: ${e.localizedMessage}")
-//                }
-//                override fun onResponse(response: Response<GetProductsQuery.Data>) {
-//                    Log.i("GraphQl", "onResponse: ${response.data().toString()} ")
-//                }
-//
-//            }
-//        )
-
-
     }
-
-    /*
-    * val client = ApolloClient.builder()
-            .serverUrl("https://example.com/graphql")
-            .okHttpClient(                OkHttpClient.Builder()
-                    .addInterceptor { chain ->
-                        chain.proceed(
-                            chain.request().newBuilder()
-                                .addHeader("Authorization", "Basic cnllYnJ5ZTpiVarArsVzMTIz")
-                                .build()
-                        )
-                    }
-                    .build()
-            )
-            .build()
-
-        client.query()
-
-        val apolloClient  =ApolloClient.builder().serverUrl("https://043be955a8db3bd91f8a910a6b5c7df8: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@mohamedabdallah.myshopify.com/admin/").build()
-        apolloClient.query(GetProductsQuery.builder().build()).enqueue(
-           object : ApolloCall.Callback<GetProductsQuery.Data>()
-           {
-               override fun onFailure(e: ApolloException) {
-                   Log.i("GraphQl", "onFailure: ${e.localizedMessage}")
-               }
-               override fun onResponse(response: Response<GetProductsQuery.Data>) {
-                   Log.i("GraphQl", "onResponse: ${response.data().toString()} ")
-               }
-
-           }
-        )
-    }
-    *
-    * */
 }
