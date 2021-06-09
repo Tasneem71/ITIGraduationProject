@@ -178,6 +178,8 @@
     <string name="total_pric">TOTAL PRICE</string>
     <string name="order_summary">ORDER SUMMARY</string>
     <string name="discount_code">Discount Code</string>
+    <string name="user_data">USER DATA</string>
+    <string name="confirmation">CONFIRMATION</string>
 
 
 </resources>
