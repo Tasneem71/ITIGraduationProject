@@ -29,9 +29,9 @@ class GraphQlProducts : AppCompatActivity() {
         GlobalScope.launch {
             try {
                 val response = MyApolloClient.getApolloClient().suspendQuery(GetProductsQuery()).data()
-                var x= response as? GetProductsQuery.Node
-               // Log.i("HHHHH", "onCreate: ${x.toString()}")
-                Log.i("HHHH", "onCreate: ${response?.products()?.edges()?.get(0)?.node()?.id()}")
+                var x= response?.products?.edges?.get(0)?.node?.tags
+                var d= response?.products?.edges?.get(0)?.node?.featuredImage?.originalSrc
+
             }catch (e: Exception) {
                 e.printStackTrace()
             }

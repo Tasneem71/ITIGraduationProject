@@ -52,6 +52,20 @@ android {
         enabled = true
     }
 }
+apollo {
+    customTypeMapping = [
+            "Date" : "java.util.Date"
+    ]
+}
+apollo {
+    customTypeMapping = [
+            "URL" : "java.lang.String"
+    ]
+
+}
+apollo {
+    generateKotlinModels.set(true)
+}
 
 dependencies {
 

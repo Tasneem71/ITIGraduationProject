@@ -1,11 +1,44 @@
 query getProducts{
-    products(first: 10) {
+    products(first: 50) {
         edges {
             node {
                 id
                 handle
                 description
+                tags
+                vendor
+                featuredImage {
+                    originalSrc
+                    transformedSrc
+                }
             }
         }
     }
 }
+
+query homeCollection {
+    collections(first: 10) {
+        edges {
+            node {
+                id
+                handle
+                products(first: 50) {
+                    edges {
+                        node {
+                            id
+                            handle
+                            description
+                            tags
+                            vendor
+                            featuredImage {
+                                originalSrc
+                            }
+                        }
+                    }
+                }
+                productsCount
+            }
+        }
+    }
+}
+
