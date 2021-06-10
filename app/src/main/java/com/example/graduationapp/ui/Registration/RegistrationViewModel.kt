@@ -1,19 +1,14 @@
-package com.example.graduationapp
+package com.example.graduationapp.ui.Registration
 
 import android.app.Application
-import android.content.Context
-import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.graduationapp.data.ApiCustomers
 import com.example.graduationapp.data.CreatedCustomer
 import com.example.graduationapp.data.Customers
 import com.example.graduationapp.remote.ApiRepository
 import com.example.graduationapp.utils.Validation
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 

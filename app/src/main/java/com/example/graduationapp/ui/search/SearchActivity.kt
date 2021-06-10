@@ -1,4 +1,4 @@
-package com.example.graduationapp
+package com.example.graduationapp.ui.search
 
 import android.content.Intent
 import android.os.Bundle
@@ -15,7 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.SearchViewModel
+import com.example.graduationapp.R
 import com.example.graduationapp.data.Products
 import com.example.graduationapp.databinding.ActivitySearchBinding
 import com.example.graduationapp.ui.home.ShopCategoryAdapter
@@ -113,7 +113,7 @@ class SearchActivity : AppCompatActivity() , ShopCategoryAdapter.OnHomeItemListe
 
         }
 
-        ArrayAdapter.createFromResource(this,R.array.vendor_options,android.R.layout.simple_spinner_item).also { adapter ->
+        ArrayAdapter.createFromResource(this, R.array.vendor_options,android.R.layout.simple_spinner_item).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             // Apply the adapter to the spinner
             binding.spinner.adapter = adapter

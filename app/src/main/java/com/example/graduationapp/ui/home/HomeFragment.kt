@@ -15,11 +15,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.graduationapp.R
-import com.example.graduationapp.SearchActivity
+import com.example.graduationapp.ui.search.SearchActivity
 import com.example.graduationapp.SharedPref
 import com.example.graduationapp.data.Products
-import com.example.graduationapp.data.priceRules.CreatedDiscount
-import com.example.graduationapp.data.priceRules.Discount
 import com.example.graduationapp.databinding.FragmentHomeBinding
 import com.example.graduationapp.ui.cart.CartActivity
 import com.example.graduationapp.ui.favoriteFeature.FavoriteActivity

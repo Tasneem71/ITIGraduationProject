@@ -1,9 +1,7 @@
-package com.example.graduationapp
+package com.example.graduationapp.ui.login
 
 import android.app.Application
 import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.*

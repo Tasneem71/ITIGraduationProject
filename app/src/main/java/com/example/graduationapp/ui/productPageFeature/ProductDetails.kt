@@ -10,7 +10,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
-import com.example.ViewPagerAdapter
 import com.example.domain.core.feature.favoriteFeature.Favorite
 import com.example.graduationapp.MainActivity
 import com.example.graduationapp.R

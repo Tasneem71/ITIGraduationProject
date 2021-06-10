@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.domain.core.subFeature.GridSpacingItemDecoration
 import com.example.domain.core.subFeature.RecyclerViewAnimation
 import com.example.graduationapp.R
-import com.example.graduationapp.SearchActivity
+import com.example.graduationapp.ui.search.SearchActivity
 import com.example.graduationapp.data.Custom_collections
 import com.example.graduationapp.data.Products
 import com.example.graduationapp.databinding.FragmentCategoryBinding

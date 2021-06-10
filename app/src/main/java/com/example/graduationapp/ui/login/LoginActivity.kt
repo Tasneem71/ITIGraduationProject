@@ -1,4 +1,4 @@
-package com.example.graduationapp
+package com.example.graduationapp.ui.login
 
 import android.app.ActivityOptions
 import android.app.ProgressDialog
@@ -11,6 +11,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
+import com.example.graduationapp.MainActivity
+import com.example.graduationapp.R
+import com.example.graduationapp.ui.Registration.RegistrationActivity
+import com.example.graduationapp.SharedPref
 import com.example.graduationapp.data.CreatedCustomer
 import com.example.graduationapp.data.Customer
 import com.example.graduationapp.databinding.ActivityLoginBinding
