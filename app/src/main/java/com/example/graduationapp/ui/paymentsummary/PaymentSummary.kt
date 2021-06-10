@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -97,6 +98,7 @@ class PaymentSummary : AppCompatActivity() {
 
                 price = ((price.toDouble())*.9).toString()
                 binding.tvPrice.text=price
+                binding.applyDiscount.visibility= View.GONE
 
             } else {
 

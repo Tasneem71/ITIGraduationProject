@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.me.MeFragment"
-    android:background="@color/lightGray">
+    android:background="@color/medGray">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -49,7 +49,7 @@
                     android:text="@string/Shopfiy"
                     android:gravity="center"
                     android:textSize="20dp"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/whigte"/>
 
                 <ImageView
                     android:id="@+id/settings"
@@ -86,7 +86,7 @@
             app:layout_constraintStart_toStartOf="parent"
             android:layout_margin="10dp"
             android:text="@string/welcometoshopfiy"
-            android:textColor="@color/white"
+            android:textColor="@color/whigte"
             android:textSize="25sp"
             android:textStyle="bold"/>
 
@@ -99,7 +99,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_width="match_parent"
-            android:layout_height="420dp"
+            android:layout_height="440dp"
             android:orientation="vertical"
             android:background="@drawable/profile_card">
 
@@ -146,7 +146,7 @@
                     android:layout_marginStart="30dp"
                     android:layout_marginEnd="20dp"
                     android:layout_width="match_parent"
-                    android:layout_height="310dp"
+                    android:layout_height="320dp"
                     tools:listitem="@layout/card"
                     app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                     app:layout_constraintTop_toBottomOf="@id/tab_layout"
