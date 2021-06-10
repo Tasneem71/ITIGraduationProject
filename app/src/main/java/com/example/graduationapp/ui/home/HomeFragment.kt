@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.graduationapp.HomeCollectionQuery
 import com.example.graduationapp.R
 import com.example.graduationapp.SearchActivity
 import com.example.graduationapp.SharedPref
@@ -21,30 +22,28 @@ import com.example.graduationapp.data.Products
 import com.example.graduationapp.data.priceRules.CreatedDiscount
 import com.example.graduationapp.data.priceRules.Discount
 import com.example.graduationapp.databinding.FragmentHomeBinding
+import com.example.graduationapp.graphql.CollectionsGraphAdapter
+import com.example.graduationapp.graphql.GraphViewModel
 import com.example.graduationapp.ui.cart.CartActivity
 import com.example.graduationapp.ui.favoriteFeature.FavoriteActivity
 import com.example.graduationapp.ui.productPageFeature.ProductDetails
 
 
-class HomeFragment : Fragment()  , ShopCategoryAdapter.OnHomeItemListener {
+class HomeFragment : Fragment() ,CollectionsGraphAdapter.OnHomeItemListener {
 
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var binding: FragmentHomeBinding
     private lateinit var imgas:Array<Int>
-    private lateinit var adidusList:ArrayList<Products>
-    private lateinit var nikeList:ArrayList<Products>
-    private lateinit var pumaList:ArrayList<Products>
-    private lateinit var converceList:ArrayList<Products>
-    private lateinit var asicsList:ArrayList<Products>
-    var  adidasAdapter = ShopCategoryAdapter(arrayListOf(),this)
-    var  nikeAdapter = ShopCategoryAdapter(arrayListOf(),this)
-    var  pumaAdapter = ShopCategoryAdapter(arrayListOf(),this)
-    var  converceAdapter = ShopCategoryAdapter(arrayListOf(),this)
-    var  asicsAdapter = ShopCategoryAdapter(arrayListOf(),this)
-
+    var  adidasAdapter = CollectionsGraphAdapter(arrayListOf(),this)
+    var  nikeAdapter = CollectionsGraphAdapter(arrayListOf(),this)
+    var  pumaAdapter = CollectionsGraphAdapter(arrayListOf(),this)
+    var  converceAdapter = CollectionsGraphAdapter(arrayListOf(),this)
+    var  asicsAdapter = CollectionsGraphAdapter(arrayListOf(),this)
+    private lateinit var homeViewModel1: GraphViewModel
     override fun onCreateView(inflater: LayoutInflater,container: ViewGroup?,savedInstanceState: Bundle?): View {
 
         homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+        homeViewModel1 = ViewModelProvider(this).get(GraphViewModel::class.java)
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
         imgas =arrayOf(R.drawable.discount,R.drawable.op ,R.drawable.lap)
 
@@ -52,11 +51,6 @@ class HomeFragment : Fragment()  , ShopCategoryAdapter.OnHomeItemListener {
              showPhotos(item)
 
         initUI()
-        adidusList = ArrayList()
-        nikeList = ArrayList()
-        pumaList = ArrayList()
-        converceList = ArrayList()
-        asicsList = ArrayList()
 
         //*********************************
         binding.flipper.setOnClickListener {
@@ -88,20 +82,30 @@ class HomeFragment : Fragment()  , ShopCategoryAdapter.OnHomeItemListener {
 
 //        updateBadge()
 
+        homeViewModel1.adidas?.observe(requireActivity(), Observer {
+            Log.i("tasneem",""+it)
+            adidasAdapter.setData(it)
+        })
 
+        homeViewModel1.nike?.observe(requireActivity(), Observer {
+            Log.i("tasneem",""+it)
+            nikeAdapter.setData(it)
+        })
 
-        adidasAdapter.updateCategory(adidusList)
-        nikeAdapter.updateCategory(nikeList)
-        pumaAdapter.updateCategory(pumaList)
-        converceAdapter.updateCategory(converceList)
-        asicsAdapter.updateCategory(asicsList)
+        homeViewModel1.converse?.observe(requireActivity(), Observer {
+            Log.i("tasneem",""+it)
+            converceAdapter.setData(it)
+        })
 
+        homeViewModel1.asicsTiger?.observe(requireActivity(), Observer {
+            Log.i("tasneem",""+it)
+            asicsAdapter.setData(it)
+        })
 
-        loadProducts("268359205062",0)
-        loadProducts("268359237830",1)
-        loadProducts("268359401670",2)
-        loadProducts("268359303366",3)
-        loadProducts("268359336134",4)
+        homeViewModel1.puma?.observe(requireActivity(), Observer {
+            Log.i("tasneem",""+it)
+            pumaAdapter.setData(it)
+        })
 
         homeViewModel.generatedDiscountLiveData.observe(requireActivity()) {
             it?.let {
@@ -127,37 +131,6 @@ class HomeFragment : Fragment()  , ShopCategoryAdapter.OnHomeItemListener {
 
 
         return binding.root
-    }
-
-    private fun loadProducts(id:String,num:Int) {
-        homeViewModel.loadProductData(id,num).observe(requireActivity()) {
-            Log.d("data", "  products"+it.products[0].title)
-            it?.let {
-                when (num) {
-                    0 -> {
-                        adidusList= it.products as ArrayList<Products>
-                        adidasAdapter.updateCategory(adidusList)
-                    }
-                    1 -> {
-                        nikeList= it.products as ArrayList<Products>
-                        nikeAdapter.updateCategory(nikeList)
-                    }
-                    2 -> {
-                        pumaList= it.products as ArrayList<Products>
-                        pumaAdapter.updateCategory(pumaList)
-                    }
-                    3 -> {
-                        converceList= it.products as ArrayList<Products>
-                        converceAdapter.updateCategory(converceList)
-                    }
-                    4 -> {
-                        asicsList= it.products as ArrayList<Products>
-                        asicsAdapter.updateCategory(asicsList)
-                    }
-                }
-
-            }
-        }
     }
     private fun initUI() {
         binding.recyclerShopCategory.apply {
@@ -191,15 +164,23 @@ class HomeFragment : Fragment()  , ShopCategoryAdapter.OnHomeItemListener {
 
     }
 
-    override fun onImageClick(item: Products) {
-        val intent= Intent(this.context, ProductDetails::class.java)
-        intent.putExtra("product_id",item.id .toString())
-        this.context?.startActivity(intent)
-    }
-
     override fun onResume() {
         super.onResume()
         homeViewModel.cartCount(SharedPref.getUserID().toString())
+    }
+
+    override fun onImageClick(item: HomeCollectionQuery.Edge1) {
+        splitId(item.node.id)
+        val intent= Intent(this.context, ProductDetails::class.java)
+        intent.putExtra("product_id",splitId(item.node.id))
+        this.context?.startActivity(intent)
+    }
+
+    fun splitId(id:String): String{
+        val delim = "/"
+        val list = id.split(delim)
+        Toast.makeText(context,""+list.get(list.size-1),Toast.LENGTH_LONG).show()
+        return list.get(list.size-1)
     }
 
 }

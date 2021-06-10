@@ -23,7 +23,7 @@ class CollectionsGraphAdapter(var categorys: ArrayList<HomeCollectionQuery.Edge1
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int) = CategoryViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.card, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.graph_card, parent, false)
     )
     override fun getItemCount() = categorys.size
 
@@ -43,7 +43,8 @@ class CollectionsGraphAdapter(var categorys: ArrayList<HomeCollectionQuery.Edge1
         //private val addCart = view.findViewById<ImageView>(R.id.add_card)
         fun bind(category: HomeCollectionQuery.Edge1) {
             Glide.with(imageView.context).load(category.node.featuredImage!!.originalSrc).placeholder(R.drawable.ic_search).into(imageView)
-            name.text =category.node.handle
+            name.text =category.node.title
+            //price.text =category.node.variants[0].edges.node.price
 
         }
         init {

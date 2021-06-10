@@ -34,6 +34,7 @@ class GraphViewModel (application: Application) : AndroidViewModel(application) 
 
     init {
         getCollectionData()
+        Log.i("tasneem","init ")
     }
 
 
@@ -47,12 +48,17 @@ class GraphViewModel (application: Application) : AndroidViewModel(application) 
                 val hasError =
                     graphRepo.suspendQuery(HomeCollectionQuery()).hasErrors()
 
+
                 adidas.value = filterCollection("adidas",response!!)
                 nike.value = filterCollection("nike",response!!)
                 puma.value = filterCollection("puma",response!!)
                 converse.value = filterCollection("converse",response!!)
                 asicsTiger.value = filterCollection("asics-tiger",response!!)
-
+                Log.i("tasneem",""+ adidas.value as Any?)
+                Log.i("tasneem","error "+ error)
+                Log.i("tasneem",""+ hasError)
+                Log.i("tasneem","response "+ response)
+                Log.i("tasneem","whatever ")
             } catch (e: Exception) {
                 e.printStackTrace()
             }finally {

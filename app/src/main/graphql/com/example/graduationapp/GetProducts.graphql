@@ -27,17 +27,11 @@ query homeCollection {
                         node {
                             id
                             handle
+                            title
                             description
                             tags
                             vendor
-                            variants(first :1) {
-                                edges {
-                                    node {
-                                        price
 
-                                    }
-                                }
-                            }
                             featuredImage {
                                 originalSrc
                             }

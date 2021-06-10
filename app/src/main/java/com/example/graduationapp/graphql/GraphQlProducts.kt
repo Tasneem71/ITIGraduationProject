@@ -46,6 +46,7 @@ class GraphQlProducts : AppCompatActivity() ,CollectionsGraphAdapter.OnHomeItemL
         binding.fifth.itemAnimator= DefaultItemAnimator()
         binding.fifth.adapter = adidasAdapter
         homeViewModel.nike?.observe(this, Observer {
+            Log.i("tasneem",""+it)
             adidasAdapter.setData(it)
         })
 
