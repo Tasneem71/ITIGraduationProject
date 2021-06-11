@@ -14,6 +14,7 @@ class CartViewModel(application: Application) : AndroidViewModel(application) {
     private val local = LocalSource(application)
     var carts : MutableLiveData<List<Favorite>>? = MutableLiveData<List<Favorite>>()
     var sumOfItems : MutableLiveData<Int> = MutableLiveData<Int>()
+    var network =MutableLiveData<Boolean>()
     //var count : MutableLiveData<Int> = MutableLiveData<Int>()
 
 
@@ -35,14 +36,7 @@ class CartViewModel(application: Application) : AndroidViewModel(application) {
             sumOfItems.postValue(sumPrices)
         }
     }
-    fun allPrice( list :List<Favorite>) {
-        var sumPrices :Int =0
-        for(item in list){
 
-            sumPrices += (item.price * item.count)
-        }
-        sumOfItems.postValue(sumPrices)
-    }
     fun updateCount(id:Long,count:Int,userId: String){
         viewModelScope.launch {
             local.updateCount(id,count,userId)

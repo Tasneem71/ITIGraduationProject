@@ -20,7 +20,6 @@ object SharedPref{
         editor.apply()
     }
 
-
     fun setUserId(id: String?) {
         val editor: SharedPreferences.Editor = pref!!.edit()
         editor.putString("user-id", id)
@@ -45,6 +44,30 @@ object SharedPref{
         editor.apply()
     }
 
+    fun setAddressID(addressIp: String?) {
+        val editor: SharedPreferences.Editor = pref!!.edit()
+        editor.putString("address_ip", addressIp)
+        editor.apply()
+    }
+
+    fun checkLoginWithFirebase(): Boolean? {
+        return pref!!.getBoolean("login-firebase", false)
+    }
+
+    fun setLogin(login: Boolean) {
+        val editor = pref!!.edit()
+        editor.putBoolean("login", login)
+        editor.apply()
+    }
+
+    fun setEver(login: Boolean) {
+        val editor = pref!!.edit()
+        editor.putBoolean("ever", login)
+        editor.apply()
+    }
+
+
+
     fun getUserEmail(): String? {
         return pref!!.getString("user-email", " ")
     }
@@ -61,23 +84,9 @@ object SharedPref{
         return pref!!.getLong("user-discount", 0)
     }
 
-    fun setAddressID(addressIp: String?) {
-        val editor: SharedPreferences.Editor = pref!!.edit()
-        editor.putString("address_ip", addressIp)
-        editor.apply()
-    }
     fun getAddressID(): String? {
         return pref!!.getString("address_ip", " ")
     }
-    fun haveOneAddress(addressIp: Boolean) {
-        val editor: SharedPreferences.Editor = pref!!.edit()
-        editor.putBoolean("have_address", addressIp)
-        editor.apply()
-    }
-    fun isHaveOneAddress(): Boolean {
-        return pref!!.getBoolean("have_address", false)
-    }
-
 
     fun getUserInfo(): String? {
         return pref!!.getString("user-info", " ")
@@ -88,14 +97,10 @@ object SharedPref{
         return pref!!.getBoolean("user-state", false)
     }
 
-
-    fun checkLoginWithFirebase(): Boolean? {
-        return pref!!.getBoolean("login-firebase", false)
+    fun getEver(): Boolean {
+        return pref!!.getBoolean("ever", false)
     }
 
-    fun setLogin(login: Boolean) {
-        val editor = pref!!.edit()
-        editor.putBoolean("login", login)
-        editor.apply()
-    }
+
+
 }

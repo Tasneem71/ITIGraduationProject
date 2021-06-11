@@ -6,7 +6,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 
@@ -19,13 +18,10 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.domain.core.feature.favoriteFeature.Favorite
 
-import com.example.graduationapp.LoginActivity
-import com.example.graduationapp.MainActivity
+import com.example.graduationapp.ui.login.LoginActivity
 import com.example.graduationapp.R
 import com.example.graduationapp.SharedPref
 import com.example.graduationapp.data.CancelOrder
-import com.example.graduationapp.data.CanceledOrder
-import com.example.graduationapp.data.Custom_collections
 import com.example.graduationapp.data.orders.Orders
 import com.example.graduationapp.databinding.FragmentMeBinding
 import com.example.graduationapp.ui.cart.CartActivity

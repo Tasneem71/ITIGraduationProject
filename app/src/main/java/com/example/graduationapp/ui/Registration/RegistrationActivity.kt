@@ -1,16 +1,17 @@
-package com.example.graduationapp
+package com.example.graduationapp.ui.Registration
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.RelativeLayout
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
+import com.example.graduationapp.MainActivity
+import com.example.graduationapp.R
+import com.example.graduationapp.SharedPref
 import com.example.graduationapp.data.CreatedCustomer
 import com.example.graduationapp.data.Customer
 import com.example.graduationapp.databinding.ActivityRegistrationBinding

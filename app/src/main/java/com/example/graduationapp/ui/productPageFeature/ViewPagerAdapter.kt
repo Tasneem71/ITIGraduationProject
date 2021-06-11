@@ -1,4 +1,4 @@
-package com.example
+package com.example.graduationapp.ui.productPageFeature
 
 import android.view.LayoutInflater
 import android.view.View

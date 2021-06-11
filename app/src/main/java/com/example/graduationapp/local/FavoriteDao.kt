@@ -25,6 +25,9 @@ interface FavoriteDao {
     @Query("SELECT COUNT() FROM Favorite WHERE id = :id And page = 70 and userId= :userId")
     suspend fun isFavorite(id: Long,userId: String): Int
 
+    @Query("SELECT COUNT() FROM Favorite WHERE id = :id And page = 67 and userId= :userId")
+    suspend fun isCart(id: Long,userId: String): Int
+
     @Query("select * from Favorite where page = 67 and userId= :userId")
     suspend fun getAllCart(userId: String): List<Favorite>?
 
