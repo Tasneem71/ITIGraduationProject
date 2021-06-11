@@ -24,9 +24,8 @@ class MainActivity : AppCompatActivity() {
         val appBarConfiguration = AppBarConfiguration(setOf(
                 R.id.navigation_home, R.id.navigation_category, R.id.navigation_me))
         //setupActionBarWithNavController(navController, appBarConfiguration)
-        SharedPref.createPrefObject(this)
         //navView.setupWithNavController(navController)
-
+        SharedPref.setEver(true)
         bottomNavigationView = findViewById(R.id.bottom_navigation)
         bottomNavigationView.add(MeowBottomNavigation.Model(1,R.drawable.home1))
         bottomNavigationView.add(MeowBottomNavigation.Model(2,R.drawable.hanger))

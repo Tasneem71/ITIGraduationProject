@@ -52,6 +52,25 @@ android {
     }
 }
 
+
+def githubProperties = new Properties()
+githubProperties.load(new FileInputStream(rootProject.file("github.properties")))
+repositories {
+    maven {
+        name = "GitHubPackages"
+
+        url = uri("https://maven.pkg.github.com/Cuberto/liquid-swipe-android")
+        credentials {
+            /** Create github.properties in root project folder file with
+             ** gpr.usr=GITHUB_USER_ID & gpr.key=PERSONAL_ACCESS_TOKEN
+             ** Or set env variable GPR_USER & GPR_API_KEY if not adding a properties file**/
+            username = githubProperties['gpr.usr'] ?: System.getenv("GPR_USER")
+            password = githubProperties['gpr.key'] ?: System.getenv("GPR_API_KEY")
+        }
+    }
+}
+
+
 dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -65,6 +84,7 @@ dependencies {
     implementation 'androidx.preference:preference:1.1.1'
     implementation 'com.google.firebase:firebase-auth:21.0.1'
     implementation project(path: ':paytabs_sdk-v4.0.1')
+    implementation 'androidx.wear:wear:1.0.0'
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
@@ -79,6 +99,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:19.0.0'
     // Login with facebook
     implementation 'com.facebook.android:facebook-android-sdk:[5,6)'
+    compileOnly 'com.google.android.wearable:wearable:2.6.0'
     def lifecycle_version = "2.3.0"
     // ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
@@ -158,6 +179,10 @@ dependencies {
 
     // notification badage
     implementation 'com.nex3z:notification-badge:1.0.4'
+
+
+    // liquid swipe
+    implementation 'com.cuberto:liquid-swipe:1.0.0'
 
 
 }

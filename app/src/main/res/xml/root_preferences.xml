@@ -16,7 +16,8 @@
 
         <CheckBoxPreference
             app:key="background_mode"
-            app:title="@string/default_mode">
+            app:title="@string/default_mode"
+            app:icon="@drawable/moon">
 
 
         </CheckBoxPreference>

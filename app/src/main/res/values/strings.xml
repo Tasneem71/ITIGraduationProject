@@ -94,6 +94,20 @@
     <string name="version" translatable="false">Version 1.0.0</string>
     <string name="copyright" translatable="false">copyright 2020, www.shopify.com</string>
     <string name="contact_us">contact us</string>
+    <string name="title_activity_welcome" translatable="false">WelcomeActivity</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="title1">Greate Discounts</string>
+    <string name="text1">We are offering discounts on almost all of our products, with the best priceses</string>
+
+    <string name="title2">Shop all you want!</string>
+    <string name="text2">Shop and get offers, promo cods and discount on your future purchase</string>
+
+    <string name="title3">Unique products</string>
+    <string name="text3">providing 100% authentic products</string>
 
 
 </resources>
