@@ -1,20 +1,35 @@
-query getProducts{
-    products(first: 50) {
+query getProducts {
+    products(first: 150) {
         edges {
             node {
                 id
-                handle
+                title
                 description
                 tags
                 vendor
+                legacyResourceId
+                productType
+                options(first: 5) {
+                    name
+                    values
+                }
+                variants(first: 1) {
+                    edges {
+                        node {
+                            price
+                            inventoryQuantity
+                        }
+                    }
+                }
                 featuredImage {
                     originalSrc
-                    transformedSrc
                 }
             }
         }
     }
+
 }
+
 
 query homeCollection {
     collections(first: 9) {

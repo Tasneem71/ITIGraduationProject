@@ -16,6 +16,7 @@ import com.example.graduationapp.data.priceRules.CreatedDiscount
 import com.example.graduationapp.data.priceRules.DiscountCode
 import com.example.graduationapp.data.priceRules.DiscountCodeClass
 import com.example.graduationapp.remote.ApiRepository
+import com.facebook.internal.Mutable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -24,17 +25,24 @@ import org.w3c.dom.Node
 class GraphViewModel (application: Application) : AndroidViewModel(application) {
 
 
+    var map= MutableLiveData<HashMap<String,List<HomeCollectionQuery.Edge1>>>()
+
     var adidas = MutableLiveData<List<HomeCollectionQuery.Edge1>>()
     var nike = MutableLiveData<List<HomeCollectionQuery.Edge1>>()
     var puma = MutableLiveData<List<HomeCollectionQuery.Edge1>>()
     var converse = MutableLiveData<List<HomeCollectionQuery.Edge1>>()
     var asicsTiger = MutableLiveData<List<HomeCollectionQuery.Edge1>>()
 
+    var men = MutableLiveData<List<HomeCollectionQuery.Edge1>>()
+    var women = MutableLiveData<List<HomeCollectionQuery.Edge1>>()
+    var kid = MutableLiveData<List<HomeCollectionQuery.Edge1>>()
+    var sale = MutableLiveData<List<HomeCollectionQuery.Edge1>>()
+    var home = MutableLiveData<List<HomeCollectionQuery.Edge1>>()
+
     var graphRepo: GraphRepo = GraphRepo(application)
 
     init {
         getCollectionData()
-        Log.i("tasneem","init ")
     }
 
 
@@ -46,7 +54,9 @@ class GraphViewModel (application: Application) : AndroidViewModel(application) 
                 val error =
                     graphRepo.suspendQuery(HomeCollectionQuery()).errors()
                 val hasError =
-                    graphRepo.suspendQuery(HomeCollectionQuery()).hasErrors()
+                    graphRepo.suspendQuery(GetProductsQuery()).hasErrors()
+
+
 
 
                 adidas.value = filterCollection("adidas",response!!)
@@ -54,11 +64,13 @@ class GraphViewModel (application: Application) : AndroidViewModel(application) 
                 puma.value = filterCollection("puma",response!!)
                 converse.value = filterCollection("converse",response!!)
                 asicsTiger.value = filterCollection("asics-tiger",response!!)
-                Log.i("tasneem",""+ adidas.value as Any?)
-                Log.i("tasneem","error "+ error)
-                Log.i("tasneem",""+ hasError)
-                Log.i("tasneem","response "+ response)
-                Log.i("tasneem","whatever ")
+
+                men.value = filterCollection("men",response!!)
+                women.value = filterCollection("women",response!!)
+                sale.value = filterCollection("sale",response!!)
+                kid.value = filterCollection("kid",response!!)
+                home.value = filterCollection("home-page",response!!)
+
             } catch (e: Exception) {
                 e.printStackTrace()
             }finally {

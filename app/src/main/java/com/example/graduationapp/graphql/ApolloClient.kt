@@ -20,12 +20,12 @@ import java.nio.charset.StandardCharsets
 
 object MyApolloClient {
 
-    private const val SERVER_URL = "https://mohamedabdallah.myshopify.com/admin/api/2021-04/graphql"
+    private const val SERVER_URL = "https://itiana.myshopify.com/admin/api/2021-04/graphql"
 
     private val client = OkHttpClient.Builder().addInterceptor(
         BasicAuthInterceptor(
-            "043be955a8db3bd91f8a910a6b5c7df8",
-            "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"
+            "ce751b18c7156bf720ea405ad19614f4",
+            "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"
         )
     ).build()
 
