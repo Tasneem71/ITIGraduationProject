@@ -16,7 +16,6 @@ import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.graduationapp.HomeCollectionQuery
 import com.example.graduationapp.R
-import com.example.graduationapp.SearchActivity
 import com.example.graduationapp.SharedPref
 import com.example.graduationapp.data.Products
 import com.example.graduationapp.data.priceRules.CreatedDiscount
@@ -27,6 +26,7 @@ import com.example.graduationapp.graphql.GraphViewModel
 import com.example.graduationapp.ui.cart.CartActivity
 import com.example.graduationapp.ui.favoriteFeature.FavoriteActivity
 import com.example.graduationapp.ui.productPageFeature.ProductDetails
+import com.example.graduationapp.ui.search.SearchActivity
 
 
 class HomeFragment : Fragment() ,CollectionsGraphAdapter.OnHomeItemListener {

@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
 
+
+
 object SharedPref{
 
     private var pref: SharedPreferences? = null
