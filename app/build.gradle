@@ -59,10 +59,16 @@ apollo {
 }
 apollo {
     customTypeMapping = [
-            "URL" : "java.lang.String"
+            "URL" : "java.lang.String",
+            "uuid" : "java.lang.String",
+            "Money": "java.lang.Double",
+            "price": "java.lang.Integer",
+            "jsonb": "java.lang.String",
+            "UnsignedInt64": "java.lang.String"
     ]
 
 }
+
 apollo {
     generateKotlinModels.set(true)
 }

@@ -1,5 +1,6 @@
 package com.example.graduationapp.graphql
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,7 +45,8 @@ class CollectionsGraphAdapter(var categorys: ArrayList<HomeCollectionQuery.Edge1
         fun bind(category: HomeCollectionQuery.Edge1) {
             Glide.with(imageView.context).load(category.node.featuredImage!!.originalSrc).placeholder(R.drawable.ic_search).into(imageView)
             name.text =category.node.title
-            //price.text =category.node.variants[0].edges.node.price
+            price.text = category.node.variants.edges.get(0).node.price.toString()
+            val ddd=category.node.variants.edges.get(0).node.price.toString()
 
         }
         init {

@@ -66,8 +66,8 @@ class GraphViewModel (application: Application) : AndroidViewModel(application) 
             }
         }
     }
-    private fun filterCollection(collectionKey:String, collections : HomeCollectionQuery.Data ) : List<HomeCollectionQuery.Edge1>
-    {
+    private fun filterCollection(collectionKey:String, collections : HomeCollectionQuery.Data )
+            : List<HomeCollectionQuery.Edge1> {
         val oneCollection =collections.collections.edges.filter {
             it.node?.handle ==collectionKey
         }

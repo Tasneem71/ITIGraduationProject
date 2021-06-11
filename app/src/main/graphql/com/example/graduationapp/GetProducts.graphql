@@ -31,7 +31,20 @@ query homeCollection {
                             description
                             tags
                             vendor
-
+                            legacyResourceId
+                            productType
+                            options(first:5){
+                                name
+                                values
+                            }
+                            variants(first: 1) {
+                                edges {
+                                    node {
+                                        price
+                                        inventoryQuantity
+                                    }
+                                }
+                            }
                             featuredImage {
                                 originalSrc
                             }
