@@ -42,15 +42,6 @@ class FavoriteViewModel(application: Application) : AndroidViewModel(application
          return viewModelScope.async {
              local.isFavorite(id,userId)
          }.await()
-//         var isFavorite=false
-//         viewModelScope.launch {
-//             val res=async {
-//                 local.isFavorite(id)
-//             }
-//             isFavorite = res.await()>0
-//             Log.i("TAG", "isFavorite: $isFavorite")
-//         }
-//         return isFavorite
     }
     suspend fun isCart(id: Long,userId: String):Int{
         return viewModelScope.async {

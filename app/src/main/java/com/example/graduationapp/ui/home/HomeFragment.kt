@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.domain.core.feature.favoriteFeature.Favorite
 import com.example.graduationapp.HomeCollectionQuery
 import com.example.graduationapp.R
 import com.example.graduationapp.SharedPref
@@ -33,13 +34,14 @@ class HomeFragment : Fragment() ,CollectionsGraphAdapter.OnHomeItemListener {
 
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var binding: FragmentHomeBinding
-    private lateinit var imgas:Array<Int>
-    var  adidasAdapter = CollectionsGraphAdapter(arrayListOf(),this)
-    var  nikeAdapter = CollectionsGraphAdapter(arrayListOf(),this)
-    var  pumaAdapter = CollectionsGraphAdapter(arrayListOf(),this)
-    var  converceAdapter = CollectionsGraphAdapter(arrayListOf(),this)
-    var  asicsAdapter = CollectionsGraphAdapter(arrayListOf(),this)
     private lateinit var homeViewModel1: GraphViewModel
+    private lateinit var imgas:Array<Int>
+    lateinit var  adidasAdapter:CollectionsGraphAdapter
+    lateinit var  nikeAdapter : CollectionsGraphAdapter
+    lateinit var  pumaAdapter :CollectionsGraphAdapter
+    lateinit var  converceAdapter : CollectionsGraphAdapter
+    lateinit var  asicsAdapter : CollectionsGraphAdapter
+
     override fun onCreateView(inflater: LayoutInflater,container: ViewGroup?,savedInstanceState: Bundle?): View {
 
         homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
@@ -47,10 +49,17 @@ class HomeFragment : Fragment() ,CollectionsGraphAdapter.OnHomeItemListener {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
         imgas =arrayOf(R.drawable.discount,R.drawable.op ,R.drawable.lap)
 
+        adidasAdapter= CollectionsGraphAdapter(arrayListOf(),this,homeViewModel1)
+        nikeAdapter= CollectionsGraphAdapter(arrayListOf(),this,homeViewModel1)
+        pumaAdapter= CollectionsGraphAdapter(arrayListOf(),this,homeViewModel1)
+        converceAdapter= CollectionsGraphAdapter(arrayListOf(),this,homeViewModel1)
+        asicsAdapter= CollectionsGraphAdapter(arrayListOf(),this,homeViewModel1)
+
         for (item in imgas)
              showPhotos(item)
 
         initUI()
+        homeViewModel1.getCollectionData()
 
         //*********************************
         binding.flipper.setOnClickListener {
@@ -84,26 +93,31 @@ class HomeFragment : Fragment() ,CollectionsGraphAdapter.OnHomeItemListener {
 
         homeViewModel1.adidas?.observe(requireActivity(), Observer {
             Log.i("tasneem",""+it)
+            binding.progressBar.visibility=View.GONE
             adidasAdapter.setData(it)
         })
 
         homeViewModel1.nike?.observe(requireActivity(), Observer {
             Log.i("tasneem",""+it)
+            binding.progressBar.visibility=View.GONE
             nikeAdapter.setData(it)
         })
 
         homeViewModel1.converse?.observe(requireActivity(), Observer {
             Log.i("tasneem",""+it)
+            binding.progressBar.visibility=View.GONE
             converceAdapter.setData(it)
         })
 
         homeViewModel1.asicsTiger?.observe(requireActivity(), Observer {
             Log.i("tasneem",""+it)
+            binding.progressBar.visibility=View.GONE
             asicsAdapter.setData(it)
         })
 
         homeViewModel1.puma?.observe(requireActivity(), Observer {
             Log.i("tasneem",""+it)
+            binding.progressBar.visibility=View.GONE
             pumaAdapter.setData(it)
         })
 
@@ -174,6 +188,16 @@ class HomeFragment : Fragment() ,CollectionsGraphAdapter.OnHomeItemListener {
         val intent= Intent(this.context, ProductDetails::class.java)
         intent.putExtra("product_id",splitId(item.node.id))
         this.context?.startActivity(intent)
+    }
+
+    override fun onFavImageClick(item: HomeCollectionQuery.Edge1) {
+        homeViewModel1.addToFavorite(Favorite(item.node.legacyResourceId.toString().toLong(),item.node.title,item.node.handle,
+        item.node.variants.edges[0].node.price.toInt(),item.node.featuredImage!!.originalSrc.toString(),'F',
+            1,item.node.variants.edges[0].node.id,SharedPref.getUserID().toString()))
+    }
+
+    override fun onFavDeleImageClick(item: HomeCollectionQuery.Edge1) {
+        homeViewModel1.deleteFromFavorite(item.node.legacyResourceId.toString().toLong())
     }
 
     fun splitId(id:String): String{
