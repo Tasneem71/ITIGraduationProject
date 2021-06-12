@@ -18,6 +18,7 @@ import com.example.graduationapp.data.*
 import com.example.graduationapp.databinding.ActivityCustomerDataBinding
 import com.example.graduationapp.ui.cart.CartActivity
 import com.example.graduationapp.ui.paymentsummary.PaymentSummary
+import com.example.graduationapp.utils.Validation
 
 class CustomerDataActivity : AppCompatActivity() {
     private lateinit var customerDataViewModel: CustomerDataViewModel
@@ -117,8 +118,10 @@ class CustomerDataActivity : AppCompatActivity() {
         val zip = binding.zip.text.toString()
         val address = Address(add1,city,customerFname,phone,province,country,zip)
         val addressJson= CreateAddress(address)
-        if (checkPhoneNum(phone) ){
+        if (Validation.validatePhone(phone)){
             customerDataViewModel.createCustomerAddress(customerId, addressJson)
+        }else{
+            Toast.makeText(this,this.getString(R.string.valid_num),Toast.LENGTH_SHORT).show()
         }
 
     }
@@ -135,8 +138,11 @@ class CustomerDataActivity : AppCompatActivity() {
         val address = Address(add1,city,customerFname,phone,province,country,zip)
         val addressJson= CreateAddress(address)
 
-        if (checkPhoneNum(phone) ) {
+        if (Validation.validatePhone(phone)) {
             customerDataViewModel.editCustomerAddress(userId, id,addressJson)
+        }
+        else{
+            Toast.makeText(this,this.getString(R.string.valid_num),Toast.LENGTH_SHORT).show()
         }
 
     }
