@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.domain.core.subFeature.GridSpacingItemDecoration
 import com.example.domain.core.subFeature.RecyclerViewAnimation
+import com.example.graduationapp.GetProductsByCollectionIDQuery
 import com.example.graduationapp.R
 import com.example.graduationapp.ui.search.SearchActivity
 import com.example.graduationapp.data.Custom_collections
@@ -27,71 +28,77 @@ import com.example.graduationapp.ui.cart.CartActivity
 import com.example.graduationapp.ui.favoriteFeature.FavoriteActivity
 import com.google.android.material.tabs.TabLayout
 import com.example.graduationapp.HomeCollectionQuery
+import com.example.graduationapp.graphql.categoryGraphAdapter
 
 
-class CategoryFragment : Fragment() ,  TabLayout.OnTabSelectedListener ,CollectionsGraphAdapter.OnHomeItemListener{
+class CategoryFragment : Fragment() ,  TabLayout.OnTabSelectedListener , categoryGraphAdapter.OnHomeItemListener{
 
     private lateinit var binding : FragmentCategoryBinding
-    private lateinit var categoryViewMode : CategoryViewModel
     private lateinit var graphViewModel: GraphViewModel
 
-    var data: List<HomeCollectionQuery.Edge1> = mutableListOf()
-    var orignalList: List<HomeCollectionQuery.Edge1> = mutableListOf()
+    var data: List<GetProductsByCollectionIDQuery.Edge> = mutableListOf()
+    var orignalList: List<GetProductsByCollectionIDQuery.Edge> = mutableListOf()
 
 
-    var kidList: List<HomeCollectionQuery.Edge1> = mutableListOf()
-    var menList: List<HomeCollectionQuery.Edge1> = mutableListOf()
-    var womenList: List<HomeCollectionQuery.Edge1> = mutableListOf()
-    var saleList: List<HomeCollectionQuery.Edge1> = mutableListOf()
-    var homepageList: List<HomeCollectionQuery.Edge1> = mutableListOf()
-    var  collectionsGraphAdapter = CollectionsGraphAdapter(arrayListOf(),this)
+    var kidList: List<GetProductsByCollectionIDQuery.Edge> = mutableListOf()
+    var menList: List<GetProductsByCollectionIDQuery.Edge> = mutableListOf()
+    var womenList: List<GetProductsByCollectionIDQuery.Edge> = mutableListOf()
+    var saleList: List<GetProductsByCollectionIDQuery.Edge> = mutableListOf()
+    var homepageList: List<GetProductsByCollectionIDQuery.Edge> = mutableListOf()
+    var  collectionsGraphAdapter = categoryGraphAdapter(arrayListOf(),this)
 
 
-    var currentCollectionTitle=""
-    var currentCollectionID : ArrayList<String> = ArrayList()
+
     override fun onCreateView(inflater: LayoutInflater,container: ViewGroup?,savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_category, container, false)
-        categoryViewMode = ViewModelProvider(this).get(CategoryViewModel::class.java)
         graphViewModel = ViewModelProvider(this).get(GraphViewModel::class.java)
 
         setUpTabLayoute()
 
 
+
+        graphViewModel.getCollection("gid://shopify/Collection/267715608774",0)
+
         graphViewModel.kid.observe(requireActivity(), Observer {
             it?.let{
                 kidList= it
+                orignalList=kidList
+                collectionsGraphAdapter.setData(kidList)
             }
         })
 
         graphViewModel.men.observe(requireActivity(), Observer {
-                menList=it
+            menList=it
+            orignalList=menList
+            Log.i("original",""+orignalList)
+            collectionsGraphAdapter.setData(menList)
         })
 
         graphViewModel.women.observe(requireActivity(), Observer {
             it?.let{
                 Log.i("category",""+it)
                 womenList=it
+                orignalList=womenList
+                collectionsGraphAdapter.setData(womenList)
             }
-        })
-
-        graphViewModel.byCollection.observe(requireActivity(), Observer {
-            it?.let{
-                Log.i("Abdallah", "onCreateView: ${it}")
-            }
-            Log.i("Abdallah", "onCreateView: ")
         })
 
         graphViewModel.sale.observe(requireActivity(), Observer {
             it?.let{
                 Log.i("category",""+it)
                 saleList=it
+                orignalList=saleList
+                collectionsGraphAdapter.setData(saleList)
             }
         })
 
         graphViewModel.home.observe(requireActivity(), Observer {
             it?.let{
                 Log.i("category",""+it)
+                binding.progressBar.visibility=View.GONE
                 homepageList=it
+                orignalList=homepageList
+                collectionsGraphAdapter.setData(homepageList)
             }
         })
 
@@ -139,41 +146,14 @@ class CategoryFragment : Fragment() ,  TabLayout.OnTabSelectedListener ,Collecti
         return binding.root
     }
 
-//    private fun loadProducts(id:String) {
-//        categoryViewMode.loadProductData(id).observe(requireActivity()) {
-//            it?.let {
-//                binding.progressBar.visibility=View.GONE
-//                data= it.products as ArrayList<Products>
-//                orignalList=data
-//                adapter.setData(data, requireContext())
-//            }
-//        }
-//    }
-
     override fun onTabSelected(tab: TabLayout.Tab?) {
         Log.i("original","listener")
         when (tab!!.position) {
-            0 ->{
-                orignalList=homepageList
-                collectionsGraphAdapter.setData(homepageList)
-            }
-            1 -> {
-                orignalList=kidList
-                collectionsGraphAdapter.setData(kidList)
-            }
-            2 -> {
-                orignalList=menList
-                Log.i("original",""+orignalList)
-                collectionsGraphAdapter.setData(menList)
-            }
-            3 ->{
-                orignalList=saleList
-                collectionsGraphAdapter.setData(saleList)
-            }
-            4 -> {
-                orignalList=womenList
-                collectionsGraphAdapter.setData(womenList)
-            }
+            0 -> graphViewModel.getCollection("gid://shopify/Collection/267715608774",0)
+            1 -> graphViewModel.getCollection("gid://shopify/Collection/268359663814",1)
+            2 -> graphViewModel.getCollection("gid://shopify/Collection/268359598278",2)
+            3 ->graphViewModel.getCollection("gid://shopify/Collection/268359696582",3)
+            4 ->graphViewModel.getCollection("gid://shopify/Collection/268359631046",4)
         }
 
     }
@@ -204,7 +184,8 @@ class CategoryFragment : Fragment() ,  TabLayout.OnTabSelectedListener ,Collecti
         binding.tabLayout.getTabAt(0)?.select()
     }
 
-    override fun onImageClick(item: HomeCollectionQuery.Edge1) {
+    override fun onImageClick(item: GetProductsByCollectionIDQuery.Edge) {
 
     }
+
 }

@@ -26,20 +26,17 @@ import org.w3c.dom.Node
 
 class GraphViewModel (application: Application) : AndroidViewModel(application) {
 
-
-    var map= MutableLiveData<HashMap<String,List<HomeCollectionQuery.Edge1>>>()
-
     var adidas = MutableLiveData<List<HomeCollectionQuery.Edge1>>()
     var nike = MutableLiveData<List<HomeCollectionQuery.Edge1>>()
     var puma = MutableLiveData<List<HomeCollectionQuery.Edge1>>()
     var converse = MutableLiveData<List<HomeCollectionQuery.Edge1>>()
     var asicsTiger = MutableLiveData<List<HomeCollectionQuery.Edge1>>()
 
-    var men = MutableLiveData<List<HomeCollectionQuery.Edge1>>()
-    var women = MutableLiveData<List<HomeCollectionQuery.Edge1>>()
-    var kid = MutableLiveData<List<HomeCollectionQuery.Edge1>>()
-    var sale = MutableLiveData<List<HomeCollectionQuery.Edge1>>()
-    var home = MutableLiveData<List<HomeCollectionQuery.Edge1>>()
+    var men = MutableLiveData<List<GetProductsByCollectionIDQuery.Edge>>()
+    var women = MutableLiveData<List<GetProductsByCollectionIDQuery.Edge>>()
+    var kid = MutableLiveData<List<GetProductsByCollectionIDQuery.Edge>>()
+    var sale = MutableLiveData<List<GetProductsByCollectionIDQuery.Edge>>()
+    var home = MutableLiveData<List<GetProductsByCollectionIDQuery.Edge>>()
 
     var graphRepo: GraphRepo = GraphRepo(application)
 
@@ -49,26 +46,25 @@ class GraphViewModel (application: Application) : AndroidViewModel(application) 
     var byCollection = MutableLiveData<List<HomeCollectionQuery.Edge1>>()
 
 
-    init {
-        getCollectionData()
-        getCollection()
-    }
 
 
-
-    private fun getCollection()
-    {
+     fun getCollection(id:String , num:Int){
         viewModelScope.launch {
-            val response=graphRepo.suspendQuery(GetProductsByCollectionIDQuery("gid://shopify/Collection/267138760894")).data()
+            val response=graphRepo.suspendQuery(GetProductsByCollectionIDQuery(id)).data()
             Log.i("One", "getCollection: ${response?.collection?.products?.edges?.get(0)?.node?.id}")
             Log.i("One", "getCollection: ${response?.collection?.products?.edges?.get(0)?.node?.handle}")
             Log.i("One", "getCollection: ${response?.collection?.products?.edges?.get(0)?.node?.title}")
 
-
-            byCollection.value=response?.collection?.products?.edges  as? List<HomeCollectionQuery.Edge1>
+            when (num) {
+                0 -> home.value=response?.collection?.products?.edges
+                1 -> kid.value=response?.collection?.products?.edges
+                2 -> men.value=response?.collection?.products?.edges
+                3 -> sale.value=response?.collection?.products?.edges
+                4 -> women.value=response?.collection?.products?.edges
+            }
         }
     }
-    private fun getCollectionData(){
+    fun getCollectionData(){
         viewModelScope.launch {
             try {
                 val response =
@@ -93,16 +89,6 @@ class GraphViewModel (application: Application) : AndroidViewModel(application) 
                 converse.value = filterCollection("converse",response!!)
                 asicsTiger.value = filterCollection("asics-tiger",response!!)
 
-                men.value = filterCollection("men",response!!)
-                women.value = filterCollection("women",response!!)
-                sale.value = filterCollection("sale",response!!)
-                kid.value = filterCollection("kid",response!!)
-               // home.value = filterCollection("home-page",response!!)
-//
-                Log.i("AAAA", "getCollectionData: ${men.value}")
-                Log.i("AAAA", "getCollectionData: ${women.value}")
-                Log.i("AAAA", "getCollectionData: ${kid.value}")
-                Log.i("AAAA", "getCollectionData: ${sale.value}")
 
 
             } catch (e: Exception) {
@@ -112,6 +98,9 @@ class GraphViewModel (application: Application) : AndroidViewModel(application) 
             }
         }
     }
+
+
+
     private fun filterCollection(collectionKey:String, collections : HomeCollectionQuery.Data )
             : List<HomeCollectionQuery.Edge1> {
         val oneCollection =collections.collections.edges.filter {

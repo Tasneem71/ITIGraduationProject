@@ -51,6 +51,7 @@ class HomeFragment : Fragment() ,CollectionsGraphAdapter.OnHomeItemListener {
              showPhotos(item)
 
         initUI()
+        homeViewModel1.getCollectionData()
 
         //*********************************
         binding.flipper.setOnClickListener {
@@ -84,26 +85,31 @@ class HomeFragment : Fragment() ,CollectionsGraphAdapter.OnHomeItemListener {
 
         homeViewModel1.adidas?.observe(requireActivity(), Observer {
             Log.i("tasneem",""+it)
+            binding.progressBar.visibility=View.GONE
             adidasAdapter.setData(it)
         })
 
         homeViewModel1.nike?.observe(requireActivity(), Observer {
             Log.i("tasneem",""+it)
+            binding.progressBar.visibility=View.GONE
             nikeAdapter.setData(it)
         })
 
         homeViewModel1.converse?.observe(requireActivity(), Observer {
             Log.i("tasneem",""+it)
+            binding.progressBar.visibility=View.GONE
             converceAdapter.setData(it)
         })
 
         homeViewModel1.asicsTiger?.observe(requireActivity(), Observer {
             Log.i("tasneem",""+it)
+            binding.progressBar.visibility=View.GONE
             asicsAdapter.setData(it)
         })
 
         homeViewModel1.puma?.observe(requireActivity(), Observer {
             Log.i("tasneem",""+it)
+            binding.progressBar.visibility=View.GONE
             pumaAdapter.setData(it)
         })
 
