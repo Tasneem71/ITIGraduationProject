@@ -1,0 +1,66 @@
+@startuml
+object ApiServes {
+
+    -  BASE_URL
+     client
+     shopfiyService: ShopfiyApi
+
+    - getRetrofit(): Retrofit
+}
+
+class BasicAuthInterceptor implements Interceptor {
+    - credentials: String
+      intercept(chain: Interceptor.Chain): Response
+}
+
+interface ShopfiyApi {
+  getCustomCollections(): Response<ApiCollections>
+ getSmartCollections(): Response<ApiCollections>
+getProductFromCollection(@Path("collection_id") id:String): Response<CollectionProducts>
+getProductDetails(@Path("product_id") id:String): Response<ProductDetails>
+getAllProduct(): Response<CollectionProducts>
+getAllCustomer(): Response<ApiCustomers>
+getCustomerByEmail(@Query("email") email: String): Response<ApiCustomers>
+createCustomer(@Body customerJson:CreatedCustomer): Response<ApiCustomers>
+ createOrder(@Body orderJson:CreatedOrder): Response<OrderAPI>
+getOpenOrders(): Response<OrderAPI>
+ cancelOrder(@Path("order_id") id:String,@Body orderJson:CancelOrder): Response<OrderAPI>
+getCustomerAddById(@Path("customer_id") id:String): Response<AddressData>
+ createNewCustomerAddById(@Path("customer_id") id:String,@Body addressJson:CreateAddress): Response<AddressData>
+ editCustomerAdd(@Path("customer_id") id:String,@Path("address_id") addId:String,@Body addressJson:CreateAddress): Response<AddressData>
+ generatingDiscount(@Path("price_rules_id") id:String,@Body discount: CreatedDiscount): Response<DiscountCode>
+getDiscount10(): Response<DiscountCode>
+}
+
+class ApiRepository {
+
+     apiCollection : MutableLiveData<ApiCollections>
+     apiSmartCollection : MutableLiveData<ApiCollections>
+     apiSmart1Collection : MutableLiveData<CollectionProducts>
+     apiSmart2Collection : MutableLiveData<CollectionProducts>
+     apiSmart3Collection : MutableLiveData<CollectionProducts>
+     apiSmart4Collection : MutableLiveData<CollectionProducts>
+     apiSmart5Collection : MutableLiveData<CollectionProducts>
+     apiproduct : MutableLiveData<CollectionProducts>
+      local : LocalSource
+
+
+     fetchCustomCollectionData()
+     fetchSmartCollectionData()
+     fetchProductsData(id: String)
+    fetchSmartProductsData(id: String, num: Int)
+     fetchAllCustomerData(): Response<ApiCustomers>
+     createCustomer(customerJson: CreatedCustomer): ApiCustomers?
+     fetchOpenOrders(): OrderAPI?
+     createOrder(orderJson: CreatedOrder): OrderAPI?
+    cancelOrder(id : String,orderJson: CancelOrder): OrderAPI?
+     getAllProducts(): CollectionProducts?
+     getCustomerAddress(id:String): List<Addresse?>?
+     createCustomerAdd(id:String,addressJson: CreateAddress): AddressData?
+    editCustomerAdd(id:String,addressIP:String,addressJson: CreateAddress): AddressData?
+     getCustomerByEmail(email:String): ApiCustomers?
+     generateDiscount(priceRule:String,discount: CreatedDiscount): DiscountCode?
+    getDiscount10(): DiscountCode?
+     getUpdatedCount(userId :String): Int
+}
+@enduml

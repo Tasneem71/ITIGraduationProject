@@ -1,0 +1,49 @@
+@startuml
+
+
+class HomeFragment extends Fragment , ShopCategoryAdapter.OnHomeItemListener {
+
+    - homeViewModel: HomeViewModel
+    - binding: FragmentHomeBinding
+    - imgas:Array<Int>
+    - adidusList:ArrayList<Products>
+    - nikeList:ArrayList<Products>
+    - pumaList:ArrayList<Products>
+    - converceList:ArrayList<Products>
+    - asicsList:ArrayList<Products>
+      adidasAdapter : ShopCategoryAdapter
+      nikeAdapter : ShopCategoryAdapter
+      pumaAdapter : ShopCategoryAdapter
+      converceAdapter : ShopCategoryAdapter
+      asicsAdapter : ShopCategoryAdapter
+
+       - loadProducts(id:String,num:Int)
+        - initUI()
+       - showPhotos(img: Int)
+}
+
+class HomeViewModel extends AndroidViewModel {
+     generatedDiscountLiveData : MutableLiveData<DiscountCodeClass?>
+     cartCount : MutableLiveData<Int>
+     apiRepository: ApiRepository
+     loadProductData(id:String,num:Int): MutableLiveData<CollectionProducts>
+     cartCount(userId: String)
+     getDiscount10()
+}
+class ShopCategoryAdapter extends   RecyclerView.Adapter {
+ - previousPosition : Int
+   updateCategory(newCategory: List<Products>)
+
+}
+
+     class CategoryViewHolder extends RecyclerView.ViewHolder , View.OnClickListener {
+        -  name = view.findViewById<TextView>(R.id.title)
+        -  price = view.findViewById<TextView>(R.id.price)
+        -  imageView = view.findViewById<ImageView>(R.id.thumbnail)
+        fun bind(category: Products)
+        }
+   interface OnHomeItemListener
+    {
+        fun onImageClick(item: Products)
+    }
+@enduml

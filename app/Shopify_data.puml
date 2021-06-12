@@ -1,0 +1,94 @@
+@startuml
+
+  entity Favorite{
+     id: Long,
+     title: String,
+     handle: String,
+     price :Int,
+     image: String,
+     page: Char,
+     count: Int,
+     varient_id : String,
+     userId : String
+}
+class CanceledOrder{
+     email: String,
+     fulfillment_status: String?,
+     amount : Double,
+     currency:  String
+}
+class Address{
+     address1: String,
+     city: String,
+     first_name: String,
+     phone: String,
+     province: String,
+     country: String,
+     zip: String
+    }
+
+ class CreatedCustomer {
+    customer : Customer
+ }
+ class Customer{
+     first_name: String,
+     last_name: String,
+     email: String,
+     phone: String?,
+     note: String?,
+     verified_email: Boolean,
+     addresses: List<Addresses>?,
+     password : String?,
+     password_confirmation : String?,
+     send_email_welcome : Boolean?
+}
+ class Addresses {
+      address1 : String,
+      city : String,
+      province : String,
+      phone : String,
+      zip : String,
+      last_name : String,
+      first_name : String,
+      country : String
+ }
+  class CreatedOrder{
+      order : Order
+ }
+  class Order{
+      email: String,
+      fulfillment_status: String?,
+      total_price : String,
+      line_items: List<LineItems>?,
+      transactions: List<Transactions>?
+}
+  class LineItems {
+      title : String,
+      price : String,
+      quantity : Int,
+      variant_id : String
+ }
+  class Transactions {
+      kind : String,
+      status : String,
+      amount : Double
+ }
+  class CreatedDiscount{
+      discount_code:Discount
+ }
+
+  class Discount{
+      code:String
+}
+ class DiscountCode{
+     discount_code:DiscountCodeClass
+}
+class DiscountCodeClass{
+     id : Long,
+     price_rule_id: Long,
+     code: String,
+     usage_count: Int,
+     created_at :String,
+     updated_at: String
+}
+@enduml

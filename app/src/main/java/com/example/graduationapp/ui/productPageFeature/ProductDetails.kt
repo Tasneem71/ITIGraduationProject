@@ -17,6 +17,7 @@ import com.example.graduationapp.SharedPref
 import com.example.graduationapp.data.Products
 import com.example.graduationapp.databinding.ActivityScrollingBinding
 import com.example.graduationapp.ui.cart.CartActivity
+import com.example.graduationapp.ui.checkoutAddress.CustomerDataActivity
 import com.example.graduationapp.ui.favoriteFeature.FavoriteActivity
 
 import com.example.graduationapp.ui.favoriteFeature.FavoriteViewModel
@@ -126,6 +127,10 @@ ProductDetails : AppCompatActivity() {
             binding.content.productPageAddToCart.visibility=View.GONE
             binding.content.productPageAddToFavorite.visibility=View.GONE
         }
+
+        binding.back.setOnClickListener({
+            startActivity(Intent(this, MainActivity::class.java))
+        })
 
     }
     private fun setFavoriteImage(id: Long) {

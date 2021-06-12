@@ -1,0 +1,32 @@
+@startuml
+
+class CustomerDataActivity extends AppCompatActivity {
+   - customerDataViewModel: CustomerDataViewModel
+   - binding: ActivityCustomerDataBinding
+   - userId :String
+     haveOneAddress :Boolean
+
+     goToSummary(it : AddressData)
+    - fillIfAddressExist()
+     -addCustomerData()
+     -editCustomerData()
+     -checkPhoneNum(phone :String) : Boolean
+}
+
+class CustomerDataViewModel  extends AndroidViewModel{
+     application: Application
+     allAddressDetails  : MutableLiveData<List<Addresse?>?>
+     createOrderLiveData : MutableLiveData<Orders?>
+    - local : LocalSource
+     carts : MutableLiveData<List<Favorite>>?
+     createAddressLiveData : MutableLiveData<AddressData?>
+     editAddressLiveData : MutableLiveData<AddressData?>
+    apiRepository: ApiRepository
+
+    getAllCarts(userId: String)
+    getCustomerAddress(id:String)
+    createCustomerAddress(id:String, addressJson: CreateAddress)
+    editCustomerAddress(id:String,addressIp:String,addressJson: CreateAddress)
+    deleteFromFavorite(item: Favorite)
+}
+@enduml

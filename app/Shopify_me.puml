@@ -1,0 +1,53 @@
+@startuml
+
+class MeFragment extends Fragment ,  TabLayout.OnTabSelectedListener , orderAdapter.OnCancelOrderListener {
+
+    binding: FragmentMeBinding
+     fAuth: FirebaseAuth? = null
+    - favoriteViewModel: FavoriteViewModel
+    - viewModel: MeViewModel
+    - wishAdapter: MeAdapter
+    - orderAdapter: orderAdapter
+    - wishList:ArrayList<Favorite>
+    - orderList:ArrayList<Orders>
+    - userId :String
+
+    - initUi()
+    -settingUI(userStatus: Boolean)
+    -setUpTabLayoute()
+    - cancelOrderDone()
+}
+
+
+class MeViewModel extends AndroidViewModel {
+
+    var openOrdersLiveData : MutableLiveData<List<Orders>?>()
+    var cancelOrderLiveData : MutableLiveData<Orders?>()
+    var apiRepository: ApiRepository
+    getOpenOrders()
+    cancelOrder(id : String,orderJson: CancelOrder)
+
+}
+class orderAdapter extends  RecyclerView.Adapter {
+var orderList: ArrayList<Orders>
+ private var listener : orderAdapter.OnCancelOrderListener
+     updateList(newCategory: List<Orders>)
+    }
+     interface OnCancelOrderListener
+        {
+            fun onCancelClick(item: Orders)
+
+        }
+
+   class MeAdapter extends RecyclerView.Adapter {
+   var wishList: ArrayList<Favorite>
+       fun updateList(newCategory: List<Favorite>)
+       }
+       class CategoryViewHolder extends RecyclerView.ViewHolder{
+       val view: View
+               fun bind(category: Favorite)
+
+
+               }
+
+@enduml

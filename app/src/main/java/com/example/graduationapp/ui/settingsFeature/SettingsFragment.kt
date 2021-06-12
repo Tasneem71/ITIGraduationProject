@@ -13,16 +13,17 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
-import androidx.preference.CheckBoxPreference
-import androidx.preference.ListPreference
-import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.*
+import com.example.graduationapp.MainActivity
 import com.example.graduationapp.ui.login.LoginActivity
 import com.example.graduationapp.R
 import com.example.graduationapp.SharedPref
+import com.example.graduationapp.ui.me.MeFragment
 import com.facebook.AccessToken
 import com.facebook.GraphRequest
 import com.facebook.HttpMethod
 import com.facebook.login.LoginManager
+import okhttp3.Cache.key
 import java.util.*
 
 class SettingsFragment : PreferenceFragmentCompat() {
@@ -36,6 +37,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         language()
         aboutMe()
         logout()
+        back()
     }
 
     private fun openDialogue() {
@@ -137,6 +139,15 @@ class SettingsFragment : PreferenceFragmentCompat() {
                     "fr" -> setLocale("fr")
                 }
                 ActivityCompat.recreate(requireActivity())
+            }
+            true
+        }
+    }
+    private fun back() {
+        val back = findPreference<Preference>("back")
+        back?.setOnPreferenceClickListener {
+            if (it.key=="back") {
+                startActivity(Intent(requireContext(), MainActivity::class.java))
             }
             true
         }

@@ -79,7 +79,7 @@ class CartActivity : AppCompatActivity(), CartAdapter.OnCartItemListener {
 
 
         binding.close.setOnClickListener {
-            finish()
+         startActivity(Intent(this,MainActivity::class.java))
         }
 
     }

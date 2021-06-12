@@ -1,0 +1,28 @@
+@startuml
+
+class PaymentResult extends AppCompatActivity {
+
+    binding: ActivityPaymentResultBinding
+}
+class PaymentSummary extends AppCompatActivity {
+    binding: ActivityPaymentSummaryBinding
+   - createOrderViewModel: CreateOrderViewModel
+     createOrderLiveData : MutableLiveData<Orders?>
+     credit:Boolean
+
+     - createOrderApi(list:List<Favorite>) : List<LineItems>
+     goPayTab()
+     - orderDone()
+    }
+    class CreateOrderViewModel extends AndroidViewModel {
+    application: Application
+         createOrderLiveData = MutableLiveData<Orders?>
+        var orders : MutableLiveData<List<Favorite>>?
+        - local = LocalSource
+        var apiRepository: ApiRepository
+
+         getAllOrderd(userId: String)
+        fun createOrder(orderJson: CreatedOrder)
+         deleteListFromCart(id:String)
+            }
+@enduml

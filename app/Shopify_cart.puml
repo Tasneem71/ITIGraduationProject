@@ -1,0 +1,46 @@
+@startuml
+
+class CartActivity extends AppCompatActivity, CartAdapter.OnCartItemListener {
+
+    - cartViewModel: CartViewModel
+    - binding: ActivityOrderBinding
+    - cartAdapter : CartAdapter
+   - userId :String
+     empty : Boolean
+       - swipeToDeleteCallback : ItemTouchHelper.SimpleCallback
+      initUI()
+    -useDiscount()
+}
+class CartViewModel extends AndroidViewModel {
+   application: Application
+   - local:  LocalSource
+     carts : MutableLiveData<List<Favorite>>?
+     sumOfItems : MutableLiveData<Int>
+
+     addToCart(item: Favorite)
+     getAllCarts(userId: String)
+       updateCount(id:Long,count:Int,userId: String)
+       deleteFromFavorite(item: Favorite)
+    }
+
+    class CartAdapter extends  RecyclerView.Adapter{
+        -carts: List<Favorite>,
+       - listener : OnCartItemListener
+       - previousPosition:Int
+
+}
+
+   class ViewHolder extends RecyclerView.ViewHolder, View.OnClickListener {
+       view: View
+        fun setData(list: List<Favorite>)
+           fun getData() : List<Favorite>
+    }
+    interface OnCartItemListener
+    {
+        fun onIncreaseCountClick(item: Favorite)
+        fun onDecreaseCountClick(item: Favorite)
+        fun onImageCountClick(item: Favorite)
+    }
+
+
+@enduml

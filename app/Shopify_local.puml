@@ -1,0 +1,42 @@
+@startuml
+
+interface FavoriteDao {
+ addToFavorite(item: Favorite)
+ deleteFromFavorite(item: Favorite)
+deleteListFromCart(userId: String)
+ deleteFromFavorite(id: Long)
+getAllFavorite(userId: String): List<Favorite>?
+    isFavorite(id: Long,userId: String): Int
+    getAllCart(userId: String): List<Favorite>?
+    updateCount( id: Long,count: Int,userId: String)
+     cartCount(userId:String): Int
+}
+
+abstract class FavoriteDatabase extends RoomDatabase {
+    abstract  dao: FavoriteDao
+    - INSTANCE: FavoriteDatabase
+
+        fun getInstance(application: Application): FavoriteDatabase
+
+            }
+
+class LocalSource  {
+    -database: FavoriteDatabase
+
+   addToFavorite(item: Favorite)
+    deleteFromFavorite(item: Favorite)
+   deleteListFromCart(id:String)
+    deleteFromFavorite(id: Long)
+     getAllFavorite(userId: String): List<Favorite>?
+   isFavorite(id: Long,userId: String): Int
+    getCartCount(userId: String): Int
+    getAllCart(userId: String): List<Favorite>?
+     updateCount( id: Long,count: Int,userId: String)
+
+}
+
+
+
+
+
+@enduml

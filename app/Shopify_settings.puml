@@ -1,0 +1,19 @@
+@startuml
+
+class SettingsFragment extends PreferenceFragmentCompat {
+
+    - alert: AlertDialog?
+    -openDialogue()
+    -openFacebook()
+    -openLinkedIn()
+    - sendMail()
+    -aboutMe()
+    -darkMode()
+    -language()
+    -setLocale(lng: String)
+    -logout()
+    -signOut()
+    }
+
+
+@enduml
