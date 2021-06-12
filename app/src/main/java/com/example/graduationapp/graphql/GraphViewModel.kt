@@ -7,8 +7,9 @@ import android.net.NetworkCapabilities
 import android.util.Log
 import androidx.lifecycle.*
 import com.apollographql.apollo.api.Operation
+import com.example.graduationapp.GetProductsByCollectionIDQuery
+
 import com.example.graduationapp.GetProductsQuery
-import com.example.graduationapp.HomeCollectionLastQuery
 import com.example.graduationapp.HomeCollectionQuery
 import com.example.graduationapp.data.ApiCollections
 import com.example.graduationapp.data.CollectionProducts
@@ -42,13 +43,31 @@ class GraphViewModel (application: Application) : AndroidViewModel(application) 
 
     var graphRepo: GraphRepo = GraphRepo(application)
 
+
+
+
+    var byCollection = MutableLiveData<List<HomeCollectionQuery.Edge1>>()
+
+
     init {
         getCollectionData()
-       // getCollectionDataLast()
+        getCollection()
     }
 
 
 
+    private fun getCollection()
+    {
+        viewModelScope.launch {
+            val response=graphRepo.suspendQuery(GetProductsByCollectionIDQuery("gid://shopify/Collection/267138760894")).data()
+            Log.i("One", "getCollection: ${response?.collection?.products?.edges?.get(0)?.node?.id}")
+            Log.i("One", "getCollection: ${response?.collection?.products?.edges?.get(0)?.node?.handle}")
+            Log.i("One", "getCollection: ${response?.collection?.products?.edges?.get(0)?.node?.title}")
+
+
+            byCollection.value=response?.collection?.products?.edges  as? List<HomeCollectionQuery.Edge1>
+        }
+    }
     private fun getCollectionData(){
         viewModelScope.launch {
             try {
@@ -68,11 +87,11 @@ class GraphViewModel (application: Application) : AndroidViewModel(application) 
                 Log.i("ABCDE", "getCollectionData: $x")
 
 
-//                adidas.value = filterCollection("adidas",response!!)
-//                nike.value = filterCollection("nike",response!!)
-//                puma.value = filterCollection("puma",response!!)
-//                converse.value = filterCollection("converse",response!!)
-//                asicsTiger.value = filterCollection("asics-tiger",response!!)
+                adidas.value = filterCollection("adidas",response!!)
+                nike.value = filterCollection("nike",response!!)
+                puma.value = filterCollection("puma",response!!)
+                converse.value = filterCollection("converse",response!!)
+                asicsTiger.value = filterCollection("asics-tiger",response!!)
 
                 men.value = filterCollection("men",response!!)
                 women.value = filterCollection("women",response!!)
@@ -93,39 +112,6 @@ class GraphViewModel (application: Application) : AndroidViewModel(application) 
             }
         }
     }
-    private fun getCollectionDataLast(){
-        viewModelScope.launch {
-            try {
-                val response =
-                    graphRepo.suspendQuery(HomeCollectionLastQuery()).data()
-                val error =
-                    graphRepo.suspendQuery(HomeCollectionQuery()).errors()
-                val hasError =
-                    graphRepo.suspendQuery(GetProductsQuery()).hasErrors()
-
-
-//                adidas.value = filterCollection("adidas",response!!)
-//                nike.value = filterCollection("nike",response!!)
-//                puma.value = filterCollection("puma",response!!)
-//                converse.value = filterCollection("converse",response!!)
-//                asicsTiger.value = filterCollection("asics-tiger",response!!)
-
-//                men.value = filterCollection2("men",response!!)
-//                women.value = filterCollection2("women",response!!)
-//                sale.value = filterCollection2("sale",response!!)
-//                kid.value = filterCollection2("kid",response!!)
-//                home.value = filterCollection2("home-page",response!!)
-
-                Log.i("AAAA", "getCollectionData: $sale")
-                Log.i("AAAA", "getCollectionData: $kid")
-
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }finally {
-                // do
-            }
-        }
-    }
     private fun filterCollection(collectionKey:String, collections : HomeCollectionQuery.Data )
             : List<HomeCollectionQuery.Edge1> {
         val oneCollection =collections.collections.edges.filter {
@@ -134,12 +120,5 @@ class GraphViewModel (application: Application) : AndroidViewModel(application) 
         return oneCollection.get(0).node.products.edges
     }
 
-    private fun filterCollection2(collectionKey:String, collections : HomeCollectionLastQuery.Data )
-            : List<HomeCollectionLastQuery.Edge1> {
-        val oneCollection =collections.collections.edges.filter {
-            it.node?.handle ==collectionKey
-        }
-        return oneCollection.get(0).node.products.edges
-    }
 
 }

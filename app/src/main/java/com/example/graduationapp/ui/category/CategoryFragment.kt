@@ -74,6 +74,13 @@ class CategoryFragment : Fragment() ,  TabLayout.OnTabSelectedListener ,Collecti
             }
         })
 
+        graphViewModel.byCollection.observe(requireActivity(), Observer {
+            it?.let{
+                Log.i("Abdallah", "onCreateView: ${it}")
+            }
+            Log.i("Abdallah", "onCreateView: ")
+        })
+
         graphViewModel.sale.observe(requireActivity(), Observer {
             it?.let{
                 Log.i("category",""+it)
