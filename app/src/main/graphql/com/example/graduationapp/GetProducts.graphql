@@ -37,6 +37,7 @@ query homeCollection {
             node {
                 id
                 handle
+                title
                 products(first: 10) {
                     edges {
                         node {
