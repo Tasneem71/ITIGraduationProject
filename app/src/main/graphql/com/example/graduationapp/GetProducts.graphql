@@ -32,7 +32,7 @@ query getProducts {
 
 
 query homeCollection {
-    collections(first: 9) {
+    collections(first: 15) {
         edges {
             node {
                 id
@@ -72,3 +72,45 @@ query homeCollection {
     }
 }
 
+
+
+query homeCollectionLast {
+    collections(last: 15) {
+        edges {
+            node {
+                id
+                handle
+                products(first: 10) {
+                    edges {
+                        node {
+                            id
+                            handle
+                            title
+                            description
+                            tags
+                            vendor
+                            legacyResourceId
+                            productType
+                            options(first:5){
+                                name
+                                values
+                            }
+                            variants(first: 1) {
+                                edges {
+                                    node {
+                                        price
+                                        inventoryQuantity
+                                    }
+                                }
+                            }
+                            featuredImage {
+                                originalSrc
+                            }
+                        }
+                    }
+                }
+                productsCount
+            }
+        }
+    }
+}
