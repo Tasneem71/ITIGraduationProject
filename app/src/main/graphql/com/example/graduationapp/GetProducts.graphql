@@ -32,11 +32,12 @@ query getProducts {
 
 
 query homeCollection {
-    collections(first: 9) {
+    collections(first: 15) {
         edges {
             node {
                 id
                 handle
+                title
                 products(first: 10) {
                     edges {
                         node {

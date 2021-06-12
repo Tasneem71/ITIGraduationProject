@@ -2,6 +2,7 @@ package com.example.graduationapp.ui.category
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,59 +21,99 @@ import com.example.graduationapp.ui.search.SearchActivity
 import com.example.graduationapp.data.Custom_collections
 import com.example.graduationapp.data.Products
 import com.example.graduationapp.databinding.FragmentCategoryBinding
+import com.example.graduationapp.graphql.CollectionsGraphAdapter
+import com.example.graduationapp.graphql.GraphViewModel
 import com.example.graduationapp.ui.cart.CartActivity
 import com.example.graduationapp.ui.favoriteFeature.FavoriteActivity
 import com.google.android.material.tabs.TabLayout
+import com.example.graduationapp.HomeCollectionQuery
 
 
-class CategoryFragment : Fragment() ,  TabLayout.OnTabSelectedListener {
+class CategoryFragment : Fragment() ,  TabLayout.OnTabSelectedListener ,CollectionsGraphAdapter.OnHomeItemListener{
 
     private lateinit var binding : FragmentCategoryBinding
     private lateinit var categoryViewMode : CategoryViewModel
-    var data: ArrayList<Products> = ArrayList()
-    var orignalList: ArrayList<Products> = ArrayList()
-    lateinit var adapter: CategoryAdapter
+    private lateinit var graphViewModel: GraphViewModel
+
+    var data: List<HomeCollectionQuery.Edge1> = mutableListOf()
+    var orignalList: List<HomeCollectionQuery.Edge1> = mutableListOf()
+
+
+    var kidList: List<HomeCollectionQuery.Edge1> = mutableListOf()
+    var menList: List<HomeCollectionQuery.Edge1> = mutableListOf()
+    var womenList: List<HomeCollectionQuery.Edge1> = mutableListOf()
+    var saleList: List<HomeCollectionQuery.Edge1> = mutableListOf()
+    var homepageList: List<HomeCollectionQuery.Edge1> = mutableListOf()
+    var  collectionsGraphAdapter = CollectionsGraphAdapter(arrayListOf(),this)
+
+
     var currentCollectionTitle=""
     var currentCollectionID : ArrayList<String> = ArrayList()
     override fun onCreateView(inflater: LayoutInflater,container: ViewGroup?,savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_category, container, false)
         categoryViewMode = ViewModelProvider(this).get(CategoryViewModel::class.java)
+        graphViewModel = ViewModelProvider(this).get(GraphViewModel::class.java)
 
-        categoryViewMode.loadData(requireContext()).observe(requireActivity(), {
-            setUpTabLayoute(it.custom_collections)
+        setUpTabLayoute()
+
+
+        graphViewModel.kid.observe(requireActivity(), Observer {
+            it?.let{
+                kidList= it
+            }
         })
 
-        loadProducts("267715608774")
+        graphViewModel.men.observe(requireActivity(), Observer {
+                menList=it
+        })
 
+        graphViewModel.women.observe(requireActivity(), Observer {
+            it?.let{
+                Log.i("category",""+it)
+                womenList=it
+            }
+        })
 
-        adapter = CategoryAdapter()
+        graphViewModel.sale.observe(requireActivity(), Observer {
+            it?.let{
+                Log.i("category",""+it)
+                saleList=it
+            }
+        })
+
+        graphViewModel.home.observe(requireActivity(), Observer {
+            it?.let{
+                Log.i("category",""+it)
+                homepageList=it
+            }
+        })
+
         val gridLayoutManager = GridLayoutManager(requireContext(), 2, RecyclerView.VERTICAL,false)
         binding.categoryRecycler.layoutManager = gridLayoutManager
-        binding.categoryRecycler.addItemDecoration(
-            GridSpacingItemDecoration(1,
-                RecyclerViewAnimation.dpToPx(6),true)
-        )
+        binding.categoryRecycler.addItemDecoration(GridSpacingItemDecoration(1,
+            RecyclerViewAnimation.dpToPx(6),true))
         binding.categoryRecycler.itemAnimator= DefaultItemAnimator()
-        adapter.setData(data, requireContext())
-        binding.categoryRecycler.adapter = adapter
+
+        collectionsGraphAdapter.setData(data)
+        binding.categoryRecycler.adapter = collectionsGraphAdapter
 
         binding.acce.setOnClickListener {
             data=orignalList
-            var filteredList=data.filter { it.product_type=="ACCESSORIES" }
-            data= filteredList as ArrayList<Products>
-            adapter.setData(data, requireContext())
+            var filteredList=data.filter { it.node.productType=="ACCESSORIES" }
+            data= filteredList
+            collectionsGraphAdapter.setData(data)
         }
         binding.tshirt.setOnClickListener {
             data=orignalList
-            var filteredList=data.filter { it.product_type=="T-SHIRTS" }
-            data= filteredList as ArrayList<Products>
-            adapter.setData(data, requireContext())
+            var filteredList=data.filter { it.node.productType=="T-SHIRTS" }
+            data= filteredList
+            collectionsGraphAdapter.setData(data)
         }
         binding.shoes.setOnClickListener {
             data=orignalList
-            var filteredList=data.filter { it.product_type=="SHOES" }
-            data= filteredList as ArrayList<Products>
-            adapter.setData(data, requireContext())
+            var filteredList=data.filter { it.node.productType=="SHOES" }
+            data= filteredList
+            collectionsGraphAdapter.setData(data)
         }
 
         binding.searchIcon.setOnClickListener {
@@ -90,26 +132,41 @@ class CategoryFragment : Fragment() ,  TabLayout.OnTabSelectedListener {
         return binding.root
     }
 
-    private fun loadProducts(id:String) {
-        categoryViewMode.loadProductData(id).observe(requireActivity()) {
-            it?.let {
-                binding.progressBar.visibility=View.GONE
-                data= it.products as ArrayList<Products>
-                orignalList=data
-                adapter.setData(data, requireContext())
-            }
-        }
-    }
+//    private fun loadProducts(id:String) {
+//        categoryViewMode.loadProductData(id).observe(requireActivity()) {
+//            it?.let {
+//                binding.progressBar.visibility=View.GONE
+//                data= it.products as ArrayList<Products>
+//                orignalList=data
+//                adapter.setData(data, requireContext())
+//            }
+//        }
+//    }
 
     override fun onTabSelected(tab: TabLayout.Tab?) {
-        val source=tab?.tag as Custom_collections
-        categoryViewMode.loadProductData(source.id)
+        Log.i("original","listener")
         when (tab!!.position) {
-            0 -> loadProducts(currentCollectionID[0])
-            1 -> loadProducts(currentCollectionID[1])
-            2 -> loadProducts(currentCollectionID[2])
-            3 -> loadProducts(currentCollectionID[3])
-            4 -> loadProducts(currentCollectionID[4])
+            0 ->{
+                orignalList=homepageList
+                collectionsGraphAdapter.setData(homepageList)
+            }
+            1 -> {
+                orignalList=kidList
+                collectionsGraphAdapter.setData(kidList)
+            }
+            2 -> {
+                orignalList=menList
+                Log.i("original",""+orignalList)
+                collectionsGraphAdapter.setData(menList)
+            }
+            3 ->{
+                orignalList=saleList
+                collectionsGraphAdapter.setData(saleList)
+            }
+            4 -> {
+                orignalList=womenList
+                collectionsGraphAdapter.setData(womenList)
+            }
         }
 
     }
@@ -119,18 +176,28 @@ class CategoryFragment : Fragment() ,  TabLayout.OnTabSelectedListener {
 
     override fun onTabReselected(tab: TabLayout.Tab?) {
     }
-    private fun setUpTabLayoute(sources: List<Custom_collections?>?) {
-        for (source in sources.orEmpty()) {
-            val tab = binding.tabLayout.newTab()
-            tab.setText(source?.title)
-            tab.setTag(source)
-            binding.tabLayout.addTab(tab)
-            currentCollectionTitle= source!!.title
-            currentCollectionID.add(source!!.id)
-
-
-        }
+    private fun setUpTabLayoute() {
+        val tab1 = binding.tabLayout.newTab()
+        val tab2 = binding.tabLayout.newTab()
+        val tab3 = binding.tabLayout.newTab()
+        val tab4 = binding.tabLayout.newTab()
+        val tab5 = binding.tabLayout.newTab()
+        tab1.setText("HOME PAGE")
+        tab2.setText("KID")
+        tab3.setText("MEN")
+        tab4.setText("SALE")
+        tab5.setText("WEMEN")
+        //tab.setTag(source)
+        binding.tabLayout.addTab(tab1)
+        binding.tabLayout.addTab(tab2)
+        binding.tabLayout.addTab(tab3)
+        binding.tabLayout.addTab(tab4)
+        binding.tabLayout.addTab(tab5)
         binding.tabLayout.addOnTabSelectedListener(this)
         binding.tabLayout.getTabAt(0)?.select()
+    }
+
+    override fun onImageClick(item: HomeCollectionQuery.Edge1) {
+
     }
 }
