@@ -17,6 +17,7 @@ import com.example.graduationapp.SharedPref
 import com.example.graduationapp.data.Products
 import com.example.graduationapp.databinding.ActivityScrollingBinding
 import com.example.graduationapp.ui.cart.CartActivity
+import com.example.graduationapp.ui.checkoutAddress.CustomerDataActivity
 import com.example.graduationapp.ui.favoriteFeature.FavoriteActivity
 
 import com.example.graduationapp.ui.favoriteFeature.FavoriteViewModel
@@ -128,7 +129,7 @@ ProductDetails : AppCompatActivity() {
         }
 
         binding.back.setOnClickListener({
-            finish()
+            startActivity(Intent(this, MainActivity::class.java))
         })
 
     }

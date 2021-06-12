@@ -107,7 +107,7 @@ class PaymentSummary : AppCompatActivity() {
             }
         }
         binding.back.setOnClickListener({
-            finish()
+            startActivity(Intent(this,CustomerDataActivity::class.java))
         })
 
 
