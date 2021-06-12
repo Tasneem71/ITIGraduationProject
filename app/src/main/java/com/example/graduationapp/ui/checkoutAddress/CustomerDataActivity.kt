@@ -16,6 +16,7 @@ import com.example.graduationapp.R
 import com.example.graduationapp.SharedPref
 import com.example.graduationapp.data.*
 import com.example.graduationapp.databinding.ActivityCustomerDataBinding
+import com.example.graduationapp.ui.cart.CartActivity
 import com.example.graduationapp.ui.paymentsummary.PaymentSummary
 
 class CustomerDataActivity : AppCompatActivity() {
@@ -78,6 +79,9 @@ class CustomerDataActivity : AppCompatActivity() {
             }
 
         }
+        binding.back.setOnClickListener({
+            startActivity(Intent(this,CartActivity::class.java))
+        })
 
     }
     fun goToSummary(it : AddressData){

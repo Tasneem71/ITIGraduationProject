@@ -90,6 +90,7 @@ apollo {
     generateKotlinModels.set(true)
 }
 
+
 dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -212,6 +213,12 @@ dependencies {
     testCompileOnly 'org.jetbrains:annotations:13.0'
 
     implementation 'com.cuberto:liquid-swipe:1.0.0'
+    //lottie
+    implementation "com.airbnb.android:lottie:3.4.4"
+
+    implementation 'com.cuberto:liquid-swipe:1.0.0'
+
+
 
 
 }

@@ -1,0 +1,36 @@
+@startuml
+class CategoryFragment extends Fragment,  TabLayout.OnTabSelectedListener {
+
+    - binding : FragmentCategoryBinding
+   - categoryViewMode : CategoryViewModel
+     data: ArrayList<Products>
+     orignalList: ArrayList<Products>
+     adapter: CategoryAdapter
+     currentCollectionTitle: String
+     currentCollectionID : ArrayList<String>
+     - loadProducts(id:String)
+    - setUpTabLayoute(sources: List<Custom_collections?>?)
+}
+
+class CategoryViewModel extends AndroidViewModel {
+application: Application
+    var apiRepository: ApiRepository
+    loadData(context: Context): MutableLiveData<ApiCollections>
+    fun loadProductData(id:String): MutableLiveData<CollectionProducts>
+}
+
+class CategoryAdapter extends RecyclerView.Adapter{
+    - data  : ArrayList<Products>
+    - context: Context
+   - previousPosition:Int
+     setData(data: ArrayList<Products>, context: Context)
+    }
+
+      class ViewHolder extends RecyclerView.ViewHolder{
+               itemView: View
+             categoryName: TextView
+            categoryImage: ImageView
+
+
+            }
+@enduml

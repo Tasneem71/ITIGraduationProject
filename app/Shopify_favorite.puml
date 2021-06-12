@@ -1,0 +1,38 @@
+@startuml
+class FavoriteActivity extends AppCompatActivity,FavoriteAdapter.OnEditFavoriteListener {
+    - binding: ActivityFavoriteBinding
+    - favoriteViewModel: FavoriteViewModel
+    - favoriteAdapter:FavoriteAdapter
+   - userId :String
+
+}
+class FavoriteViewModel extends AndroidViewModel {
+application: Application
+    private val local = LocalSource(application)
+    var favorites :MutableLiveData<List<Favorite>>? =
+
+    fun addToFavorite(item: Favorite)
+     deleteFromFavorite(item: Favorite)
+    deleteFromFavorite(id: Long)
+    getAllFavorite(userId: String)
+    isFavorite(id: Long,userId: String):Int
+     addToCart(item: Favorite)
+ onCleared()
+    }
+class FavoriteAdapter extends RecyclerView.Adapter {
+  - favorites: List<Favorite>,
+   - listener : OnEditFavoriteListener
+   - previousPosition:Int
+   setData(list: List<Favorite>)
+}
+class ViewHolder extends RecyclerView.ViewHolder, View.OnClickListener {
+        view: View
+        }
+ interface OnEditFavoriteListener
+    {
+        fun onRemoveFavoriteClick(item: Favorite)
+        fun onAddToCartClick(item: Favorite)
+        fun onImageClick(item: Favorite)
+    }
+
+@enduml

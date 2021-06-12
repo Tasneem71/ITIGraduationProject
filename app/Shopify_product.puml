@@ -1,0 +1,20 @@
+@startuml
+class ProductDetails extends AppCompatActivity{
+    - productPageViewModel: ProductPageViewModel
+    - favoriteViewModel: FavoriteViewModel
+    - binding:ActivityScrollingBinding
+   - viewPager2: ViewPager2
+    var currentProduct :Products?
+
+   - setFavoriteImage(id: Long)
+   showPopupMenu(view: View)
+
+    }
+
+    class ProductPageViewModel extends ViewModel {
+
+        var productDetails :MutableLiveData<Products>
+         getProductDetails(id:String)
+}
+
+@enduml

@@ -13,16 +13,17 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
-import androidx.preference.CheckBoxPreference
-import androidx.preference.ListPreference
-import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.*
+import com.example.graduationapp.MainActivity
 import com.example.graduationapp.ui.login.LoginActivity
 import com.example.graduationapp.R
 import com.example.graduationapp.SharedPref
+import com.example.graduationapp.ui.me.MeFragment
 import com.facebook.AccessToken
 import com.facebook.GraphRequest
 import com.facebook.HttpMethod
 import com.facebook.login.LoginManager
+import okhttp3.Cache.key
 import java.util.*
 
 class SettingsFragment : PreferenceFragmentCompat() {
@@ -36,6 +37,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         language()
         aboutMe()
         logout()
+        back()
     }
 
     private fun openDialogue() {
@@ -114,13 +116,16 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
     }
     private fun darkMode() {
+
         var darkMode = findPreference<CheckBoxPreference>("background_mode")
         darkMode?.setOnPreferenceChangeListener { prefs, obj ->
             val yes = obj as Boolean
             if (yes) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                SharedPref.setNightMode(true)
             } else {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                SharedPref.setNightMode(false)
             }
             true
         }
@@ -141,10 +146,20 @@ class SettingsFragment : PreferenceFragmentCompat() {
             true
         }
     }
+    private fun back() {
+        val back = findPreference<Preference>("back")
+        back?.setOnPreferenceClickListener {
+            if (it.key=="back") {
+                startActivity(Intent(requireContext(), MainActivity::class.java))
+            }
+            true
+        }
+    }
 
     private fun setLocale(lng: String) {
         val locale = Locale(lng)
         Locale.setDefault(locale)
+        SharedPref.setLanguage(lng)
         val config = Configuration()
         //config.locales=locale
         config.locale = locale
