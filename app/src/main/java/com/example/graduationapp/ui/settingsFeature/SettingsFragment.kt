@@ -116,13 +116,16 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
     }
     private fun darkMode() {
+
         var darkMode = findPreference<CheckBoxPreference>("background_mode")
         darkMode?.setOnPreferenceChangeListener { prefs, obj ->
             val yes = obj as Boolean
             if (yes) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                SharedPref.setNightMode(true)
             } else {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                SharedPref.setNightMode(false)
             }
             true
         }
@@ -156,6 +159,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
     private fun setLocale(lng: String) {
         val locale = Locale(lng)
         Locale.setDefault(locale)
+        SharedPref.setLanguage(lng)
         val config = Configuration()
         //config.locales=locale
         config.locale = locale
