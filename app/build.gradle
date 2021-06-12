@@ -50,6 +50,7 @@ android {
     dataBinding{
         enabled = true
     }
+    testOptions.unitTests {includeAndroidResources = true}
 }
 
 def githubProperties = new Properties()
@@ -188,6 +189,9 @@ dependencies {
 
     implementation 'com.cuberto:liquid-swipe:1.0.0'
 
+    //test
+    testImplementation "com.google.truth:truth:1.0.1"
+    androidTestImplementation "com.google.truth:truth:1.0.1"
 
 
 
