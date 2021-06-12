@@ -7,6 +7,7 @@ import android.net.NetworkCapabilities
 import android.util.Log
 import androidx.lifecycle.*
 import com.apollographql.apollo.api.Operation
+import com.example.domain.core.feature.favoriteFeature.Favorite
 import com.example.graduationapp.GetProductsByCollectionIDQuery
 
 import com.example.graduationapp.GetProductsQuery
@@ -21,6 +22,7 @@ import com.example.graduationapp.remote.ApiRepository
 import com.facebook.internal.Mutable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import org.w3c.dom.Node
 
@@ -41,14 +43,27 @@ class GraphViewModel (application: Application) : AndroidViewModel(application) 
     var graphRepo: GraphRepo = GraphRepo(application)
 
 
+    fun addToFavorite(item: Favorite){
+        viewModelScope.launch {
+            graphRepo.local.addToFavorite(item)
+        }
+    }
+
+    fun deleteFromFavorite(id: Long){
+        viewModelScope.launch {
+            graphRepo.local.deleteFromFavorite(id)
+        }
+    }
+
+    suspend fun isFavorite(id: Long,userId: String):Int{
+        return viewModelScope.async {
+            graphRepo.local.isFavorite(id,userId)
+        }.await()
+    }
 
 
-    var byCollection = MutableLiveData<List<HomeCollectionQuery.Edge1>>()
 
-
-
-
-     fun getCollection(id:String , num:Int){
+    fun getCollection(id:String , num:Int){
         viewModelScope.launch {
             val response=graphRepo.suspendQuery(GetProductsByCollectionIDQuery(id)).data()
             Log.i("One", "getCollection: ${response?.collection?.products?.edges?.get(0)?.node?.id}")

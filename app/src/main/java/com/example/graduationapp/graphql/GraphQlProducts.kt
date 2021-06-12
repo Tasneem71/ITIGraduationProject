@@ -23,11 +23,11 @@ class GraphQlProducts : AppCompatActivity() ,CollectionsGraphAdapter.OnHomeItemL
     private lateinit var converceList:ArrayList<Products>
     private lateinit var asicsList:ArrayList<Products>
 
-    var  adidasAdapter = CollectionsGraphAdapter(arrayListOf(),this)
-    var  nikeAdapter = CollectionsGraphAdapter(arrayListOf(),this)
-    var  pumaAdapter = CollectionsGraphAdapter(arrayListOf(),this)
-    var  converceAdapter = CollectionsGraphAdapter(arrayListOf(),this)
-    var  asicsAdapter = CollectionsGraphAdapter(arrayListOf(),this)
+    var  adidasAdapter = CollectionsGraphAdapter(arrayListOf(),this,homeViewModel)
+    var  nikeAdapter = CollectionsGraphAdapter(arrayListOf(),this,homeViewModel)
+    var  pumaAdapter = CollectionsGraphAdapter(arrayListOf(),this,homeViewModel)
+    var  converceAdapter = CollectionsGraphAdapter(arrayListOf(),this,homeViewModel)
+    var  asicsAdapter = CollectionsGraphAdapter(arrayListOf(),this,homeViewModel)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,5 +54,11 @@ class GraphQlProducts : AppCompatActivity() ,CollectionsGraphAdapter.OnHomeItemL
 
     override fun onImageClick(item: HomeCollectionQuery.Edge1) {
 
+    }
+
+    override fun onFavImageClick(item: HomeCollectionQuery.Edge1) {
+    }
+
+    override fun onFavDeleImageClick(item: HomeCollectionQuery.Edge1) {
     }
 }

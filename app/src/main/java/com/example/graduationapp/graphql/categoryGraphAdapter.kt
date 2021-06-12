@@ -41,6 +41,7 @@ class categoryGraphAdapter (var categorys: ArrayList<GetProductsByCollectionIDQu
         private val name = view.findViewById<TextView>(R.id.title)
         private val price = view.findViewById<TextView>(R.id.price)
         private val imageView = view.findViewById<ImageView>(R.id.thumbnail)
+        private val fav = view.findViewById<ImageView>(R.id.addToFav)
         //private val addCart = view.findViewById<ImageView>(R.id.add_card)
         fun bind(category: GetProductsByCollectionIDQuery.Edge) {
             Glide.with(imageView.context).load(category.node.featuredImage!!.originalSrc).placeholder(
