@@ -1,0 +1,29 @@
+@startuml
+ class LoginActivity extends AppCompatActivity{
+    - binding:ActivityLoginBinding
+    - loginViewMode : LoginViewModel
+     progressDialog: ProgressDialog?
+     fAuth: FirebaseAuth?
+     mGoogleSignInClient: GoogleSignInClient?
+        var account: GoogleSignInAccount?
+     RC_SIGN_IN = Int
+    - callbackManager: CallbackManager?
+     -signIn()
+     -updateUI(account: GoogleSignInAccount?)
+     -signInApi(email: String, fname: String, lname: String)
+     -settingSharedPrefs(email: String, id: String, fname: String)
+     -handleSignInResult(completedTask: Task<GoogleSignInAccount>)
+}
+
+
+class LoginViewModel extends AndroidViewModel {
+     application: Application
+     allCustomersLiveData :MutableLiveData<ApiCustomers?>
+     createCustomerLiveData :MutableLiveData<Customers?>
+     customerLiveData : MutableLiveData<Customers?>
+    var apiRepository: ApiRepository
+    loadData(context: Context)
+    createCustomer(customerJson: CreatedCustomer)
+    validate_login(userEmail: String, password: String)
+}
+@enduml

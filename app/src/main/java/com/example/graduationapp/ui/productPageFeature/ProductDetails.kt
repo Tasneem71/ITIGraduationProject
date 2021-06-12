@@ -127,6 +127,10 @@ ProductDetails : AppCompatActivity() {
             binding.content.productPageAddToFavorite.visibility=View.GONE
         }
 
+        binding.back.setOnClickListener({
+            finish()
+        })
+
     }
     private fun setFavoriteImage(id: Long) {
         lifecycleScope.launch(Dispatchers.IO) {

@@ -22,6 +22,7 @@ import com.example.graduationapp.data.Transactions
 import com.example.graduationapp.data.orders.Orders
 import com.example.graduationapp.databinding.ActivityLoginBinding
 import com.example.graduationapp.databinding.ActivityPaymentSummaryBinding
+import com.example.graduationapp.ui.cart.CartActivity
 import com.example.graduationapp.ui.checkoutAddress.CustomerDataActivity
 import com.paytabs.paytabs_sdk.payment.ui.activities.PayTabActivity
 import com.paytabs.paytabs_sdk.utils.PaymentParams
@@ -105,6 +106,9 @@ class PaymentSummary : AppCompatActivity() {
                 noDiscountFound()
             }
         }
+        binding.back.setOnClickListener({
+            finish()
+        })
 
 
     }

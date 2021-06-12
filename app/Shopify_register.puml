@@ -1,0 +1,16 @@
+@startuml
+class RegistrationActivity extends AppCompatActivity {
+    - rlayout: RelativeLayout
+    - animation: Animation
+   - binding: ActivityRegistrationBinding
+    -var registrationViewModel : RegistrationViewModel
+   - settingSharedPrefs(email: String,id:String,fname: String
+   }
+   class RegistrationViewModel extends AndroidViewModel {
+   application: Application
+    customerLiveData : MutableLiveData<Customers?>
+     apiRepository: ApiRepository
+     validate_Registration(customer: CreatedCustomer)
+}
+
+@enduml

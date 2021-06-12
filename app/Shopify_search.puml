@@ -1,0 +1,23 @@
+@startuml
+class SearchActivity extends AppCompatActivity , ShopCategoryAdapter.OnHomeItemListener , AdapterView.OnItemSelectedListener{
+   - binding: ActivitySearchBinding
+    - searchViewMode: SearchViewModel
+    - filteredList: ArrayList<Products>
+    - vendorFilteredList: ArrayList<Products>
+    - allList: ArrayList<Products>
+     searchAdapter : ShopCategoryAdapter
+    -filter(text: String)
+    - initUi()
+    -sorting(sort: String)
+    -vendorFilter(vendor: String)
+   }
+
+   class SearchViewModel extends AndroidViewModel {
+   application: Application
+        getAllProductsLiveData : MutableLiveData<CollectionProducts?>
+        apiRepository: ApiRepository
+
+        getAllProducts()
+   }
+
+@enduml
