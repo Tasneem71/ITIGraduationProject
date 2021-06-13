@@ -82,7 +82,7 @@
     <string name="order">Order</string>
     <string name="order_created">Your Order is Created</string>
     <string name="ok">Ok</string>
-    <string name="valid_num">Enter valid Phone Number</string>
+    <string name="valid_num">Enter valid Phone Number that begins with the country code ex:+20</string>
     <string name="valid_code">please Enter Country Code in the First , like +2 for Egypt</string>
     <string name="valid">"Please, Enter Valid Country, province and Address "</string>
     <string name="orderId">Order ID:</string>
@@ -100,6 +100,7 @@
     <string name="copyright" translatable="false">copyright 2020, www.shopify.com</string>
     <string name="contact_us">contact us</string>
     <string name="title_activity_welcome" translatable="false">WelcomeActivity</string>
+    <string name="no_internet" >No Internet</string>
     <!--
     This string is used for square devices and overridden by hello_world in
     values-round/strings.xml for round devices.

@@ -6,11 +6,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -73,6 +75,12 @@ class MeFragment : Fragment() ,  TabLayout.OnTabSelectedListener , orderAdapter.
             }
 
         })
+
+        viewModel.network.observe(requireActivity()) {
+            it?.let {
+                Toast.makeText(requireContext(),this.getString(R.string.no_internet), Toast.LENGTH_LONG).show()
+            }
+        }
 
         viewModel.openOrdersLiveData?.observe(viewLifecycleOwner, Observer {
           Log.d("tag","iddddddddddd"+  it!![0].id)

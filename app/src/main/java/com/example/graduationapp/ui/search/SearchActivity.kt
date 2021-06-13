@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
@@ -18,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.graduationapp.R
 import com.example.graduationapp.data.Products
 import com.example.graduationapp.databinding.ActivitySearchBinding
-import com.example.graduationapp.ui.home.ShopCategoryAdapter
 import com.example.graduationapp.ui.productPageFeature.ProductDetails
 
 
@@ -52,6 +52,12 @@ class SearchActivity : AppCompatActivity() , ShopCategoryAdapter.OnHomeItemListe
                 searchAdapter.updateCategory(filteredList)
             }
 
+        }
+
+        searchViewMode.network.observe(this) {
+            it?.let {
+                Toast.makeText(this,this.getString(R.string.no_internet), Toast.LENGTH_LONG).show()
+            }
         }
 
         binding.searchtv.addTextChangedListener(object : TextWatcher {

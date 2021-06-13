@@ -15,15 +15,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.domain.core.feature.favoriteFeature.Favorite
-import com.example.graduationapp.GetProductsByCollectionIDQuery
 import com.example.graduationapp.HomeCollectionQuery
 import com.example.graduationapp.R
 import com.example.graduationapp.SharedPref
-import com.example.graduationapp.data.Products
-import com.example.graduationapp.data.priceRules.CreatedDiscount
-import com.example.graduationapp.data.priceRules.Discount
 import com.example.graduationapp.databinding.FragmentHomeBinding
-import com.example.graduationapp.graphql.CollectionsGraphAdapter
 import com.example.graduationapp.graphql.GraphViewModel
 import com.example.graduationapp.ui.cart.CartActivity
 import com.example.graduationapp.ui.favoriteFeature.FavoriteActivity
@@ -34,15 +29,15 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-class HomeFragment : Fragment() ,CollectionsGraphAdapter.OnHomeItemListener {
+class HomeFragment : Fragment() , CollectionsGraphAdapter.OnHomeItemListener {
 
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var binding: FragmentHomeBinding
     private lateinit var homeViewModel1: GraphViewModel
     private lateinit var imgas:Array<Int>
-    lateinit var  adidasAdapter:CollectionsGraphAdapter
+    lateinit var  adidasAdapter: CollectionsGraphAdapter
     lateinit var  nikeAdapter : CollectionsGraphAdapter
-    lateinit var  pumaAdapter :CollectionsGraphAdapter
+    lateinit var  pumaAdapter : CollectionsGraphAdapter
     lateinit var  converceAdapter : CollectionsGraphAdapter
     lateinit var  asicsAdapter : CollectionsGraphAdapter
     var adidasList: List<HomeCollectionQuery.Edge1> = mutableListOf()

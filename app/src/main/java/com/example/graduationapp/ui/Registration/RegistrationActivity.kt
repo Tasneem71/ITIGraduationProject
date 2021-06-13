@@ -6,6 +6,7 @@ import android.view.MenuItem
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.RelativeLayout
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
@@ -45,6 +46,12 @@ class RegistrationActivity : AppCompatActivity() {
             it?.let {
                 println(it)
                 settingSharedPrefs(it.email,it.id,it.first_name)
+            }
+        }
+
+        registrationViewModel.network.observe(this) {
+            it?.let {
+                Toast.makeText(this,this.getString(R.string.no_internet), Toast.LENGTH_LONG).show()
             }
         }
 

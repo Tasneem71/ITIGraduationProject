@@ -137,6 +137,11 @@ open class LoginActivity : AppCompatActivity() {
                 settingSharedPrefs(it.email, it.id, it.first_name)
             }
         }
+        loginViewMode.network.observe(this) {
+            it?.let {
+                Toast.makeText(this,this.getString(R.string.no_internet),Toast.LENGTH_LONG).show()
+            }
+        }
 
     }
     private fun signIn() {

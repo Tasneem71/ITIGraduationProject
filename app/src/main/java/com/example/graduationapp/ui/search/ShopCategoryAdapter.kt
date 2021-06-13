@@ -1,7 +1,5 @@
-package com.example.graduationapp.ui.home
+package com.example.graduationapp.ui.search
 
-import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,8 +10,6 @@ import com.bumptech.glide.Glide
 import com.example.domain.core.subFeature.RecyclerViewAnimation
 import com.example.graduationapp.R
 import com.example.graduationapp.data.Products
-import com.example.graduationapp.ui.cart.adapter.CartAdapter
-import com.example.graduationapp.ui.productPageFeature.ProductDetails
 
 class ShopCategoryAdapter(var categorys: ArrayList<Products>, var listener: OnHomeItemListener) :
         RecyclerView.Adapter<ShopCategoryAdapter.CategoryViewHolder>() {

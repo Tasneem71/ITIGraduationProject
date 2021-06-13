@@ -57,7 +57,7 @@
     <string name="order">الطلب</string>
     <string name="order_created">قد تم تنفيذ طلبك</string>
     <string name="ok">حسنا</string>
-    <string name="valid_num">ادخل رقم صحيح</string>
+    <string name="valid_num">من فضلك ادخل رقم صحيح مسبوق برمز البلد مثل :+20</string>
     <string name="valid_code">ادخل رمز البلاد قبل الرقم</string>
     <string name="valid">ادخل البلد والمقاطعة والعنوان</string>
     <string name="orderId">رقم الطلب:</string>
@@ -77,6 +77,7 @@
     <string name="women">نساء</string>
     <string name="men">رجال</string>
     <string name="sale">عرض</string>
+    <string name="no_internet" >انت غير متصل</string>
 
 
     <string name="title1">Greate Discounts</string>

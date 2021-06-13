@@ -70,10 +70,13 @@ class CartActivity : AppCompatActivity(), CartAdapter.OnCartItemListener {
 
         binding.checkOut.setOnClickListener {
 
-            val intent = Intent(this, CustomerDataActivity::class.java)
-            intent.putExtra("price", binding.total2.text.toString())
-            Log.i("Menna", "CustomerDataActivity")
-            startActivity(intent)
+            if(binding.total2.text.toString()== "0"){
+                Toast.makeText(this,this.getString(R.string.empty_cart),Toast.LENGTH_LONG).show()
+            }else{
+                val intent = Intent(this, CustomerDataActivity::class.java)
+                intent.putExtra("price", binding.total2.text.toString())
+                startActivity(intent)
+            }
 
         }
 

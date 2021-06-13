@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.observe
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
@@ -20,17 +19,12 @@ import com.example.domain.core.subFeature.RecyclerViewAnimation
 import com.example.graduationapp.GetProductsByCollectionIDQuery
 import com.example.graduationapp.R
 import com.example.graduationapp.ui.search.SearchActivity
-import com.example.graduationapp.data.Custom_collections
-import com.example.graduationapp.data.Products
 import com.example.graduationapp.databinding.FragmentCategoryBinding
-import com.example.graduationapp.graphql.CollectionsGraphAdapter
 import com.example.graduationapp.graphql.GraphViewModel
 import com.example.graduationapp.ui.cart.CartActivity
 import com.example.graduationapp.ui.favoriteFeature.FavoriteActivity
 import com.google.android.material.tabs.TabLayout
-import com.example.graduationapp.HomeCollectionQuery
 import com.example.graduationapp.SharedPref
-import com.example.graduationapp.graphql.categoryGraphAdapter
 import com.example.graduationapp.ui.productPageFeature.ProductDetails
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -51,7 +45,7 @@ class CategoryFragment : Fragment() ,  TabLayout.OnTabSelectedListener , categor
     var womenList: List<GetProductsByCollectionIDQuery.Edge> = mutableListOf()
     var saleList: List<GetProductsByCollectionIDQuery.Edge> = mutableListOf()
     var homepageList: List<GetProductsByCollectionIDQuery.Edge> = mutableListOf()
-    lateinit var  collectionsGraphAdapter:categoryGraphAdapter
+    lateinit var  collectionsGraphAdapter: categoryGraphAdapter
 
 
 

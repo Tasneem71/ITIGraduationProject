@@ -146,25 +146,6 @@ class CustomerDataActivity : AppCompatActivity() {
         }
 
     }
-    private fun checkPhoneNum(phone :String) : Boolean{
-        //^[+]?[0-9]{10,13}$
-        return if(phone.length != 13 || phone.isEmpty() ){
-            Toast.makeText(this,this.getString(R.string.valid_num),Toast.LENGTH_SHORT).show()
-            false
-        } else if(phone.length ==11 && phone.take(1) != "+"){
-            Toast.makeText(this,this.getString(R.string.valid_code),Toast.LENGTH_SHORT).show()
-            false
-        } else {
-            true
-        }
-    }
 
-    private fun createOrderApi(list:List<Favorite>) : List<LineItems> {
-        val lines : MutableList<LineItems> = mutableListOf<LineItems>()
-        for (item in list){
-            val lineObject : LineItems = LineItems(item.title,item.price.toString(),item.count,item.varient_id)
-            lines.add(lineObject)
-        }
-        return lines
-    }
+
 }

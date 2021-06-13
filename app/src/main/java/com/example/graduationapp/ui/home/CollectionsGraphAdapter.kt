@@ -1,4 +1,4 @@
-package com.example.graduationapp.graphql
+package com.example.graduationapp.ui.home
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,22 +8,23 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.domain.core.subFeature.RecyclerViewAnimation
-import com.example.graduationapp.GetProductsByCollectionIDQuery
 import com.example.graduationapp.HomeCollectionQuery
 import com.example.graduationapp.R
 import com.example.graduationapp.SharedPref
+import com.example.graduationapp.graphql.GraphViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class categoryGraphAdapter (var categorys: ArrayList<GetProductsByCollectionIDQuery.Edge>,
-                            var listener: OnHomeItemListener,viewModel: GraphViewModel) :
-    RecyclerView.Adapter<categoryGraphAdapter.CategoryViewHolder>() {
+class CollectionsGraphAdapter(
+    var categorys: ArrayList<HomeCollectionQuery.Edge1>, var listener: OnHomeItemListener, viewModel: GraphViewModel
+) :
+        RecyclerView.Adapter<CollectionsGraphAdapter.CategoryViewHolder>() {
     private var previousPosition=0
     var viewModel: GraphViewModel = viewModel
 
-    fun setData(newCategory: List<GetProductsByCollectionIDQuery.Edge>) {
+    fun setData(newCategory: List<HomeCollectionQuery.Edge1>) {
         categorys.clear()
         categorys.addAll(newCategory)
         notifyDataSetChanged()
@@ -49,10 +50,9 @@ class categoryGraphAdapter (var categorys: ArrayList<GetProductsByCollectionIDQu
         private val imageView = view.findViewById<ImageView>(R.id.thumbnail)
         private val fav = view.findViewById<ImageView>(R.id.addToFav)
         private val cart = view.findViewById<ImageView>(R.id.addTocart)
-
-        fun bind(category: GetProductsByCollectionIDQuery.Edge) {
-            Glide.with(imageView.context).load(category.node.featuredImage!!.originalSrc).placeholder(
-                R.drawable.bag1).into(imageView)
+        //private val addCart = view.findViewById<ImageView>(R.id.add_card)
+        fun bind(category: HomeCollectionQuery.Edge1) {
+            Glide.with(imageView.context).load(category.node.featuredImage!!.originalSrc).placeholder(R.drawable.bag1).into(imageView)
             name.text =category.node.title
             price.text = category.node.variants.edges.get(0).node.price.toString()+" LE"
             if (!SharedPref.getUserStatus()){
@@ -60,8 +60,7 @@ class categoryGraphAdapter (var categorys: ArrayList<GetProductsByCollectionIDQu
                 cart.visibility=View.GONE
             }
             GlobalScope.launch(Dispatchers.IO) {
-                var result=viewModel.isFavorite(category.node.legacyResourceId.toString().toLong(),
-                    SharedPref.getUserID().toString())
+                var result=viewModel.isFavorite(category.node.legacyResourceId.toString().toLong(),SharedPref.getUserID().toString())
                 withContext(Dispatchers.Main){
                     when(result){
                         0 -> {
@@ -77,8 +76,7 @@ class categoryGraphAdapter (var categorys: ArrayList<GetProductsByCollectionIDQu
 
             }
             GlobalScope.launch(Dispatchers.IO) {
-                var result=viewModel.isCart(category.node.legacyResourceId.toString().toLong(),
-                    SharedPref.getUserID().toString())
+                var result=viewModel.isCart(category.node.legacyResourceId.toString().toLong(),SharedPref.getUserID().toString())
                 withContext(Dispatchers.Main){
                     when(result){
                         0 -> {
@@ -93,6 +91,7 @@ class categoryGraphAdapter (var categorys: ArrayList<GetProductsByCollectionIDQu
                 }
 
             }
+
 
         }
         init {
@@ -133,10 +132,10 @@ class categoryGraphAdapter (var categorys: ArrayList<GetProductsByCollectionIDQu
     }
     interface OnHomeItemListener
     {
-        fun onImageClick(item: GetProductsByCollectionIDQuery.Edge)
-        fun onFavImageClick(item: GetProductsByCollectionIDQuery.Edge)
-        fun onFavDeleImageClick(item: GetProductsByCollectionIDQuery.Edge)
-        fun oncartImageClick(item: GetProductsByCollectionIDQuery.Edge)
-        fun oncartDeleImageClick(item: GetProductsByCollectionIDQuery.Edge)
+        fun onImageClick(item: HomeCollectionQuery.Edge1)
+        fun onFavImageClick(item: HomeCollectionQuery.Edge1)
+        fun onFavDeleImageClick(item: HomeCollectionQuery.Edge1)
+        fun oncartImageClick(item: HomeCollectionQuery.Edge1)
+        fun oncartDeleImageClick(item: HomeCollectionQuery.Edge1)
     }
 }
