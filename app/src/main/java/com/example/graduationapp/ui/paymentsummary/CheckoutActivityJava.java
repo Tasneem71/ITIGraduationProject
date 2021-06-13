@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.domain.core.feature.transactionsFeature.entitiy.Transaction;
 import com.example.graduationapp.R;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -71,18 +72,11 @@ public class CheckoutActivityJava extends AppCompatActivity {
     }
 
     private void startCheckout() {
-        // Create a PaymentIntent by calling the server's endpoint.
-        MediaType mediaType = MediaType.get("application/json; charset=utf-8");
-//            String json = "{"
-//                    + "\"currency\":\"usd\","
-//                    + "\"items\":["
-//                    + "{\"id\":\"photo_subscription\"}"
-//                    + "]"
-//                    + "}";
 
+        MediaType mediaType = MediaType.get("application/json; charset=utf-8");
         //Double.parseDouble()
        // double amountt = Double.parseDouble(amount)*100;
-        double amountt = 50.0;
+        double amountt = 50.0*100;
         Log.i("help",amountt+"********");
         Map<String,Object> payMap = new HashMap<>();
         Map<String,Object> itemMap = new HashMap<>();
@@ -213,6 +207,8 @@ public class CheckoutActivityJava extends AppCompatActivity {
 
                 Toast.makeText(activity,"Ordered Successfully",Toast.LENGTH_LONG).show();
                 try {
+
+                   // Transaction tran =new Transaction();
                     Thread.sleep(1500);
                     Toast.makeText(activity,"Open Home Activity",Toast.LENGTH_LONG).show();
                   //  paymentViewModel.cancelOrder(order.getId());

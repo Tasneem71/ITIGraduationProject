@@ -92,7 +92,7 @@ class PaymentSummary : AppCompatActivity() {
 
                 val intent =Intent(this,CheckoutActivityJava::class.java)
                 startActivity(intent)
-                //goPayTab()
+               // goPayTab()
 
             }
         }
