@@ -23,7 +23,6 @@ import com.facebook.AccessToken
 import com.facebook.GraphRequest
 import com.facebook.HttpMethod
 import com.facebook.login.LoginManager
-import okhttp3.Cache.key
 import java.util.*
 
 class SettingsFragment : PreferenceFragmentCompat() {

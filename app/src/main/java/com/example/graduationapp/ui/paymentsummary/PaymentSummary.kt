@@ -89,7 +89,10 @@ class PaymentSummary : AppCompatActivity() {
                 createOrderViewModel.getAllOrderd(SharedPref.getUserID().toString())
 
             }else{
-                goPayTab()
+
+                val intent =Intent(this,CheckoutActivity::class.java)
+                startActivity(intent)
+                //goPayTab()
 
             }
         }
