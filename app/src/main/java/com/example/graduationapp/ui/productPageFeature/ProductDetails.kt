@@ -64,15 +64,17 @@ ProductDetails : AppCompatActivity() {
             val adapter = ViewPagerAdapter(imgs)
             viewPager2 = findViewById(R.id.viewPager)
             viewPager2.adapter = adapter
-            binding.content.productPagePrice.text=it.variants?.get(0)?.price.toString()+" EG"
+            binding.content.productPagePrice.text=it.variants?.get(0)?.price.toString()+" EGP"
             binding.content.productPageTitle.text=it.title
             binding.content.productPageProductType.text=it.product_type
             binding.content.productPageVendor.text=it.vendor
-            binding.content.productPageInventoryQuantity.text= it.variants?.get(0)?.inventory_quantity?:"not Available"
+            binding.content.productPageInventoryQuantity.text= it.variants?.get(0)?.inventory_quantity?:this.getString(R.string.notAve)
+            binding.content.descriptionTv.text=it.body_html
+
             val sizes=it.options.filter { it.name=="Size" }
             val colors=it.options.filter { it.name=="Color" }
-            binding.content.productPageSizeDetails.text= sizes[0].values?.get(0) ?:"not Available"
-            binding.content.productPageColorDetails.text= colors[0].values?.get(0) ?:"not Available"
+            binding.content.productPageSizeDetails.text= sizes[0].values?.get(0) ?:this.getString(R.string.notAve)
+            binding.content.productPageColorDetails.text= colors[0].values?.get(0) ?:this.getString(R.string.notAve)
             //binding.content.productPageTags.text=it.tags
 
             val y: String = it.image.src ?: "www.google.com/ss.png/"
