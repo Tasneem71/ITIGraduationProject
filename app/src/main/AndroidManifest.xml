@@ -17,13 +17,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GraduationApp.noActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.paymentsummary.CheckoutActivity"></activity>
+        <activity android:name=".ui.paymentsummary.CheckoutActivityJava">
+
+        </activity>
         <activity android:name=".SplashActivity">
+
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
         <activity android:name=".welcome.WelcomActivity"></activity>
         <activity android:name=".ui.paymentsummary.PaymentSummary" />
