@@ -59,7 +59,7 @@ class HomeFragment : Fragment() ,CollectionsGraphAdapter.OnHomeItemListener {
              showPhotos(item)
 
         initUI()
-        homeViewModel1.getCollectionData()
+        //homeViewModel1.getCollectionData()
 
         //*********************************
         binding.flipper.setOnClickListener {
