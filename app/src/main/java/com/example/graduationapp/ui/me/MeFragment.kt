@@ -130,9 +130,8 @@ class MeFragment : Fragment() ,  TabLayout.OnTabSelectedListener , orderAdapter.
     private fun settingUI(userStatus: Boolean) {
 
         if (userStatus==true){
-
             binding.welcome.visibility=View.VISIBLE
-            binding.welcome.text="Welcome "+SharedPref.getUserInfo()
+            binding.welcome.text=this.getString(R.string.welcometoshopfiy)+SharedPref.getUserInfo()
             binding.registerLogin.visibility=View.GONE
             binding.categoryRecycler.visibility=View.VISIBLE
             binding.notLoged.visibility=View.GONE
