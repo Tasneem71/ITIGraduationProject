@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.domain.core.feature.favoriteFeature.Favorite
+import com.example.graduationapp.GetProductsByCollectionIDQuery
 import com.example.graduationapp.HomeCollectionQuery
 import com.example.graduationapp.R
 import com.example.graduationapp.SharedPref
@@ -28,6 +29,9 @@ import com.example.graduationapp.ui.cart.CartActivity
 import com.example.graduationapp.ui.favoriteFeature.FavoriteActivity
 import com.example.graduationapp.ui.productPageFeature.ProductDetails
 import com.example.graduationapp.ui.search.SearchActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class HomeFragment : Fragment() ,CollectionsGraphAdapter.OnHomeItemListener {
@@ -41,6 +45,11 @@ class HomeFragment : Fragment() ,CollectionsGraphAdapter.OnHomeItemListener {
     lateinit var  pumaAdapter :CollectionsGraphAdapter
     lateinit var  converceAdapter : CollectionsGraphAdapter
     lateinit var  asicsAdapter : CollectionsGraphAdapter
+    var adidasList: List<HomeCollectionQuery.Edge1> = mutableListOf()
+    var nikeList: List<HomeCollectionQuery.Edge1> = mutableListOf()
+    var pumaList: List<HomeCollectionQuery.Edge1> = mutableListOf()
+    var converseList: List<HomeCollectionQuery.Edge1> = mutableListOf()
+    var asicsList: List<HomeCollectionQuery.Edge1> = mutableListOf()
 
     override fun onCreateView(inflater: LayoutInflater,container: ViewGroup?,savedInstanceState: Bundle?): View {
 
@@ -94,30 +103,35 @@ class HomeFragment : Fragment() ,CollectionsGraphAdapter.OnHomeItemListener {
         homeViewModel1.adidas?.observe(requireActivity(), Observer {
             Log.i("tasneem",""+it)
             binding.progressBar.visibility=View.GONE
+            adidasList=it
             adidasAdapter.setData(it)
         })
 
         homeViewModel1.nike?.observe(requireActivity(), Observer {
             Log.i("tasneem",""+it)
             binding.progressBar.visibility=View.GONE
+            nikeList=it
             nikeAdapter.setData(it)
         })
 
         homeViewModel1.converse?.observe(requireActivity(), Observer {
             Log.i("tasneem",""+it)
             binding.progressBar.visibility=View.GONE
+            converseList=it
             converceAdapter.setData(it)
         })
 
         homeViewModel1.asicsTiger?.observe(requireActivity(), Observer {
             Log.i("tasneem",""+it)
             binding.progressBar.visibility=View.GONE
+            asicsList=it
             asicsAdapter.setData(it)
         })
 
         homeViewModel1.puma?.observe(requireActivity(), Observer {
             Log.i("tasneem",""+it)
             binding.progressBar.visibility=View.GONE
+            pumaList=it
             pumaAdapter.setData(it)
         })
 
@@ -130,7 +144,7 @@ class HomeFragment : Fragment() ,CollectionsGraphAdapter.OnHomeItemListener {
 
         homeViewModel.cartCount.observe(viewLifecycleOwner, Observer {
 
-            Log.i("BADGE", "onCreateView: BADGE #  $it")
+            Log.i("cart", "onCreateView: BADGE #  $it")
             when(it){
                 0 -> {
                     binding.badge.visibility=View.INVISIBLE
@@ -181,6 +195,11 @@ class HomeFragment : Fragment() ,CollectionsGraphAdapter.OnHomeItemListener {
     override fun onResume() {
         super.onResume()
         homeViewModel.cartCount(SharedPref.getUserID().toString())
+        adidasAdapter.setData(adidasList)
+        nikeAdapter.setData(nikeList)
+        converceAdapter.setData(converseList)
+        pumaAdapter.setData(pumaList)
+        asicsAdapter.setData(asicsList)
     }
 
     override fun onImageClick(item: HomeCollectionQuery.Edge1) {
@@ -198,6 +217,25 @@ class HomeFragment : Fragment() ,CollectionsGraphAdapter.OnHomeItemListener {
 
     override fun onFavDeleImageClick(item: HomeCollectionQuery.Edge1) {
         homeViewModel1.deleteFromFavorite(item.node.legacyResourceId.toString().toLong())
+    }
+
+    override fun oncartImageClick(item: HomeCollectionQuery.Edge1) {
+        CoroutineScope(Dispatchers.IO).launch {
+        homeViewModel1.addToCart(Favorite(item.node.legacyResourceId.toString().toLong(),item.node.title,item.node.handle,
+            item.node.variants.edges[0].node.price.toInt(),item.node.featuredImage!!.originalSrc.toString(),'C',
+            1,item.node.variants.edges[0].node.id,SharedPref.getUserID().toString()))}.invokeOnCompletion {
+            homeViewModel.cartCount(SharedPref.getUserID().toString())
+        }
+
+    }
+
+    override fun oncartDeleImageClick(item: HomeCollectionQuery.Edge1) {
+        CoroutineScope(Dispatchers.IO).launch {
+        homeViewModel1.deleteFromCart(item.node.legacyResourceId.toString().toLong(),SharedPref.getUserID().toString())
+        }.invokeOnCompletion {
+            homeViewModel.cartCount(SharedPref.getUserID().toString())
+        }
+
     }
 
     fun splitId(id:String): String{

@@ -55,12 +55,27 @@ class GraphViewModel (application: Application) : AndroidViewModel(application) 
         }
     }
 
+   suspend fun deleteFromCart(id: Long,userId: String){
+            graphRepo.local.deleteFromCart(id,userId)
+    }
+
     suspend fun isFavorite(id: Long,userId: String):Int{
         return viewModelScope.async {
             graphRepo.local.isFavorite(id,userId)
         }.await()
     }
 
+    suspend fun isCart(id: Long,userId: String):Int{
+        return viewModelScope.async {
+            graphRepo.local.isCart(id,userId)
+        }.await()
+    }
+
+    suspend fun addToCart(item: Favorite){
+
+            graphRepo.local.addToFavorite(item)
+
+    }
 
 
     fun getCollection(id:String , num:Int){

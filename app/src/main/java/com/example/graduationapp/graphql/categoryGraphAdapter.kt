@@ -11,11 +11,17 @@ import com.example.domain.core.subFeature.RecyclerViewAnimation
 import com.example.graduationapp.GetProductsByCollectionIDQuery
 import com.example.graduationapp.HomeCollectionQuery
 import com.example.graduationapp.R
+import com.example.graduationapp.SharedPref
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class categoryGraphAdapter (var categorys: ArrayList<GetProductsByCollectionIDQuery.Edge>,
-                            var listener: OnHomeItemListener) :
+                            var listener: OnHomeItemListener,viewModel: GraphViewModel) :
     RecyclerView.Adapter<categoryGraphAdapter.CategoryViewHolder>() {
     private var previousPosition=0
+    var viewModel: GraphViewModel = viewModel
 
     fun setData(newCategory: List<GetProductsByCollectionIDQuery.Edge>) {
         categorys.clear()
@@ -42,22 +48,81 @@ class categoryGraphAdapter (var categorys: ArrayList<GetProductsByCollectionIDQu
         private val price = view.findViewById<TextView>(R.id.price)
         private val imageView = view.findViewById<ImageView>(R.id.thumbnail)
         private val fav = view.findViewById<ImageView>(R.id.addToFav)
-        //private val addCart = view.findViewById<ImageView>(R.id.add_card)
+        private val cart = view.findViewById<ImageView>(R.id.addTocart)
+
         fun bind(category: GetProductsByCollectionIDQuery.Edge) {
             Glide.with(imageView.context).load(category.node.featuredImage!!.originalSrc).placeholder(
                 R.drawable.ic_search).into(imageView)
             name.text =category.node.title
-            price.text = category.node.variants.edges.get(0).node.price.toString()
-            val ddd=category.node.variants.edges.get(0).node.price.toString()
+            price.text = category.node.variants.edges.get(0).node.price.toString()+" LE"
+            GlobalScope.launch(Dispatchers.IO) {
+                var result=viewModel.isFavorite(category.node.legacyResourceId.toString().toLong(),
+                    SharedPref.getUserID().toString())
+                withContext(Dispatchers.Main){
+                    when(result){
+                        0 -> {
+                            fav.setImageResource(R.drawable.favorite)
+                            fav.setTag(R.drawable.favorite)
+                        }
+                        1 -> {
+                            fav.setImageResource(R.drawable.favorite2)
+                            fav.setTag(R.drawable.favorite2)
+                        }
+                    }
+                }
+
+            }
+            GlobalScope.launch(Dispatchers.IO) {
+                var result=viewModel.isCart(category.node.legacyResourceId.toString().toLong(),
+                    SharedPref.getUserID().toString())
+                withContext(Dispatchers.Main){
+                    when(result){
+                        0 -> {
+                            cart.setImageResource(R.drawable.bag1)
+                            cart.setTag(R.drawable.bag1)
+                        }
+                        1 -> {
+                            cart.setImageResource(R.drawable.bag2)
+                            cart.setTag(R.drawable.bag2)
+                        }
+                    }
+                }
+
+            }
 
         }
         init {
             imageView.setOnClickListener(this)
+            fav.setOnClickListener(this)
+            cart.setOnClickListener(this)
         }
         override fun onClick(p0: View?) {
             when(p0){
-                imageView->{
+                imageView -> {
                     listener.onImageClick(categorys[adapterPosition])
+                }
+                fav -> {
+                    if (fav.tag!=R.drawable.favorite2) {
+                        listener.onFavImageClick(categorys[adapterPosition])
+                        fav.setImageResource(R.drawable.favorite2)
+                        fav.setTag(R.drawable.favorite2)
+                    } else {
+                        listener.onFavDeleImageClick(categorys[adapterPosition])
+                        fav.setImageResource(R.drawable.favorite)
+                        fav.setTag(R.drawable.favorite)
+                    }
+                }
+
+                cart -> {
+                    if (cart.tag!=R.drawable.bag2) {
+                        listener.oncartImageClick(categorys[adapterPosition])
+                        cart.setImageResource(R.drawable.bag2)
+                        cart.setTag(R.drawable.bag2)
+                    } else {
+                        listener.oncartDeleImageClick(categorys[adapterPosition])
+                        cart.setImageResource(R.drawable.bag1)
+                        cart.setTag(R.drawable.bag1)
+                    }
                 }
             }
         }
@@ -65,5 +130,9 @@ class categoryGraphAdapter (var categorys: ArrayList<GetProductsByCollectionIDQu
     interface OnHomeItemListener
     {
         fun onImageClick(item: GetProductsByCollectionIDQuery.Edge)
+        fun onFavImageClick(item: GetProductsByCollectionIDQuery.Edge)
+        fun onFavDeleImageClick(item: GetProductsByCollectionIDQuery.Edge)
+        fun oncartImageClick(item: GetProductsByCollectionIDQuery.Edge)
+        fun oncartDeleImageClick(item: GetProductsByCollectionIDQuery.Edge)
     }
 }

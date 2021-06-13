@@ -16,6 +16,9 @@ interface FavoriteDao {
     @Query("delete from Favorite where page = 67 and userId= :userId ")
     suspend fun deleteListFromCart(userId: String)
 
+    @Query("delete from Favorite where id is :id and userId= :userId")
+    suspend fun deleteFromCart(id: Long, userId:String)
+
     @Query("delete from Favorite where id is :id")
     suspend fun deleteFromFavorite(id: Long)
 

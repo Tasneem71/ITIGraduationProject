@@ -60,7 +60,7 @@ class SplashActivity : AppCompatActivity() {
             Log.i("tasneem","exption")
         }
         activityScope.launch {
-            delay(2000)
+            delay(4000)
             if(SharedPref.getEver()){
             var intent = Intent(this@SplashActivity, MainActivity::class.java)
             startActivity(intent)
