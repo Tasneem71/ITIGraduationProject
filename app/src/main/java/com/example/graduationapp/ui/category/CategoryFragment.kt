@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.domain.core.feature.favoriteFeature.Favorite
 import com.example.domain.core.subFeature.GridSpacingItemDecoration
 import com.example.domain.core.subFeature.RecyclerViewAnimation
 import com.example.graduationapp.GetProductsByCollectionIDQuery
@@ -28,7 +29,9 @@ import com.example.graduationapp.ui.cart.CartActivity
 import com.example.graduationapp.ui.favoriteFeature.FavoriteActivity
 import com.google.android.material.tabs.TabLayout
 import com.example.graduationapp.HomeCollectionQuery
+import com.example.graduationapp.SharedPref
 import com.example.graduationapp.graphql.categoryGraphAdapter
+import com.example.graduationapp.ui.productPageFeature.ProductDetails
 
 
 class CategoryFragment : Fragment() ,  TabLayout.OnTabSelectedListener , categoryGraphAdapter.OnHomeItemListener{
@@ -45,7 +48,7 @@ class CategoryFragment : Fragment() ,  TabLayout.OnTabSelectedListener , categor
     var womenList: List<GetProductsByCollectionIDQuery.Edge> = mutableListOf()
     var saleList: List<GetProductsByCollectionIDQuery.Edge> = mutableListOf()
     var homepageList: List<GetProductsByCollectionIDQuery.Edge> = mutableListOf()
-    var  collectionsGraphAdapter = categoryGraphAdapter(arrayListOf(),this)
+    lateinit var  collectionsGraphAdapter:categoryGraphAdapter
 
 
 
@@ -54,6 +57,7 @@ class CategoryFragment : Fragment() ,  TabLayout.OnTabSelectedListener , categor
         graphViewModel = ViewModelProvider(this).get(GraphViewModel::class.java)
 
         setUpTabLayoute()
+        collectionsGraphAdapter = categoryGraphAdapter(arrayListOf(),this,graphViewModel)
 
 
 
@@ -185,6 +189,42 @@ class CategoryFragment : Fragment() ,  TabLayout.OnTabSelectedListener , categor
     }
 
     override fun onImageClick(item: GetProductsByCollectionIDQuery.Edge) {
+        //splitId(item.node.id)
+        val intent= Intent(this.context, ProductDetails::class.java)
+        intent.putExtra("product_id",item.node.legacyResourceId.toString())
+        this.context?.startActivity(intent)
+    }
+
+    override fun onFavImageClick(item: GetProductsByCollectionIDQuery.Edge) {
+        graphViewModel.addToFavorite(
+            Favorite(item.node.legacyResourceId.toString().toLong(),item.node.title,item.node.handle,
+            item.node.variants.edges[0].node.price.toInt(),item.node.featuredImage!!.originalSrc.toString(),'F',
+            1,item.node.variants.edges[0].node.id,
+                SharedPref.getUserID().toString())
+        )
+    }
+
+    override fun onFavDeleImageClick(item: GetProductsByCollectionIDQuery.Edge) {
+        graphViewModel.deleteFromFavorite(item.node.legacyResourceId.toString().toLong())
+    }
+
+    override fun oncartImageClick(item: GetProductsByCollectionIDQuery.Edge) {
+        graphViewModel.addToCart(
+            Favorite(item.node.legacyResourceId.toString().toLong(),item.node.title,item.node.handle,
+            item.node.variants.edges[0].node.price.toInt(),item.node.featuredImage!!.originalSrc.toString(),'C',
+            1,item.node.variants.edges[0].node.id,
+                SharedPref.getUserID().toString())
+        )
+    }
+
+    override fun oncartDeleImageClick(item: GetProductsByCollectionIDQuery.Edge) {
+        graphViewModel.deleteFromCart(item.node.legacyResourceId.toString().toLong(),
+            SharedPref.getUserID().toString())
+    }
+
+    override fun onResume() {
+        super.onResume()
+        collectionsGraphAdapter.setData(orignalList)
 
     }
 
