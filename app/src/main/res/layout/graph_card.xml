@@ -87,11 +87,21 @@
         android:layout_height="24dp"
         android:layout_width="24dp"
         android:id="@+id/addToFav"
-        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
         android:layout_marginTop="2dp"
         android:elevation="16dp"
         android:src="@drawable/favorite"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <ImageView
+        android:layout_height="24dp"
+        android:layout_width="24dp"
+        android:id="@+id/addTocart"
+        android:layout_marginTop="2dp"
+        android:elevation="16dp"
+        android:src="@drawable/bag1"
+        app:layout_constraintEnd_toStartOf="@+id/addToFav"
         app:layout_constraintTop_toTopOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

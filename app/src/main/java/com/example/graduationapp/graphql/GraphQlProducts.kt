@@ -61,4 +61,12 @@ class GraphQlProducts : AppCompatActivity() ,CollectionsGraphAdapter.OnHomeItemL
 
     override fun onFavDeleImageClick(item: HomeCollectionQuery.Edge1) {
     }
+
+    override fun oncartImageClick(item: HomeCollectionQuery.Edge1) {
+
+    }
+
+    override fun oncartDeleImageClick(item: HomeCollectionQuery.Edge1) {
+        TODO("Not yet implemented")
+    }
 }

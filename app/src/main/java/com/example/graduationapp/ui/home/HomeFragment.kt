@@ -181,6 +181,7 @@ class HomeFragment : Fragment() ,CollectionsGraphAdapter.OnHomeItemListener {
     override fun onResume() {
         super.onResume()
         homeViewModel.cartCount(SharedPref.getUserID().toString())
+        homeViewModel1.getCollectionData()
     }
 
     override fun onImageClick(item: HomeCollectionQuery.Edge1) {
@@ -198,6 +199,18 @@ class HomeFragment : Fragment() ,CollectionsGraphAdapter.OnHomeItemListener {
 
     override fun onFavDeleImageClick(item: HomeCollectionQuery.Edge1) {
         homeViewModel1.deleteFromFavorite(item.node.legacyResourceId.toString().toLong())
+    }
+
+    override fun oncartImageClick(item: HomeCollectionQuery.Edge1) {
+        homeViewModel1.addToCart(Favorite(item.node.legacyResourceId.toString().toLong(),item.node.title,item.node.handle,
+            item.node.variants.edges[0].node.price.toInt(),item.node.featuredImage!!.originalSrc.toString(),'C',
+            1,item.node.variants.edges[0].node.id,SharedPref.getUserID().toString()))
+        homeViewModel.cartCount(SharedPref.getUserID().toString())
+    }
+
+    override fun oncartDeleImageClick(item: HomeCollectionQuery.Edge1) {
+        homeViewModel1.deleteFromCart(item.node.legacyResourceId.toString().toLong(),SharedPref.getUserID().toString())
+        homeViewModel.cartCount(SharedPref.getUserID().toString())
     }
 
     fun splitId(id:String): String{

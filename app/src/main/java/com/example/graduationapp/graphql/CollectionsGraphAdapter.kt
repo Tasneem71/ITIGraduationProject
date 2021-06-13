@@ -48,11 +48,12 @@ class CollectionsGraphAdapter(
         private val price = view.findViewById<TextView>(R.id.price)
         private val imageView = view.findViewById<ImageView>(R.id.thumbnail)
         private val fav = view.findViewById<ImageView>(R.id.addToFav)
+        private val cart = view.findViewById<ImageView>(R.id.addTocart)
         //private val addCart = view.findViewById<ImageView>(R.id.add_card)
         fun bind(category: HomeCollectionQuery.Edge1) {
             Glide.with(imageView.context).load(category.node.featuredImage!!.originalSrc).placeholder(R.drawable.ic_search).into(imageView)
             name.text =category.node.title
-            price.text = category.node.variants.edges.get(0).node.price.toString()
+            price.text = category.node.variants.edges.get(0).node.price.toString()+" LE"
             GlobalScope.launch(Dispatchers.IO) {
                 var result=viewModel.isFavorite(category.node.legacyResourceId.toString().toLong(),SharedPref.getUserID().toString())
                 withContext(Dispatchers.Main){
@@ -69,12 +70,29 @@ class CollectionsGraphAdapter(
                 }
 
             }
+            GlobalScope.launch(Dispatchers.IO) {
+                var result=viewModel.isCart(category.node.legacyResourceId.toString().toLong(),SharedPref.getUserID().toString())
+                withContext(Dispatchers.Main){
+                    when(result){
+                        0 -> {
+                            cart.setImageResource(R.drawable.bag1)
+                            cart.setTag(R.drawable.bag1)
+                        }
+                        1 -> {
+                            cart.setImageResource(R.drawable.bag2)
+                            cart.setTag(R.drawable.bag2)
+                        }
+                    }
+                }
+
+            }
 
 
         }
         init {
             imageView.setOnClickListener(this)
             fav.setOnClickListener(this)
+            cart.setOnClickListener(this)
         }
         override fun onClick(p0: View?) {
             when(p0){
@@ -92,6 +110,18 @@ class CollectionsGraphAdapter(
                         fav.setTag(R.drawable.favorite)
                     }
                 }
+
+                cart -> {
+                    if (cart.tag!=R.drawable.bag2) {
+                        listener.oncartImageClick(categorys[adapterPosition])
+                        cart.setImageResource(R.drawable.bag2)
+                        cart.setTag(R.drawable.bag2)
+                    } else {
+                        listener.oncartDeleImageClick(categorys[adapterPosition])
+                        cart.setImageResource(R.drawable.bag1)
+                        cart.setTag(R.drawable.bag1)
+                    }
+                }
             }
         }
     }
@@ -100,5 +130,7 @@ class CollectionsGraphAdapter(
         fun onImageClick(item: HomeCollectionQuery.Edge1)
         fun onFavImageClick(item: HomeCollectionQuery.Edge1)
         fun onFavDeleImageClick(item: HomeCollectionQuery.Edge1)
+        fun oncartImageClick(item: HomeCollectionQuery.Edge1)
+        fun oncartDeleImageClick(item: HomeCollectionQuery.Edge1)
     }
 }
