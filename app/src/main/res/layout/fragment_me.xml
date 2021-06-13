@@ -46,7 +46,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:text="@string/Shopfiy"
+                    android:text="@string/shopify"
                     android:gravity="center"
                     android:textSize="20dp"
                     android:textColor="@color/whigte"/>
@@ -99,7 +99,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_width="match_parent"
-            android:layout_height="440dp"
+            android:layout_height="500dp"
             android:orientation="vertical"
             android:background="@drawable/profile_card">
 
@@ -146,7 +146,7 @@
                     android:layout_marginStart="30dp"
                     android:layout_marginEnd="20dp"
                     android:layout_width="match_parent"
-                    android:layout_height="320dp"
+                    android:layout_height="325dp"
                     tools:listitem="@layout/card"
                     app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                     app:layout_constraintTop_toBottomOf="@id/tab_layout"
@@ -161,7 +161,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
                 android:layout_width="match_parent"
-                android:layout_height="400dp"
+                android:layout_height="450dp"
                 tools:listitem="@layout/order_item"
                 android:orientation="vertical"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

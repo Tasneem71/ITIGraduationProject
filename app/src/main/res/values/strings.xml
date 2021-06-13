@@ -31,6 +31,11 @@
     <string name="type">Type:</string>
     <string name="addtocart">Add to Cart</string>
     <string name="notAve">Not Available</string>
+    <string name="kid">KID</string>
+    <string name="frontpage">HOME PAGE</string>
+    <string name="women">WOMEN</string>
+    <string name="men">MEN</string>
+    <string name="sale">SALE</string>
 
     <string name="seeMore">See More</string>
     <string name="sort">Sort</string>
@@ -108,6 +113,7 @@
 
     <string name="title3">Unique products</string>
     <string name="text3">providing 100% authentic products</string>
-    <string name="shopify">Shopify</string>
+    <string name="shopify" translatable="false">Shopify</string>
+    <string name="useOtherMethod">Use another method</string>
 
 </resources>

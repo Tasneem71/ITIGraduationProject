@@ -190,7 +190,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
                     android:elevation="5dp"
-                    android:text="@string/forget"
+                    android:text="@string/useOtherMethod"
                     android:textSize="14sp" />
 
                 <!--     <Button
@@ -210,29 +210,66 @@
                          android:textColor="@color/colorPurple"
                          app:backgroundTint="@null"/>-->
 
-                <com.google.android.gms.common.SignInButton
-                    android:id="@+id/google_sign_in_button"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tvForgot"
                     android:layout_alignLeft="@+id/cv"
-                    android:layout_alignRight="@+id/cv"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginRight="20dp" />
+                    android:layout_alignRight="@+id/cv">
 
-                <com.facebook.login.widget.LoginButton
-                    android:id="@+id/login_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/google_sign_in_button"
-                    android:layout_alignLeft="@+id/cv"
-                    android:layout_alignRight="@+id/cv"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginBottom="30dp" />
+                    <com.google.android.gms.common.SignInButton
+                        android:id="@+id/google_sign_in_button"
+                        android:visibility="invisible"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/login_button"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginStart="80dp"
+                        android:elevation="16dp"/>
+
+                    <ImageView
+                        android:id="@+id/googlebutton"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/login_button"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginStart="80dp"
+                        android:src="@drawable/google"/>
+
+                    <ImageView
+                        android:id="@+id/facebookbutton"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_below="@+id/google_sign_in_button"
+                        app:layout_constraintStart_toEndOf="@+id/google_sign_in_button"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="30dp"
+                        android:layout_marginEnd="80dp"
+                        android:src="@drawable/face"/>
+
+                    <com.facebook.login.widget.LoginButton
+                        android:visibility="invisible"
+                        android:id="@+id/login_button"
+                        android:layout_width="60dp"
+                        android:layout_height="30dp"
+                        android:layout_below="@+id/google_sign_in_button"
+                        app:layout_constraintStart_toEndOf="@+id/google_sign_in_button"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="30dp"
+                        android:layout_marginEnd="80dp"
+                        android:elevation="16dp"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
             </RelativeLayout>
 
         </ScrollView>

@@ -51,9 +51,13 @@ class CollectionsGraphAdapter(
         private val cart = view.findViewById<ImageView>(R.id.addTocart)
         //private val addCart = view.findViewById<ImageView>(R.id.add_card)
         fun bind(category: HomeCollectionQuery.Edge1) {
-            Glide.with(imageView.context).load(category.node.featuredImage!!.originalSrc).placeholder(R.drawable.ic_search).into(imageView)
+            Glide.with(imageView.context).load(category.node.featuredImage!!.originalSrc).placeholder(R.drawable.bag1).into(imageView)
             name.text =category.node.title
             price.text = category.node.variants.edges.get(0).node.price.toString()+" LE"
+            if (!SharedPref.getUserStatus()){
+                fav.visibility=View.GONE
+                cart.visibility=View.GONE
+            }
             GlobalScope.launch(Dispatchers.IO) {
                 var result=viewModel.isFavorite(category.node.legacyResourceId.toString().toLong(),SharedPref.getUserID().toString())
                 withContext(Dispatchers.Main){

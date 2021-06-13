@@ -63,7 +63,7 @@ open class LoginActivity : AppCompatActivity() {
             .build()
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
         binding.googleSignInButton.setSize(SignInButton.SIZE_STANDARD)
-        binding.googleSignInButton.setOnClickListener({ signIn() })
+        binding.googlebutton.setOnClickListener({ signIn() })
 
 
 
@@ -72,7 +72,7 @@ open class LoginActivity : AppCompatActivity() {
 
 
 
-        binding.loginButton.setOnClickListener {
+        binding.facebookbutton.setOnClickListener {
 
             LoginManager.getInstance().logInWithReadPermissions(
                 this@LoginActivity,

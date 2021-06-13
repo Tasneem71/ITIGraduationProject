@@ -41,6 +41,7 @@ class GraphViewModel (application: Application) : AndroidViewModel(application) 
     var home = MutableLiveData<List<GetProductsByCollectionIDQuery.Edge>>()
 
     var graphRepo: GraphRepo = GraphRepo(application)
+    var cartCount = MutableLiveData<Int>()
 
 
     fun addToFavorite(item: Favorite){
@@ -69,6 +70,14 @@ class GraphViewModel (application: Application) : AndroidViewModel(application) 
         return viewModelScope.async {
             graphRepo.local.isCart(id,userId)
         }.await()
+    }
+
+    fun cartCount(userId: String){
+        viewModelScope.launch {
+            val result=graphRepo.local.getCartCount(userId)
+            cartCount.value=result
+            Log.i("cart",""+result)
+        }
     }
 
     suspend fun addToCart(item: Favorite){

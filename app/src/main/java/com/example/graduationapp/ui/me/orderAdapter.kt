@@ -38,10 +38,17 @@ class orderAdapter(var orderList: ArrayList<Orders>,
         private val dateTime = view.findViewById<TextView>(R.id.date_time)
         private val id = view.findViewById<TextView>(R.id.order_title)
        private val cancel = view.findViewById<ImageView>(R.id.edit_btn)
+      private val orderStatus = view.findViewById<ImageView>(R.id.order_status)
         fun bind(order: Orders) {
             details.text =order.line_items.map { it.title }.reduce { acc, s -> acc + s }
             dateTime.text =order.total_price.toString()
             id.text =order.id
+            if(order.financial_status=="paid"){
+                orderStatus.setImageResource(R.drawable.check)
+
+            }else{
+                orderStatus.setImageResource(R.drawable.exclamation)
+            }
 
         }
       init {

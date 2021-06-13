@@ -63,6 +63,20 @@ class CategoryFragment : Fragment() ,  TabLayout.OnTabSelectedListener , categor
         collectionsGraphAdapter = categoryGraphAdapter(arrayListOf(),this,graphViewModel)
 
 
+        graphViewModel.cartCount.observe(viewLifecycleOwner, Observer {
+
+            Log.i("cart", "onCreateView: BADGE #  $it")
+            when(it){
+                0 -> {
+                    binding.badge.visibility=View.INVISIBLE
+                }
+                else -> {
+                    binding.badge.visibility=View.VISIBLE
+                    binding.badge.setText(it.toString())
+
+                }
+            }
+        })
 
         graphViewModel.getCollection("gid://shopify/Collection/267715608774",0)
 
@@ -176,11 +190,11 @@ class CategoryFragment : Fragment() ,  TabLayout.OnTabSelectedListener , categor
         val tab3 = binding.tabLayout.newTab()
         val tab4 = binding.tabLayout.newTab()
         val tab5 = binding.tabLayout.newTab()
-        tab1.setText("HOME PAGE")
-        tab2.setText("KID")
-        tab3.setText("MEN")
-        tab4.setText("SALE")
-        tab5.setText("WEMEN")
+        tab1.setText(this.getString(R.string.frontpage))
+        tab2.setText(this.getString(R.string.kid))
+        tab3.setText(this.getString(R.string.men))
+        tab4.setText(this.getString(R.string.sale))
+        tab5.setText(this.getString(R.string.women))
         //tab.setTag(source)
         binding.tabLayout.addTab(tab1)
         binding.tabLayout.addTab(tab2)
@@ -217,17 +231,22 @@ class CategoryFragment : Fragment() ,  TabLayout.OnTabSelectedListener , categor
             Favorite(item.node.legacyResourceId.toString().toLong(),item.node.title,item.node.handle,
             item.node.variants.edges[0].node.price.toInt(),item.node.featuredImage!!.originalSrc.toString(),'C',
             1,item.node.variants.edges[0].node.id,
-                SharedPref.getUserID().toString()))}
+                SharedPref.getUserID().toString()))}.invokeOnCompletion {
+            graphViewModel.cartCount(SharedPref.getUserID().toString())
+        }
     }
 
     override fun oncartDeleImageClick(item: GetProductsByCollectionIDQuery.Edge) {
         CoroutineScope(Dispatchers.IO).launch {
         graphViewModel.deleteFromCart(item.node.legacyResourceId.toString().toLong(),
-            SharedPref.getUserID().toString())}
+            SharedPref.getUserID().toString())}.invokeOnCompletion {
+            graphViewModel.cartCount(SharedPref.getUserID().toString())
+        }
     }
 
     override fun onResume() {
         super.onResume()
+        graphViewModel.cartCount(SharedPref.getUserID().toString())
         collectionsGraphAdapter.setData(orignalList)
 
     }

@@ -155,8 +155,8 @@ class MeFragment : Fragment() ,  TabLayout.OnTabSelectedListener , orderAdapter.
 
         val tab1 = binding.tabs.newTab()
         val tab2 = binding.tabs.newTab()
-        tab1.setText("wish list")
-        tab2.setText("order list")
+        tab1.setText(this.getString(R.string.wishList))
+        tab2.setText(this.getString(R.string.orderList))
         //tab.setTag(source)
         binding.tabs.addTab(tab1)
         binding.tabs.addTab(tab2)
