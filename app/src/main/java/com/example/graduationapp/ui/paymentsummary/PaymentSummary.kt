@@ -61,12 +61,8 @@ class PaymentSummary : AppCompatActivity() {
                 val email = SharedPref.getUserEmail().toString()
                 val listOfOrder = createOrderApi(it)
                 if (credit==false){
-                createOrderViewModel.createOrder(CreatedOrder(Order(email,null,count,listOfOrder,null)))
+                createOrderViewModel.createOrder(CreatedOrder(Order(email,null,"pending",count,listOfOrder,null)))
                 Log.d("tag","list"+listOfOrder)
-                }else{
-                    var trans: MutableList<Transactions> = mutableListOf<Transactions>()
-                    trans.add(Transactions("sale","success",count.toDouble()))
-                    createOrderViewModel.createOrder(CreatedOrder(Order(email,null,count,listOfOrder,trans)))
                 }
 
             }
@@ -91,6 +87,7 @@ class PaymentSummary : AppCompatActivity() {
             }else{
 
                 val intent =Intent(this,CheckoutActivityJava::class.java)
+                intent.putExtra("price",price)
                 startActivity(intent)
                // goPayTab()
 

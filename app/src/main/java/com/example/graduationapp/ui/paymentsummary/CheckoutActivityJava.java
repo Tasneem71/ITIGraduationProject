@@ -1,6 +1,5 @@
 package com.example.graduationapp.ui.paymentsummary;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,11 +11,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
-import com.example.domain.core.feature.transactionsFeature.entitiy.Transaction;
+import com.example.domain.core.feature.favoriteFeature.Favorite;
+import com.example.graduationapp.MainActivity;
 import com.example.graduationapp.R;
+import com.example.graduationapp.SharedPref;
+import com.example.graduationapp.create_order.CreateOrderViewModel;
+import com.example.graduationapp.data.CreatedOrder;
+import com.example.graduationapp.data.LineItems;
+import com.example.graduationapp.data.Order;
+import com.example.graduationapp.data.Transactions;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.stripe.android.ApiResultCallback;
 import com.stripe.android.PaymentIntentResult;
@@ -45,30 +51,63 @@ import okhttp3.Response;
 
 public class CheckoutActivityJava extends AppCompatActivity {
     private static final String BACKEND_URL = "https://desolate-ridge-15476.herokuapp.com/";
-    String amount;
-   // public static GetOrders.Order order;
-   // public static Repository repository;
+    private CreateOrderViewModel viewModel;
     private OkHttpClient httpClient = new OkHttpClient();
     private String paymentIntentClientSecret;
     private Stripe stripe;
-   // public static PaymentViewModel paymentViewModel;
+    private String price;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
-        //repository = new Repository(new RemoteDataSourceImpl(), new RoomDataSourceImpl(RoomService.Companion.getInstance(getApplication())));
-
-        //ViewModelFactory viewModelFactory = new ViewModelFactory(repository, getApplication());
-        //paymentViewModel =  new ViewModelProvider(this, viewModelFactory).get(PaymentViewModel.class);
-        //amount = getIntent().getStringExtra("amount");
-       // order = (GetOrders.Order) getIntent().getSerializableExtra("order");
-        // Configure the SDK with your Stripe publishable key so it can make requests to Stripe
+        viewModel=new ViewModelProvider(this).get(CreateOrderViewModel.class);
         stripe = new Stripe(
                 getApplicationContext(),
                 Objects.requireNonNull("pk_test_51J1qETHm8J3ojgHQpJrwU552AqgiZLXj1PCfbZQ7XS1yMiYIn1PiJQCay46M9yLFBb6KYYtmtDBOaiK4JUai7zKw001dWm1O7T")
         );
+        Intent intent=getIntent();
+        if(intent!=null){
+            price=intent.getStringExtra("price");
+        }
         startCheckout();
+        viewModel.getOrders().observe(this, favorites -> {
+            String email = SharedPref.INSTANCE.getUserEmail();
+            List<LineItems> listOfOrder = createOrderApi(favorites);
+            List<Transactions> trans = new ArrayList<Transactions>();
+            trans.add(new Transactions("sale","success",Double.parseDouble(price)));
+            viewModel.createOrder(new CreatedOrder(new Order(email,null,"paid",price,listOfOrder,trans)));
+        });
+
+
+        viewModel.getCreateOrderLiveData().observe(this, orders -> {
+            viewModel.deleteListFromCart(SharedPref.INSTANCE.getUserID());
+            orderDone();
+        });
+
+    }
+
+    private void orderDone() {
+        AlertDialog.Builder orderDialogBuilder =new  AlertDialog.Builder(this);
+        orderDialogBuilder.setTitle(this.getString(R.string.order));
+        orderDialogBuilder.setMessage(this.getString(R.string.order_created));
+        orderDialogBuilder.setPositiveButton(this.getString(R.string.ok), (dialog, id) -> {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            dialog.dismiss();
+            finish();
+        });
+        orderDialogBuilder.setCancelable(false);
+        orderDialogBuilder.show();
+    }
+
+    private List<LineItems> createOrderApi(List<Favorite> list){
+        List<LineItems> lines  = new ArrayList<>();
+        for (Favorite item:list) {
+            LineItems lineObject  = new LineItems(item.getTitle(),""+item.getPrice(),item.getCount(),item.getVarient_id());
+            lines.add(lineObject);
+        }
+        return lines;
     }
 
     private void startCheckout() {
@@ -76,7 +115,7 @@ public class CheckoutActivityJava extends AppCompatActivity {
         MediaType mediaType = MediaType.get("application/json; charset=utf-8");
         //Double.parseDouble()
        // double amountt = Double.parseDouble(amount)*100;
-        double amountt = 50.0*100;
+        double amountt =Double.parseDouble(price)*100;
         Log.i("help",amountt+"********");
         Map<String,Object> payMap = new HashMap<>();
         Map<String,Object> itemMap = new HashMap<>();
@@ -180,7 +219,7 @@ public class CheckoutActivityJava extends AppCompatActivity {
         }
     }
 
-    private static final class PaymentResultCallback
+    private  final class PaymentResultCallback
             implements ApiResultCallback<PaymentIntentResult> {
         @NonNull private final WeakReference<CheckoutActivityJava> activityRef;
 
@@ -198,25 +237,9 @@ public class CheckoutActivityJava extends AppCompatActivity {
             PaymentIntent paymentIntent = result.getIntent();
             PaymentIntent.Status status = paymentIntent.getStatus();
             if (status == PaymentIntent.Status.Succeeded) {
-                // Payment completed successfully
-                //                   Gson gson = new GsonBuilder().setPrettyPrinting().create();
-//                    activity.displayAlert(
-//                            "Payment completed",
-//                            gson.toJson(paymentIntent)
-//                    );
 
                 Toast.makeText(activity,"Ordered Successfully",Toast.LENGTH_LONG).show();
-                try {
-
-                   // Transaction tran =new Transaction();
-                    Thread.sleep(1500);
-                    Toast.makeText(activity,"Open Home Activity",Toast.LENGTH_LONG).show();
-                  //  paymentViewModel.cancelOrder(order.getId());
-                    //paymentViewModel.createOrderInPayment(order);
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                viewModel.getAllOrderd(SharedPref.INSTANCE.getUserID());
             } else if (status == PaymentIntent.Status.RequiresPaymentMethod) {
                 // Payment failed – allow retrying using a different payment method
                 activity.displayAlert(
