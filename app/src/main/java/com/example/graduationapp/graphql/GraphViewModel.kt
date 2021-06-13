@@ -55,10 +55,8 @@ class GraphViewModel (application: Application) : AndroidViewModel(application) 
         }
     }
 
-    fun deleteFromCart(id: Long,userId: String){
-        viewModelScope.launch {
+   suspend fun deleteFromCart(id: Long,userId: String){
             graphRepo.local.deleteFromCart(id,userId)
-        }
     }
 
     suspend fun isFavorite(id: Long,userId: String):Int{
@@ -73,10 +71,10 @@ class GraphViewModel (application: Application) : AndroidViewModel(application) 
         }.await()
     }
 
-    fun addToCart(item: Favorite){
-        viewModelScope.launch {
+    suspend fun addToCart(item: Favorite){
+
             graphRepo.local.addToFavorite(item)
-        }
+
     }
 
 

@@ -32,6 +32,9 @@ import com.example.graduationapp.HomeCollectionQuery
 import com.example.graduationapp.SharedPref
 import com.example.graduationapp.graphql.categoryGraphAdapter
 import com.example.graduationapp.ui.productPageFeature.ProductDetails
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class CategoryFragment : Fragment() ,  TabLayout.OnTabSelectedListener , categoryGraphAdapter.OnHomeItemListener{
@@ -209,17 +212,18 @@ class CategoryFragment : Fragment() ,  TabLayout.OnTabSelectedListener , categor
     }
 
     override fun oncartImageClick(item: GetProductsByCollectionIDQuery.Edge) {
+        CoroutineScope(Dispatchers.IO).launch {
         graphViewModel.addToCart(
             Favorite(item.node.legacyResourceId.toString().toLong(),item.node.title,item.node.handle,
             item.node.variants.edges[0].node.price.toInt(),item.node.featuredImage!!.originalSrc.toString(),'C',
             1,item.node.variants.edges[0].node.id,
-                SharedPref.getUserID().toString())
-        )
+                SharedPref.getUserID().toString()))}
     }
 
     override fun oncartDeleImageClick(item: GetProductsByCollectionIDQuery.Edge) {
+        CoroutineScope(Dispatchers.IO).launch {
         graphViewModel.deleteFromCart(item.node.legacyResourceId.toString().toLong(),
-            SharedPref.getUserID().toString())
+            SharedPref.getUserID().toString())}
     }
 
     override fun onResume() {

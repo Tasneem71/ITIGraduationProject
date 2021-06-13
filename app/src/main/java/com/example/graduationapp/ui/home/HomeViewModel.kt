@@ -81,6 +81,7 @@ class HomeViewModel (application: Application) : AndroidViewModel(application) {
          viewModelScope.launch {
              val result=apiRepository.getUpdatedCount(userId)
              cartCount.value=result
+             Log.i("cart",""+result)
          }
     }
 

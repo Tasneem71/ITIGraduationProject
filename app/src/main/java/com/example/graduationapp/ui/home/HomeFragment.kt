@@ -29,6 +29,9 @@ import com.example.graduationapp.ui.cart.CartActivity
 import com.example.graduationapp.ui.favoriteFeature.FavoriteActivity
 import com.example.graduationapp.ui.productPageFeature.ProductDetails
 import com.example.graduationapp.ui.search.SearchActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class HomeFragment : Fragment() ,CollectionsGraphAdapter.OnHomeItemListener {
@@ -65,7 +68,7 @@ class HomeFragment : Fragment() ,CollectionsGraphAdapter.OnHomeItemListener {
              showPhotos(item)
 
         initUI()
-        //homeViewModel1.getCollectionData()
+        homeViewModel1.getCollectionData()
 
         //*********************************
         binding.flipper.setOnClickListener {
@@ -141,7 +144,7 @@ class HomeFragment : Fragment() ,CollectionsGraphAdapter.OnHomeItemListener {
 
         homeViewModel.cartCount.observe(viewLifecycleOwner, Observer {
 
-            Log.i("BADGE", "onCreateView: BADGE #  $it")
+            Log.i("cart", "onCreateView: BADGE #  $it")
             when(it){
                 0 -> {
                     binding.badge.visibility=View.INVISIBLE
@@ -217,15 +220,22 @@ class HomeFragment : Fragment() ,CollectionsGraphAdapter.OnHomeItemListener {
     }
 
     override fun oncartImageClick(item: HomeCollectionQuery.Edge1) {
+        CoroutineScope(Dispatchers.IO).launch {
         homeViewModel1.addToCart(Favorite(item.node.legacyResourceId.toString().toLong(),item.node.title,item.node.handle,
             item.node.variants.edges[0].node.price.toInt(),item.node.featuredImage!!.originalSrc.toString(),'C',
-            1,item.node.variants.edges[0].node.id,SharedPref.getUserID().toString()))
-        homeViewModel.cartCount(SharedPref.getUserID().toString())
+            1,item.node.variants.edges[0].node.id,SharedPref.getUserID().toString()))}.invokeOnCompletion {
+            homeViewModel.cartCount(SharedPref.getUserID().toString())
+        }
+
     }
 
     override fun oncartDeleImageClick(item: HomeCollectionQuery.Edge1) {
+        CoroutineScope(Dispatchers.IO).launch {
         homeViewModel1.deleteFromCart(item.node.legacyResourceId.toString().toLong(),SharedPref.getUserID().toString())
-        homeViewModel.cartCount(SharedPref.getUserID().toString())
+        }.invokeOnCompletion {
+            homeViewModel.cartCount(SharedPref.getUserID().toString())
+        }
+
     }
 
     fun splitId(id:String): String{
