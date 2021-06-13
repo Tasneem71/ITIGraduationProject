@@ -4,6 +4,8 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.util.Log
+import android.widget.Toast
+import com.example.graduationapp.R
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
@@ -44,6 +46,15 @@ class Validation {
                 }
             }
             return false
+        }
+        fun validatePhone(Phone: String):Boolean{
+            //^[+]?[0-9]{10,13}$
+            //Minimum eight characters, at least one letter and one number
+            val patternPhone: Pattern = Pattern.compile("^[+][0-9]{12}$")
+            val matcherPhone: Matcher = patternPhone.matcher(Phone)
+            val PhoneMatchResult : Boolean = matcherPhone.matches()
+
+            return PhoneMatchResult
         }
 
     }

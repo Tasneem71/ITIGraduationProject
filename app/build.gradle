@@ -51,6 +51,7 @@ android {
     dataBinding{
         enabled = true
     }
+    testOptions.unitTests {includeAndroidResources = true}
 }
 
 def githubProperties = new Properties()
@@ -104,7 +105,8 @@ dependencies {
     implementation 'androidx.preference:preference:1.1.1'
     implementation 'com.google.firebase:firebase-auth:21.0.1'
     implementation project(path: ':paytabs_sdk-v4.0.1')
-    testImplementation 'junit:junit:4.+'
+    implementation 'androidx.wear:wear:1.0.0'
+    testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation 'com.google.android.gms:play-services-location:17.1.0'
@@ -118,6 +120,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:19.0.0'
     // Login with facebook
     implementation 'com.facebook.android:facebook-android-sdk:[5,6)'
+    compileOnly 'com.google.android.wearable:wearable:2.6.0'
     def lifecycle_version = "2.3.0"
     // ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
@@ -217,6 +220,9 @@ dependencies {
     implementation "com.airbnb.android:lottie:3.4.4"
 
     implementation 'com.cuberto:liquid-swipe:1.0.0'
+    //test
+    testImplementation "com.google.truth:truth:1.0.1"
+    androidTestImplementation "com.google.truth:truth:1.0.1"
 
 
 
