@@ -32,24 +32,24 @@ class MainActivity : AppCompatActivity() {
         bottomNavigationView.add(MeowBottomNavigation.Model(2,R.drawable.hanger))
         bottomNavigationView.add(MeowBottomNavigation.Model(3,R.drawable.follower))
 
-        val first= HomeFragment()
-        val second= CategoryFragment()
-        val third= MeFragment()
-        setCurrentFragment(first)
+//        val first= HomeFragment()
+//        val second= CategoryFragment()
+//        val third= MeFragment()
+//        setCurrentFragment(first)
 
         bottomNavigationView.setOnClickMenuListener {
             when(it.id) {
                 1->{
-                    setCurrentFragment(first)
-                    //navController.navigate(R.id.navigation_home)
+                    //setCurrentFragment(first)
+                    navController.navigate(R.id.navigation_home)
                 }
                 2->{
-                    setCurrentFragment(second)
-                    //navController.navigate(R.id.navigation_category)
+                    //setCurrentFragment(second)
+                    navController.navigate(R.id.navigation_category)
                 }
                 3->{
-                    setCurrentFragment(third)
-                    //navController.navigate(R.id.navigation_me)
+                    //setCurrentFragment(third)
+                    navController.navigate(R.id.navigation_me)
                 }
             }
         }
