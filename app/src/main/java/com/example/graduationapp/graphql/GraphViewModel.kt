@@ -19,6 +19,7 @@ import com.example.graduationapp.data.priceRules.CreatedDiscount
 import com.example.graduationapp.data.priceRules.DiscountCode
 import com.example.graduationapp.data.priceRules.DiscountCodeClass
 import com.example.graduationapp.remote.ApiRepository
+import com.example.graduationapp.utils.Validation
 import com.facebook.internal.Mutable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -39,6 +40,9 @@ class GraphViewModel (application: Application) : AndroidViewModel(application) 
     var kid = MutableLiveData<List<GetProductsByCollectionIDQuery.Edge>>()
     var sale = MutableLiveData<List<GetProductsByCollectionIDQuery.Edge>>()
     var home = MutableLiveData<List<GetProductsByCollectionIDQuery.Edge>>()
+
+    var network =MutableLiveData<Boolean>()
+
 
     var graphRepo: GraphRepo = GraphRepo(application)
     var cartCount = MutableLiveData<Int>()
@@ -148,5 +152,8 @@ class GraphViewModel (application: Application) : AndroidViewModel(application) 
         return oneCollection.get(0).node.products.edges
     }
 
+    fun checkNetwork(){
+        network.postValue(Validation.isOnline(getApplication()))
+    }
 
 }

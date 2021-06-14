@@ -96,7 +96,9 @@ class HomeViewModel (application: Application) : AndroidViewModel(application) {
             network.postValue(false)
         }
 
-
+    }
+    fun checkNetwork(){
+        network.postValue(Validation.isOnline(getApplication()))
     }
 
 }

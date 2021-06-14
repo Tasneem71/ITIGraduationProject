@@ -187,6 +187,16 @@ class HomeFragment : Fragment() , CollectionsGraphAdapter.OnHomeItemListener {
 
     }
 
+    override fun onStart() {
+        super.onStart()
+        homeViewModel.checkNetwork()
+        homeViewModel.network.observe(requireActivity()){
+            if(!it){
+                Toast.makeText(requireContext(),this.getString(R.string.no_internet),Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
     override fun onResume() {
         super.onResume()
         homeViewModel.cartCount(SharedPref.getUserID().toString())
