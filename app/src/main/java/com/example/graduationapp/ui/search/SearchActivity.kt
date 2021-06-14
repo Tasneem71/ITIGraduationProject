@@ -161,7 +161,7 @@ class SearchActivity : AppCompatActivity() , ShopCategoryAdapter.OnHomeItemListe
             vendorFilteredList= list as ArrayList<Products>
             filteredList= list as ArrayList<Products>
         }
-
+        binding.searchtv.text.clear()
 
         Log.i("search",""+filteredList)
         searchAdapter.updateCategory(filteredList)
