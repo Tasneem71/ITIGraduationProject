@@ -200,11 +200,14 @@ class HomeFragment : Fragment() , CollectionsGraphAdapter.OnHomeItemListener {
     override fun onResume() {
         super.onResume()
         homeViewModel.cartCount(SharedPref.getUserID().toString())
-        adidasAdapter.setData(adidasList)
-        nikeAdapter.setData(nikeList)
-        converceAdapter.setData(converseList)
-        pumaAdapter.setData(pumaList)
-        asicsAdapter.setData(asicsList)
+        if (!adidasList.isNullOrEmpty() || !nikeList.isNullOrEmpty() ||!pumaList.isNullOrEmpty() || !asicsList.isNullOrEmpty() ||!converseList.isNullOrEmpty()){
+            adidasAdapter.setData(adidasList)
+            nikeAdapter.setData(nikeList)
+            converceAdapter.setData(converseList)
+            pumaAdapter.setData(pumaList)
+            asicsAdapter.setData(asicsList)
+            binding.progressBar.visibility=View.GONE
+        }
     }
 
     override fun onImageClick(item: HomeCollectionQuery.Edge1) {
