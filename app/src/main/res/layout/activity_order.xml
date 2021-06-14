@@ -37,7 +37,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="48dp"
                     android:gravity="center"
-                    android:text="@string/shoping_bag"
+                    android:text="@string/shopping_bag"
                     android:textColor="@color/darkPurple"
                     android:textSize="25sp"
                     android:textStyle="bold"

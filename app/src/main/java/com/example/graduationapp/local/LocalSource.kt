@@ -48,6 +48,10 @@ class LocalSource (application:Application) {
     suspend fun getAllCart(userId: String): List<Favorite>?{
         return database.dao.getAllCart(userId)
     }
+
+    suspend fun moveToCart( id: Long,userId: String){
+        database.dao.moveToCart(id,userId)
+    }
     suspend fun updateCount( id: Long,count: Int,userId: String){
         database.dao.updateCount(id,count,userId)
     }

@@ -52,21 +52,31 @@ class CartActivity : AppCompatActivity(), CartAdapter.OnCartItemListener {
             binding.notLoged.visibility=View.GONE
             binding.recyclerShopBag.visibility=View.VISIBLE
             binding.checkOut.visibility=View.VISIBLE
-            binding.total.visibility=View.VISIBLE
         }else{
             binding.notLoged.visibility=View.VISIBLE
             binding.recyclerShopBag.visibility=View.GONE
             binding.checkOut.visibility=View.GONE
-            binding.total.visibility=View.GONE
+
         }
 
         cartViewModel.carts?.observe(this, Observer {
             empty = it.isNullOrEmpty()
+            if (empty){
+                binding.total.visibility=View.INVISIBLE
+                binding.total2.visibility=View.INVISIBLE
+            }else{
+                binding.total.visibility=View.VISIBLE
+                binding.total2.visibility=View.VISIBLE
+            }
+
             cartAdapter.setData(it)
+
         })
 
         cartViewModel.sumOfItems.observe(this, Observer {
-            binding.total2.text =it.toString()
+            if(!empty){
+                binding.total2.text =it.toString()
+            }
         })
 
 

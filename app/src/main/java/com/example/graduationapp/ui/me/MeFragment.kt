@@ -98,6 +98,17 @@ class MeFragment : Fragment() ,  TabLayout.OnTabSelectedListener , orderAdapter.
             }
 
         })
+        viewModel.cartCount.observe(viewLifecycleOwner, Observer {
+            when(it){
+                0 -> {
+                    binding.badge.visibility=View.INVISIBLE
+                }
+                else -> {
+                    binding.badge.visibility=View.VISIBLE
+                    binding.badge.setText(it.toString())
+                }
+            }
+        })
         binding.registerLogin.setOnClickListener {
 
             val intent = Intent(context, LoginActivity::class.java)
@@ -116,6 +127,7 @@ class MeFragment : Fragment() ,  TabLayout.OnTabSelectedListener , orderAdapter.
             val intent = Intent(context, CartActivity::class.java)
             startActivity(intent)
         }
+
         setUpTabLayoute()
         return binding.root
     }
@@ -215,6 +227,11 @@ class MeFragment : Fragment() ,  TabLayout.OnTabSelectedListener , orderAdapter.
         }
         orderDialogBuilder.setCancelable(false)
         orderDialogBuilder.show()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.cartCount(userId)
     }
 
 }

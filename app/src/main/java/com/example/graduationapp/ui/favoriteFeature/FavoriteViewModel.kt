@@ -55,6 +55,12 @@ class FavoriteViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
+    fun moveToCart(id: Long,userId: String){
+        viewModelScope.launch {
+            local.moveToCart(id,userId)
+        }
+    }
+
     override fun onCleared() {
         super.onCleared()
     }

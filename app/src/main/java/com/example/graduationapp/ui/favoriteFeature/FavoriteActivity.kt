@@ -69,9 +69,9 @@ class FavoriteActivity : AppCompatActivity(),FavoriteAdapter.OnEditFavoriteListe
 
     }
     override fun onAddToCartClick(item: Favorite) {
-        lifecycleScope.launch(Dispatchers.IO) {
-            Log.i("TAG", "onAddToCartClick:${favoriteViewModel.isFavorite(item.id,userId)} ")
-        }
+        favoriteViewModel.moveToCart(item.id,userId)
+        favoriteViewModel.getAllFavorite(userId)
+
     }
     override fun onImageClick(item: Favorite) {
         val intent= Intent(this, ProductDetails::class.java)
