@@ -117,5 +117,7 @@
     <string name="shopify" translatable="false">Shopify</string>
     <string name="useOtherMethod">Use another method</string>
     <string name="description">Description</string>
+    <string name="total_value">Total = </string>
+    <string name="shopping_bag">Shopping Bag</string>
 
 </resources>

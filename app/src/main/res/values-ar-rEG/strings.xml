@@ -90,6 +90,9 @@
     <string name="text3">providing 100% authentic products</string>
     <string name="useOtherMethod">استخدام طريقة اخرى</string>
     <string name="description">الوصف</string>
+    <string name="total_value">المجموع = </string>
+    <string name="shopping_bag">حقيبة التسوق</string>
+
 
 
 </resources>

@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -19,6 +20,7 @@ import com.example.graduationapp.SharedPref
 import com.example.graduationapp.databinding.ActivityOrderBinding
 import com.example.graduationapp.ui.cart.adapter.CartAdapter
 import com.example.graduationapp.ui.checkoutAddress.CustomerDataActivity
+import com.example.graduationapp.ui.favoriteFeature.FavoriteActivity
 import com.example.graduationapp.ui.productPageFeature.ProductDetails
 
 import com.google.android.material.snackbar.Snackbar
@@ -70,7 +72,7 @@ class CartActivity : AppCompatActivity(), CartAdapter.OnCartItemListener {
 
         binding.checkOut.setOnClickListener {
 
-            if(binding.total2.text.toString()== "0"){
+            if(empty){
                 Toast.makeText(this,this.getString(R.string.empty_cart),Toast.LENGTH_LONG).show()
             }else{
                 val intent = Intent(this, CustomerDataActivity::class.java)
@@ -79,7 +81,9 @@ class CartActivity : AppCompatActivity(), CartAdapter.OnCartItemListener {
             }
 
         }
-
+        binding.favorite.setOnClickListener {
+            startActivity(Intent(this,FavoriteActivity::class.java))
+        }
 
         binding.close.setOnClickListener {
          startActivity(Intent(this,MainActivity::class.java))
