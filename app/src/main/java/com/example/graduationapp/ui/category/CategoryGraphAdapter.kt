@@ -53,7 +53,7 @@ class categoryGraphAdapter (var categorys: ArrayList<GetProductsByCollectionIDQu
 
         fun bind(category: GetProductsByCollectionIDQuery.Edge) {
             Glide.with(imageView.context).load(category.node.featuredImage!!.originalSrc).placeholder(
-                R.drawable.bag1).into(imageView)
+                R.drawable.shopping).into(imageView)
             name.text =category.node.title
             price.text = category.node.variants.edges.get(0).node.price.toString()+" LE"
             if (!SharedPref.getUserStatus()){
@@ -83,12 +83,12 @@ class categoryGraphAdapter (var categorys: ArrayList<GetProductsByCollectionIDQu
                 withContext(Dispatchers.Main){
                     when(result){
                         0 -> {
-                            cart.setImageResource(R.drawable.bag1)
-                            cart.setTag(R.drawable.bag1)
+                            cart.setImageResource(R.drawable.shopping)
+                            cart.setTag(R.drawable.shopping)
                         }
                         1 -> {
-                            cart.setImageResource(R.drawable.bag2)
-                            cart.setTag(R.drawable.bag2)
+                            cart.setImageResource(R.drawable.shopping1)
+                            cart.setTag(R.drawable.shopping1)
                         }
                     }
                 }
@@ -119,14 +119,14 @@ class categoryGraphAdapter (var categorys: ArrayList<GetProductsByCollectionIDQu
                 }
 
                 cart -> {
-                    if (cart.tag!=R.drawable.bag2) {
+                    if (cart.tag!=R.drawable.shopping1) {
                         listener.oncartImageClick(categorys[adapterPosition])
-                        cart.setImageResource(R.drawable.bag2)
-                        cart.setTag(R.drawable.bag2)
+                        cart.setImageResource(R.drawable.shopping1)
+                        cart.setTag(R.drawable.shopping1)
                     } else {
                         listener.oncartDeleImageClick(categorys[adapterPosition])
-                        cart.setImageResource(R.drawable.bag1)
-                        cart.setTag(R.drawable.bag1)
+                        cart.setImageResource(R.drawable.shopping)
+                        cart.setTag(R.drawable.shopping)
                     }
                 }
             }

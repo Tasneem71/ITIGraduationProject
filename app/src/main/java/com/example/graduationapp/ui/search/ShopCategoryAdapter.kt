@@ -39,7 +39,7 @@ class ShopCategoryAdapter(var categorys: ArrayList<Products>, var listener: OnHo
         private val imageView = view.findViewById<ImageView>(R.id.thumbnail)
         //private val addCart = view.findViewById<ImageView>(R.id.add_card)
         fun bind(category: Products) {
-            Glide.with(imageView.context).load(category.images[0].src).placeholder(R.drawable.bag1).into(imageView)
+            Glide.with(imageView.context).load(category.images[0].src).placeholder(R.drawable.shopping).into(imageView)
             name.text =category.title
 
         }

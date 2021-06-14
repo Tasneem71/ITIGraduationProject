@@ -100,7 +100,7 @@
         android:id="@+id/addTocart"
         android:layout_marginTop="2dp"
         android:elevation="16dp"
-        android:src="@drawable/bag1"
+        android:src="@drawable/shopping"
         app:layout_constraintEnd_toStartOf="@+id/addToFav"
         app:layout_constraintTop_toTopOf="parent"/>
 

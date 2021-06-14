@@ -33,7 +33,7 @@ class ViewPagerAdapter(private val imagesList: List<String>) : RecyclerView.Adap
 
         fun bind(image: String) {
             //ivSliderImage.setImageResource(image)
-            Glide.with(ivSliderImage.context).load(image).placeholder(R.drawable.bag1).into(ivSliderImage)
+            Glide.with(ivSliderImage.context).load(image).placeholder(R.drawable.shopping).into(ivSliderImage)
         }
     }
 }
