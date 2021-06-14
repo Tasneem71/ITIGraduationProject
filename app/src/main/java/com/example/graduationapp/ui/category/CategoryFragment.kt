@@ -78,6 +78,7 @@ class CategoryFragment : Fragment() ,  TabLayout.OnTabSelectedListener , categor
 
         graphViewModel.kid.observe(requireActivity(), Observer {
             it?.let{
+                binding.progressBar.visibility=View.GONE
                 kidList= it
                 orignalList=kidList
                 collectionsGraphAdapter.setData(kidList)
@@ -85,6 +86,7 @@ class CategoryFragment : Fragment() ,  TabLayout.OnTabSelectedListener , categor
         })
 
         graphViewModel.men.observe(requireActivity(), Observer {
+            binding.progressBar.visibility=View.GONE
             menList=it
             orignalList=menList
             Log.i("original",""+orignalList)
@@ -94,6 +96,7 @@ class CategoryFragment : Fragment() ,  TabLayout.OnTabSelectedListener , categor
         graphViewModel.women.observe(requireActivity(), Observer {
             it?.let{
                 Log.i("category",""+it)
+                binding.progressBar.visibility=View.GONE
                 womenList=it
                 orignalList=womenList
                 collectionsGraphAdapter.setData(womenList)
@@ -103,6 +106,7 @@ class CategoryFragment : Fragment() ,  TabLayout.OnTabSelectedListener , categor
         graphViewModel.sale.observe(requireActivity(), Observer {
             it?.let{
                 Log.i("category",""+it)
+                binding.progressBar.visibility=View.GONE
                 saleList=it
                 orignalList=saleList
                 collectionsGraphAdapter.setData(saleList)

@@ -2,6 +2,7 @@ package com.example.graduationapp.ui.productPageFeature
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -73,8 +74,8 @@ ProductDetails : AppCompatActivity() {
 
             val sizes=it.options.filter { it.name=="Size" }
             val colors=it.options.filter { it.name=="Color" }
-            binding.content.productPageSizeDetails.text= sizes[0].values?.get(0) ?:this.getString(R.string.notAve)
-            binding.content.productPageColorDetails.text= colors[0].values?.get(0) ?:this.getString(R.string.notAve)
+            binding.content.productPageSizeDetails.text= sizes[0].values?.joinToString (",") ?:this.getString(R.string.notAve)
+            binding.content.productPageColorDetails.text= colors[0].values?.joinToString (",") ?:this.getString(R.string.notAve)
             //binding.content.productPageTags.text=it.tags
 
             val y: String = it.image.src ?: "www.google.com/ss.png/"

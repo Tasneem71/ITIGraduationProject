@@ -92,6 +92,7 @@ class GraphViewModel (application: Application) : AndroidViewModel(application) 
 
 
     fun getCollection(id:String , num:Int){
+        if(Validation.isOnline(getApplication())){
         viewModelScope.launch {
             val response=graphRepo.suspendQuery(GetProductsByCollectionIDQuery(id)).data()
             Log.i("One", "getCollection: ${response?.collection?.products?.edges?.get(0)?.node?.id}")
@@ -105,6 +106,9 @@ class GraphViewModel (application: Application) : AndroidViewModel(application) 
                 3 -> sale.value=response?.collection?.products?.edges
                 4 -> women.value=response?.collection?.products?.edges
             }
+        }
+        }else{
+            network.postValue(Validation.isOnline(getApplication()))
         }
     }
     fun getCollectionData(){
