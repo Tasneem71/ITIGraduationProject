@@ -24,9 +24,9 @@ class FavoriteViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    fun deleteFromFavorite(id: Long){
+    fun deleteFromFavorite(id: Long,userId: String){
         viewModelScope.launch {
-            local.deleteFromFavorite(id)
+            local.deleteFromFavorite(id,userId)
         }
     }
 

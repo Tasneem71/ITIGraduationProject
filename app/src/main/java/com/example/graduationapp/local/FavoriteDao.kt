@@ -19,9 +19,6 @@ interface FavoriteDao {
     @Query("delete from Favorite where id is :id and userId= :userId")
     suspend fun deleteFromCart(id: Long, userId:String)
 
-    @Query("delete from Favorite where id is :id")
-    suspend fun deleteFromFavorite(id: Long)
-
     @Query("select * from Favorite where page = 70 and userId= :userId")
     suspend fun getAllFavorite(userId: String): List<Favorite>?
 

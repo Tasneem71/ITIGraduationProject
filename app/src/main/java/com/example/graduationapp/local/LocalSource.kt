@@ -1,6 +1,8 @@
 package com.example.graduationapp.local
 
 import android.app.Application
+import android.app.SharedElementCallback
+import android.service.autofill.UserData
 import com.example.domain.core.feature.favoriteFeature.Favorite
 import com.mohamedabdallah.weather.local.FavoriteDatabase
 
@@ -25,8 +27,8 @@ class LocalSource (application:Application) {
     }
 
 
-    suspend fun deleteFromFavorite(id: Long){
-        database.dao.deleteFromFavorite(id)
+    suspend fun deleteFromFavorite(id: Long,userId: String){
+        database.dao.deleteFromCart(id,userId)
     }
 
     suspend fun getAllFavorite(userId: String): List<Favorite>?{

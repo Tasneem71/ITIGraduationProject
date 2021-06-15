@@ -245,7 +245,7 @@ class HomeFragment : Fragment() , CollectionsGraphAdapter.OnHomeItemListener {
     }
 
     override fun onFavDeleImageClick(item: HomeCollectionQuery.Edge1) {
-        homeViewModel1.deleteFromFavorite(item.node.legacyResourceId.toString().toLong())
+        homeViewModel1.deleteFromFavorite(item.node.legacyResourceId.toString().toLong(),SharedPref.getUserID().toString())
     }
 
     override fun oncartImageClick(item: HomeCollectionQuery.Edge1) {

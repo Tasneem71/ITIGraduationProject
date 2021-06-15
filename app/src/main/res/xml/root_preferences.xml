@@ -47,7 +47,7 @@
         <Preference
             app:key="address_book"
             app:title="@string/address_book"
-            app:icon="@drawable/home">
+            app:icon="@drawable/officebuilding">
 
         </Preference>
 

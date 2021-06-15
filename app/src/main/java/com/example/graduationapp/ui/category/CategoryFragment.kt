@@ -231,7 +231,7 @@ class CategoryFragment : Fragment() ,  TabLayout.OnTabSelectedListener , categor
     }
 
     override fun onFavDeleImageClick(item: GetProductsByCollectionIDQuery.Edge) {
-        graphViewModel.deleteFromFavorite(item.node.legacyResourceId.toString().toLong())
+        graphViewModel.deleteFromFavorite(item.node.legacyResourceId.toString().toLong(),SharedPref.getUserID().toString())
     }
 
     override fun oncartImageClick(item: GetProductsByCollectionIDQuery.Edge) {

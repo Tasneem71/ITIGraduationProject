@@ -54,9 +54,9 @@ class GraphViewModel (application: Application) : AndroidViewModel(application) 
         }
     }
 
-    fun deleteFromFavorite(id: Long){
+    fun deleteFromFavorite(id: Long,userId: String){
         viewModelScope.launch {
-            graphRepo.local.deleteFromFavorite(id)
+            graphRepo.local.deleteFromFavorite(id,userId)
         }
     }
 

@@ -45,14 +45,14 @@ ProductDetails : AppCompatActivity() {
         favoriteViewModel = ViewModelProvider(this).get(FavoriteViewModel::class.java)
 
         val intent=intent
-        var x=""
+        var product_id=""
         if (intent!=null)
-            x= intent.getStringExtra("product_id").toString()
+            product_id= intent.getStringExtra("product_id").toString()
 
-        setFavoriteImage(x.toLong())
-        isCart(x.toLong())
+        setFavoriteImage(product_id.toLong())
+        isCart(product_id.toLong())
 
-        productPageViewModel.getProductDetails(x)
+        productPageViewModel.getProductDetails(product_id)
         productPageViewModel.productDetails.observe(this, Observer {
 
            // Log.i("Mohamed", "onCreate: ${it.title}")
@@ -116,7 +116,7 @@ ProductDetails : AppCompatActivity() {
                 }
                 resources.getDrawable(R.drawable.favorite2).constantState -> {
 
-                    favoriteViewModel.deleteFromFavorite(x.toLong())
+                    favoriteViewModel.deleteFromFavorite(product_id.toLong(),userId)
                     binding.content.productPageAddToFavorite.setImageResource(R.drawable.favorite)
 
                 }
