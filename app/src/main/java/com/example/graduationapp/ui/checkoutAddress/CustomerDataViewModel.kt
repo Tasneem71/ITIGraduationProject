@@ -3,14 +3,11 @@ package com.example.graduationapp.ui.checkoutAddress
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.core.feature.favoriteFeature.Favorite
 import com.example.graduationapp.data.*
-import com.example.graduationapp.data.orders.Orders
 import com.example.graduationapp.local.LocalSource
 import com.example.graduationapp.remote.ApiRepository
-import com.example.graduationapp.remote.retro.ApiServes
 import com.example.graduationapp.utils.Validation
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -20,7 +17,7 @@ import kotlinx.coroutines.launch
 
 
 class CustomerDataViewModel (application: Application) : AndroidViewModel(application){
-    var allAddressDetails  = MutableLiveData<List<Addresse?>?>()
+    var firstAddressDetails  = MutableLiveData<List<Addresse?>?>()
     private val local = LocalSource(application)
     var carts : MutableLiveData<List<Favorite>>? = MutableLiveData<List<Favorite>>()
     var network =MutableLiveData<Boolean>()
@@ -45,7 +42,7 @@ class CustomerDataViewModel (application: Application) : AndroidViewModel(applic
         if (Validation.isOnline(getApplication())) {
             CoroutineScope(Dispatchers.IO).launch {
                 apiRepository.getCustomerAddress(id).let {
-                    allAddressDetails.postValue(it)
+                    firstAddressDetails.postValue(it)
                 }
             }
         }

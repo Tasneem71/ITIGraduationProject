@@ -284,6 +284,67 @@ class ApiRepository(application: Application) {
         return null
 
     }
+    suspend fun setDefaultAddress(id:String,addressIP:String): AddressData? {
+
+        val response = ApiServes.shopfiyService.setDefaultAddress(id,addressIP)
+        try {
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    Log.i("Menna", "response  setDefaultAddress succcess")
+                    return it
+                }
+            } else {
+                Log.i("Menna", "response setDefaultAddress failuer ------------ " + response.errorBody().toString())
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.i("Memma", " error?" + e.printStackTrace())
+
+        }
+        return null
+
+    }
+    //cant delete defult
+    suspend fun deleteAddress(id:String,addressIP:String): String? {
+
+        val response = ApiServes.shopfiyService.deleteAddress(id,addressIP)
+        try {
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    Log.i("Menna", "response  deleteAddress succcess")
+                    return it
+                }
+            } else {
+                Log.i("Menna", "response deleteAddress failuer ------------ " + response.errorBody().toString())
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.i("Memma", " error?" + e.printStackTrace())
+
+        }
+        return null
+
+    }
+    suspend fun getAllCustomerAddress(id:String): List<Addresse?>? {
+
+        val response = ApiServes.shopfiyService.getAllCustomerAddress(id)
+        try {
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    Log.i("Menna", "getAllCustomerAddress success")
+                    return it.allAddressList
+                }
+            } else {
+                Log.i("Menna", "getAllCustomerAddress not success")
+
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.i("Menna", "getAllCustomerAddress error?" + e.printStackTrace())
+
+        }
+        return null
+    }
 
 
     suspend fun getCustomerByEmail(email:String): ApiCustomers? {
