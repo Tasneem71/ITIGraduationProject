@@ -41,13 +41,14 @@ class orderAdapter(
       private val dateTime = view.findViewById<TextView>(R.id.date_time)
       private val id = view.findViewById<TextView>(R.id.order_title)
       private val price = view.findViewById<TextView>(R.id.price)
+      private val date = view.findViewById<TextView>(R.id.date)
       private val cancel = view.findViewById<ImageView>(R.id.edit_btn)
       private val orderStatus = view.findViewById<ImageView>(R.id.order_status)
         fun bind(order: Orders) {
             dateTime.text=order.financial_status
             id.text =order.line_items.get(0).name
-            //price.text=order.total_price.toString()+ " LE"
-            price.text=order.created_at.substring(0,10)
+            price.text=order.total_price.toString()+ " LE"
+            date.text=order.created_at.substring(0,10)
             if(order.financial_status=="paid"){
                 orderStatus.setImageResource(R.drawable.check)
                 dateTime.setTextColor(ContextCompat.getColor(context, R.color.green))
