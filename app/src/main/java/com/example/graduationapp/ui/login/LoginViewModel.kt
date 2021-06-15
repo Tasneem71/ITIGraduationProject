@@ -52,6 +52,7 @@ class LoginViewModel (application: Application) : AndroidViewModel(application) 
 
 
     fun createCustomer(customerJson: CreatedCustomer) {
+        Log.i("api",""+customerJson)
         if (Validation.isOnline(getApplication())){
             CoroutineScope(Dispatchers.IO).launch {
                 val response=apiRepository.createCustomer(customerJson)
@@ -64,7 +65,19 @@ class LoginViewModel (application: Application) : AndroidViewModel(application) 
         }
     }
 
-
+    fun getOneCustomer(userEmail: String) {
+        Log.i("api",""+userEmail)
+        if (Validation.isOnline(getApplication())){
+            CoroutineScope(Dispatchers.IO).launch {
+                val customers = apiRepository.getCustomerByEmail(userEmail)
+                allCustomersLiveData.postValue(customers)
+            }
+        }
+        else
+        {
+            network.postValue(false)
+        }
+    }
 
     fun validate_login(userEmail: String, password: String) {
         if (Validation.isOnline(getApplication())) {

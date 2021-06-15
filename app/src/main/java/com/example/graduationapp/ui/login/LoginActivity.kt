@@ -173,7 +173,8 @@ open class LoginActivity : AppCompatActivity() {
     }
 
     private fun signInApi(email: String, fname: String, lname: String) {
-        loginViewMode.loadData(applicationContext)
+        Log.i("api","email"+email+" "+fname+" "+ lname)
+        loginViewMode.getOneCustomer(email)
         loginViewMode.allCustomersLiveData.observe(this) {
 
             val exist= it?.customers?.filter { it.email==email }
@@ -229,7 +230,7 @@ open class LoginActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         account = GoogleSignIn.getLastSignedInAccount(this)
-        updateUI(account)
+        //updateUI(account)
     }
 
 }
