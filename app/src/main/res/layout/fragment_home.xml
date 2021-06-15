@@ -136,6 +136,22 @@
 
                 </ViewFlipper>
 
+                <TextView
+                    android:id="@+id/discount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/flipper"
+                    android:text="@string/pressHere"
+                    android:textAlignment="center"
+                    android:textSize="20sp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="5dp"
+                    android:drawableStart="@drawable/coupon1"
+                    android:drawableEnd="@drawable/coupon1"/>
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_shop_category"
                     android:layout_width="match_parent"
@@ -166,7 +182,7 @@
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textTwo"
-                    tools:listitem="@layout/card"/>
+                    tools:listitem="@layout/card" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/third"
@@ -229,7 +245,7 @@
                     android:text="ADIDAS"
                     android:background="@drawable/background"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/flipper" />
+                    app:layout_constraintTop_toBottomOf="@+id/discount" />
 
                 <TextView
                     android:id="@+id/textTwo"

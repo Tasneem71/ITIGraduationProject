@@ -22,7 +22,7 @@ class FavoriteAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         //TODO bind item
         holder.title.text=favorites[position].title
-        holder.price.text=favorites[position].price.toString()+" EGP"
+        holder.price.text=favorites[position].price.toString()+" LE"
         Glide.with(holder.image.context).load(favorites[position].image).placeholder(R.drawable.bag1).into(holder.image)
 
         if (position > previousPosition) { //scrolling DOWN

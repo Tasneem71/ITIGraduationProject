@@ -78,7 +78,7 @@ class PaymentSummary : AppCompatActivity() {
         binding.phone.text= phone
         binding.address.text=address1
         binding.province.text = province
-        binding.tvPrice.text= price+" EGP"
+        binding.tvPrice.text= price+" LE"
 
         binding.fabContinue.setOnClickListener{
             if (binding.cash.isChecked){
@@ -98,7 +98,7 @@ class PaymentSummary : AppCompatActivity() {
             if (SharedPref.getUserDiscount() != 0L) {
 
                 price = ((price.toDouble())*.9).toString()
-                binding.tvPrice.text=price
+                binding.tvPrice.text=price+" LE"
                 binding.applyDiscount.visibility= View.GONE
 
             } else {
@@ -142,7 +142,7 @@ class PaymentSummary : AppCompatActivity() {
 
 
 
-        intent.putExtra(PaymentParams.CURRENCY_CODE, "EGP")
+        intent.putExtra(PaymentParams.CURRENCY_CODE, "LE")
         intent.putExtra(PaymentParams.CUSTOMER_PHONE_NUMBER, "009733")
         intent.putExtra(PaymentParams.CUSTOMER_EMAIL, "customer-email@example.com")
         intent.putExtra(PaymentParams.ORDER_ID, "123456")

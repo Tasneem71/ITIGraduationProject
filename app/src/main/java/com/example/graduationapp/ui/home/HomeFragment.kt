@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -16,6 +17,7 @@ import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.domain.core.feature.favoriteFeature.Favorite
 import com.example.graduationapp.HomeCollectionQuery
+import com.example.graduationapp.MainActivity
 import com.example.graduationapp.R
 import com.example.graduationapp.SharedPref
 import com.example.graduationapp.databinding.FragmentHomeBinding
@@ -66,7 +68,7 @@ class HomeFragment : Fragment() , CollectionsGraphAdapter.OnHomeItemListener {
         homeViewModel1.getCollectionData()
 
         //*********************************
-        binding.flipper.setOnClickListener {
+        binding.discount.setOnClickListener {
             Log.i("discount","pressed")
             if (SharedPref.getUserDiscount()==0L) {
                 Log.i("discount","pressed if")
@@ -74,6 +76,7 @@ class HomeFragment : Fragment() , CollectionsGraphAdapter.OnHomeItemListener {
             }else{
                 Log.i("discount","pressed else")
                 Toast.makeText(context,"Discount has already been activated",Toast.LENGTH_SHORT).show()
+                showDialog()
             }
         }
 
@@ -134,6 +137,7 @@ class HomeFragment : Fragment() , CollectionsGraphAdapter.OnHomeItemListener {
             it?.let {
                 SharedPref.setUserDiscount(it.id)
                 Toast.makeText(context,"Discount activated",Toast.LENGTH_SHORT).show()
+                showDialog()
             }
         }
 
@@ -155,6 +159,18 @@ class HomeFragment : Fragment() , CollectionsGraphAdapter.OnHomeItemListener {
 
         return binding.root
     }
+
+    private fun showDialog() {
+        val orderDialogBuilder = AlertDialog.Builder(requireContext())
+        orderDialogBuilder.setTitle(this.getString(R.string.discount))
+        orderDialogBuilder.setMessage(this.getString(R.string.your_discout_code_is)+SharedPref.getUserDiscount())
+        orderDialogBuilder.setPositiveButton(this.getString(R.string.ok)) { dialog, which ->
+            dialog.dismiss()
+        }
+        orderDialogBuilder.setCancelable(false)
+        orderDialogBuilder.show()
+    }
+
     private fun initUI() {
         binding.recyclerShopCategory.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -257,5 +273,7 @@ class HomeFragment : Fragment() , CollectionsGraphAdapter.OnHomeItemListener {
         Toast.makeText(context,""+list.get(list.size-1),Toast.LENGTH_LONG).show()
         return list.get(list.size-1)
     }
+
+
 
 }

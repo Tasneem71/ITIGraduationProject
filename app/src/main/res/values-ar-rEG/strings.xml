@@ -8,8 +8,8 @@
     <string name="Username">اسم المستخدم</string>
     <string name="Password">كلمة المرور</string>
     <string name="welcometoshopfiy"> اهلا بك </string>
-    <string name="accessories">اكسيسورات</string>
-    <string name="Tshirt">تشيرت</string>
+    <string name="accessories">اكسسوارات</string>
+    <string name="Tshirt">تيشيرت</string>
     <string name="shoes">احذية</string>
     <string name="RegisterLogin">تسجيل الدخول</string>
     <string name="wishList">المفضلة</string>
@@ -80,18 +80,28 @@
     <string name="no_internet" >انت غير متصل</string>
 
 
-    <string name="title1">Greate Discounts</string>
-    <string name="text1">We are offering discounts on almost all of our products, with the best priceses</string>
+    <string name="title1">خصومات ضخمة</string>
+    <string name="text1">نقدم خصومات على اغلب المنتجات مع افضل الأسعار</string>
 
-    <string name="title2">Shop all you want!</string>
-    <string name="text2">Shop and get offers, promo cods and discount on your future purchase</string>
+    <string name="title2">تسوق في اي وقت!</string>
+    <string name="text2">تسوق واحصل على العروض والخصومات في اي وقت</string>
 
-    <string name="title3">Unique products</string>
-    <string name="text3">providing 100% authentic products</string>
+    <string name="title3">منتجات مميزة</string>
+    <string name="text3">منتجات حصرية لن تجدها إلا على موقعنا</string>
     <string name="useOtherMethod">استخدام طريقة اخرى</string>
     <string name="description">الوصف</string>
     <string name="total_value">المجموع = </string>
     <string name="shopping_bag">حقيبة التسوق</string>
+
+    <string name="pleaselogin">من فضلك قم يالتسجيل اولا</string>
+    <string name="has_been_add_to_cart">تم إضافة المنتج الى الحقيبة</string>
+    <string name="Status">الحالة</string>
+    <string name="pressHere">اضغط هنا للحصول على خصم الأن</string>
+    <string name="your_discout_code_is">"رقم الخصم الخاص بك: "</string>
+    <string name="order_items">الطلبات:</string>
+
+    <string name="shopify">شوبيفاي</string>
+    <string name="checkout">اطلب الأن</string>
 
 
 

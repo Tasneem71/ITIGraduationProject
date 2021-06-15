@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">GraduationApp</string>
+    <string name="app_name">Shopify</string>
     <string name="title_home">Home</string>
     <string name="title_category">Category</string>
     <string name="title_me">Me</string>
@@ -8,7 +8,7 @@
     <string name="Password">Password</string>
     <string name="forget" translatable="false">Forgot your password?</string>
     <string name="welcometoshopfiy">Welcome</string>
-    <string name="accessories">Accessories</string>
+    <string name="accessories">Access-ories</string>
     <string name="Tshirt">T-Shirt</string>
     <string name="shoes">Shoes</string>
     <string name="Shopfiy" translatable="false">Shopfiy</string>
@@ -114,12 +114,17 @@
 
     <string name="title3">Unique products</string>
     <string name="text3">providing 100% authentic products</string>
-    <string name="shopify" translatable="false">Shopify</string>
+    <string name="shopify">Shopify</string>
     <string name="useOtherMethod">Use another method</string>
     <string name="description">Description</string>
     <string name="total_value">Total = </string>
     <string name="shopping_bag">Shopping Bag</string>
     <string name="pleaselogin">Please Login First</string>
     <string name="has_been_add_to_cart">Item has been added to cart</string>
+    <string name="Status">Status</string>
+    <string name="pressHere">Press here to get discount code NOW</string>
+    <string name="your_discout_code_is">"Your discount code is : "</string>
+    <string name="order_items">Order items</string>
+    <string name="checkout">Check Out</string>
 
 </resources>

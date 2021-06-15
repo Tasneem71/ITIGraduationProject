@@ -74,7 +74,7 @@
 
     <RadioGroup
         android:id="@+id/rg_payment_type"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="2"
         android:orientation="horizontal"
@@ -91,7 +91,7 @@
             android:layout_weight="1"
             android:text=" Cash On Delivery"
             android:checked="true"
-            android:layout_margin="5dp"
+            android:layout_margin="3dp"
             android:textColor="@color/gray"
             android:drawableStart="@drawable/coins"/>
 
@@ -102,7 +102,7 @@
             android:layout_weight="1"
             android:checked="false"
             android:text=" Credit card"
-            android:layout_margin="5dp"
+            android:layout_margin="3dp"
             android:textColor="@color/gray"
             android:drawableStart="@drawable/creditcard"/>
 

@@ -1,11 +1,16 @@
 package com.example.graduationapp.ui.me
 
+import android.app.Dialog
+import android.app.TimePickerDialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -26,11 +31,15 @@ import com.example.graduationapp.SharedPref
 import com.example.graduationapp.data.CancelOrder
 import com.example.graduationapp.data.orders.Orders
 import com.example.graduationapp.databinding.FragmentMeBinding
+import com.example.graduationapp.databinding.OrderDailogeBinding
 import com.example.graduationapp.ui.cart.CartActivity
 import com.example.graduationapp.ui.favoriteFeature.FavoriteActivity
 import com.example.graduationapp.ui.favoriteFeature.FavoriteViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class MeFragment : Fragment() ,  TabLayout.OnTabSelectedListener , orderAdapter.OnCancelOrderListener {
@@ -44,7 +53,8 @@ class MeFragment : Fragment() ,  TabLayout.OnTabSelectedListener , orderAdapter.
     private lateinit var wishList:ArrayList<Favorite>
     private lateinit var orderList:ArrayList<Orders>
     private lateinit var userId :String
-
+    lateinit var bindingDialog: OrderDailogeBinding
+    lateinit var dialog: Dialog
 
     override fun onCreateView(inflater: LayoutInflater,container: ViewGroup?,savedInstanceState: Bundle?): View? {
 
@@ -56,7 +66,7 @@ class MeFragment : Fragment() ,  TabLayout.OnTabSelectedListener , orderAdapter.
 
         wishList = ArrayList()
         orderList = ArrayList()
-        orderAdapter= orderAdapter(orderList,this)
+        orderAdapter= orderAdapter(orderList,this,requireContext())
         wishAdapter= MeAdapter(wishList)
         initUi()
 
@@ -215,6 +225,35 @@ class MeFragment : Fragment() ,  TabLayout.OnTabSelectedListener , orderAdapter.
         val email = SharedPref.getUserEmail()
         val amount = it.total_price
         viewModel.cancelOrder(it.id,CancelOrder())
+    }
+
+    override fun onSeeMoreClick(item: Orders) {
+        showDailoge(item)
+    }
+
+    private fun showDailoge(order: Orders) {
+        dialog = Dialog(requireContext())
+        dialog.setCancelable(false)
+        dialog.getWindow()?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        bindingDialog = OrderDailogeBinding.inflate(layoutInflater)
+        dialog.setContentView(bindingDialog.root)
+        val lp = WindowManager.LayoutParams()
+        lp.copyFrom(dialog.getWindow()?.attributes)
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT
+
+        bindingDialog.dateTime.text=order.financial_status
+        bindingDialog.priceTv.text=order.total_price.toString()+" LE"
+        bindingDialog.idTv.text=order.id
+        var ordersNames=order.line_items.map { it.name }.joinToString("\n")
+        bindingDialog.itemsTv.text=ordersNames
+
+        bindingDialog.editBtn.setOnClickListener { v ->
+            dialog.dismiss()
+        }
+
+        dialog.show()
+        dialog.getWindow()?.setAttributes(lp)
     }
 
     private fun cancelOrderDone() {
