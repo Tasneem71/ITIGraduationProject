@@ -103,6 +103,10 @@
     <string name="shopify">شوبيفاي</string>
     <string name="checkout">اطلب الأن</string>
 
+    <string name="address_book">Address Book</string>
+    <string name="editDone">Edit Address Done</string>
+    <string name="newAddress">New Address  is Added  Successfuly</string>
+    <string name="add_address">Add New Address</string>
 
 
 </resources>

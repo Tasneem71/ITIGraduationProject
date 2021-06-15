@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/address_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="mohamed abdallah"
+        android:gravity="center"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+    </TextView>
+    <TextView
+        android:id="@+id/address_phone"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="010101010101"
+        android:gravity="center"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/address_name"
+        tools:ignore="MissingConstraints">
+       </TextView>
+    <TextView
+        android:id="@+id/address_city"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="zagazig"
+        android:gravity="center"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/address_name">
+    </TextView>
+    <TextView
+        android:id="@+id/address_country"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Egypt"
+        android:gravity="center"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/address_city"
+        app:layout_constraintTop_toBottomOf="@id/address_phone"
+        tools:ignore="MissingConstraints">
+    </TextView>
+    <TextView
+        android:id="@+id/address_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="3 st zag 5 abcd address"
+        android:gravity="center"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/address_city">
+    </TextView>
+
+
+    <CheckBox
+        android:id="@+id/address_check_box"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mark As Default"
+        android:gravity="center"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/address_address">
+    </CheckBox>
+    <ImageView
+        android:id="@+id/address_delete"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:text="010101010101"
+        android:gravity="end"
+        android:src="@drawable/ic_delete"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/address_check_box"
+        app:layout_constraintTop_toBottomOf="@id/address_address">
+    </ImageView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

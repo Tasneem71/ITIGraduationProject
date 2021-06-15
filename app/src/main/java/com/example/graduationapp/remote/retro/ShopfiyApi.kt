@@ -63,13 +63,25 @@ interface ShopfiyApi {
 
     //address
     @GET("customers/{customer_id}/addresses.json?limit=1")
-    suspend fun getCustomerAddById(@Path("customer_id") id:String): Response<AddressData>
+    suspend fun getFirstCustomerAdd(@Path("customer_id") id:String): Response<AddressData>
 
     @POST("customers/{customer_id}/addresses.json")
     suspend fun createNewCustomerAddById(@Path("customer_id") id:String,@Body addressJson:CreateAddress): Response<AddressData>
 
     @PUT("customers/{customer_id}/addresses/{address_id}.json")
     suspend fun editCustomerAdd(@Path("customer_id") id:String,@Path("address_id") addId:String,@Body addressJson:CreateAddress): Response<AddressData>
+
+    @PUT("customers/{customer_id}/addresses/{address_id}/default.json")
+    suspend fun setDefaultAddress(@Path("customer_id") id:String,@Path("address_id") addId:String): Response<AddressData>
+
+    @DELETE("customers/{customer_id}/addresses/{address_id}.json")
+    suspend fun deleteAddress(@Path("customer_id") id:String,@Path("address_id") addId:String)
+
+    @GET("customers/{customer_id}/addresses.json")
+    suspend fun getAllCustomerAddress(@Path("customer_id") id:String): Response<AddressData>
+
+    @GET("customers/{customer_id}/addresses/{address_id}.json")
+    suspend fun getCustomerAddById(@Path("customer_id") id:String,@Path("address_id") addId:String): Response<AddressData>
 
    //   GET
     @POST("orders/{order_id}/transactions.json")

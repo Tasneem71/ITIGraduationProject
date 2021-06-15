@@ -1,20 +1,20 @@
 package com.example.graduationapp.ui.checkoutAddress
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-
 import android.text.SpannableStringBuilder
 import android.util.Log
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
-import com.example.domain.core.feature.favoriteFeature.Favorite
 import com.example.graduationapp.R
 import com.example.graduationapp.SharedPref
-import com.example.graduationapp.data.*
+import com.example.graduationapp.data.Address
+import com.example.graduationapp.data.AddressData
+import com.example.graduationapp.data.Addresse
+import com.example.graduationapp.data.CreateAddress
 import com.example.graduationapp.databinding.ActivityCustomerDataBinding
 import com.example.graduationapp.ui.cart.CartActivity
 import com.example.graduationapp.ui.paymentsummary.PaymentSummary
@@ -24,65 +24,117 @@ class CustomerDataActivity : AppCompatActivity() {
     private lateinit var customerDataViewModel: CustomerDataViewModel
     private lateinit var binding: ActivityCustomerDataBinding
     private lateinit var userId :String
-    var haveOneAddress :Boolean = false
+    private lateinit var addressID :String
+
+    var frromEdit :Boolean = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCustomerDataBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        customerDataViewModel = ViewModelProvider(this).get(CustomerDataViewModel::class.java)
+
         userId = SharedPref.getUserID().toString()
         Log.i("Menna", "CustomerDataActivity user id == "+userId)
 
+        val intent =intent
+        if (intent != null)
+        {
+            Log.i("Menna", "onCreate: inside intent")
+            when(intent.getStringExtra("key"))
+            {
+                "Edit" ->{
+                    frromEdit = true
+                    val userInfo = getIntent().getSerializableExtra("Addresse") as Addresse?
+                    if (userInfo != null) {
+                        addressID =userInfo.id
+                    }
+                    fillIfAddressExist(userInfo!!)
+                    customerDataViewModel.editAddressLiveData.observe(this, Observer {
+                        Log.i("Menna","edit address ***** "+it?.address)
+                        if (it?.address?.province.isNullOrEmpty())
+                        {
+                            Toast.makeText(this,this.getString(R.string.valid),Toast.LENGTH_SHORT).show()
+                        }else{
+                            Toast.makeText(this,this.getString(R.string.editDone),Toast.LENGTH_SHORT).show()
+                            finish()
+                            //goToSummary(it!!)
+                        }
 
-        customerDataViewModel = ViewModelProvider(this).get(CustomerDataViewModel::class.java)
+                    })
+                    Log.i("Menna", "onCreate: ${userInfo?.address1}")
+                }
+                "New" ->{
+                    Log.i("Menna", "NEW: ")
+                    frromEdit = false
+                    customerDataViewModel.createAddressLiveData.observe(this, Observer {
+                        Log.i("Menna",""+it?.address)
+                        if (it?.address?.province.isNullOrEmpty() )
+                        {
+                            Toast.makeText(this,this.getString(R.string.valid),Toast.LENGTH_SHORT).show()
+                        }else{
+                            if(SharedPref.getAddressID().isNullOrEmpty()){
+                                SharedPref.setAddressID(it?.address?.id)
+                            }
+                            Toast.makeText(this,this.getString(R.string.newAddress),Toast.LENGTH_SHORT).show()
+                            finish()
+                            //goToSummary(it!!)
+                        }
 
-        customerDataViewModel.getAllCarts(userId)
-        Log.i("Menna", "My id === "+SharedPref.getUserID().toString())
-        customerDataViewModel.getCustomerAddress(SharedPref.getUserID().toString())
-        //check
-        customerDataViewModel.allAddressDetails.observe(this) {
-            Log.i("Menna","Chheck if empty "+it)
-           if (it.isNullOrEmpty()) {
-               haveOneAddress = false
-               customerDataViewModel.createAddressLiveData.observe(this, Observer {
-                   Log.i("Menna",""+it?.address)
-                   if (it?.address?.province.isNullOrEmpty() )
-                   {
-                       Toast.makeText(this,this.getString(R.string.valid),Toast.LENGTH_SHORT).show()
-                   }else{
-                       goToSummary(it!!)
-                   }
+                    })
 
-               })
-           }
-           else{
-               haveOneAddress = true
-               fillIfAddressExist()
-               customerDataViewModel.editAddressLiveData.observe(this, Observer {
-                   Log.i("Menna","edit address ***** "+it?.address)
-                   if (it?.address?.province.isNullOrEmpty())
-                   {
-                       Toast.makeText(this,this.getString(R.string.valid),Toast.LENGTH_SHORT).show()
-                   }else{
-                      goToSummary(it!!)
-                   }
-
-               })
-           }
+                }
+            }
         }
 
+
+
+//        customerDataViewModel.getAllCarts(userId)
+//        customerDataViewModel.getCustomerAddress(SharedPref.getUserID().toString())
+//        //check
+//        customerDataViewModel.firstAddressDetails.observe(this) {
+//            Log.i("Menna","Chheck if empty "+it)
+//           if (it.isNullOrEmpty()) {
+//               frromEdit = false
+//               customerDataViewModel.createAddressLiveData.observe(this, Observer {
+//                   Log.i("Menna",""+it?.address)
+//                   if (it?.address?.province.isNullOrEmpty() )
+//                   {
+//                       Toast.makeText(this,this.getString(R.string.valid),Toast.LENGTH_SHORT).show()
+//                   }else{
+//                       goToSummary(it!!)
+//                   }
+//
+//               })
+//           }
+//           else{
+//               frromEdit = true
+//               //fillIfAddressExist()
+//               customerDataViewModel.editAddressLiveData.observe(this, Observer {
+//                   Log.i("Menna","edit address ***** "+it?.address)
+//                   if (it?.address?.province.isNullOrEmpty())
+//                   {
+//                       Toast.makeText(this,this.getString(R.string.valid),Toast.LENGTH_SHORT).show()
+//                   }else{
+//                      goToSummary(it!!)
+//                   }
+//
+//               })
+//           }
+//        }
+
         binding.saveBtn.setOnClickListener {
-            if (haveOneAddress) {
+            if (frromEdit) {
                 editCustomerData()
             } else {
                 addCustomerData()
             }
 
         }
-        binding.back.setOnClickListener({
-            startActivity(Intent(this,CartActivity::class.java))
-        })
+        binding.back.setOnClickListener {
+            startActivity(Intent(this, CartActivity::class.java))
+        }
 
     }
     fun goToSummary(it : AddressData){
@@ -94,18 +146,18 @@ class CustomerDataActivity : AppCompatActivity() {
         startActivity(intent1)
     }
 
-    private fun fillIfAddressExist(){
-        customerDataViewModel.allAddressDetails.observe(this) {
-            it?.let {
-                SharedPref.setAddressID(it[0]?.id)
-                binding.address1.text = SpannableStringBuilder("${it[0]?.address1 ?:' '}")
-                binding.city.text =  SpannableStringBuilder("${it[0]?.city ?:' '}")
-                binding.phone.text = SpannableStringBuilder("${it[0]?.phone ?:' '}")
-                binding.province.text = SpannableStringBuilder("${it[0]?.province ?:' '}")
-                binding.country.text = SpannableStringBuilder("${it[0]?.country ?:' '}")
-                binding.zip.text = SpannableStringBuilder("${it[0]?.zip ?:' '}")
-            }
-        }
+    private fun fillIfAddressExist(address : Addresse){
+//        customerDataViewModel.firstAddressDetails.observe(this) {
+//            it?.let {
+//                SharedPref.setAddressID(it[0]?.id)
+                binding.address1.text = SpannableStringBuilder("${address.address1 ?:' '}")
+                binding.city.text =  SpannableStringBuilder("${address.city ?:' '}")
+                binding.phone.text = SpannableStringBuilder("${address.phone ?:' '}")
+                binding.province.text = SpannableStringBuilder("${address.province ?:' '}")
+                binding.country.text = SpannableStringBuilder("${address.country ?:' '}")
+                binding.zip.text = SpannableStringBuilder("${address.zip ?:' '}")
+//            }
+//        }
     }
     private fun addCustomerData() {
         val customerId =SharedPref.getUserID().toString()
@@ -126,7 +178,6 @@ class CustomerDataActivity : AppCompatActivity() {
 
     }
     private fun editCustomerData() {
-        val id = SharedPref.getAddressID().toString()
         val customerFname =SharedPref.getUserFname().toString()
         val add1 = binding.address1.text.toString()
         val city = binding.city.text.toString()
@@ -134,18 +185,14 @@ class CustomerDataActivity : AppCompatActivity() {
         val province = binding.province.text.toString()
         val country = binding.country.text.toString()
         val zip = binding.zip.text.toString()
-
         val address = Address(add1,city,customerFname,phone,province,country,zip)
         val addressJson= CreateAddress(address)
-
         if (Validation.validatePhone(phone)) {
-            customerDataViewModel.editCustomerAddress(userId, id,addressJson)
+            customerDataViewModel.editCustomerAddress(userId, addressID,addressJson)
         }
         else{
             Toast.makeText(this,this.getString(R.string.valid_num),Toast.LENGTH_SHORT).show()
         }
-
     }
-
 
 }

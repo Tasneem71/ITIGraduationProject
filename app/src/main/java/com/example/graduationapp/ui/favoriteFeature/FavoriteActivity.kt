@@ -3,27 +3,20 @@ package com.example.graduationapp.ui.favoriteFeature
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.domain.core.feature.favoriteFeature.Favorite
 import com.example.domain.core.subFeature.GridSpacingItemDecoration
 import com.example.domain.core.subFeature.RecyclerViewAnimation
-import com.example.graduationapp.R
 import com.example.graduationapp.SharedPref
 import com.example.graduationapp.databinding.ActivityFavoriteBinding
-import com.example.graduationapp.databinding.ActivityScrollingBinding
 import com.example.graduationapp.ui.favoriteFeature.adapater.FavoriteAdapter
 import com.example.graduationapp.ui.productPageFeature.ProductDetails
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
-class FavoriteActivity : AppCompatActivity(),FavoriteAdapter.OnEditFavoriteListener {
+class FavoriteActivity : AppCompatActivity(), FavoriteAdapter.OnEditFavoriteListener {
     lateinit var binding: ActivityFavoriteBinding
     private lateinit var favoriteViewModel: FavoriteViewModel
     private  var favoriteAdapter= FavoriteAdapter(emptyList(),this)

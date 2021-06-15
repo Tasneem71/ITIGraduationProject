@@ -21,6 +21,7 @@ import com.example.graduationapp.databinding.ActivityOrderBinding
 import com.example.graduationapp.ui.cart.adapter.CartAdapter
 import com.example.graduationapp.ui.checkoutAddress.CustomerDataActivity
 import com.example.graduationapp.ui.favoriteFeature.FavoriteActivity
+import com.example.graduationapp.ui.paymentsummary.PaymentSummary
 import com.example.graduationapp.ui.productPageFeature.ProductDetails
 
 import com.google.android.material.snackbar.Snackbar
@@ -32,6 +33,9 @@ class CartActivity : AppCompatActivity(), CartAdapter.OnCartItemListener {
     private var cartAdapter = CartAdapter(emptyList(), this)
     private lateinit var userId :String
     var empty : Boolean =false
+
+
+    var code=false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,16 +82,50 @@ class CartActivity : AppCompatActivity(), CartAdapter.OnCartItemListener {
                 binding.total2.text =it.toString()
             }
         })
+        cartViewModel.getAllCustomerAddress(userId)
+//        cartViewModel.allCustomerAddresses.observe(this, Observer {
+//            it?.let {
+//                val defaultID = it.filter { it?.default == true }.map { it?.id }.get(0).toString()
+//                Log.i("Menna","defalt it //////////// "+defaultID)
+//                if (defaultID.isNullOrEmpty()){
+//                    SharedPref.setAddressID(defaultID)
+//                }
+//            }
+//        })
+        cartViewModel.allCustomerAddresses.observe(this, Observer { it ->
+            if (!it.isNullOrEmpty())
+            {
+                Log.i("Menna", "onCreate: not null not empty")
+                SharedPref.setAddressID(it.filter { it?.default == true }.map { it?.id }.get(0).toString())
+                code=true
 
+            }
+            else
+            {
+                Log.i("Menna", "onCreate: nullllllllllllllllllllllllllllllllllllllllllllllllllllllll")
+               // SharedPref.setAddressID(null)
+                code=false
+
+
+            }
+        })
 
         binding.checkOut.setOnClickListener {
 
             if(empty){
                 Toast.makeText(this,this.getString(R.string.empty_cart),Toast.LENGTH_LONG).show()
             }else{
-                val intent = Intent(this, CustomerDataActivity::class.java)
-                intent.putExtra("price", binding.total2.text.toString())
-                startActivity(intent)
+                Log.i("Menna", "onCreate   shared: ${SharedPref.getAddressID()}")
+                if(!code){
+                    val intent = Intent(this, CustomerDataActivity::class.java)
+                    intent.putExtra("price", binding.total2.text.toString())
+                    intent.putExtra("Key", "New")
+                    startActivity(intent)
+                }else{
+                    val intent = Intent(this, PaymentSummary::class.java)
+                    intent.putExtra("price", binding.total2.text.toString())
+                    startActivity(intent)
+                }
             }
 
         }
