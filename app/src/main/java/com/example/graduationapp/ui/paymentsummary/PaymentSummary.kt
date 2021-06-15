@@ -2,8 +2,10 @@ package com.example.graduationapp.ui.paymentsummary
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Paint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.style.StrikethroughSpan
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AlertDialog
@@ -45,16 +47,10 @@ class PaymentSummary : AppCompatActivity() {
         userId = SharedPref.getUserID().toString()
 
         val intent=intent
-        var province=""
-        var phone=""
-        var address1=""
+
 
         if (intent!=null){
-//            province= intent.getStringExtra("province").toString()
-//            phone= intent.getStringExtra("phone").toString()
-//            address1= intent.getStringExtra("address1").toString()
             price= intent.getStringExtra("price").toString()
-
         }
         Log.i("Menna","address id "+SharedPref.getAddressID().toString())
         createOrderViewModel.getDefaultAddress(userId,SharedPref.getAddressID().toString())
@@ -106,13 +102,17 @@ class PaymentSummary : AppCompatActivity() {
 
         binding.applyDiscount.setOnClickListener {
             if (SharedPref.getUserDiscount() != 0L) {
-
+                binding.beforeDiscount.text =price+" LE"
+                binding.beforeDiscount.paintFlags= binding.beforeDiscount.paintFlags
                 price = ((price.toDouble())*.9).toString()
                 binding.tvPrice.text=price+" LE"
                 binding.applyDiscount.visibility= View.GONE
+                binding.beforeDiscount.paintFlags = binding.beforeDiscount.paintFlags or  Paint.STRIKE_THRU_TEXT_FLAG
+                binding.beforeDiscount.visibility = View.VISIBLE
+
 
             } else {
-
+                binding.beforeDiscount.visibility = View.GONE
                 noDiscountFound()
             }
         }

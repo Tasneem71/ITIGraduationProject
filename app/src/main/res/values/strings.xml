@@ -130,5 +130,8 @@
     <string name="editDone">Edit Address Done</string>
     <string name="newAddress">New Address  is Added  Successfuly</string>
     <string name="add_address">Add New Address</string>
+    <string name="bagEmpty">Your bag is empty :(</string>
+    <string name="favoriteEmpty">Your favorite is empty</string>
+    <string name="shopNow">SHOP NOW</string>
 
 </resources>

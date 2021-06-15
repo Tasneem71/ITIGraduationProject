@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.domain.core.feature.favoriteFeature.Favorite
 import com.example.domain.core.subFeature.GridSpacingItemDecoration
 import com.example.domain.core.subFeature.RecyclerViewAnimation
+import com.example.graduationapp.R
 import com.example.graduationapp.SharedPref
 import com.example.graduationapp.databinding.ActivityFavoriteBinding
 import com.example.graduationapp.ui.favoriteFeature.adapater.FavoriteAdapter
@@ -42,6 +43,13 @@ class FavoriteActivity : AppCompatActivity(), FavoriteAdapter.OnEditFavoriteList
         binding.favoriteRecyclerView.itemAnimator= DefaultItemAnimator()
         binding.favoriteRecyclerView.adapter = favoriteAdapter
         favoriteViewModel.favorites?.observe(this, Observer {
+            if (it.isNullOrEmpty()){
+                binding.notLoged.visibility=View.VISIBLE
+                binding.textHided.text=this.getString(R.string.favoriteEmpty)
+            }else{
+                binding.notLoged.visibility=View.GONE
+
+            }
             favoriteAdapter.setData(it)
 
         })

@@ -68,6 +68,16 @@
                 android:textSize="40sp"
                 android:textStyle="bold"/>
 
+            <TextView
+                android:id="@+id/beforeDiscount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:textColor="@color/white"
+                android:textSize="17sp"
+                android:gravity="center"
+                tools:text="10 .LE" />
+
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

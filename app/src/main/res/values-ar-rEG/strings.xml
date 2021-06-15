@@ -107,6 +107,9 @@
     <string name="editDone">تم تعديل العنوان</string>
     <string name="newAddress">تم اضاقه العنوان بنجاح</string>
     <string name="add_address">اضافه عنوان جديد</string>
+    <string name="bagEmpty">حقيبتك فارغة :(</string>
+    <string name="favoriteEmpty">المفضلة فارغة</string>
+    <string name="shopNow">تسوق الان</string>
 
 
 </resources>
