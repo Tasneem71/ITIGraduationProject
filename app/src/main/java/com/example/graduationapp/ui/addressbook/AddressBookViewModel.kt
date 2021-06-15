@@ -4,6 +4,7 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.domain.core.feature.favoriteFeature.Favorite
 import com.example.graduationapp.data.AddressData
 import com.example.graduationapp.data.Addresse
@@ -57,24 +58,36 @@ class AddressBookViewModel(application: Application) : AndroidViewModel(applicat
 
 
     fun setDefaultAddress(id:String,addressIp:String) {
+        Log.i("Menna", "setDefaultAddress:")
+
         if (Validation.isOnline(getApplication())) {
-            CoroutineScope(Dispatchers.IO).launch {
+            viewModelScope.launch {
                 apiRepository.setDefaultAddress(id, addressIp).let {
                     defualtAddress.postValue(it)
+                    Log.i("Menna", "setDefaultAdhggggggggggdress:")
+
                 }
+            }.invokeOnCompletion {
+                getAllCustomerAddress(id)
+
             }
         }
         else
         {
+            Log.i("Menna", "setDefaulteeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeAddress:")
+
             network.postValue(false)
         }
     }
     fun deleteAddress(id:String,addressIp:String) {
         if (Validation.isOnline(getApplication())) {
-            CoroutineScope(Dispatchers.IO).launch {
+            viewModelScope.launch {
                 apiRepository.deleteAddress(id, addressIp).let {
                     Log.i("Menna","delete done it = $it")
                 }
+            }.invokeOnCompletion {
+                getAllCustomerAddress(id)
+
             }
         }
         else
@@ -83,31 +96,31 @@ class AddressBookViewModel(application: Application) : AndroidViewModel(applicat
         }
     }
 
-//    fun createCustomerAddress(id:String, addressJson: CreateAddress) {
-//        if (Validation.isOnline(getApplication())) {
-//            CoroutineScope(Dispatchers.IO).launch {
-//                apiRepository.createCustomerAdd(id, addressJson).let {
-//                    createAddressLiveData.postValue(it)
-//                }
-//            }
-//        }
-//        else{
-//            network.postValue(false)
-//        }
-//    }
+    fun createCustomerAddress(id:String, addressJson: CreateAddress) {
+        if (Validation.isOnline(getApplication())) {
+            CoroutineScope(Dispatchers.IO).launch {
+                apiRepository.createCustomerAdd(id, addressJson).let {
+                    createAddressLiveData.postValue(it)
+                }
+            }
+        }
+        else{
+            network.postValue(false)
+        }
+    }
 //
-//    fun editCustomerAddress(id:String,addressIp:String,addressJson: CreateAddress) {
-//        if (Validation.isOnline(getApplication())) {
-//            CoroutineScope(Dispatchers.IO).launch {
-//                apiRepository.editCustomerAdd(id, addressIp, addressJson).let {
-//                    editAddressLiveData.postValue(it)
-//                }
-//            }
-//        }
-//        else
-//        {
-//            network.postValue(false)
-//        }
-//    }
+    fun editCustomerAddress(id:String,addressIp:String,addressJson: CreateAddress) {
+        if (Validation.isOnline(getApplication())) {
+            CoroutineScope(Dispatchers.IO).launch {
+                apiRepository.editCustomerAdd(id, addressIp, addressJson).let {
+                    editAddressLiveData.postValue(it)
+                }
+            }
+        }
+        else
+        {
+            network.postValue(false)
+        }
+    }
 
 }

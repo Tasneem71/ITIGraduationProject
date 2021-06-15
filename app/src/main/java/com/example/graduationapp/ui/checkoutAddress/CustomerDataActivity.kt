@@ -1,18 +1,20 @@
 package com.example.graduationapp.ui.checkoutAddress
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-
 import android.text.SpannableStringBuilder
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import com.example.graduationapp.R
 import com.example.graduationapp.SharedPref
-import com.example.graduationapp.data.*
+import com.example.graduationapp.data.Address
+import com.example.graduationapp.data.AddressData
+import com.example.graduationapp.data.Addresse
+import com.example.graduationapp.data.CreateAddress
 import com.example.graduationapp.databinding.ActivityCustomerDataBinding
 import com.example.graduationapp.ui.cart.CartActivity
 import com.example.graduationapp.ui.paymentsummary.PaymentSummary
@@ -29,6 +31,25 @@ class CustomerDataActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityCustomerDataBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+
+        val intent =intent
+        if (intent != null)
+        {
+            Log.i("Menna", "onCreate: inside intent")
+            when(intent.getStringExtra("key"))
+            {
+                "Edit" ->{
+                    val userinfo = getIntent().getSerializableExtra("Addresse") as Addresse?
+                    Log.i("Menna", "onCreate: ${userinfo?.address1}")
+                }
+                "New" ->{
+                    Log.i("Menna", "NEW: ")
+
+                }
+            }
+        }
+
         userId = SharedPref.getUserID().toString()
         Log.i("Menna", "CustomerDataActivity user id == "+userId)
 

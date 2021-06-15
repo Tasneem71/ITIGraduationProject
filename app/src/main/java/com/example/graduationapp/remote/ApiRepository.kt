@@ -305,24 +305,25 @@ class ApiRepository(application: Application) {
 
     }
     //cant delete defult
-    suspend fun deleteAddress(id:String,addressIP:String): String? {
+    suspend fun deleteAddress(id:String,addressIP:String) {
 
-        val response = ApiServes.shopfiyService.deleteAddress(id,addressIP)
-        try {
-            if (response.isSuccessful) {
-                response.body()?.let {
-                    Log.i("Menna", "response  deleteAddress succcess")
-                    return it
-                }
-            } else {
-                Log.i("Menna", "response deleteAddress failuer ------------ " + response.errorBody().toString())
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            Log.i("Memma", " error?" + e.printStackTrace())
 
-        }
-        return null
+        ApiServes.shopfiyService.deleteAddress(id,addressIP)
+
+//        val response = ApiServes.shopfiyService.deleteAddress(id,addressIP)
+//        try {
+//            if (response.isSuccessful) {
+//                response.body()?.let {
+//                    Log.i("Menna", "response  deleteAddress succcess")
+//                }
+//            } else {
+//                Log.i("Menna", "response deleteAddress failuer ------------ " + response.errorBody().toString())
+//            }
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//            Log.i("Memma", " error?" + e.printStackTrace())
+//
+//        }
 
     }
     suspend fun getAllCustomerAddress(id:String): List<Addresse?>? {

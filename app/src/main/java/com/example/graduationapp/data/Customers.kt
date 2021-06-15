@@ -1,8 +1,7 @@
 package com.example.graduationapp.data
 
 import com.google.gson.annotations.SerializedName
-
-
+import java.io.Serializable
 
 
 data class ApiCustomers (
@@ -86,4 +85,5 @@ data class Addresse (
     @SerializedName("country_code") val country_code : String,
     @SerializedName("country_name") val country_name : String,
     @SerializedName("default") val default : Boolean
-)
+):Serializable{
+}

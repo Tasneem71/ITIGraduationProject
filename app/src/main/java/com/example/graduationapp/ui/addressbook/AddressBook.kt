@@ -1,30 +1,28 @@
 package com.example.graduationapp.ui.addressbook
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
-import android.text.SpannableStringBuilder
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.domain.core.subFeature.GridSpacingItemDecoration
 import com.example.domain.core.subFeature.RecyclerViewAnimation
-import com.example.graduationapp.R
-import com.example.graduationapp.data.Addresse
-import com.example.graduationapp.ui.addressbook.adapater.AddressAdapter
 import com.example.graduationapp.SharedPref
+import com.example.graduationapp.data.Addresse
 import com.example.graduationapp.databinding.ActivityAdressBookBinding
-import com.example.graduationapp.databinding.ActivityFavoriteBinding
+import com.example.graduationapp.ui.addressbook.adapater.AddressAdapter
+import com.example.graduationapp.ui.checkoutAddress.CustomerDataActivity
 import com.example.graduationapp.ui.favoriteFeature.FavoriteViewModel
-import com.example.graduationapp.ui.favoriteFeature.adapater.FavoriteAdapter
+import com.google.android.material.snackbar.Snackbar
 
 class AddressBook : AppCompatActivity(),AddressAdapter.OnClickAddressListener {
     private lateinit var addressBookViewModel: AddressBookViewModel
     private lateinit var userId :String
 
     lateinit var binding: ActivityAdressBookBinding
-    private lateinit var favoriteViewModel: FavoriteViewModel
     private  var addressAdapter= AddressAdapter(emptyList(),this)
 
 
@@ -56,28 +54,60 @@ class AddressBook : AppCompatActivity(),AddressAdapter.OnClickAddressListener {
             }
         }
 
+
+
+        binding.addAddress.setOnClickListener{
+            val intent=Intent(this,CustomerDataActivity::class.java)
+            intent.putExtra("key","New")
+            startActivity(intent)
+        }
+
     }
 
     override fun onDeleteAddressClick(item: Addresse) {
 
         if (item.default)
-            // show alerts
-            // please select
+        {
+            Snackbar.make(binding.addressRecycler, "Please Choose another address as default",
+                Snackbar.LENGTH_LONG).show()
+        }
+        else
+        {
 
-        addressBookViewModel.deleteAddress(userId,item.id)
+            Log.i("Menna", "hhhhhhhhhhh: ${item.id}")
+            addressBookViewModel.deleteAddress(userId,item.id)
+        }
 
     }
 
     override fun onNameAddressClick(item: Addresse) {
 
+        val intent=Intent(this,CustomerDataActivity::class.java)
+        val b = Bundle()
+        b.putSerializable("Addresse", item)
+        intent.putExtras(b)
+        intent.putExtra("key","Edit")
+        startActivity(intent)
+
     }
 
     override fun onAddressClick(item: Addresse) {
 
+        val intent=Intent(this,CustomerDataActivity::class.java)
+
+        val b = Bundle()
+        b.putSerializable("Addresse", item)
+        intent.putExtras(b)
+        intent.putExtra("key","Edit")
+        startActivity(intent)
     }
 
     override fun onCheckBoxChange(item: Addresse) {
 
+
+        Log.i("Menna", "cjcccccccccccccccc: ${item.id}")
+
+        addressBookViewModel.setDefaultAddress(userId,item.id)
 
     }
 

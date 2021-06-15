@@ -74,8 +74,8 @@ interface ShopfiyApi {
     @PUT("customers/{customer_id}/addresses/{address_id}/default.json")
     suspend fun setDefaultAddress(@Path("customer_id") id:String,@Path("address_id") addId:String): Response<AddressData>
 
-    @DELETE("customers/{customer_id}/addresses/{address_id}/default.json")
-    suspend fun deleteAddress(@Path("customer_id") id:String,@Path("address_id") addId:String): Response<String>
+    @DELETE("customers/{customer_id}/addresses/{address_id}.json")
+    suspend fun deleteAddress(@Path("customer_id") id:String,@Path("address_id") addId:String)
 
     @GET("customers/{customer_id}/addresses.json")
     suspend fun getAllCustomerAddress(@Path("customer_id") id:String): Response<AddressData>

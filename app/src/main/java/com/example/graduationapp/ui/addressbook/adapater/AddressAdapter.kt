@@ -1,9 +1,11 @@
 package com.example.graduationapp.ui.addressbook.adapater
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
+import android.widget.CompoundButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -51,7 +53,7 @@ class AddressAdapter(
     }
 
     inner class ViewHolder(view: View) :
-        RecyclerView.ViewHolder(view), View.OnClickListener {
+        RecyclerView.ViewHolder(view), View.OnClickListener{
         var deleteAddress: ImageView = view.findViewById(R.id.address_delete)
         var name: TextView = view.findViewById(R.id.address_name)
         var phone: TextView = view.findViewById(R.id.address_phone)
@@ -64,6 +66,7 @@ class AddressAdapter(
             deleteAddress.setOnClickListener(this)
             name.setOnClickListener(this)
             address.setOnClickListener(this)
+            checkbox.setOnClickListener(this)
         }
         override fun onClick(p0: View?) {
             when(p0){
@@ -81,6 +84,7 @@ class AddressAdapter(
                 }
             }
         }
+
     }
     interface OnClickAddressListener
     {
