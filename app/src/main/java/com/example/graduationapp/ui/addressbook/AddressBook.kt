@@ -111,6 +111,23 @@ class AddressBook : AppCompatActivity(),AddressAdapter.OnClickAddressListener {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        updateList()
+    }
+
+    private fun updateList()
+    {
+        addressBookViewModel.getAllCustomerAddress(userId)
+        addressBookViewModel.allCustomerAddresses.observe(this) {
+            it?.let {
+                //adapterList
+                addressAdapter.setData(it as List<Addresse>)
+
+            }
+        }
+    }
+
 
 
 }

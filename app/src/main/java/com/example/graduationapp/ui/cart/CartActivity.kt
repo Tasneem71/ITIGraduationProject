@@ -35,6 +35,9 @@ class CartActivity : AppCompatActivity(), CartAdapter.OnCartItemListener {
     var empty : Boolean =false
 
 
+    var code=false
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -80,13 +83,30 @@ class CartActivity : AppCompatActivity(), CartAdapter.OnCartItemListener {
             }
         })
         cartViewModel.getAllCustomerAddress(userId)
-        cartViewModel.allCustomerAddresses.observe(this, Observer {
-            it?.let {
-                val defaultID = it.filter { it?.default == true }.map { it?.id }.get(0).toString()
-                Log.i("Menna","defalt it //////////// "+defaultID)
-                if (defaultID.isNullOrEmpty()){
-                    SharedPref.setAddressID(defaultID)
-                }
+//        cartViewModel.allCustomerAddresses.observe(this, Observer {
+//            it?.let {
+//                val defaultID = it.filter { it?.default == true }.map { it?.id }.get(0).toString()
+//                Log.i("Menna","defalt it //////////// "+defaultID)
+//                if (defaultID.isNullOrEmpty()){
+//                    SharedPref.setAddressID(defaultID)
+//                }
+//            }
+//        })
+        cartViewModel.allCustomerAddresses.observe(this, Observer { it ->
+            if (!it.isNullOrEmpty())
+            {
+                Log.i("Menna", "onCreate: not null not empty")
+                SharedPref.setAddressID(it.filter { it?.default == true }.map { it?.id }.get(0).toString())
+                code=true
+
+            }
+            else
+            {
+                Log.i("Menna", "onCreate: nullllllllllllllllllllllllllllllllllllllllllllllllllllllll")
+               // SharedPref.setAddressID(null)
+                code=false
+
+
             }
         })
 
@@ -95,9 +115,11 @@ class CartActivity : AppCompatActivity(), CartAdapter.OnCartItemListener {
             if(empty){
                 Toast.makeText(this,this.getString(R.string.empty_cart),Toast.LENGTH_LONG).show()
             }else{
-                if(SharedPref.getAddressID().isNullOrEmpty()){
+                Log.i("Menna", "onCreate   shared: ${SharedPref.getAddressID()}")
+                if(!code){
                     val intent = Intent(this, CustomerDataActivity::class.java)
                     intent.putExtra("price", binding.total2.text.toString())
+                    intent.putExtra("Key", "New")
                     startActivity(intent)
                 }else{
                     val intent = Intent(this, PaymentSummary::class.java)
