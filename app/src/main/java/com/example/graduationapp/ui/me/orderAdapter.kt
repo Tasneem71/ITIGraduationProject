@@ -1,7 +1,6 @@
 package com.example.graduationapp.ui.me
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,13 +8,15 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.example.domain.core.feature.favoriteFeature.Favorite
 import com.example.graduationapp.R
 import com.example.graduationapp.data.orders.Orders
-import com.example.graduationapp.ui.cart.adapter.CartAdapter
+import java.text.DateFormat
+import java.text.SimpleDateFormat
 
-class orderAdapter(var orderList: ArrayList<Orders>,
-                   private var listener : orderAdapter.OnCancelOrderListener,context: Context) :RecyclerView.Adapter<orderAdapter.OrderViewHolder>() {
+class orderAdapter(
+    var orderList: ArrayList<Orders>,
+    private var listener: orderAdapter.OnCancelOrderListener, context: Context
+) :RecyclerView.Adapter<orderAdapter.OrderViewHolder>() {
 
     val context=context
     fun updateList(newCategory: List<Orders>) {
@@ -25,7 +26,8 @@ class orderAdapter(var orderList: ArrayList<Orders>,
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int) = OrderViewHolder(
-        LayoutInflater.from(parent.context).inflate(R.layout.order_item, parent, false))
+        LayoutInflater.from(parent.context).inflate(R.layout.order_item, parent, false)
+    )
     override fun getItemCount() = orderList.size
     override fun onBindViewHolder(holder: OrderViewHolder, position: Int) {
         holder.bind(orderList[position])
@@ -44,13 +46,14 @@ class orderAdapter(var orderList: ArrayList<Orders>,
         fun bind(order: Orders) {
             dateTime.text=order.financial_status
             id.text =order.line_items.get(0).name
-            price.text=order.total_price.toString()+ " LE"
+            //price.text=order.total_price.toString()+ " LE"
+            price.text=order.created_at.substring(0,10)
             if(order.financial_status=="paid"){
                 orderStatus.setImageResource(R.drawable.check)
-                dateTime.setTextColor(ContextCompat.getColor(context,R.color.green))
+                dateTime.setTextColor(ContextCompat.getColor(context, R.color.green))
             }else{
                 orderStatus.setImageResource(R.drawable.exclamation)
-                dateTime.setTextColor(ContextCompat.getColor(context,R.color.red))
+                dateTime.setTextColor(ContextCompat.getColor(context, R.color.red))
             }
 
         }
@@ -61,10 +64,10 @@ class orderAdapter(var orderList: ArrayList<Orders>,
       }
       override fun onClick(p0: View?) {
           when(p0){
-              cancel->{
+              cancel -> {
                   listener.onCancelClick(orderList[adapterPosition])
               }
-              seemore->{
+              seemore -> {
                   listener.onSeeMoreClick(orderList[adapterPosition])
               }
 
