@@ -18,6 +18,7 @@ import com.example.graduationapp.MainActivity
 import com.example.graduationapp.ui.login.LoginActivity
 import com.example.graduationapp.R
 import com.example.graduationapp.SharedPref
+import com.example.graduationapp.ui.addressbook.AddressBook
 import com.example.graduationapp.ui.me.MeFragment
 import com.facebook.AccessToken
 import com.facebook.GraphRequest
@@ -37,6 +38,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         aboutMe()
         logout()
         back()
+        goToAddress()
     }
 
     private fun openDialogue() {
@@ -165,6 +167,18 @@ class SettingsFragment : PreferenceFragmentCompat() {
         resources.updateConfiguration(config, resources.displayMetrics)
     }
 
+
+    private fun goToAddress()
+    {
+        val notification = findPreference<androidx.preference.Preference>("address_book")
+        notification?.setOnPreferenceClickListener {
+            if (it.key=="address_book")
+            {
+                val intent =Intent(requireContext(),AddressBook::class.java)
+                startActivity(intent)
+            };true
+        }
+    }
     private fun logout() {
 
         val notification = findPreference<androidx.preference.Preference>("logout")

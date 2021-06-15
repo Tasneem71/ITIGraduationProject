@@ -100,7 +100,7 @@
     <string name="copyright" translatable="false">copyright 2020, www.shopify.com</string>
     <string name="contact_us">contact us</string>
     <string name="title_activity_welcome" translatable="false">WelcomeActivity</string>
-    <string name="no_internet" >No Internet</string>
+    <string name="no_internet">No Internet</string>
     <!--
     This string is used for square devices and overridden by hello_world in
     values-round/strings.xml for round devices.
@@ -121,5 +121,6 @@
     <string name="shopping_bag">Shopping Bag</string>
     <string name="pleaselogin">Please Login First</string>
     <string name="has_been_add_to_cart">Item has been added to cart</string>
+    <string name="address_book">Address Book</string>
 
 </resources>

@@ -92,7 +92,7 @@
     <string name="description">الوصف</string>
     <string name="total_value">المجموع = </string>
     <string name="shopping_bag">حقيبة التسوق</string>
-
+    <string name="address_book">Address Book</string>
 
 
 </resources>
