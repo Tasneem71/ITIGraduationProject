@@ -7,11 +7,9 @@ import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.util.Log
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
-import com.example.domain.core.feature.favoriteFeature.Favorite
 import com.example.graduationapp.R
 import com.example.graduationapp.SharedPref
 import com.example.graduationapp.data.*
@@ -41,7 +39,7 @@ class CustomerDataActivity : AppCompatActivity() {
         Log.i("Menna", "My id === "+SharedPref.getUserID().toString())
         customerDataViewModel.getCustomerAddress(SharedPref.getUserID().toString())
         //check
-        customerDataViewModel.allAddressDetails.observe(this) {
+        customerDataViewModel.firstAddressDetails.observe(this) {
             Log.i("Menna","Chheck if empty "+it)
            if (it.isNullOrEmpty()) {
                haveOneAddress = false
@@ -95,7 +93,7 @@ class CustomerDataActivity : AppCompatActivity() {
     }
 
     private fun fillIfAddressExist(){
-        customerDataViewModel.allAddressDetails.observe(this) {
+        customerDataViewModel.firstAddressDetails.observe(this) {
             it?.let {
                 SharedPref.setAddressID(it[0]?.id)
                 binding.address1.text = SpannableStringBuilder("${it[0]?.address1 ?:' '}")
