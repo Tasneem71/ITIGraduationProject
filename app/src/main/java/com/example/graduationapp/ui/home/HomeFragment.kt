@@ -208,6 +208,11 @@ class HomeFragment : Fragment() , CollectionsGraphAdapter.OnHomeItemListener {
             asicsAdapter.setData(asicsList)
             binding.progressBar.visibility=View.GONE
         }
+        if (SharedPref.getUserStatus()){
+            binding.badge.visibility=View.VISIBLE
+        }else{
+            binding.badge.visibility=View.GONE
+        }
     }
 
     override fun onImageClick(item: HomeCollectionQuery.Edge1) {

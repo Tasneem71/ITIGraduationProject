@@ -119,5 +119,7 @@
     <string name="description">Description</string>
     <string name="total_value">Total = </string>
     <string name="shopping_bag">Shopping Bag</string>
+    <string name="pleaselogin">Please Login First</string>
+    <string name="has_been_add_to_cart">Item has been added to cart</string>
 
 </resources>

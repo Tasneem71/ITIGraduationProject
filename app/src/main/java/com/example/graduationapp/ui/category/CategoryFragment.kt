@@ -257,6 +257,11 @@ class CategoryFragment : Fragment() ,  TabLayout.OnTabSelectedListener , categor
         super.onResume()
         graphViewModel.cartCount(SharedPref.getUserID().toString())
         collectionsGraphAdapter.setData(orignalList)
+        if (SharedPref.getUserStatus()){
+            binding.badge.visibility=View.VISIBLE
+        }else{
+            binding.badge.visibility=View.GONE
+        }
 
     }
 

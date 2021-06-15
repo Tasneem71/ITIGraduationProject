@@ -92,12 +92,16 @@ ProductDetails : AppCompatActivity() {
 
 
         binding.content.productPageAddToCart.setOnClickListener(View.OnClickListener {
+            if(SharedPref.getUserStatus()){
             favoriteViewModel.addToCart(Favorite(currentProduct!!.id.toLong(), currentProduct!!.title,
                 currentProduct!!.handle, currentProduct?.variants?.get(0)?.price!!.toInt(),currentProduct!!.image.src,'C',1
                 ,currentProduct?.variants?.get(0)!!.id,userId))
-            Toast.makeText(this,"Item has been added to cart",Toast.LENGTH_LONG).show()
+            Toast.makeText(this,getString(R.string.has_been_add_to_cart),Toast.LENGTH_LONG).show()
             binding.content.productPageAddToCart.visibility=View.GONE
             binding.content.productPageInCart.visibility=View.VISIBLE
+            }else{
+                Toast.makeText(this,this.getString(R.string.pleaselogin),Toast.LENGTH_LONG).show()
+            }
 
         })
 

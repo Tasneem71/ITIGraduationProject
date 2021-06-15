@@ -151,7 +151,7 @@ class MeFragment : Fragment() ,  TabLayout.OnTabSelectedListener , orderAdapter.
 
         if (userStatus==true){
             binding.welcome.visibility=View.VISIBLE
-            binding.welcome.text=this.getString(R.string.welcometoshopfiy)+SharedPref.getUserInfo()
+            binding.welcome.text=this.getString(R.string.welcometoshopfiy)+" "+SharedPref.getUserInfo()
             binding.registerLogin.visibility=View.GONE
             binding.categoryRecycler.visibility=View.VISIBLE
             binding.notLoged.visibility=View.GONE
@@ -232,6 +232,11 @@ class MeFragment : Fragment() ,  TabLayout.OnTabSelectedListener , orderAdapter.
     override fun onResume() {
         super.onResume()
         viewModel.cartCount(userId)
+        if (SharedPref.getUserStatus()){
+            binding.badge.visibility=View.VISIBLE
+        }else{
+            binding.badge.visibility=View.GONE
+        }
     }
 
 }
