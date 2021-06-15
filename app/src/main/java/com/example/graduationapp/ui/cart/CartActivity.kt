@@ -54,11 +54,13 @@ class CartActivity : AppCompatActivity(), CartAdapter.OnCartItemListener {
         if (SharedPref.getUserStatus()){
             cartViewModel.getAllCarts(userId)
             binding.notLoged.visibility=View.GONE
+            binding.shopNow.visibility=View.GONE
             binding.recyclerShopBag.visibility=View.VISIBLE
             binding.checkOut.visibility=View.VISIBLE
         }else{
             binding.notLoged.visibility=View.VISIBLE
             binding.recyclerShopBag.visibility=View.GONE
+            binding.shopNow.visibility=View.GONE
             binding.checkOut.visibility=View.GONE
 
         }
@@ -66,9 +68,16 @@ class CartActivity : AppCompatActivity(), CartAdapter.OnCartItemListener {
         cartViewModel.carts?.observe(this, Observer {
             empty = it.isNullOrEmpty()
             if (empty){
-                binding.total.visibility=View.INVISIBLE
-                binding.total2.visibility=View.INVISIBLE
+                binding.notLoged.visibility=View.VISIBLE
+                binding.shopNow.visibility=View.VISIBLE
+                binding.textHided.text=this.getString(R.string.bagEmpty)
+                binding.total.visibility=View.GONE
+                binding.total2.visibility=View.GONE
+                binding.checkOut.visibility=View.GONE
             }else{
+                binding.notLoged.visibility=View.GONE
+                binding.shopNow.visibility=View.GONE
+                binding.checkOut.visibility=View.VISIBLE
                 binding.total.visibility=View.VISIBLE
                 binding.total2.visibility=View.VISIBLE
             }
@@ -83,15 +92,7 @@ class CartActivity : AppCompatActivity(), CartAdapter.OnCartItemListener {
             }
         })
         cartViewModel.getAllCustomerAddress(userId)
-//        cartViewModel.allCustomerAddresses.observe(this, Observer {
-//            it?.let {
-//                val defaultID = it.filter { it?.default == true }.map { it?.id }.get(0).toString()
-//                Log.i("Menna","defalt it //////////// "+defaultID)
-//                if (defaultID.isNullOrEmpty()){
-//                    SharedPref.setAddressID(defaultID)
-//                }
-//            }
-//        })
+
         cartViewModel.allCustomerAddresses.observe(this, Observer { it ->
             if (!it.isNullOrEmpty())
             {
@@ -102,11 +103,7 @@ class CartActivity : AppCompatActivity(), CartAdapter.OnCartItemListener {
             }
             else
             {
-                Log.i("Menna", "onCreate: nullllllllllllllllllllllllllllllllllllllllllllllllllllllll")
-               // SharedPref.setAddressID(null)
                 code=false
-
-
             }
         })
 
@@ -135,6 +132,9 @@ class CartActivity : AppCompatActivity(), CartAdapter.OnCartItemListener {
 
         binding.close.setOnClickListener {
          startActivity(Intent(this,MainActivity::class.java))
+        }
+        binding.shopNow.setOnClickListener {
+            startActivity(Intent(this,MainActivity::class.java))
         }
 
     }

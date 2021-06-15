@@ -96,11 +96,25 @@
                 android:layout_height="150dp"
                 android:src="@drawable/removefromcart2"/>
             <TextView
+                android:id="@+id/text_hided"
                 android:layout_marginTop="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/LoginToSee"/>
         </LinearLayout>
+
+        <Button
+            android:id="@+id/shop_now"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_ui"
+            android:layout_marginTop="20dp"
+            android:visibility="gone"
+            android:textSize="18sp"
+            android:text="@string/shopNow"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/notLoged" />
 
         <TextView
             android:id="@+id/total"
@@ -110,6 +124,7 @@
             android:gravity="center"
             android:text="@string/total_value"
             android:textColor="@color/black"
+            android:visibility="gone"
             android:textSize="25sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@id/check_out"
@@ -121,6 +136,7 @@
             android:layout_height="48dp"
             android:gravity="center"
             tools:text="100 "
+            android:visibility="gone"
             android:layout_marginStart="10dp"
             android:textColor="@color/black"
             android:textSize="25sp"
