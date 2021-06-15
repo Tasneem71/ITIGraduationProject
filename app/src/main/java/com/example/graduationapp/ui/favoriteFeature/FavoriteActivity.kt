@@ -13,7 +13,7 @@ import com.example.domain.core.subFeature.GridSpacingItemDecoration
 import com.example.domain.core.subFeature.RecyclerViewAnimation
 import com.example.graduationapp.SharedPref
 import com.example.graduationapp.databinding.ActivityFavoriteBinding
-import com.example.graduationapp.ui.addressbook.adapater.FavoriteAdapter
+import com.example.graduationapp.ui.favoriteFeature.adapater.FavoriteAdapter
 import com.example.graduationapp.ui.productPageFeature.ProductDetails
 
 class FavoriteActivity : AppCompatActivity(), FavoriteAdapter.OnEditFavoriteListener {
