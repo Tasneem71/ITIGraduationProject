@@ -33,6 +33,8 @@ class PaymentSummary : AppCompatActivity() {
     var createOrderLiveData = MutableLiveData<Orders?>()
     var credit =false
     var price=""
+    private lateinit var userId :String
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,20 +42,28 @@ class PaymentSummary : AppCompatActivity() {
         createOrderViewModel = ViewModelProvider(this).get(CreateOrderViewModel::class.java)
 
         setContentView(binding.root)
+        userId = SharedPref.getUserID().toString()
 
         val intent=intent
-        var province=""
-        var phone=""
-        var address1=""
 
         if (intent!=null){
-            province= intent.getStringExtra("province").toString()
-            phone= intent.getStringExtra("phone").toString()
-            address1= intent.getStringExtra("address1").toString()
+//            province= intent.getStringExtra("province").toString()
+//            phone= intent.getStringExtra("phone").toString()
+//            address1= intent.getStringExtra("address1").toString()
             price= intent.getStringExtra("price").toString()
 
         }
+        Log.i("Menna","address id "+SharedPref.getAddressID().toString())
+        createOrderViewModel.getDefaultAddress(userId,SharedPref.getAddressID().toString())
+        createOrderViewModel.getDefaultAddLifeData.observe(this, Observer {
+            Log.i("Menna","default address  "+it)
+            it?.let {
 
+                binding.phone.text= it.address?.phone ?: ""
+                binding.address.text=it.address?.address1 ?: ""
+                binding.province.text = it.address?.province ?: ""
+            }
+        })
         createOrderViewModel.orders?.observe(this, Observer {
             it?.let {
                 var count = price
@@ -75,9 +85,6 @@ class PaymentSummary : AppCompatActivity() {
             }
         })
 
-        binding.phone.text= phone
-        binding.address.text=address1
-        binding.province.text = province
         binding.tvPrice.text= price+" EGP"
 
         binding.fabContinue.setOnClickListener{
@@ -106,9 +113,9 @@ class PaymentSummary : AppCompatActivity() {
                 noDiscountFound()
             }
         }
-        binding.back.setOnClickListener({
-            startActivity(Intent(this,CustomerDataActivity::class.java))
-        })
+        binding.back.setOnClickListener {
+            startActivity(Intent(this, CartActivity::class.java))
+        }
 
 
     }

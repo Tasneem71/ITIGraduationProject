@@ -21,7 +21,6 @@ import com.google.android.material.snackbar.Snackbar
 class AddressBook : AppCompatActivity(),AddressAdapter.OnClickAddressListener {
     private lateinit var addressBookViewModel: AddressBookViewModel
     private lateinit var userId :String
-
     lateinit var binding: ActivityAdressBookBinding
     private  var addressAdapter= AddressAdapter(emptyList(),this)
 
@@ -51,6 +50,7 @@ class AddressBook : AppCompatActivity(),AddressAdapter.OnClickAddressListener {
             it?.let {
                 //adapterList
                 addressAdapter.setData(it as List<Addresse>)
+
             }
         }
 

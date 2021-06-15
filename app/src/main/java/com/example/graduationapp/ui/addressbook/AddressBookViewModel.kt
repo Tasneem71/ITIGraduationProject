@@ -5,11 +5,10 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.domain.core.feature.favoriteFeature.Favorite
+import com.example.graduationapp.SharedPref
 import com.example.graduationapp.data.AddressData
 import com.example.graduationapp.data.Addresse
 import com.example.graduationapp.data.CreateAddress
-import com.example.graduationapp.local.LocalSource
 import com.example.graduationapp.remote.ApiRepository
 import com.example.graduationapp.utils.Validation
 import kotlinx.coroutines.CoroutineScope
@@ -27,20 +26,6 @@ class AddressBookViewModel(application: Application) : AndroidViewModel(applicat
 
 
 
-    fun getFirstCustomerAddress(id:String) {
-        if (Validation.isOnline(getApplication())) {
-            CoroutineScope(Dispatchers.IO).launch {
-                apiRepository.getCustomerAddress(id).let {
-                    firstAddressDetails.postValue(it)
-                }
-            }
-        }
-        else
-        {
-            network.postValue(false)
-        }
-
-    }
     fun getAllCustomerAddress(id:String) {
         if (Validation.isOnline(getApplication())) {
             CoroutineScope(Dispatchers.IO).launch {
@@ -57,18 +42,19 @@ class AddressBookViewModel(application: Application) : AndroidViewModel(applicat
     }
 
 
-    fun setDefaultAddress(id:String,addressIp:String) {
+    fun setDefaultAddress(id:String, addressID:String) {
         Log.i("Menna", "setDefaultAddress:")
 
         if (Validation.isOnline(getApplication())) {
             viewModelScope.launch {
-                apiRepository.setDefaultAddress(id, addressIp).let {
+                apiRepository.setDefaultAddress(id, addressID).let {
                     defualtAddress.postValue(it)
                     Log.i("Menna", "setDefaultAdhggggggggggdress:")
 
                 }
             }.invokeOnCompletion {
                 getAllCustomerAddress(id)
+                SharedPref.setAddressID(addressID)
 
             }
         }
@@ -96,31 +82,6 @@ class AddressBookViewModel(application: Application) : AndroidViewModel(applicat
         }
     }
 
-    fun createCustomerAddress(id:String, addressJson: CreateAddress) {
-        if (Validation.isOnline(getApplication())) {
-            CoroutineScope(Dispatchers.IO).launch {
-                apiRepository.createCustomerAdd(id, addressJson).let {
-                    createAddressLiveData.postValue(it)
-                }
-            }
-        }
-        else{
-            network.postValue(false)
-        }
-    }
-//
-    fun editCustomerAddress(id:String,addressIp:String,addressJson: CreateAddress) {
-        if (Validation.isOnline(getApplication())) {
-            CoroutineScope(Dispatchers.IO).launch {
-                apiRepository.editCustomerAdd(id, addressIp, addressJson).let {
-                    editAddressLiveData.postValue(it)
-                }
-            }
-        }
-        else
-        {
-            network.postValue(false)
-        }
-    }
+
 
 }

@@ -3,8 +3,6 @@ package com.example.graduationapp.remote
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
-import com.example.graduationapp.SharedPref
 import com.example.graduationapp.data.*
 import com.example.graduationapp.data.orders.OrderAPI
 import com.example.graduationapp.data.priceRules.CreatedDiscount
@@ -225,7 +223,7 @@ class ApiRepository(application: Application) {
     //*************
     suspend fun getCustomerAddress(id:String): List<Addresse?>? {
 
-        val response = ApiServes.shopfiyService.getCustomerAddById(id)
+        val response = ApiServes.shopfiyService.getFirstCustomerAdd(id)
         try {
             if (response.isSuccessful) {
                 response.body()?.let {
@@ -295,6 +293,26 @@ class ApiRepository(application: Application) {
                 }
             } else {
                 Log.i("Menna", "response setDefaultAddress failuer ------------ " + response.errorBody().toString())
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.i("Memma", " error?" + e.printStackTrace())
+
+        }
+        return null
+
+    }
+    suspend fun getDefaultAddress(id:String,addressIP:String): AddressData? {
+
+        val response = ApiServes.shopfiyService.getCustomerAddById(id,addressIP)
+        try {
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    Log.i("Menna", "response  getDefaultAddress succcess")
+                    return it
+                }
+            } else {
+                Log.i("Menna", "response getDefaultAddress failuer ------------ " + response.errorBody().toString())
             }
         } catch (e: Exception) {
             e.printStackTrace()
