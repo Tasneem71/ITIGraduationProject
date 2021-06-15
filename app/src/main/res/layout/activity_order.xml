@@ -49,7 +49,7 @@
                     android:id="@+id/close"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:src="@drawable/cancel"
+                    android:src="@drawable/leftarrow"
                     android:layout_marginTop="10dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -112,9 +112,11 @@
             android:visibility="gone"
             android:textSize="18sp"
             android:text="@string/shopNow"
+            android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/notLoged" />
+            app:layout_constraintTop_toBottomOf="@+id/notLoged"
+            app:backgroundTint="@null"/>
 
         <TextView
             android:id="@+id/total"
