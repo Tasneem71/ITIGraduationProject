@@ -10,7 +10,8 @@ data class Order(
     val financial_status: String?,
     val total_price : String,
     val line_items: List<LineItems>?,
-    val transactions: List<Transactions>?
+    val transactions: List<Transactions>?,
+    val discount_codes: List<DiscountCodes>?
 )
 
 
@@ -26,5 +27,12 @@ data class Transactions (
     val status : String,
     val amount : Double
 
+
+)
+
+data class DiscountCodes (
+    val code : String,
+    val amount : Double,
+    val type : String
 
 )

@@ -19,6 +19,7 @@ import com.example.graduationapp.R;
 import com.example.graduationapp.SharedPref;
 import com.example.graduationapp.create_order.CreateOrderViewModel;
 import com.example.graduationapp.data.CreatedOrder;
+import com.example.graduationapp.data.DiscountCodes;
 import com.example.graduationapp.data.LineItems;
 import com.example.graduationapp.data.Order;
 import com.example.graduationapp.data.Transactions;
@@ -56,6 +57,7 @@ public class CheckoutActivityJava extends AppCompatActivity {
     private String paymentIntentClientSecret;
     private Stripe stripe;
     private String price;
+    private boolean discount;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,6 +71,7 @@ public class CheckoutActivityJava extends AppCompatActivity {
         Intent intent=getIntent();
         if(intent!=null){
             price=intent.getStringExtra("price");
+            discount=intent.getBooleanExtra("discount",false);
         }
         startCheckout();
         viewModel.getOrders().observe(this, favorites -> {
@@ -76,7 +79,13 @@ public class CheckoutActivityJava extends AppCompatActivity {
             List<LineItems> listOfOrder = createOrderApi(favorites);
             List<Transactions> trans = new ArrayList<Transactions>();
             trans.add(new Transactions("sale","success",Double.parseDouble(price)));
-            viewModel.createOrder(new CreatedOrder(new Order(email,null,"paid",price,listOfOrder,trans)));
+            if(discount==true) {
+                List<DiscountCodes> discountList= new ArrayList();
+                discountList.add(new DiscountCodes(SharedPref.INSTANCE.getUserDiscount().toString(),10.00,"percentage"));
+                viewModel.createOrder(new CreatedOrder(new Order(email, null, "paid", price, listOfOrder, trans, discountList)));
+            }else{
+                viewModel.createOrder(new CreatedOrder(new Order(email, null, "paid", price, listOfOrder, trans, null)));
+            }
         });
 
 

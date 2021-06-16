@@ -17,10 +17,7 @@ import com.example.graduationapp.MainActivity
 import com.example.graduationapp.R
 import com.example.graduationapp.SharedPref
 import com.example.graduationapp.create_order.CreateOrderViewModel
-import com.example.graduationapp.data.CreatedOrder
-import com.example.graduationapp.data.LineItems
-import com.example.graduationapp.data.Order
-import com.example.graduationapp.data.Transactions
+import com.example.graduationapp.data.*
 import com.example.graduationapp.data.orders.Orders
 import com.example.graduationapp.databinding.ActivityLoginBinding
 import com.example.graduationapp.databinding.ActivityPaymentSummaryBinding
@@ -35,6 +32,7 @@ class PaymentSummary : AppCompatActivity() {
     var createOrderLiveData = MutableLiveData<Orders?>()
     var credit =false
     var price=""
+    var discount=false
     private lateinit var userId :String
 
 
@@ -69,9 +67,15 @@ class PaymentSummary : AppCompatActivity() {
                 Log.d("tag","count"+count)
                 val email = SharedPref.getUserEmail().toString()
                 val listOfOrder = createOrderApi(it)
-                if (credit==false){
-                createOrderViewModel.createOrder(CreatedOrder(Order(email,null,"pending",count,listOfOrder,null)))
+                if (credit==false && discount==false){
+                createOrderViewModel.createOrder(CreatedOrder(Order(email,null,"pending",count,listOfOrder,null,null)))
                 Log.d("tag","list"+listOfOrder)
+                }else{
+                    Log.i("discount","............................. in the else")
+                    var discountList= mutableListOf<DiscountCodes>()
+                    discountList.add(DiscountCodes(SharedPref.getUserDiscount().toString(),10.00,"percentage"))
+                    createOrderViewModel.createOrder(CreatedOrder(Order(email,null,"pending",count,listOfOrder,null
+                        ,discountList)))
                 }
 
             }
@@ -94,6 +98,7 @@ class PaymentSummary : AppCompatActivity() {
 
                 val intent =Intent(this,CheckoutActivityJava::class.java)
                 intent.putExtra("price",price)
+                intent.putExtra("discount",discount)
                 startActivity(intent)
                // goPayTab()
 
@@ -109,6 +114,7 @@ class PaymentSummary : AppCompatActivity() {
                 binding.applyDiscount.visibility= View.GONE
                 binding.beforeDiscount.paintFlags = binding.beforeDiscount.paintFlags or  Paint.STRIKE_THRU_TEXT_FLAG
                 binding.beforeDiscount.visibility = View.VISIBLE
+                discount=true
 
 
             } else {

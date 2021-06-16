@@ -51,6 +51,7 @@ class CreateOrderViewModel(application: Application) : AndroidViewModel(applicat
     }
 
     fun createOrder(orderJson: CreatedOrder) {
+        Log.i("discount","............................."+orderJson)
         if (Validation.isOnline(getApplication())) {
             CoroutineScope(Dispatchers.IO).launch {
                 val response = apiRepository.createOrder(orderJson)
