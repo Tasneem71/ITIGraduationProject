@@ -241,7 +241,7 @@ class HomeFragment : Fragment() , CollectionsGraphAdapter.OnHomeItemListener {
     override fun onFavImageClick(item: HomeCollectionQuery.Edge1) {
         homeViewModel1.addToFavorite(Favorite(item.node.legacyResourceId.toString().toLong(),item.node.title,item.node.handle,
         item.node.variants.edges[0].node.price.toInt(),item.node.featuredImage!!.originalSrc.toString(),'F',
-            1,item.node.variants.edges[0].node.id,SharedPref.getUserID().toString()))
+            1,splitId(item.node.variants.edges[0].node.id),SharedPref.getUserID().toString()))
     }
 
     override fun onFavDeleImageClick(item: HomeCollectionQuery.Edge1) {
@@ -252,7 +252,7 @@ class HomeFragment : Fragment() , CollectionsGraphAdapter.OnHomeItemListener {
         CoroutineScope(Dispatchers.IO).launch {
         homeViewModel1.addToCart(Favorite(item.node.legacyResourceId.toString().toLong(),item.node.title,item.node.handle,
             item.node.variants.edges[0].node.price.toInt(),item.node.featuredImage!!.originalSrc.toString(),'C',
-            1,item.node.variants.edges[0].node.id,SharedPref.getUserID().toString()))}.invokeOnCompletion {
+            1,splitId(item.node.variants.edges[0].node.id),SharedPref.getUserID().toString()))}.invokeOnCompletion {
             homeViewModel.cartCount(SharedPref.getUserID().toString())
         }
 
@@ -270,7 +270,6 @@ class HomeFragment : Fragment() , CollectionsGraphAdapter.OnHomeItemListener {
     fun splitId(id:String): String{
         val delim = "/"
         val list = id.split(delim)
-        Toast.makeText(context,""+list.get(list.size-1),Toast.LENGTH_LONG).show()
         return list.get(list.size-1)
     }
 

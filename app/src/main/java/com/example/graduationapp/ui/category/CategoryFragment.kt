@@ -225,7 +225,7 @@ class CategoryFragment : Fragment() ,  TabLayout.OnTabSelectedListener , categor
         graphViewModel.addToFavorite(
             Favorite(item.node.legacyResourceId.toString().toLong(),item.node.title,item.node.handle,
             item.node.variants.edges[0].node.price.toInt(),item.node.featuredImage!!.originalSrc.toString(),'F',
-            1,item.node.variants.edges[0].node.id,
+            1,splitId(item.node.variants.edges[0].node.id),
                 SharedPref.getUserID().toString())
         )
     }
@@ -239,7 +239,7 @@ class CategoryFragment : Fragment() ,  TabLayout.OnTabSelectedListener , categor
         graphViewModel.addToCart(
             Favorite(item.node.legacyResourceId.toString().toLong(),item.node.title,item.node.handle,
             item.node.variants.edges[0].node.price.toInt(),item.node.featuredImage!!.originalSrc.toString(),'C',
-            1,item.node.variants.edges[0].node.id,
+            1,splitId(item.node.variants.edges[0].node.id),
                 SharedPref.getUserID().toString()))}.invokeOnCompletion {
             graphViewModel.cartCount(SharedPref.getUserID().toString())
         }
@@ -251,6 +251,11 @@ class CategoryFragment : Fragment() ,  TabLayout.OnTabSelectedListener , categor
             SharedPref.getUserID().toString())}.invokeOnCompletion {
             graphViewModel.cartCount(SharedPref.getUserID().toString())
         }
+    }
+    fun splitId(id:String): String{
+        val delim = "/"
+        val list = id.split(delim)
+        return list.get(list.size-1)
     }
 
     override fun onResume() {
