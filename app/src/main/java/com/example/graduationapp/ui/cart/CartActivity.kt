@@ -88,7 +88,7 @@ class CartActivity : AppCompatActivity(), CartAdapter.OnCartItemListener {
 
         cartViewModel.sumOfItems.observe(this, Observer {
             if(!empty){
-                binding.total2.text =it.toString()
+                binding.total2.text =it.toString()+ " LE"
             }
         })
         cartViewModel.getAllCustomerAddress(userId)
