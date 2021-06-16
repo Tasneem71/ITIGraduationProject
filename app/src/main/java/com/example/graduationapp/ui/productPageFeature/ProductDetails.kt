@@ -74,8 +74,12 @@ ProductDetails : AppCompatActivity() {
 
             val sizes=it.options.filter { it.name=="Size" }
             val colors=it.options.filter { it.name=="Color" }
+            if(!sizes.isNullOrEmpty()){
             binding.content.productPageSizeDetails.text= sizes[0].values?.joinToString (",") ?:this.getString(R.string.notAve)
+            }
+            if(!colors.isNullOrEmpty()){
             binding.content.productPageColorDetails.text= colors[0].values?.joinToString (",") ?:this.getString(R.string.notAve)
+            }
             //binding.content.productPageTags.text=it.tags
 
             val y: String = it.image.src ?: "www.google.com/ss.png/"
