@@ -245,6 +245,7 @@ class MeFragment : Fragment() ,  TabLayout.OnTabSelectedListener , orderAdapter.
         bindingDialog.dateTime.text=order.financial_status
         bindingDialog.priceTv.text=order.total_price.toString()+" LE"
         bindingDialog.idTv.text=order.id
+        bindingDialog.dateTv.text=order.created_at
         var ordersNames=order.line_items.map { it.name }.joinToString("\n")
         bindingDialog.itemsTv.text=ordersNames
 

@@ -133,5 +133,6 @@
     <string name="bagEmpty">Your bag is empty :(</string>
     <string name="favoriteEmpty">Your favorite is empty</string>
     <string name="shopNow">SHOP NOW</string>
+    <string name="date">Date</string>
 
 </resources>
