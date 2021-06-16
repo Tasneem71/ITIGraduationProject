@@ -133,7 +133,8 @@ class CustomerDataActivity : AppCompatActivity() {
 
         }
         binding.back.setOnClickListener {
-            startActivity(Intent(this, CartActivity::class.java))
+            finish()
+            //startActivity(Intent(this, CartActivity::class.java))
         }
 
     }

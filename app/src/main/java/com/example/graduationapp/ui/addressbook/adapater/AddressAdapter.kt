@@ -8,6 +8,7 @@ import android.widget.CheckBox
 import android.widget.CompoundButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.domain.core.feature.favoriteFeature.Favorite
@@ -61,10 +62,11 @@ class AddressAdapter(
         var country: TextView = view.findViewById(R.id.address_country)
         var address: TextView = view.findViewById(R.id.address_address)
         var checkbox: CheckBox = view.findViewById(R.id.address_check_box)
+        val card:ConstraintLayout = view.findViewById(R.id.card)
 
         init {
             deleteAddress.setOnClickListener(this)
-            name.setOnClickListener(this)
+            card.setOnClickListener(this)
             address.setOnClickListener(this)
             checkbox.setOnClickListener(this)
         }
@@ -73,7 +75,7 @@ class AddressAdapter(
                 deleteAddress->{
                     listener.onDeleteAddressClick(addressList[adapterPosition])
                 }
-                name->{
+                card->{
                     listener.onNameAddressClick(addressList[adapterPosition])
                 }
                 address->{
