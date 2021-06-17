@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment
 
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -32,9 +33,15 @@ import com.example.graduationapp.data.CancelOrder
 import com.example.graduationapp.data.orders.Orders
 import com.example.graduationapp.databinding.FragmentMeBinding
 import com.example.graduationapp.databinding.OrderDailogeBinding
+import com.example.graduationapp.local.DefaultLocal
+import com.example.graduationapp.local.LocalSource
+import com.example.graduationapp.remote.ApiRepository
+import com.example.graduationapp.remote.retro.DefaultRepo
 import com.example.graduationapp.ui.cart.CartActivity
 import com.example.graduationapp.ui.favoriteFeature.FavoriteActivity
 import com.example.graduationapp.ui.favoriteFeature.FavoriteViewModel
+import com.example.graduationapp.ui.search.SearchViewModel
+import com.example.graduationapp.ui.search.SearchViewModelFactory
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
 import java.text.SimpleDateFormat
@@ -56,12 +63,23 @@ class MeFragment : Fragment() ,  TabLayout.OnTabSelectedListener , orderAdapter.
     lateinit var bindingDialog: OrderDailogeBinding
     lateinit var dialog: Dialog
 
+    lateinit var repository: DefaultRepo
+    lateinit var local: DefaultLocal
+
     override fun onCreateView(inflater: LayoutInflater,container: ViewGroup?,savedInstanceState: Bundle?): View? {
 
         binding = FragmentMeBinding.inflate(layoutInflater)
         fAuth = FirebaseAuth.getInstance()
+
+
+        local= LocalSource(requireActivity().application)
+        repository= ApiRepository(requireActivity().application,local)
+
+        val factory = MeViewModelFactory(requireActivity().application,repository)
+        viewModel = ViewModelProviders.of(this,factory).get(MeViewModel::class.java)
+
         favoriteViewModel = ViewModelProvider(this).get(FavoriteViewModel::class.java)
-        viewModel = ViewModelProvider(this).get(MeViewModel::class.java)
+        //viewModel = ViewModelProvider(this).get(MeViewModel::class.java)
         userId = SharedPref.getUserID().toString()
 
         wishList = ArrayList()

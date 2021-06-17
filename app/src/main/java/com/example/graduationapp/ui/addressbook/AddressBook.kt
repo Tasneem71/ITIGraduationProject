@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,9 +14,15 @@ import com.example.domain.core.subFeature.RecyclerViewAnimation
 import com.example.graduationapp.SharedPref
 import com.example.graduationapp.data.Addresse
 import com.example.graduationapp.databinding.ActivityAdressBookBinding
+import com.example.graduationapp.local.DefaultLocal
+import com.example.graduationapp.local.LocalSource
+import com.example.graduationapp.remote.ApiRepository
+import com.example.graduationapp.remote.retro.DefaultRepo
 import com.example.graduationapp.ui.addressbook.adapater.AddressAdapter
 import com.example.graduationapp.ui.checkoutAddress.CustomerDataActivity
 import com.example.graduationapp.ui.favoriteFeature.FavoriteViewModel
+import com.example.graduationapp.ui.search.SearchViewModel
+import com.example.graduationapp.ui.search.SearchViewModelFactory
 import com.google.android.material.snackbar.Snackbar
 
 class AddressBook : AppCompatActivity(),AddressAdapter.OnClickAddressListener {
@@ -23,6 +30,8 @@ class AddressBook : AppCompatActivity(),AddressAdapter.OnClickAddressListener {
     private lateinit var userId :String
     lateinit var binding: ActivityAdressBookBinding
     private  var addressAdapter= AddressAdapter(emptyList(),this)
+    lateinit var repository: DefaultRepo
+    lateinit var local: DefaultLocal
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,6 +48,14 @@ class AddressBook : AppCompatActivity(),AddressAdapter.OnClickAddressListener {
         )
         binding.addressRecycler.itemAnimator= DefaultItemAnimator()
         binding.addressRecycler.adapter = addressAdapter
+
+
+        local= LocalSource(this.application)
+        repository= ApiRepository(this.application,local)
+
+        val factory = AddressBookViewModelFactory(this.application,repository)
+        addressBookViewModel = ViewModelProviders.of(this,factory).get(AddressBookViewModel::class.java)
+
 
         addressBookViewModel = ViewModelProvider(this).get(AddressBookViewModel::class.java)
         userId = SharedPref.getUserID().toString()

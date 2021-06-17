@@ -13,6 +13,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.domain.core.feature.favoriteFeature.Favorite
@@ -22,10 +23,16 @@ import com.example.graduationapp.R
 import com.example.graduationapp.SharedPref
 import com.example.graduationapp.databinding.FragmentHomeBinding
 import com.example.graduationapp.graphql.GraphViewModel
+import com.example.graduationapp.local.DefaultLocal
+import com.example.graduationapp.local.LocalSource
+import com.example.graduationapp.remote.ApiRepository
+import com.example.graduationapp.remote.retro.DefaultRepo
 import com.example.graduationapp.ui.cart.CartActivity
 import com.example.graduationapp.ui.favoriteFeature.FavoriteActivity
 import com.example.graduationapp.ui.productPageFeature.ProductDetails
 import com.example.graduationapp.ui.search.SearchActivity
+import com.example.graduationapp.ui.search.SearchViewModel
+import com.example.graduationapp.ui.search.SearchViewModelFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -47,10 +54,23 @@ class HomeFragment : Fragment() , CollectionsGraphAdapter.OnHomeItemListener {
     var pumaList: List<HomeCollectionQuery.Edge1> = mutableListOf()
     var converseList: List<HomeCollectionQuery.Edge1> = mutableListOf()
     var asicsList: List<HomeCollectionQuery.Edge1> = mutableListOf()
+    lateinit var repository: DefaultRepo
+    lateinit var local: DefaultLocal
 
     override fun onCreateView(inflater: LayoutInflater,container: ViewGroup?,savedInstanceState: Bundle?): View {
 
-        homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+
+        local= LocalSource(requireActivity().application)
+        repository= ApiRepository(requireActivity().application,local)
+
+        val factory = HomeViewModelFactory(requireActivity().application,repository)
+        homeViewModel = ViewModelProviders.of(this,factory).get(HomeViewModel::class.java)
+
+
+        //homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+
+
+
         homeViewModel1 = ViewModelProvider(this).get(GraphViewModel::class.java)
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
         imgas =arrayOf(R.drawable.discount,R.drawable.op ,R.drawable.lap)

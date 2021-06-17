@@ -9,6 +9,7 @@ import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.observe
 import com.example.graduationapp.MainActivity
 import com.example.graduationapp.R
@@ -16,12 +17,20 @@ import com.example.graduationapp.SharedPref
 import com.example.graduationapp.data.CreatedCustomer
 import com.example.graduationapp.data.Customer
 import com.example.graduationapp.databinding.ActivityRegistrationBinding
+import com.example.graduationapp.local.DefaultLocal
+import com.example.graduationapp.local.LocalSource
+import com.example.graduationapp.remote.ApiRepository
+import com.example.graduationapp.remote.retro.DefaultRepo
+import com.example.graduationapp.ui.search.SearchViewModel
+import com.example.graduationapp.ui.search.SearchViewModelFactory
 
 class RegistrationActivity : AppCompatActivity() {
     private lateinit var rlayout: RelativeLayout
     private lateinit var animation: Animation
     lateinit var binding:ActivityRegistrationBinding
     private lateinit var registrationViewModel : RegistrationViewModel
+    lateinit var repository: DefaultRepo
+    lateinit var local: DefaultLocal
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRegistrationBinding.inflate(layoutInflater)
@@ -34,7 +43,16 @@ class RegistrationActivity : AppCompatActivity() {
         animation = AnimationUtils.loadAnimation(this, R.anim.uptodowndiagonal)
         binding.rlayout.animation = animation
 
-        registrationViewModel = ViewModelProvider(this).get(RegistrationViewModel::class.java)
+
+
+        local= LocalSource(this.application)
+        repository= ApiRepository(this.application,local)
+
+        val factory = RegistrationViewModelFactory(this.application,repository)
+        registrationViewModel = ViewModelProviders.of(this,factory).get(RegistrationViewModel::class.java)
+
+
+        //registrationViewModel = ViewModelProvider(this).get(RegistrationViewModel::class.java)
 
         binding.registerBtn.setOnClickListener {
             registrationViewModel.validate_Registration(CreatedCustomer(Customer(binding.fnameEdt.text.toString(),binding.lnameEdt.text.toString()

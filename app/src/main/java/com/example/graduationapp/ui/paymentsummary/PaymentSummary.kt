@@ -12,17 +12,26 @@ import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import com.example.domain.core.feature.favoriteFeature.Favorite
 import com.example.graduationapp.MainActivity
 import com.example.graduationapp.R
 import com.example.graduationapp.SharedPref
 import com.example.graduationapp.create_order.CreateOrderViewModel
+import com.example.graduationapp.create_order.CreateOrderViewModelFactory
 import com.example.graduationapp.data.*
 import com.example.graduationapp.data.orders.Orders
 import com.example.graduationapp.databinding.ActivityLoginBinding
 import com.example.graduationapp.databinding.ActivityPaymentSummaryBinding
+import com.example.graduationapp.local.DefaultLocal
+import com.example.graduationapp.local.LocalSource
+import com.example.graduationapp.remote.ApiRepository
+import com.example.graduationapp.remote.retro.DefaultRepo
+import com.example.graduationapp.ui.addressbook.AddressBookViewModelFactory
 import com.example.graduationapp.ui.cart.CartActivity
 import com.example.graduationapp.ui.checkoutAddress.CustomerDataActivity
+import com.example.graduationapp.ui.search.SearchViewModel
+import com.example.graduationapp.ui.search.SearchViewModelFactory
 import com.paytabs.paytabs_sdk.payment.ui.activities.PayTabActivity
 import com.paytabs.paytabs_sdk.utils.PaymentParams
 
@@ -34,12 +43,24 @@ class PaymentSummary : AppCompatActivity() {
     var price=""
     var discount=false
     private lateinit var userId :String
+    lateinit var repository: DefaultRepo
+    lateinit var local: DefaultLocal
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPaymentSummaryBinding.inflate(layoutInflater)
-        createOrderViewModel = ViewModelProvider(this).get(CreateOrderViewModel::class.java)
+
+
+        local= LocalSource(this.application)
+        repository= ApiRepository(this.application,local)
+
+        val factory = CreateOrderViewModelFactory(this.application,repository)
+        createOrderViewModel = ViewModelProviders.of(this,factory).get(CreateOrderViewModel::class.java)
+
+
+
+        //createOrderViewModel = ViewModelProvider(this).get(CreateOrderViewModel::class.java)
 
         setContentView(binding.root)
         userId = SharedPref.getUserID().toString()
@@ -49,6 +70,7 @@ class PaymentSummary : AppCompatActivity() {
 
         if (intent!=null){
             price= intent.getStringExtra("price").toString()
+            Log.i("price",price)
         }
         Log.i("Menna","address id "+SharedPref.getAddressID().toString())
         createOrderViewModel.getDefaultAddress(userId,SharedPref.getAddressID().toString())
@@ -89,7 +111,7 @@ class PaymentSummary : AppCompatActivity() {
         })
 
         binding.tvPrice.text= price+" LE"
-
+        Log.i("price",price)
         binding.fabContinue.setOnClickListener{
             if (binding.cash.isChecked){
                 createOrderViewModel.getAllOrderd(SharedPref.getUserID().toString())

@@ -10,23 +10,25 @@ import com.example.graduationapp.data.*
 import com.example.graduationapp.data.orders.OrderAPI
 import com.example.graduationapp.data.orders.Orders
 import com.example.graduationapp.remote.ApiRepository
+import com.example.graduationapp.remote.retro.DefaultRepo
+import com.example.graduationapp.ui.addressbook.AddressBookViewModel
 import com.example.graduationapp.utils.Validation
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MeViewModel (application: Application) : AndroidViewModel(application) {
+class MeViewModel (application: Application,var apiRepository :DefaultRepo) : AndroidViewModel(application) {
 
     var openOrdersLiveData = MutableLiveData<List<Orders>?>()
     var cancelOrderLiveData = MutableLiveData<Orders?>()
     var network =MutableLiveData<Boolean>()
     var cartCount = MutableLiveData<Int>()
 
-    var apiRepository: ApiRepository
-
-    init{
-        apiRepository = ApiRepository(application)
-    }
+//    var apiRepository: ApiRepository
+//
+//    init{
+//        apiRepository = ApiRepository(application)
+//    }
 
     fun getOpenOrders() {
         if (Validation.isOnline(getApplication())) {
@@ -61,4 +63,11 @@ class MeViewModel (application: Application) : AndroidViewModel(application) {
         }
     }
 
+}
+
+@Suppress("UNCHECKED_CAST")
+class MeViewModelFactory(val application: Application,val repo: DefaultRepo): ViewModelProvider.NewInstanceFactory() {
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        return MeViewModel(application, repo) as T
+    }
 }

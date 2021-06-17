@@ -2,27 +2,26 @@ package com.example.graduationapp.ui.addressbook
 
 import android.app.Application
 import android.util.Log
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.graduationapp.SharedPref
 import com.example.graduationapp.data.AddressData
 import com.example.graduationapp.data.Addresse
 import com.example.graduationapp.data.CreateAddress
 import com.example.graduationapp.remote.ApiRepository
+import com.example.graduationapp.remote.retro.DefaultRepo
+import com.example.graduationapp.ui.search.SearchViewModel
 import com.example.graduationapp.utils.Validation
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class AddressBookViewModel(application: Application) : AndroidViewModel(application){
+class AddressBookViewModel(application: Application, var apiRepository :DefaultRepo) : AndroidViewModel(application){
     var firstAddressDetails  = MutableLiveData<List<Addresse?>?>()
     var allCustomerAddresses = MutableLiveData<List<Addresse?>?>()
     var defualtAddress = MutableLiveData<AddressData?>()
     var network =MutableLiveData<Boolean>()
     var createAddressLiveData = MutableLiveData<AddressData?>()
     var editAddressLiveData = MutableLiveData<AddressData?>()
-    var apiRepository: ApiRepository = ApiRepository(application)
 
 
 
@@ -84,4 +83,10 @@ class AddressBookViewModel(application: Application) : AndroidViewModel(applicat
 
 
 
+}
+@Suppress("UNCHECKED_CAST")
+class AddressBookViewModelFactory(val application: Application,val repo: DefaultRepo): ViewModelProvider.NewInstanceFactory() {
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        return AddressBookViewModel(application, repo) as T
+    }
 }

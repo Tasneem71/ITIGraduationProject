@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.observe
 import com.example.graduationapp.R
 import com.example.graduationapp.SharedPref
@@ -16,8 +17,14 @@ import com.example.graduationapp.data.AddressData
 import com.example.graduationapp.data.Addresse
 import com.example.graduationapp.data.CreateAddress
 import com.example.graduationapp.databinding.ActivityCustomerDataBinding
+import com.example.graduationapp.local.DefaultLocal
+import com.example.graduationapp.local.LocalSource
+import com.example.graduationapp.remote.ApiRepository
+import com.example.graduationapp.remote.retro.DefaultRepo
 import com.example.graduationapp.ui.cart.CartActivity
 import com.example.graduationapp.ui.paymentsummary.PaymentSummary
+import com.example.graduationapp.ui.search.SearchViewModel
+import com.example.graduationapp.ui.search.SearchViewModelFactory
 import com.example.graduationapp.utils.Validation
 
 class CustomerDataActivity : AppCompatActivity() {
@@ -27,13 +34,24 @@ class CustomerDataActivity : AppCompatActivity() {
     private lateinit var addressID :String
 
     var frromEdit :Boolean = false
+    lateinit var repository: DefaultRepo
+    lateinit var local: DefaultLocal
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCustomerDataBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        customerDataViewModel = ViewModelProvider(this).get(CustomerDataViewModel::class.java)
+
+
+        local= LocalSource(this.application)
+        repository= ApiRepository(this.application,local)
+
+        val factory = CustomerDataViewModelFactory(this.application,repository)
+        customerDataViewModel = ViewModelProviders.of(this,factory).get(customerDataViewModel::class.java)
+
+
+        //customerDataViewModel = ViewModelProvider(this).get(CustomerDataViewModel::class.java)
 
         userId = SharedPref.getUserID().toString()
         Log.i("Menna", "CustomerDataActivity user id == "+userId)

@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.observe
 import com.example.graduationapp.MainActivity
 import com.example.graduationapp.R
@@ -18,6 +19,12 @@ import com.example.graduationapp.SharedPref
 import com.example.graduationapp.data.CreatedCustomer
 import com.example.graduationapp.data.Customer
 import com.example.graduationapp.databinding.ActivityLoginBinding
+import com.example.graduationapp.local.DefaultLocal
+import com.example.graduationapp.local.LocalSource
+import com.example.graduationapp.remote.ApiRepository
+import com.example.graduationapp.remote.retro.DefaultRepo
+import com.example.graduationapp.ui.search.SearchViewModel
+import com.example.graduationapp.ui.search.SearchViewModelFactory
 import com.facebook.*
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
@@ -36,6 +43,8 @@ open class LoginActivity : AppCompatActivity() {
     lateinit var binding:ActivityLoginBinding
 
     private lateinit var loginViewMode : LoginViewModel
+    lateinit var repository: DefaultRepo
+    lateinit var local: DefaultLocal
 
     var progressDialog: ProgressDialog? = null
     var fAuth: FirebaseAuth? = null
@@ -51,7 +60,14 @@ open class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        loginViewMode = ViewModelProvider(this).get(LoginViewModel::class.java)
+        local= LocalSource(this.application)
+        repository= ApiRepository(this.application,local)
+
+        val factory = LoginViewModelFactory(this.application,repository)
+        loginViewMode = ViewModelProviders.of(this,factory).get(LoginViewModel::class.java)
+
+
+        //loginViewMode = ViewModelProvider(this).get(LoginViewModel::class.java)
 
         fAuth = FirebaseAuth.getInstance()
         progressDialog = ProgressDialog(this)

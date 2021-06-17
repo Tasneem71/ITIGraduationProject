@@ -13,12 +13,18 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.graduationapp.R
 import com.example.graduationapp.data.Products
 import com.example.graduationapp.databinding.ActivitySearchBinding
+import com.example.graduationapp.local.DefaultLocal
+import com.example.graduationapp.local.LocalSource
+import com.example.graduationapp.remote.ApiRepository
+import com.example.graduationapp.remote.retro.DefaultRepo
+import com.example.graduationapp.ui.Registration.RegistrationViewModelFactory
 import com.example.graduationapp.ui.productPageFeature.ProductDetails
 
 
@@ -29,13 +35,22 @@ class SearchActivity : AppCompatActivity() , ShopCategoryAdapter.OnHomeItemListe
     private lateinit var vendorFilteredList: ArrayList<Products>
     private lateinit var allList: ArrayList<Products>
     var searchAdapter = ShopCategoryAdapter(arrayListOf(),this)
+    lateinit var repository:DefaultRepo
+    lateinit var local:DefaultLocal
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //setContentView(R.layout.activity_search)
         binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        searchViewMode = ViewModelProvider(this).get(SearchViewModel::class.java)
+        local=LocalSource(this.application)
+        repository=ApiRepository(this.application,local)
+
+        val factory = SearchViewModelFactory(this.application,repository)
+        searchViewMode = ViewModelProviders.of(this,factory).get(SearchViewModel::class.java)
+
+
+        //searchViewMode = ViewModelProvider(this).get(SearchViewModel::class.java)
         filteredList = ArrayList()
         vendorFilteredList = ArrayList()
         allList = ArrayList()

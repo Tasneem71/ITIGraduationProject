@@ -3,15 +3,18 @@ package com.example.graduationapp.remote
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.example.domain.core.feature.favoriteFeature.Favorite
 import com.example.graduationapp.data.*
 import com.example.graduationapp.data.orders.OrderAPI
 import com.example.graduationapp.data.priceRules.CreatedDiscount
 import com.example.graduationapp.data.priceRules.DiscountCode
+import com.example.graduationapp.local.DefaultLocal
 import com.example.graduationapp.local.LocalSource
 import com.example.graduationapp.remote.retro.ApiServes
+import com.example.graduationapp.remote.retro.DefaultRepo
 import retrofit2.Response
 
-class ApiRepository(application: Application) {
+class ApiRepository(application: Application, var local :DefaultLocal) : DefaultRepo {
     //    var localDataSource: LocalDataSource
     var apiCollection = MutableLiveData<ApiCollections>()
     var apiSmartCollection = MutableLiveData<ApiCollections>()
@@ -21,9 +24,13 @@ class ApiRepository(application: Application) {
     var apiSmart4Collection = MutableLiveData<CollectionProducts>()
     var apiSmart5Collection = MutableLiveData<CollectionProducts>()
     var apiproduct = MutableLiveData<CollectionProducts>()
-     val local = LocalSource(application)
+     //val local = LocalSource(application)
 
 
+
+    override suspend fun getAllCart(userId: String): List<Favorite>? {
+       return local.getAllCart(userId)
+    }
 
     suspend fun fetchCustomCollectionData() {
 
@@ -44,7 +51,7 @@ class ApiRepository(application: Application) {
 
     }
 
-    suspend fun fetchSmartCollectionData() {
+    override suspend fun fetchSmartCollectionData() {
 
         val response = ApiServes.shopfiyService.getSmartCollections()
         try {
@@ -83,7 +90,7 @@ class ApiRepository(application: Application) {
         //}
     }
 
-    suspend fun fetchSmartProductsData(id: String, num: Int) {
+    override suspend fun fetchSmartProductsData(id: String, num: Int) {
         //if (isOnline(context)) {
         val response = ApiServes.shopfiyService.getProductFromCollection(id)
         try {
@@ -109,14 +116,14 @@ class ApiRepository(application: Application) {
         //}
     }
 
-    suspend fun fetchAllCustomerData(): Response<ApiCustomers> {
+    override suspend fun fetchAllCustomerData(): Response<ApiCustomers> {
 
         val response = ApiServes.shopfiyService.getAllCustomer()
         return response
 
     }
 
-    suspend fun createCustomer(customerJson: CreatedCustomer): ApiCustomers? {
+    override suspend fun createCustomer(customerJson: CreatedCustomer): ApiCustomers? {
 
         val response = ApiServes.shopfiyService.createCustomer(customerJson)
         try {
@@ -138,7 +145,7 @@ class ApiRepository(application: Application) {
     }
 
 
-    suspend fun fetchOpenOrders(): OrderAPI? {
+    override suspend fun fetchOpenOrders(): OrderAPI? {
 
         val response = ApiServes.shopfiyService.getOpenOrders()
         try {
@@ -159,7 +166,7 @@ class ApiRepository(application: Application) {
 
     }
 
-    suspend fun createOrder(orderJson: CreatedOrder): OrderAPI? {
+    override suspend fun createOrder(orderJson: CreatedOrder): OrderAPI? {
         Log.i("order","  orderrrrrr"+ orderJson)
         val response = ApiServes.shopfiyService.createOrder(orderJson)
         try {
@@ -178,7 +185,7 @@ class ApiRepository(application: Application) {
         return null
     }
 
-    suspend fun cancelOrder(id : String,orderJson: CancelOrder): OrderAPI? {
+    override suspend fun cancelOrder(id : String, orderJson: CancelOrder): OrderAPI? {
         Log.i("order","  orderrrrrrCancel"+ orderJson)
         val response = ApiServes.shopfiyService.cancelOrder(id,orderJson)
         try {
@@ -198,7 +205,7 @@ class ApiRepository(application: Application) {
     }
 
 
-    suspend fun getAllProducts(): CollectionProducts? {
+    override suspend fun getAllProducts(): CollectionProducts? {
 
         val response = ApiServes.shopfiyService.getAllProduct()
         try {
@@ -221,7 +228,7 @@ class ApiRepository(application: Application) {
     }
 
     //*************
-    suspend fun getCustomerAddress(id:String): List<Addresse?>? {
+    override suspend fun getCustomerAddress(id:String): List<Addresse?>? {
 
         val response = ApiServes.shopfiyService.getFirstCustomerAdd(id)
         try {
@@ -242,7 +249,7 @@ class ApiRepository(application: Application) {
         return null
     }
 
-    suspend fun createCustomerAdd(id:String,addressJson: CreateAddress): AddressData? {
+    override suspend fun createCustomerAdd(id:String, addressJson: CreateAddress): AddressData? {
         val response = ApiServes.shopfiyService.createNewCustomerAddById(id,addressJson)
         try {
             if (response.isSuccessful) {
@@ -262,7 +269,7 @@ class ApiRepository(application: Application) {
         return null
 
     }
-    suspend fun editCustomerAdd(id:String,addressIP:String,addressJson: CreateAddress): AddressData? {
+    override suspend fun editCustomerAdd(id:String, addressIP:String, addressJson: CreateAddress): AddressData? {
 
         val response = ApiServes.shopfiyService.editCustomerAdd(id,addressIP,addressJson)
         try {
@@ -282,7 +289,7 @@ class ApiRepository(application: Application) {
         return null
 
     }
-    suspend fun setDefaultAddress(id:String,addressIP:String): AddressData? {
+    override suspend fun setDefaultAddress(id:String, addressIP:String): AddressData? {
 
         val response = ApiServes.shopfiyService.setDefaultAddress(id,addressIP)
         try {
@@ -302,7 +309,7 @@ class ApiRepository(application: Application) {
         return null
 
     }
-    suspend fun getDefaultAddress(id:String,addressIP:String): AddressData? {
+    override suspend fun getDefaultAddress(id:String, addressIP:String): AddressData? {
 
         val response = ApiServes.shopfiyService.getCustomerAddById(id,addressIP)
         try {
@@ -323,7 +330,7 @@ class ApiRepository(application: Application) {
 
     }
     //cant delete defult
-    suspend fun deleteAddress(id:String,addressIP:String) {
+    override suspend fun deleteAddress(id:String, addressIP:String) {
 
 
         ApiServes.shopfiyService.deleteAddress(id,addressIP)
@@ -344,7 +351,7 @@ class ApiRepository(application: Application) {
 //        }
 
     }
-    suspend fun getAllCustomerAddress(id:String): List<Addresse?>? {
+    override suspend fun getAllCustomerAddress(id:String): List<Addresse?>? {
 
         val response = ApiServes.shopfiyService.getAllCustomerAddress(id)
         try {
@@ -366,7 +373,7 @@ class ApiRepository(application: Application) {
     }
 
 
-    suspend fun getCustomerByEmail(email:String): ApiCustomers? {
+    override suspend fun getCustomerByEmail(email:String): ApiCustomers? {
 
         val response = ApiServes.shopfiyService.getCustomerByEmail(email)
         try {
@@ -388,7 +395,7 @@ class ApiRepository(application: Application) {
     }
 
 
-    suspend fun generateDiscount(priceRule:String,discount: CreatedDiscount): DiscountCode? {
+    override suspend fun generateDiscount(priceRule:String, discount: CreatedDiscount): DiscountCode? {
 
         Log.i("Tasneem", "response$priceRule , $discount")
 
@@ -411,7 +418,7 @@ class ApiRepository(application: Application) {
 
     }
 
-    suspend fun getDiscount10(): DiscountCode? {
+    override suspend fun getDiscount10(): DiscountCode? {
 
 
         val response = ApiServes.shopfiyService.getDiscount10()
@@ -433,7 +440,7 @@ class ApiRepository(application: Application) {
 
     }
 
-    suspend fun getUpdatedCount(userId :String): Int {
+    override suspend fun getUpdatedCount(userId :String): Int {
         return local.getCartCount(userId)
 
     }

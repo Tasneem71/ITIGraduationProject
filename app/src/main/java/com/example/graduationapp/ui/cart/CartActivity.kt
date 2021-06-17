@@ -10,6 +10,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,11 +19,17 @@ import com.example.graduationapp.MainActivity
 import com.example.graduationapp.R
 import com.example.graduationapp.SharedPref
 import com.example.graduationapp.databinding.ActivityOrderBinding
+import com.example.graduationapp.local.DefaultLocal
+import com.example.graduationapp.local.LocalSource
+import com.example.graduationapp.remote.ApiRepository
+import com.example.graduationapp.remote.retro.DefaultRepo
 import com.example.graduationapp.ui.cart.adapter.CartAdapter
 import com.example.graduationapp.ui.checkoutAddress.CustomerDataActivity
 import com.example.graduationapp.ui.favoriteFeature.FavoriteActivity
 import com.example.graduationapp.ui.paymentsummary.PaymentSummary
 import com.example.graduationapp.ui.productPageFeature.ProductDetails
+import com.example.graduationapp.ui.search.SearchViewModel
+import com.example.graduationapp.ui.search.SearchViewModelFactory
 
 import com.google.android.material.snackbar.Snackbar
 
@@ -33,9 +40,12 @@ class CartActivity : AppCompatActivity(), CartAdapter.OnCartItemListener {
     private var cartAdapter = CartAdapter(emptyList(), this)
     private lateinit var userId :String
     var empty : Boolean =false
+    lateinit var price:String
 
 
     var code=false
+    lateinit var repository: DefaultRepo
+    lateinit var local: DefaultLocal
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,7 +58,13 @@ class CartActivity : AppCompatActivity(), CartAdapter.OnCartItemListener {
         userId = SharedPref.getUserID().toString()
         Log.i("Menna", "user id == "+userId)
 
-        cartViewModel = ViewModelProvider(this).get(CartViewModel::class.java)
+        local= LocalSource(this.application)
+        repository= ApiRepository(this.application,local)
+
+        val factory = CartViewModelFactory(this.application,repository)
+        cartViewModel = ViewModelProviders.of(this,factory).get(CartViewModel::class.java)
+
+        //cartViewModel = ViewModelProvider(this).get(CartViewModel::class.java)
         initUI()
 
         if (SharedPref.getUserStatus()){
@@ -88,7 +104,8 @@ class CartActivity : AppCompatActivity(), CartAdapter.OnCartItemListener {
 
         cartViewModel.sumOfItems.observe(this, Observer {
             if(!empty){
-                binding.total2.text =it.toString()+ " LE"
+                price=it.toString()
+                binding.total2.text =it.toString()+" LE"
             }
         })
         cartViewModel.getAllCustomerAddress(userId)
@@ -115,12 +132,12 @@ class CartActivity : AppCompatActivity(), CartAdapter.OnCartItemListener {
                 Log.i("Menna", "onCreate   shared: ${SharedPref.getAddressID()}")
                 if(!code){
                     val intent = Intent(this, CustomerDataActivity::class.java)
-                    intent.putExtra("price", binding.total2.text.toString())
+                    intent.putExtra("price", price)
                     intent.putExtra("Key", "New")
                     startActivity(intent)
                 }else{
                     val intent = Intent(this, PaymentSummary::class.java)
-                    intent.putExtra("price", binding.total2.text.toString())
+                    intent.putExtra("price", price)
                     startActivity(intent)
                 }
             }
