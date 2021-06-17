@@ -32,25 +32,6 @@ class ApiRepository(application: Application, var local :DefaultLocal) : Default
        return local.getAllCart(userId)
     }
 
-    suspend fun fetchCustomCollectionData() {
-
-        val response = ApiServes.shopfiyService.getCustomCollections()
-        try {
-            if (response.isSuccessful) {
-                response.body()?.let {
-                    apiCollection.postValue(it)
-                }
-            } else {
-                Log.i("Tasneem", "response failuer" + response.errorBody().toString())
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            Log.i("Tasneem", " error?" + e.printStackTrace())
-
-        }
-
-    }
-
     override suspend fun fetchSmartCollectionData() {
 
         val response = ApiServes.shopfiyService.getSmartCollections()
@@ -69,25 +50,6 @@ class ApiRepository(application: Application, var local :DefaultLocal) : Default
 
         }
 
-    }
-
-    suspend fun fetchProductsData(id: String) {
-        //if (isOnline(context)) {
-        val response = ApiServes.shopfiyService.getProductFromCollection(id)
-        try {
-            if (response.isSuccessful) {
-                response.body()?.let {
-                    apiproduct.postValue(it)
-                }
-            } else {
-                Log.i("Tasneem", "response failuer" + response.errorBody().toString())
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-
-        }
-
-        //}
     }
 
     override suspend fun fetchSmartProductsData(id: String, num: Int) {
