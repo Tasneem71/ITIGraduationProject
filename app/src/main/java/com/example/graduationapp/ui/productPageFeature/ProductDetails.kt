@@ -2,6 +2,7 @@ package com.example.graduationapp.ui.productPageFeature
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -44,14 +45,14 @@ ProductDetails : AppCompatActivity() {
         favoriteViewModel = ViewModelProvider(this).get(FavoriteViewModel::class.java)
 
         val intent=intent
-        var x=""
+        var product_id=""
         if (intent!=null)
-            x= intent.getStringExtra("product_id").toString()
+            product_id= intent.getStringExtra("product_id").toString()
 
-        setFavoriteImage(x.toLong())
-        isCart(x.toLong())
+        setFavoriteImage(product_id.toLong())
+        isCart(product_id.toLong())
 
-        productPageViewModel.getProductDetails(x)
+        productPageViewModel.getProductDetails(product_id)
         productPageViewModel.productDetails.observe(this, Observer {
 
            // Log.i("Mohamed", "onCreate: ${it.title}")
@@ -64,15 +65,21 @@ ProductDetails : AppCompatActivity() {
             val adapter = ViewPagerAdapter(imgs)
             viewPager2 = findViewById(R.id.viewPager)
             viewPager2.adapter = adapter
-            binding.content.productPagePrice.text=it.variants?.get(0)?.price.toString()+" EG"
+            binding.content.productPagePrice.text=it.variants?.get(0)?.price.toString()+" EGP"
             binding.content.productPageTitle.text=it.title
             binding.content.productPageProductType.text=it.product_type
             binding.content.productPageVendor.text=it.vendor
-            binding.content.productPageInventoryQuantity.text= it.variants?.get(0)?.inventory_quantity?:"not Available"
+            binding.content.productPageInventoryQuantity.text= it.variants?.get(0)?.inventory_quantity?:this.getString(R.string.notAve)
+            binding.content.descriptionTv.text=it.body_html
+
             val sizes=it.options.filter { it.name=="Size" }
             val colors=it.options.filter { it.name=="Color" }
-            binding.content.productPageSizeDetails.text= sizes[0].values?.get(0) ?:"not Available"
-            binding.content.productPageColorDetails.text= colors[0].values?.get(0) ?:"not Available"
+            if(!sizes.isNullOrEmpty()){
+            binding.content.productPageSizeDetails.text= sizes[0].values?.joinToString (",") ?:this.getString(R.string.notAve)
+            }
+            if(!colors.isNullOrEmpty()){
+            binding.content.productPageColorDetails.text= colors[0].values?.joinToString (",") ?:this.getString(R.string.notAve)
+            }
             //binding.content.productPageTags.text=it.tags
 
             val y: String = it.image.src ?: "www.google.com/ss.png/"
@@ -89,12 +96,16 @@ ProductDetails : AppCompatActivity() {
 
 
         binding.content.productPageAddToCart.setOnClickListener(View.OnClickListener {
+            if(SharedPref.getUserStatus()){
             favoriteViewModel.addToCart(Favorite(currentProduct!!.id.toLong(), currentProduct!!.title,
                 currentProduct!!.handle, currentProduct?.variants?.get(0)?.price!!.toInt(),currentProduct!!.image.src,'C',1
                 ,currentProduct?.variants?.get(0)!!.id,userId))
-            Toast.makeText(this,"Item has been added to cart",Toast.LENGTH_LONG).show()
+            Toast.makeText(this,getString(R.string.has_been_add_to_cart),Toast.LENGTH_LONG).show()
             binding.content.productPageAddToCart.visibility=View.GONE
             binding.content.productPageInCart.visibility=View.VISIBLE
+            }else{
+                Toast.makeText(this,this.getString(R.string.pleaselogin),Toast.LENGTH_LONG).show()
+            }
 
         })
 
@@ -109,7 +120,7 @@ ProductDetails : AppCompatActivity() {
                 }
                 resources.getDrawable(R.drawable.favorite2).constantState -> {
 
-                    favoriteViewModel.deleteFromFavorite(x.toLong())
+                    favoriteViewModel.deleteFromFavorite(product_id.toLong(),userId)
                     binding.content.productPageAddToFavorite.setImageResource(R.drawable.favorite)
 
                 }

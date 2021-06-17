@@ -7,22 +7,24 @@ import android.widget.Toast
 import androidx.lifecycle.*
 import com.example.graduationapp.data.*
 import com.example.graduationapp.remote.ApiRepository
+import com.example.graduationapp.remote.retro.DefaultRepo
+import com.example.graduationapp.ui.addressbook.AddressBookViewModel
 import com.example.graduationapp.utils.Validation
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class LoginViewModel (application: Application) : AndroidViewModel(application) {
+class LoginViewModel (application: Application,var apiRepository : DefaultRepo) : AndroidViewModel(application) {
     var allCustomersLiveData = MutableLiveData<ApiCustomers?>()
     var createCustomerLiveData = MutableLiveData<Customers?>()
     var customerLiveData = MutableLiveData<Customers?>()
     var network =MutableLiveData<Boolean>()
 
-    var apiRepository: ApiRepository
-
-    init{
-        apiRepository = ApiRepository(application)
-    }
+//    var apiRepository: ApiRepository
+//
+//    init{
+//        apiRepository = ApiRepository(application)
+//    }
 
     fun loadData(context: Context){
         Log.i("Tasneem","inside the load")
@@ -52,6 +54,7 @@ class LoginViewModel (application: Application) : AndroidViewModel(application) 
 
 
     fun createCustomer(customerJson: CreatedCustomer) {
+        Log.i("api",""+customerJson)
         if (Validation.isOnline(getApplication())){
             CoroutineScope(Dispatchers.IO).launch {
                 val response=apiRepository.createCustomer(customerJson)
@@ -64,7 +67,19 @@ class LoginViewModel (application: Application) : AndroidViewModel(application) 
         }
     }
 
-
+    fun getOneCustomer(userEmail: String) {
+        Log.i("api",""+userEmail)
+        if (Validation.isOnline(getApplication())){
+            CoroutineScope(Dispatchers.IO).launch {
+                val customers = apiRepository.getCustomerByEmail(userEmail)
+                allCustomersLiveData.postValue(customers)
+            }
+        }
+        else
+        {
+            network.postValue(false)
+        }
+    }
 
     fun validate_login(userEmail: String, password: String) {
         if (Validation.isOnline(getApplication())) {
@@ -112,3 +127,9 @@ class LoginViewModel (application: Application) : AndroidViewModel(application) 
     }
 
     }
+@Suppress("UNCHECKED_CAST")
+class LoginViewModelFactory(val application: Application,val repo: DefaultRepo): ViewModelProvider.NewInstanceFactory() {
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        return LoginViewModel(application, repo) as T
+    }
+}

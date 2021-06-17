@@ -38,7 +38,7 @@ class MeAdapter(var wishList: ArrayList<Favorite>) :
         private val price = view.findViewById<TextView>(R.id.price)
         private val imageView = view.findViewById<ImageView>(R.id.thumbnail)
         fun bind(category: Favorite) {
-            Glide.with(imageView.context).load(category.image).placeholder(R.drawable.ic_search).into(imageView)
+            Glide.with(imageView.context).load(category.image).placeholder(R.drawable.shopping).into(imageView)
             name.text =category.title
             imageView.setOnClickListener(View.OnClickListener {
                 val intent= Intent(it.context, ProductDetails::class.java)

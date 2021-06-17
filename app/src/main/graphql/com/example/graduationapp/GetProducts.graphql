@@ -1,0 +1,113 @@
+query getProducts {
+    products(first: 150) {
+        edges {
+            node {
+                id
+                title
+                description
+                tags
+                vendor
+                legacyResourceId
+                productType
+                options(first: 5) {
+                    name
+                    values
+                }
+                variants(first: 1) {
+                    edges {
+                        node {
+                            price
+                            inventoryQuantity
+                        }
+                    }
+                }
+                featuredImage {
+                    originalSrc
+                }
+            }
+        }
+    }
+
+}
+
+
+query homeCollection {
+    collections(first: 15) {
+        edges {
+            node {
+                id
+                handle
+                title
+                products(first: 10) {
+                    edges {
+                        node {
+                            id
+                            handle
+                            title
+                            description
+                            tags
+                            vendor
+                            legacyResourceId
+                            productType
+                            options(first:5){
+                                name
+                                values
+                            }
+                            variants(first: 1) {
+                                edges {
+                                    node {
+                                        id
+                                        price
+                                        inventoryQuantity
+                                    }
+                                }
+                            }
+                            featuredImage {
+                                originalSrc
+                            }
+                        }
+                    }
+                }
+                productsCount
+            }
+        }
+    }
+}
+
+
+# Get a collection by its ID
+query getProductsByCollectionID($id:ID!){
+    collection(id: $id) {
+        title
+        products(first: 20) {
+            edges {
+                node {
+                    id
+                    handle
+                    title
+                    description
+                    tags
+                    vendor
+                    legacyResourceId
+                    productType
+                    options(first:5){
+                        name
+                        values
+                    }
+                    variants(first: 1) {
+                        edges {
+                            node {
+                                id
+                                price
+                                inventoryQuantity
+                            }
+                        }
+                    }
+                    featuredImage {
+                        originalSrc
+                    }
+                }
+            }
+        }
+    }
+}

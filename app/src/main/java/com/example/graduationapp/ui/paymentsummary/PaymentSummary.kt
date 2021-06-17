@@ -2,28 +2,38 @@ package com.example.graduationapp.ui.paymentsummary
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Paint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.style.StrikethroughSpan
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import com.example.domain.core.feature.favoriteFeature.Favorite
 import com.example.graduationapp.MainActivity
 import com.example.graduationapp.R
 import com.example.graduationapp.SharedPref
 import com.example.graduationapp.create_order.CreateOrderViewModel
-import com.example.graduationapp.data.CreatedOrder
-import com.example.graduationapp.data.LineItems
-import com.example.graduationapp.data.Order
-import com.example.graduationapp.data.Transactions
+import com.example.graduationapp.create_order.CreateOrderViewModelFactory
+import com.example.graduationapp.data.*
 import com.example.graduationapp.data.orders.Orders
 import com.example.graduationapp.databinding.ActivityLoginBinding
 import com.example.graduationapp.databinding.ActivityPaymentSummaryBinding
+import com.example.graduationapp.local.DefaultLocal
+import com.example.graduationapp.local.LocalSource
+import com.example.graduationapp.remote.ApiRepository
+import com.example.graduationapp.remote.DefaultRemote
+import com.example.graduationapp.remote.RemoteDataSource
+import com.example.graduationapp.remote.retro.DefaultRepo
+import com.example.graduationapp.ui.addressbook.AddressBookViewModelFactory
 import com.example.graduationapp.ui.cart.CartActivity
 import com.example.graduationapp.ui.checkoutAddress.CustomerDataActivity
+import com.example.graduationapp.ui.search.SearchViewModel
+import com.example.graduationapp.ui.search.SearchViewModelFactory
 import com.paytabs.paytabs_sdk.payment.ui.activities.PayTabActivity
 import com.paytabs.paytabs_sdk.utils.PaymentParams
 
@@ -33,40 +43,65 @@ class PaymentSummary : AppCompatActivity() {
     var createOrderLiveData = MutableLiveData<Orders?>()
     var credit =false
     var price=""
+    var discount=false
+    private lateinit var userId :String
+    lateinit var repository: DefaultRepo
+    lateinit var local: DefaultLocal
+    lateinit var remote: DefaultRemote
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPaymentSummaryBinding.inflate(layoutInflater)
-        createOrderViewModel = ViewModelProvider(this).get(CreateOrderViewModel::class.java)
+
+
+        local= LocalSource(this.application)
+        remote=RemoteDataSource()
+        repository= ApiRepository(this.application,local,remote)
+
+        val factory = CreateOrderViewModelFactory(this.application,repository)
+        createOrderViewModel = ViewModelProviders.of(this,factory).get(CreateOrderViewModel::class.java)
+
+
+
+        //createOrderViewModel = ViewModelProvider(this).get(CreateOrderViewModel::class.java)
 
         setContentView(binding.root)
+        userId = SharedPref.getUserID().toString()
 
         val intent=intent
-        var province=""
-        var phone=""
-        var address1=""
+
 
         if (intent!=null){
-            province= intent.getStringExtra("province").toString()
-            phone= intent.getStringExtra("phone").toString()
-            address1= intent.getStringExtra("address1").toString()
             price= intent.getStringExtra("price").toString()
-
+            Log.i("price",price)
         }
+        Log.i("Menna","address id "+SharedPref.getAddressID().toString())
+        createOrderViewModel.getDefaultAddress(userId,SharedPref.getAddressID().toString())
+        createOrderViewModel.getDefaultAddLifeData.observe(this, Observer {
+            Log.i("Menna","default address  "+it)
+            it?.let {
 
+                binding.phone.text= it.address?.phone ?: ""
+                binding.address.text=it.address?.address1 ?: ""
+                binding.province.text = it.address?.province ?: ""
+            }
+        })
         createOrderViewModel.orders?.observe(this, Observer {
             it?.let {
                 var count = price
                 Log.d("tag","count"+count)
                 val email = SharedPref.getUserEmail().toString()
                 val listOfOrder = createOrderApi(it)
-                if (credit==false){
-                createOrderViewModel.createOrder(CreatedOrder(Order(email,null,count,listOfOrder,null)))
+                if (credit==false && discount==false){
+                createOrderViewModel.createOrder(CreatedOrder(Order(email,null,"pending",count,listOfOrder,null,null)))
                 Log.d("tag","list"+listOfOrder)
                 }else{
-                    var trans: MutableList<Transactions> = mutableListOf<Transactions>()
-                    trans.add(Transactions("sale","success",count.toDouble()))
-                    createOrderViewModel.createOrder(CreatedOrder(Order(email,null,count,listOfOrder,trans)))
+                    Log.i("discount","............................. in the else")
+                    var discountList= mutableListOf<DiscountCodes>()
+                    discountList.add(DiscountCodes(SharedPref.getUserDiscount().toString(),10.00,"percentage"))
+                    createOrderViewModel.createOrder(CreatedOrder(Order(email,null,"pending",count,listOfOrder,null
+                        ,discountList)))
                 }
 
             }
@@ -79,36 +114,43 @@ class PaymentSummary : AppCompatActivity() {
             }
         })
 
-        binding.phone.text= phone
-        binding.address.text=address1
-        binding.province.text = province
-        binding.tvPrice.text= price+" EGP"
-
+        binding.tvPrice.text= price+" LE"
+        Log.i("price",price)
         binding.fabContinue.setOnClickListener{
             if (binding.cash.isChecked){
                 createOrderViewModel.getAllOrderd(SharedPref.getUserID().toString())
 
             }else{
-                goPayTab()
+
+                val intent =Intent(this,CheckoutActivityJava::class.java)
+                intent.putExtra("price",price)
+                intent.putExtra("discount",discount)
+                startActivity(intent)
+               // goPayTab()
 
             }
         }
 
         binding.applyDiscount.setOnClickListener {
             if (SharedPref.getUserDiscount() != 0L) {
-
+                binding.beforeDiscount.text =price+" LE"
+                binding.beforeDiscount.paintFlags= binding.beforeDiscount.paintFlags
                 price = ((price.toDouble())*.9).toString()
-                binding.tvPrice.text=price
+                binding.tvPrice.text=price+" LE"
                 binding.applyDiscount.visibility= View.GONE
+                binding.beforeDiscount.paintFlags = binding.beforeDiscount.paintFlags or  Paint.STRIKE_THRU_TEXT_FLAG
+                binding.beforeDiscount.visibility = View.VISIBLE
+                discount=true
+
 
             } else {
-
+                binding.beforeDiscount.visibility = View.GONE
                 noDiscountFound()
             }
         }
-        binding.back.setOnClickListener({
-            startActivity(Intent(this,CustomerDataActivity::class.java))
-        })
+        binding.back.setOnClickListener {
+            startActivity(Intent(this, CartActivity::class.java))
+        }
 
 
     }
@@ -142,7 +184,7 @@ class PaymentSummary : AppCompatActivity() {
 
 
 
-        intent.putExtra(PaymentParams.CURRENCY_CODE, "EGP")
+        intent.putExtra(PaymentParams.CURRENCY_CODE, "LE")
         intent.putExtra(PaymentParams.CUSTOMER_PHONE_NUMBER, "009733")
         intent.putExtra(PaymentParams.CUSTOMER_EMAIL, "customer-email@example.com")
         intent.putExtra(PaymentParams.ORDER_ID, "123456")

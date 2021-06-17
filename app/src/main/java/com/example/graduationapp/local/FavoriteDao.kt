@@ -16,8 +16,8 @@ interface FavoriteDao {
     @Query("delete from Favorite where page = 67 and userId= :userId ")
     suspend fun deleteListFromCart(userId: String)
 
-    @Query("delete from Favorite where id is :id")
-    suspend fun deleteFromFavorite(id: Long)
+    @Query("delete from Favorite where id is :id and userId= :userId")
+    suspend fun deleteFromCart(id: Long, userId:String)
 
     @Query("select * from Favorite where page = 70 and userId= :userId")
     suspend fun getAllFavorite(userId: String): List<Favorite>?
@@ -34,6 +34,8 @@ interface FavoriteDao {
     @Query("UPDATE Favorite SET count=:count WHERE id = :id and userId= :userId")
     fun updateCount( id: Long,count: Int,userId: String)
 
+    @Query("UPDATE Favorite SET page= 67 WHERE id = :id and userId= :userId")
+    fun moveToCart( id: Long,userId: String)
 
     @Query("SELECT COUNT(userId) FROM favorite where page = 67 and userId= :userId ")
     fun cartCount(userId:String): Int

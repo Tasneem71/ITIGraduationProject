@@ -10,15 +10,23 @@ import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.graduationapp.R
 import com.example.graduationapp.data.Products
 import com.example.graduationapp.databinding.ActivitySearchBinding
-import com.example.graduationapp.ui.home.ShopCategoryAdapter
+import com.example.graduationapp.local.DefaultLocal
+import com.example.graduationapp.local.LocalSource
+import com.example.graduationapp.remote.ApiRepository
+import com.example.graduationapp.remote.DefaultRemote
+import com.example.graduationapp.remote.RemoteDataSource
+import com.example.graduationapp.remote.retro.DefaultRepo
+import com.example.graduationapp.ui.Registration.RegistrationViewModelFactory
 import com.example.graduationapp.ui.productPageFeature.ProductDetails
 
 
@@ -29,13 +37,24 @@ class SearchActivity : AppCompatActivity() , ShopCategoryAdapter.OnHomeItemListe
     private lateinit var vendorFilteredList: ArrayList<Products>
     private lateinit var allList: ArrayList<Products>
     var searchAdapter = ShopCategoryAdapter(arrayListOf(),this)
+    lateinit var repository:DefaultRepo
+    lateinit var local:DefaultLocal
+    lateinit var remote: DefaultRemote
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //setContentView(R.layout.activity_search)
         binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        searchViewMode = ViewModelProvider(this).get(SearchViewModel::class.java)
+        local=LocalSource(this.application)
+        remote=RemoteDataSource()
+        repository=ApiRepository(this.application,local,remote)
+
+        val factory = SearchViewModelFactory(this.application,repository)
+        searchViewMode = ViewModelProviders.of(this,factory).get(SearchViewModel::class.java)
+
+
+        //searchViewMode = ViewModelProvider(this).get(SearchViewModel::class.java)
         filteredList = ArrayList()
         vendorFilteredList = ArrayList()
         allList = ArrayList()
@@ -52,6 +71,12 @@ class SearchActivity : AppCompatActivity() , ShopCategoryAdapter.OnHomeItemListe
                 searchAdapter.updateCategory(filteredList)
             }
 
+        }
+
+        searchViewMode.network.observe(this) {
+            it?.let {
+                Toast.makeText(this,this.getString(R.string.no_internet), Toast.LENGTH_LONG).show()
+            }
         }
 
         binding.searchtv.addTextChangedListener(object : TextWatcher {
@@ -155,7 +180,7 @@ class SearchActivity : AppCompatActivity() , ShopCategoryAdapter.OnHomeItemListe
             vendorFilteredList= list as ArrayList<Products>
             filteredList= list as ArrayList<Products>
         }
-
+        binding.searchtv.text.clear()
 
         Log.i("search",""+filteredList)
         searchAdapter.updateCategory(filteredList)

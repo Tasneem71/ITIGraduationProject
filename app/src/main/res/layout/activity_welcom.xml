@@ -7,9 +7,11 @@
     tools:context=".welcome.WelcomActivity"
     android:background="@color/darkPurple">
 
+
     <com.cuberto.liquid_swipe.LiquidPager
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></com.cuberto.liquid_swipe.LiquidPager>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

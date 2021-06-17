@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
 
+
+
 object SharedPref{
 
     private var pref: SharedPreferences? = null
@@ -19,7 +21,6 @@ object SharedPref{
         editor.putString("user-email", email)
         editor.apply()
     }
-
     fun setUserId(id: String?) {
         val editor: SharedPreferences.Editor = pref!!.edit()
         editor.putString("user-id", id)
@@ -66,6 +67,26 @@ object SharedPref{
         editor.apply()
     }
 
+    fun setNightMode(mode:Boolean){
+        val editor = pref!!.edit()
+        editor.putBoolean("night_mode", mode)
+        editor.apply()
+    }
+    fun getNightMode():Boolean{
+        return pref!!.getBoolean("night_mode", false)
+    }
+
+    fun setLanguage(lan:String){
+        val editor = pref!!.edit()
+        editor.putString("language", lan)
+        editor.apply()
+    }
+    fun getLanguage():String?{
+        return pref!!.getString("language", "en")
+    }
+
+
+
 
 
     fun getUserEmail(): String? {
@@ -100,6 +121,8 @@ object SharedPref{
     fun getEver(): Boolean {
         return pref!!.getBoolean("ever", false)
     }
+
+
 
 
 

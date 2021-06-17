@@ -51,7 +51,25 @@
                     android:textSize="25sp"
                     app:layout_constraintStart_toEndOf="@+id/favo"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:text="Shopfy" />
+                    android:text="@string/shopify" />
+
+
+                <com.nex3z.notificationbadge.NotificationBadge
+                    app:layout_constraintStart_toEndOf="@id/search_icon"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="25dp"
+                    android:layout_marginBottom="10dp"
+                    android:id="@+id/badge"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    app:nbMaxTextLength="2"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toLeftOf="@id/cart_icon"
+                    android:layout_alignTop="@id/cart_icon"
+                    tools:ignore="MissingConstraints"
+                    android:elevation="16dp">
+                </com.nex3z.notificationbadge.NotificationBadge>
 
                 <ImageView
                     android:id="@+id/cart_icon"

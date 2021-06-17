@@ -18,12 +18,12 @@ import com.example.graduationapp.MainActivity
 import com.example.graduationapp.ui.login.LoginActivity
 import com.example.graduationapp.R
 import com.example.graduationapp.SharedPref
+import com.example.graduationapp.ui.addressbook.AddressBook
 import com.example.graduationapp.ui.me.MeFragment
 import com.facebook.AccessToken
 import com.facebook.GraphRequest
 import com.facebook.HttpMethod
 import com.facebook.login.LoginManager
-import okhttp3.Cache.key
 import java.util.*
 
 class SettingsFragment : PreferenceFragmentCompat() {
@@ -38,6 +38,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         aboutMe()
         logout()
         back()
+        goToAddress()
     }
 
     private fun openDialogue() {
@@ -116,13 +117,16 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
     }
     private fun darkMode() {
+
         var darkMode = findPreference<CheckBoxPreference>("background_mode")
         darkMode?.setOnPreferenceChangeListener { prefs, obj ->
             val yes = obj as Boolean
             if (yes) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                SharedPref.setNightMode(true)
             } else {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                SharedPref.setNightMode(false)
             }
             true
         }
@@ -156,12 +160,25 @@ class SettingsFragment : PreferenceFragmentCompat() {
     private fun setLocale(lng: String) {
         val locale = Locale(lng)
         Locale.setDefault(locale)
+        SharedPref.setLanguage(lng)
         val config = Configuration()
         //config.locales=locale
         config.locale = locale
         resources.updateConfiguration(config, resources.displayMetrics)
     }
 
+
+    private fun goToAddress()
+    {
+        val notification = findPreference<androidx.preference.Preference>("address_book")
+        notification?.setOnPreferenceClickListener {
+            if (it.key=="address_book")
+            {
+                val intent =Intent(requireContext(),AddressBook::class.java)
+                startActivity(intent)
+            };true
+        }
+    }
     private fun logout() {
 
         val notification = findPreference<androidx.preference.Preference>("logout")

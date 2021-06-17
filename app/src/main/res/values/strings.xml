@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">GraduationApp</string>
+    <string name="app_name">Shopify</string>
     <string name="title_home">Home</string>
     <string name="title_category">Category</string>
     <string name="title_me">Me</string>
@@ -7,8 +7,8 @@
     <string name="Username">Username</string>
     <string name="Password">Password</string>
     <string name="forget" translatable="false">Forgot your password?</string>
-    <string name="welcometoshopfiy">Welcome to shopfiy</string>
-    <string name="accessories">Accessories</string>
+    <string name="welcometoshopfiy">Welcome</string>
+    <string name="accessories">Access-ories</string>
     <string name="Tshirt">T-Shirt</string>
     <string name="shoes">Shoes</string>
     <string name="Shopfiy" translatable="false">Shopfiy</string>
@@ -31,6 +31,11 @@
     <string name="type">Type:</string>
     <string name="addtocart">Add to Cart</string>
     <string name="notAve">Not Available</string>
+    <string name="kid">KID</string>
+    <string name="frontpage">HOME PAGE</string>
+    <string name="women">WOMEN</string>
+    <string name="men">MEN</string>
+    <string name="sale">SALE</string>
 
     <string name="seeMore">See More</string>
     <string name="sort">Sort</string>
@@ -77,7 +82,7 @@
     <string name="order">Order</string>
     <string name="order_created">Your Order is Created</string>
     <string name="ok">Ok</string>
-    <string name="valid_num">Enter valid Phone Number</string>
+    <string name="valid_num">Enter valid Phone Number that begins with the country code ex:+20</string>
     <string name="valid_code">please Enter Country Code in the First , like +2 for Egypt</string>
     <string name="valid">"Please, Enter Valid Country, province and Address "</string>
     <string name="orderId">Order ID:</string>
@@ -95,6 +100,7 @@
     <string name="copyright" translatable="false">copyright 2020, www.shopify.com</string>
     <string name="contact_us">contact us</string>
     <string name="title_activity_welcome" translatable="false">WelcomeActivity</string>
+    <string name="no_internet">No Internet</string>
     <!--
     This string is used for square devices and overridden by hello_world in
     values-round/strings.xml for round devices.
@@ -109,6 +115,24 @@
     <string name="title3">Unique products</string>
     <string name="text3">providing 100% authentic products</string>
     <string name="shopify">Shopify</string>
-
+    <string name="useOtherMethod">Use another method</string>
+    <string name="description">Description</string>
+    <string name="total_value">Total = </string>
+    <string name="shopping_bag">Shopping Bag</string>
+    <string name="pleaselogin">Please Login First</string>
+    <string name="has_been_add_to_cart">Item has been added to cart</string>
+    <string name="Status">Status</string>
+    <string name="pressHere">Press here to get discount code NOW</string>
+    <string name="your_discout_code_is">"Your discount code is : "</string>
+    <string name="order_items">Order items</string>
+    <string name="checkout">Check Out</string>
+    <string name="address_book">Address Book</string>
+    <string name="editDone">Edit Address Done</string>
+    <string name="newAddress">New Address  is Added  Successfuly</string>
+    <string name="add_address">Add New Address</string>
+    <string name="bagEmpty">Your bag is empty :(</string>
+    <string name="favoriteEmpty">Your favorite is empty</string>
+    <string name="shopNow">SHOP NOW</string>
+    <string name="date">Date</string>
 
 </resources>

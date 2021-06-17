@@ -1,13 +1,14 @@
 package com.example.graduationapp
 
 import android.os.Bundle
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation
+import com.example.graduationapp.ui.category.CategoryFragment
+import com.example.graduationapp.ui.home.HomeFragment
+import com.example.graduationapp.ui.me.MeFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,15 +32,23 @@ class MainActivity : AppCompatActivity() {
         bottomNavigationView.add(MeowBottomNavigation.Model(2,R.drawable.hanger))
         bottomNavigationView.add(MeowBottomNavigation.Model(3,R.drawable.follower))
 
+//        val first= HomeFragment()
+//        val second= CategoryFragment()
+//        val third= MeFragment()
+//        setCurrentFragment(first)
+
         bottomNavigationView.setOnClickMenuListener {
             when(it.id) {
                 1->{
+                    //setCurrentFragment(first)
                     navController.navigate(R.id.navigation_home)
                 }
                 2->{
+                    //setCurrentFragment(second)
                     navController.navigate(R.id.navigation_category)
                 }
                 3->{
+                    //setCurrentFragment(third)
                     navController.navigate(R.id.navigation_me)
                 }
             }
@@ -47,4 +56,11 @@ class MainActivity : AppCompatActivity() {
 
 
     }
+
+    private fun setCurrentFragment(fragment: Fragment)=
+        supportFragmentManager.beginTransaction().apply {
+            replace(R.id.nav_host_fragment,fragment)
+            commit()
+        }
+
 }

@@ -43,6 +43,15 @@
     <PreferenceCategory app:title="@string/user"
         app:icon="@drawable/com_facebook_auth_dialog_background">
 
+
+        <Preference
+            app:key="address_book"
+            app:title="@string/address_book"
+            app:icon="@drawable/officebuilding">
+
+        </Preference>
+
+
         <Preference
             app:key="logout"
             app:title="@string/logout"

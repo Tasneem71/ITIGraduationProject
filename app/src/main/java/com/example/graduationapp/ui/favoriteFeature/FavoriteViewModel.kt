@@ -24,9 +24,9 @@ class FavoriteViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    fun deleteFromFavorite(id: Long){
+    fun deleteFromFavorite(id: Long,userId: String){
         viewModelScope.launch {
-            local.deleteFromFavorite(id)
+            local.deleteFromFavorite(id,userId)
         }
     }
 
@@ -42,15 +42,6 @@ class FavoriteViewModel(application: Application) : AndroidViewModel(application
          return viewModelScope.async {
              local.isFavorite(id,userId)
          }.await()
-//         var isFavorite=false
-//         viewModelScope.launch {
-//             val res=async {
-//                 local.isFavorite(id)
-//             }
-//             isFavorite = res.await()>0
-//             Log.i("TAG", "isFavorite: $isFavorite")
-//         }
-//         return isFavorite
     }
     suspend fun isCart(id: Long,userId: String):Int{
         return viewModelScope.async {
@@ -61,6 +52,12 @@ class FavoriteViewModel(application: Application) : AndroidViewModel(application
     fun addToCart(item: Favorite){
         viewModelScope.launch {
             local.addToFavorite(item)
+        }
+    }
+
+    fun moveToCart(id: Long,userId: String){
+        viewModelScope.launch {
+            local.moveToCart(id,userId)
         }
     }
 

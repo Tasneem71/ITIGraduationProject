@@ -8,56 +8,91 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.domain.core.feature.favoriteFeature.Favorite
+import com.example.graduationapp.HomeCollectionQuery
+import com.example.graduationapp.MainActivity
 import com.example.graduationapp.R
-import com.example.graduationapp.ui.search.SearchActivity
 import com.example.graduationapp.SharedPref
-import com.example.graduationapp.data.Products
 import com.example.graduationapp.databinding.FragmentHomeBinding
+import com.example.graduationapp.graphql.GraphViewModel
+import com.example.graduationapp.local.DefaultLocal
+import com.example.graduationapp.local.LocalSource
+import com.example.graduationapp.remote.ApiRepository
+import com.example.graduationapp.remote.DefaultRemote
+import com.example.graduationapp.remote.RemoteDataSource
+import com.example.graduationapp.remote.retro.DefaultRepo
 import com.example.graduationapp.ui.cart.CartActivity
 import com.example.graduationapp.ui.favoriteFeature.FavoriteActivity
 import com.example.graduationapp.ui.productPageFeature.ProductDetails
+import com.example.graduationapp.ui.search.SearchActivity
+import com.example.graduationapp.ui.search.SearchViewModel
+import com.example.graduationapp.ui.search.SearchViewModelFactory
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
-class HomeFragment : Fragment()  , ShopCategoryAdapter.OnHomeItemListener {
+class HomeFragment : Fragment() , CollectionsGraphAdapter.OnHomeItemListener {
 
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var binding: FragmentHomeBinding
+    private lateinit var homeViewModel1: GraphViewModel
     private lateinit var imgas:Array<Int>
-    private lateinit var adidusList:ArrayList<Products>
-    private lateinit var nikeList:ArrayList<Products>
-    private lateinit var pumaList:ArrayList<Products>
-    private lateinit var converceList:ArrayList<Products>
-    private lateinit var asicsList:ArrayList<Products>
-    var  adidasAdapter = ShopCategoryAdapter(arrayListOf(),this)
-    var  nikeAdapter = ShopCategoryAdapter(arrayListOf(),this)
-    var  pumaAdapter = ShopCategoryAdapter(arrayListOf(),this)
-    var  converceAdapter = ShopCategoryAdapter(arrayListOf(),this)
-    var  asicsAdapter = ShopCategoryAdapter(arrayListOf(),this)
+    lateinit var  adidasAdapter: CollectionsGraphAdapter
+    lateinit var  nikeAdapter : CollectionsGraphAdapter
+    lateinit var  pumaAdapter : CollectionsGraphAdapter
+    lateinit var  converceAdapter : CollectionsGraphAdapter
+    lateinit var  asicsAdapter : CollectionsGraphAdapter
+    var adidasList: List<HomeCollectionQuery.Edge1> = mutableListOf()
+    var nikeList: List<HomeCollectionQuery.Edge1> = mutableListOf()
+    var pumaList: List<HomeCollectionQuery.Edge1> = mutableListOf()
+    var converseList: List<HomeCollectionQuery.Edge1> = mutableListOf()
+    var asicsList: List<HomeCollectionQuery.Edge1> = mutableListOf()
+    lateinit var repository: DefaultRepo
+    lateinit var local: DefaultLocal
+    lateinit var remote: DefaultRemote
 
     override fun onCreateView(inflater: LayoutInflater,container: ViewGroup?,savedInstanceState: Bundle?): View {
 
-        homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+
+        local= LocalSource(requireActivity().application)
+        remote=RemoteDataSource()
+        repository= ApiRepository(requireActivity().application,local,remote)
+
+        val factory = HomeViewModelFactory(requireActivity().application,repository)
+        homeViewModel = ViewModelProviders.of(this,factory).get(HomeViewModel::class.java)
+
+
+        //homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+
+
+
+        homeViewModel1 = ViewModelProvider(this).get(GraphViewModel::class.java)
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
         imgas =arrayOf(R.drawable.discount,R.drawable.op ,R.drawable.lap)
+
+        adidasAdapter= CollectionsGraphAdapter(arrayListOf(),this,homeViewModel1)
+        nikeAdapter= CollectionsGraphAdapter(arrayListOf(),this,homeViewModel1)
+        pumaAdapter= CollectionsGraphAdapter(arrayListOf(),this,homeViewModel1)
+        converceAdapter= CollectionsGraphAdapter(arrayListOf(),this,homeViewModel1)
+        asicsAdapter= CollectionsGraphAdapter(arrayListOf(),this,homeViewModel1)
 
         for (item in imgas)
              showPhotos(item)
 
         initUI()
-        adidusList = ArrayList()
-        nikeList = ArrayList()
-        pumaList = ArrayList()
-        converceList = ArrayList()
-        asicsList = ArrayList()
+        homeViewModel1.getCollectionData()
 
         //*********************************
-        binding.flipper.setOnClickListener {
+        binding.discount.setOnClickListener {
             Log.i("discount","pressed")
             if (SharedPref.getUserDiscount()==0L) {
                 Log.i("discount","pressed if")
@@ -65,6 +100,7 @@ class HomeFragment : Fragment()  , ShopCategoryAdapter.OnHomeItemListener {
             }else{
                 Log.i("discount","pressed else")
                 Toast.makeText(context,"Discount has already been activated",Toast.LENGTH_SHORT).show()
+                showDialog()
             }
         }
 
@@ -86,31 +122,52 @@ class HomeFragment : Fragment()  , ShopCategoryAdapter.OnHomeItemListener {
 
 //        updateBadge()
 
+        homeViewModel1.adidas?.observe(requireActivity(), Observer {
+            Log.i("tasneem",""+it)
+            binding.progressBar.visibility=View.GONE
+            adidasList=it
+            adidasAdapter.setData(it)
+        })
 
+        homeViewModel1.nike?.observe(requireActivity(), Observer {
+            Log.i("tasneem",""+it)
+            binding.progressBar.visibility=View.GONE
+            nikeList=it
+            nikeAdapter.setData(it)
+        })
 
-        adidasAdapter.updateCategory(adidusList)
-        nikeAdapter.updateCategory(nikeList)
-        pumaAdapter.updateCategory(pumaList)
-        converceAdapter.updateCategory(converceList)
-        asicsAdapter.updateCategory(asicsList)
+        homeViewModel1.converse?.observe(requireActivity(), Observer {
+            Log.i("tasneem",""+it)
+            binding.progressBar.visibility=View.GONE
+            converseList=it
+            converceAdapter.setData(it)
+        })
 
+        homeViewModel1.asicsTiger?.observe(requireActivity(), Observer {
+            Log.i("tasneem",""+it)
+            binding.progressBar.visibility=View.GONE
+            asicsList=it
+            asicsAdapter.setData(it)
+        })
 
-        loadProducts("268359205062",0)
-        loadProducts("268359237830",1)
-        loadProducts("268359401670",2)
-        loadProducts("268359303366",3)
-        loadProducts("268359336134",4)
+        homeViewModel1.puma?.observe(requireActivity(), Observer {
+            Log.i("tasneem",""+it)
+            binding.progressBar.visibility=View.GONE
+            pumaList=it
+            pumaAdapter.setData(it)
+        })
 
         homeViewModel.generatedDiscountLiveData.observe(requireActivity()) {
             it?.let {
                 SharedPref.setUserDiscount(it.id)
                 Toast.makeText(context,"Discount activated",Toast.LENGTH_SHORT).show()
+                showDialog()
             }
         }
 
         homeViewModel.cartCount.observe(viewLifecycleOwner, Observer {
 
-            Log.i("BADGE", "onCreateView: BADGE #  $it")
+            Log.i("cart", "onCreateView: BADGE #  $it")
             when(it){
                 0 -> {
                     binding.badge.visibility=View.INVISIBLE
@@ -127,37 +184,17 @@ class HomeFragment : Fragment()  , ShopCategoryAdapter.OnHomeItemListener {
         return binding.root
     }
 
-    private fun loadProducts(id:String,num:Int) {
-        homeViewModel.loadProductData(id,num).observe(requireActivity()) {
-            Log.d("data", "  products"+it.products[0].title)
-            it?.let {
-                binding.progressBar.visibility=View.GONE
-                when (num) {
-                    0 -> {
-                        adidusList= it.products as ArrayList<Products>
-                        adidasAdapter.updateCategory(adidusList)
-                    }
-                    1 -> {
-                        nikeList= it.products as ArrayList<Products>
-                        nikeAdapter.updateCategory(nikeList)
-                    }
-                    2 -> {
-                        pumaList= it.products as ArrayList<Products>
-                        pumaAdapter.updateCategory(pumaList)
-                    }
-                    3 -> {
-                        converceList= it.products as ArrayList<Products>
-                        converceAdapter.updateCategory(converceList)
-                    }
-                    4 -> {
-                        asicsList= it.products as ArrayList<Products>
-                        asicsAdapter.updateCategory(asicsList)
-                    }
-                }
-
-            }
+    private fun showDialog() {
+        val orderDialogBuilder = AlertDialog.Builder(requireContext())
+        orderDialogBuilder.setTitle(this.getString(R.string.discount))
+        orderDialogBuilder.setMessage(this.getString(R.string.your_discout_code_is)+SharedPref.getUserDiscount())
+        orderDialogBuilder.setPositiveButton(this.getString(R.string.ok)) { dialog, which ->
+            dialog.dismiss()
         }
+        orderDialogBuilder.setCancelable(false)
+        orderDialogBuilder.show()
     }
+
     private fun initUI() {
         binding.recyclerShopCategory.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -190,15 +227,76 @@ class HomeFragment : Fragment()  , ShopCategoryAdapter.OnHomeItemListener {
 
     }
 
-    override fun onImageClick(item: Products) {
-        val intent= Intent(this.context, ProductDetails::class.java)
-        intent.putExtra("product_id",item.id .toString())
-        this.context?.startActivity(intent)
+    override fun onStart() {
+        super.onStart()
+        homeViewModel.checkNetwork()
+        homeViewModel.network.observe(requireActivity()){
+            if(!it){
+                Toast.makeText(requireContext(),this.getString(R.string.no_internet),Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     override fun onResume() {
         super.onResume()
         homeViewModel.cartCount(SharedPref.getUserID().toString())
+        if (!adidasList.isNullOrEmpty() || !nikeList.isNullOrEmpty() ||!pumaList.isNullOrEmpty() || !asicsList.isNullOrEmpty() ||!converseList.isNullOrEmpty()){
+            adidasAdapter.setData(adidasList)
+            nikeAdapter.setData(nikeList)
+            converceAdapter.setData(converseList)
+            pumaAdapter.setData(pumaList)
+            asicsAdapter.setData(asicsList)
+            binding.progressBar.visibility=View.GONE
+        }
+        if (SharedPref.getUserStatus()){
+            binding.badge.visibility=View.VISIBLE
+        }else{
+            binding.badge.visibility=View.GONE
+        }
     }
+
+    override fun onImageClick(item: HomeCollectionQuery.Edge1) {
+        splitId(item.node.id)
+        val intent= Intent(this.context, ProductDetails::class.java)
+        intent.putExtra("product_id",splitId(item.node.id))
+        this.context?.startActivity(intent)
+    }
+
+    override fun onFavImageClick(item: HomeCollectionQuery.Edge1) {
+        homeViewModel1.addToFavorite(Favorite(item.node.legacyResourceId.toString().toLong(),item.node.title,item.node.handle,
+        item.node.variants.edges[0].node.price.toInt(),item.node.featuredImage!!.originalSrc.toString(),'F',
+            1,splitId(item.node.variants.edges[0].node.id),SharedPref.getUserID().toString()))
+    }
+
+    override fun onFavDeleImageClick(item: HomeCollectionQuery.Edge1) {
+        homeViewModel1.deleteFromFavorite(item.node.legacyResourceId.toString().toLong(),SharedPref.getUserID().toString())
+    }
+
+    override fun oncartImageClick(item: HomeCollectionQuery.Edge1) {
+        CoroutineScope(Dispatchers.IO).launch {
+        homeViewModel1.addToCart(Favorite(item.node.legacyResourceId.toString().toLong(),item.node.title,item.node.handle,
+            item.node.variants.edges[0].node.price.toInt(),item.node.featuredImage!!.originalSrc.toString(),'C',
+            1,splitId(item.node.variants.edges[0].node.id),SharedPref.getUserID().toString()))}.invokeOnCompletion {
+            homeViewModel.cartCount(SharedPref.getUserID().toString())
+        }
+
+    }
+
+    override fun oncartDeleImageClick(item: HomeCollectionQuery.Edge1) {
+        CoroutineScope(Dispatchers.IO).launch {
+        homeViewModel1.deleteFromCart(item.node.legacyResourceId.toString().toLong(),SharedPref.getUserID().toString())
+        }.invokeOnCompletion {
+            homeViewModel.cartCount(SharedPref.getUserID().toString())
+        }
+
+    }
+
+    fun splitId(id:String): String{
+        val delim = "/"
+        val list = id.split(delim)
+        return list.get(list.size-1)
+    }
+
+
 
 }
