@@ -23,6 +23,7 @@ class MeViewModel (application: Application,var apiRepository :DefaultRepo) : An
     var cancelOrderLiveData = MutableLiveData<Orders?>()
     var network =MutableLiveData<Boolean>()
     var cartCount = MutableLiveData<Int>()
+    var orderedProductsLiveData = MutableLiveData<List<Products>?>()
 
 //    var apiRepository: ApiRepository
 //
@@ -30,12 +31,30 @@ class MeViewModel (application: Application,var apiRepository :DefaultRepo) : An
 //        apiRepository = ApiRepository(application)
 //    }
 
-    fun getOpenOrders() {
+    fun getOpenOrders(id:String) {
         if (Validation.isOnline(getApplication())) {
             CoroutineScope(Dispatchers.IO).launch {
-                val response = apiRepository.fetchOpenOrders()
+                val response = apiRepository.fetchOpenOrders(id)
                 Log.i("tasneem", "" + response)
                 openOrdersLiveData.postValue(response?.orders)
+            }
+        }
+        else
+        {
+            network.postValue(false)
+        }
+    }
+
+    fun getOrderedProducts(ids:List<String>) {
+        if (Validation.isOnline(getApplication())) {
+            CoroutineScope(Dispatchers.IO).launch {
+                var products= mutableListOf<Products>()
+                for (id in ids){
+                    val response = apiRepository.fetchOrderedProducts(id)
+                    Log.i("tasneem", "" + response)
+                    response?.let { products.add(it.products) }
+                }
+                orderedProductsLiveData.postValue(products)
             }
         }
         else

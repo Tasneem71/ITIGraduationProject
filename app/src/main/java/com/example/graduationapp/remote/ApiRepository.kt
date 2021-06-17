@@ -107,9 +107,31 @@ class ApiRepository(application: Application, var local :DefaultLocal) : Default
     }
 
 
-    override suspend fun fetchOpenOrders(): OrderAPI? {
+    override suspend fun fetchOpenOrders(id:String): OrderAPI? {
 
-        val response = ApiServes.shopfiyService.getOpenOrders()
+        val response = ApiServes.shopfiyService.getOpenOrders(id)
+        try {
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    Log.i("Tasneem", "response" + it)
+                    return it
+                }
+            } else {
+                Log.i("Tasneem", "response failuer" + response.errorBody().toString())
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.i("Tasneem", " error?" + e.printStackTrace())
+
+        }
+        return null
+
+    }
+
+
+    override suspend fun fetchOrderedProducts(id:String): ProductDetails? {
+
+        val response = ApiServes.shopfiyService.getProductDetails(id)
         try {
             if (response.isSuccessful) {
                 response.body()?.let {

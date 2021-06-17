@@ -20,7 +20,7 @@ interface DefaultRepo {
     suspend fun createCustomer(customerJson: CreatedCustomer): ApiCustomers?
 
 
-    suspend fun fetchOpenOrders(): OrderAPI?
+    suspend fun fetchOpenOrders(id:String): OrderAPI?
 
     suspend fun createOrder(orderJson: CreatedOrder): OrderAPI?
 
@@ -29,6 +29,7 @@ interface DefaultRepo {
 
     suspend fun getAllProducts(): CollectionProducts?
 
+    suspend fun fetchOrderedProducts(id:String): ProductDetails?
 
     suspend fun getCustomerAddress(id:String): List<Addresse?>?
 

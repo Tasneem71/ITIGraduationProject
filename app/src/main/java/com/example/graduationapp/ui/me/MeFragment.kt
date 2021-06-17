@@ -93,7 +93,7 @@ class MeFragment : Fragment() ,  TabLayout.OnTabSelectedListener , orderAdapter.
         settingUI(SharedPref.getUserStatus())
         if (SharedPref.getUserStatus()){
             favoriteViewModel.getAllFavorite(userId)
-            viewModel.getOpenOrders()
+            viewModel.getOpenOrders(SharedPref.getUserID().toString())
         }
 
         favoriteViewModel.favorites?.observe(viewLifecycleOwner, Observer {
@@ -122,7 +122,7 @@ class MeFragment : Fragment() ,  TabLayout.OnTabSelectedListener , orderAdapter.
         viewModel.cancelOrderLiveData.observe(viewLifecycleOwner, Observer {
             it?.let {
                 cancelOrderDone()
-                viewModel.getOpenOrders()
+                viewModel.getOpenOrders(SharedPref.getUserID().toString())
             }
 
         })
@@ -259,13 +259,25 @@ class MeFragment : Fragment() ,  TabLayout.OnTabSelectedListener , orderAdapter.
         lp.copyFrom(dialog.getWindow()?.attributes)
         lp.width = WindowManager.LayoutParams.MATCH_PARENT
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT
+        val adapter= orderedProductsAdapter(arrayListOf())
+        bindingDialog.itemsRe.adapter=adapter
 
         bindingDialog.dateTime.text=order.financial_status
         bindingDialog.priceTv.text=order.total_price.toString()+" LE"
         bindingDialog.idTv.text=order.id
         bindingDialog.dateTv.text=order.created_at
-        var ordersNames=order.line_items.map { it.name }.joinToString("\n")
-        bindingDialog.itemsTv.text=ordersNames
+        var ordersIds=order.line_items.map { it.product_id }
+        viewModel.getOrderedProducts(ordersIds)
+
+        viewModel.orderedProductsLiveData?.observe(viewLifecycleOwner, Observer {
+            Log.d("tag","iddddddddddd"+  it!![0].id)
+            it?.let {
+                adapter.updateList(it)
+            }
+        })
+
+
+        //bindingDialog.itemsTv.text=ordersNames
 
         bindingDialog.editBtn.setOnClickListener { v ->
             dialog.dismiss()
