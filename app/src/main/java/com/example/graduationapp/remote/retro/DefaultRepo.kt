@@ -11,10 +11,6 @@ import retrofit2.Response
 interface DefaultRepo {
 
 
-    suspend fun fetchSmartCollectionData()
-
-    suspend fun fetchSmartProductsData(id: String, num: Int)
-
     suspend fun fetchAllCustomerData(): Response<ApiCustomers>
 
     suspend fun createCustomer(customerJson: CreatedCustomer): ApiCustomers?

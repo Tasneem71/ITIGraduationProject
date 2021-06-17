@@ -26,6 +26,8 @@ import com.example.graduationapp.graphql.GraphViewModel
 import com.example.graduationapp.local.DefaultLocal
 import com.example.graduationapp.local.LocalSource
 import com.example.graduationapp.remote.ApiRepository
+import com.example.graduationapp.remote.DefaultRemote
+import com.example.graduationapp.remote.RemoteDataSource
 import com.example.graduationapp.remote.retro.DefaultRepo
 import com.example.graduationapp.ui.cart.CartActivity
 import com.example.graduationapp.ui.favoriteFeature.FavoriteActivity
@@ -56,12 +58,14 @@ class HomeFragment : Fragment() , CollectionsGraphAdapter.OnHomeItemListener {
     var asicsList: List<HomeCollectionQuery.Edge1> = mutableListOf()
     lateinit var repository: DefaultRepo
     lateinit var local: DefaultLocal
+    lateinit var remote: DefaultRemote
 
     override fun onCreateView(inflater: LayoutInflater,container: ViewGroup?,savedInstanceState: Bundle?): View {
 
 
         local= LocalSource(requireActivity().application)
-        repository= ApiRepository(requireActivity().application,local)
+        remote=RemoteDataSource()
+        repository= ApiRepository(requireActivity().application,local,remote)
 
         val factory = HomeViewModelFactory(requireActivity().application,repository)
         homeViewModel = ViewModelProviders.of(this,factory).get(HomeViewModel::class.java)

@@ -12,17 +12,25 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.example.domain.core.feature.favoriteFeature.Favorite;
 import com.example.graduationapp.MainActivity;
 import com.example.graduationapp.R;
 import com.example.graduationapp.SharedPref;
 import com.example.graduationapp.create_order.CreateOrderViewModel;
+import com.example.graduationapp.create_order.CreateOrderViewModelFactory;
 import com.example.graduationapp.data.CreatedOrder;
 import com.example.graduationapp.data.DiscountCodes;
 import com.example.graduationapp.data.LineItems;
 import com.example.graduationapp.data.Order;
 import com.example.graduationapp.data.Transactions;
+import com.example.graduationapp.local.DefaultLocal;
+import com.example.graduationapp.local.LocalSource;
+import com.example.graduationapp.remote.ApiRepository;
+import com.example.graduationapp.remote.DefaultRemote;
+import com.example.graduationapp.remote.RemoteDataSource;
+import com.example.graduationapp.remote.retro.DefaultRepo;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.stripe.android.ApiResultCallback;
@@ -58,12 +66,23 @@ public class CheckoutActivityJava extends AppCompatActivity {
     private Stripe stripe;
     private String price;
     private boolean discount;
+    DefaultLocal local;
+    DefaultRemote remote;
+    DefaultRepo repository;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
-        viewModel=new ViewModelProvider(this).get(CreateOrderViewModel.class);
+
+        local= new LocalSource(this.getApplication());
+        remote= new RemoteDataSource();
+        repository= new ApiRepository(this.getApplication(),local,remote);
+
+        CreateOrderViewModelFactory factory = new CreateOrderViewModelFactory(this.getApplication(),repository);
+        viewModel = ViewModelProviders.of(this,factory).get(CreateOrderViewModel.class);
+
+
         stripe = new Stripe(
                 getApplicationContext(),
                 Objects.requireNonNull("pk_test_51J1qETHm8J3ojgHQpJrwU552AqgiZLXj1PCfbZQ7XS1yMiYIn1PiJQCay46M9yLFBb6KYYtmtDBOaiK4JUai7zKw001dWm1O7T")

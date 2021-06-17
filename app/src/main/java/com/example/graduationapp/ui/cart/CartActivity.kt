@@ -22,6 +22,8 @@ import com.example.graduationapp.databinding.ActivityOrderBinding
 import com.example.graduationapp.local.DefaultLocal
 import com.example.graduationapp.local.LocalSource
 import com.example.graduationapp.remote.ApiRepository
+import com.example.graduationapp.remote.DefaultRemote
+import com.example.graduationapp.remote.RemoteDataSource
 import com.example.graduationapp.remote.retro.DefaultRepo
 import com.example.graduationapp.ui.cart.adapter.CartAdapter
 import com.example.graduationapp.ui.checkoutAddress.CustomerDataActivity
@@ -46,6 +48,7 @@ class CartActivity : AppCompatActivity(), CartAdapter.OnCartItemListener {
     var code=false
     lateinit var repository: DefaultRepo
     lateinit var local: DefaultLocal
+    lateinit var remote: DefaultRemote
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,7 +62,8 @@ class CartActivity : AppCompatActivity(), CartAdapter.OnCartItemListener {
         Log.i("Menna", "user id == "+userId)
 
         local= LocalSource(this.application)
-        repository= ApiRepository(this.application,local)
+        remote= RemoteDataSource()
+        repository= ApiRepository(this.application,local,remote)
 
         val factory = CartViewModelFactory(this.application,repository)
         cartViewModel = ViewModelProviders.of(this,factory).get(CartViewModel::class.java)

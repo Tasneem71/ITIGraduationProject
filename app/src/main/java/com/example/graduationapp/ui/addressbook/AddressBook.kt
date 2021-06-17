@@ -17,6 +17,8 @@ import com.example.graduationapp.databinding.ActivityAdressBookBinding
 import com.example.graduationapp.local.DefaultLocal
 import com.example.graduationapp.local.LocalSource
 import com.example.graduationapp.remote.ApiRepository
+import com.example.graduationapp.remote.DefaultRemote
+import com.example.graduationapp.remote.RemoteDataSource
 import com.example.graduationapp.remote.retro.DefaultRepo
 import com.example.graduationapp.ui.addressbook.adapater.AddressAdapter
 import com.example.graduationapp.ui.checkoutAddress.CustomerDataActivity
@@ -32,6 +34,7 @@ class AddressBook : AppCompatActivity(),AddressAdapter.OnClickAddressListener {
     private  var addressAdapter= AddressAdapter(emptyList(),this)
     lateinit var repository: DefaultRepo
     lateinit var local: DefaultLocal
+    lateinit var remote: DefaultRemote
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,7 +54,8 @@ class AddressBook : AppCompatActivity(),AddressAdapter.OnClickAddressListener {
 
 
         local= LocalSource(this.application)
-        repository= ApiRepository(this.application,local)
+        remote= RemoteDataSource()
+        repository= ApiRepository(this.application,local,remote)
 
         val factory = AddressBookViewModelFactory(this.application,repository)
         addressBookViewModel = ViewModelProviders.of(this,factory).get(AddressBookViewModel::class.java)

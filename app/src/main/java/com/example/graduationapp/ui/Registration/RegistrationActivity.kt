@@ -20,6 +20,8 @@ import com.example.graduationapp.databinding.ActivityRegistrationBinding
 import com.example.graduationapp.local.DefaultLocal
 import com.example.graduationapp.local.LocalSource
 import com.example.graduationapp.remote.ApiRepository
+import com.example.graduationapp.remote.DefaultRemote
+import com.example.graduationapp.remote.RemoteDataSource
 import com.example.graduationapp.remote.retro.DefaultRepo
 import com.example.graduationapp.ui.search.SearchViewModel
 import com.example.graduationapp.ui.search.SearchViewModelFactory
@@ -31,6 +33,7 @@ class RegistrationActivity : AppCompatActivity() {
     private lateinit var registrationViewModel : RegistrationViewModel
     lateinit var repository: DefaultRepo
     lateinit var local: DefaultLocal
+    lateinit var remote: DefaultRemote
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRegistrationBinding.inflate(layoutInflater)
@@ -46,7 +49,8 @@ class RegistrationActivity : AppCompatActivity() {
 
 
         local= LocalSource(this.application)
-        repository= ApiRepository(this.application,local)
+        remote=RemoteDataSource()
+        repository= ApiRepository(this.application,local,remote)
 
         val factory = RegistrationViewModelFactory(this.application,repository)
         registrationViewModel = ViewModelProviders.of(this,factory).get(RegistrationViewModel::class.java)

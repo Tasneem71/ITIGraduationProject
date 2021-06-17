@@ -26,6 +26,8 @@ import com.example.graduationapp.databinding.ActivityPaymentSummaryBinding
 import com.example.graduationapp.local.DefaultLocal
 import com.example.graduationapp.local.LocalSource
 import com.example.graduationapp.remote.ApiRepository
+import com.example.graduationapp.remote.DefaultRemote
+import com.example.graduationapp.remote.RemoteDataSource
 import com.example.graduationapp.remote.retro.DefaultRepo
 import com.example.graduationapp.ui.addressbook.AddressBookViewModelFactory
 import com.example.graduationapp.ui.cart.CartActivity
@@ -45,6 +47,7 @@ class PaymentSummary : AppCompatActivity() {
     private lateinit var userId :String
     lateinit var repository: DefaultRepo
     lateinit var local: DefaultLocal
+    lateinit var remote: DefaultRemote
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,7 +56,8 @@ class PaymentSummary : AppCompatActivity() {
 
 
         local= LocalSource(this.application)
-        repository= ApiRepository(this.application,local)
+        remote=RemoteDataSource()
+        repository= ApiRepository(this.application,local,remote)
 
         val factory = CreateOrderViewModelFactory(this.application,repository)
         createOrderViewModel = ViewModelProviders.of(this,factory).get(CreateOrderViewModel::class.java)
