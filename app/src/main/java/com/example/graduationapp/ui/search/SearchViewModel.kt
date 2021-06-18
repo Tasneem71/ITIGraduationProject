@@ -18,23 +18,30 @@ class SearchViewModel (application: Application,repo :DefaultRepo) : AndroidView
     var network =MutableLiveData<Boolean>()
     var apiRepository: DefaultRepo=repo
 
+
+//    init {
+//        getAllProducts()
+//    }
+
+
     fun getAllProducts() {
-        if (Validation.isOnline(getApplication())){
             CoroutineScope(Dispatchers.IO).launch {
                 val response=apiRepository.getAllProducts()
                 getAllProductsLiveData.postValue(response)
             }
-        }
-        else
-        {
-            network.postValue(false)
-        }
     }
 }
 
 @Suppress("UNCHECKED_CAST")
 class SearchViewModelFactory(val application: Application,val repo: DefaultRepo): ViewModelProvider.NewInstanceFactory(){
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return SearchViewModel(application,repo) as T
+
+        if (modelClass.isAssignableFrom(SearchViewModel::class.java)) {
+            return SearchViewModel(application,repo) as T
+        } else {
+            throw IllegalArgumentException("ViewModel Not Found")
+        }
+
+
     }
 }

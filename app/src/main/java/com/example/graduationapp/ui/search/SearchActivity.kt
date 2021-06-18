@@ -28,6 +28,7 @@ import com.example.graduationapp.remote.RemoteDataSource
 import com.example.graduationapp.remote.retro.DefaultRepo
 import com.example.graduationapp.ui.Registration.RegistrationViewModelFactory
 import com.example.graduationapp.ui.productPageFeature.ProductDetails
+import com.example.graduationapp.utils.Validation
 
 
 class SearchActivity : AppCompatActivity() , ShopCategoryAdapter.OnHomeItemListener , AdapterView.OnItemSelectedListener{
@@ -61,7 +62,7 @@ class SearchActivity : AppCompatActivity() , ShopCategoryAdapter.OnHomeItemListe
         initUi()
         searchAdapter.updateCategory(filteredList)
 
-        searchViewMode.getAllProducts()
+
         searchViewMode.getAllProductsLiveData.observe(this) {
 
             it?.let {
@@ -228,6 +229,15 @@ class SearchActivity : AppCompatActivity() , ShopCategoryAdapter.OnHomeItemListe
     }
 
     override fun onNothingSelected(p0: AdapterView<*>?) {
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if (Validation.isOnline(this)){
+            searchViewMode.getAllProducts()
+        }else{
+            Toast.makeText(this,this.getString(R.string.no_internet), Toast.LENGTH_LONG).show()
+        }
     }
 }
 
