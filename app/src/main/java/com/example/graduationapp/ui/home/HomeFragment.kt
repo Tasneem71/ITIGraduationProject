@@ -35,6 +35,7 @@ import com.example.graduationapp.ui.productPageFeature.ProductDetails
 import com.example.graduationapp.ui.search.SearchActivity
 import com.example.graduationapp.ui.search.SearchViewModel
 import com.example.graduationapp.ui.search.SearchViewModelFactory
+import com.example.graduationapp.utils.Validation
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -95,8 +96,11 @@ class HomeFragment : Fragment() , CollectionsGraphAdapter.OnHomeItemListener {
         binding.discount.setOnClickListener {
             Log.i("discount","pressed")
             if (SharedPref.getUserDiscount()==0L) {
-                Log.i("discount","pressed if")
+                if (Validation.isOnline(requireContext())){
                 homeViewModel.getDiscount10()
+                }else{
+                    Toast.makeText(context,getString(R.string.no_internet),Toast.LENGTH_SHORT).show()
+                }
             }else{
                 Log.i("discount","pressed else")
                 Toast.makeText(context,"Discount has already been activated",Toast.LENGTH_SHORT).show()

@@ -22,6 +22,7 @@ import com.example.graduationapp.ui.checkoutAddress.CustomerDataActivity
 import com.example.graduationapp.ui.favoriteFeature.FavoriteActivity
 
 import com.example.graduationapp.ui.favoriteFeature.FavoriteViewModel
+import com.example.graduationapp.utils.Validation
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -34,6 +35,7 @@ ProductDetails : AppCompatActivity() {
     var currentProduct :Products? = null
     private lateinit var viewPager2: ViewPager2
     val userId = SharedPref.getUserID().toString()
+    var product_id=""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,14 +47,13 @@ ProductDetails : AppCompatActivity() {
         favoriteViewModel = ViewModelProvider(this).get(FavoriteViewModel::class.java)
 
         val intent=intent
-        var product_id=""
+
         if (intent!=null)
             product_id= intent.getStringExtra("product_id").toString()
 
         setFavoriteImage(product_id.toLong())
         isCart(product_id.toLong())
 
-        productPageViewModel.getProductDetails(product_id)
         productPageViewModel.productDetails.observe(this, Observer {
 
            // Log.i("Mohamed", "onCreate: ${it.title}")
@@ -203,6 +204,13 @@ ProductDetails : AppCompatActivity() {
         show()
     }
 
-
+    override fun onStart() {
+        super.onStart()
+        if (Validation.isOnline(this)){
+            productPageViewModel.getProductDetails(product_id)
+        }else{
+            Toast.makeText(this,this.getString(R.string.no_internet), Toast.LENGTH_LONG).show()
+        }
+    }
 
 }
