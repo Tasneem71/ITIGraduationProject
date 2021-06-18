@@ -37,8 +37,6 @@ import org.robolectric.annotation.Config
 class SearchViewModelTest : TestCase(){
     private lateinit var viewModel: SearchViewModel
     lateinit var repository: DefaultRepo
-    lateinit var local: DefaultLocal
-    lateinit var remote: DefaultRemote
      var collection:CollectionProducts?=CollectionProducts(arrayListOf())
 
     @get:Rule

@@ -41,14 +41,17 @@ class MainActivity : AppCompatActivity() {
             when(it.id) {
                 1->{
                     //setCurrentFragment(first)
+                    navController.popBackStack()
                     navController.navigate(R.id.navigation_home)
                 }
                 2->{
                     //setCurrentFragment(second)
+                    navController.popBackStack()
                     navController.navigate(R.id.navigation_category)
                 }
                 3->{
                     //setCurrentFragment(third)
+                    navController.popBackStack()
                     navController.navigate(R.id.navigation_me)
                 }
             }
