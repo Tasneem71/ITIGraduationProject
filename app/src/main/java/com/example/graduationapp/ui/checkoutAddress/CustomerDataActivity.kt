@@ -52,7 +52,7 @@ class CustomerDataActivity : AppCompatActivity() {
         repository= ApiRepository(this.application,local,remote)
 
         val factory = CustomerDataViewModelFactory(this.application,repository)
-        customerDataViewModel = ViewModelProviders.of(this,factory).get(customerDataViewModel::class.java)
+        customerDataViewModel = ViewModelProviders.of(this,factory).get(CustomerDataViewModel::class.java)
 
 
         //customerDataViewModel = ViewModelProvider(this).get(CustomerDataViewModel::class.java)

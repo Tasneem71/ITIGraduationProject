@@ -12,6 +12,7 @@ import com.example.graduationapp.data.orders.Orders
 import com.example.graduationapp.remote.ApiRepository
 import com.example.graduationapp.remote.retro.DefaultRepo
 import com.example.graduationapp.ui.addressbook.AddressBookViewModel
+import com.example.graduationapp.ui.search.SearchViewModel
 import com.example.graduationapp.utils.Validation
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -32,21 +33,18 @@ class MeViewModel (application: Application,var apiRepository :DefaultRepo) : An
 //    }
 
     fun getOpenOrders(id:String) {
-        if (Validation.isOnline(getApplication())) {
+
             CoroutineScope(Dispatchers.IO).launch {
                 val response = apiRepository.fetchOpenOrders(id)
                 Log.i("tasneem", "" + response)
                 openOrdersLiveData.postValue(response?.orders)
             }
-        }
-        else
-        {
-            network.postValue(false)
-        }
+
+
     }
 
     fun getOrderedProducts(ids:List<String>) {
-        if (Validation.isOnline(getApplication())) {
+
             CoroutineScope(Dispatchers.IO).launch {
                 var products= mutableListOf<Products>()
                 for (id in ids){
@@ -56,22 +54,17 @@ class MeViewModel (application: Application,var apiRepository :DefaultRepo) : An
                 }
                 orderedProductsLiveData.postValue(products)
             }
-        }
-        else
-        {
-            network.postValue(false)
-        }
+
+
     }
 
     fun cancelOrder(id : String,orderJson: CancelOrder) {
-        if (Validation.isOnline(getApplication())) {
+
             CoroutineScope(Dispatchers.IO).launch {
                 val response = apiRepository.cancelOrder(id, orderJson)
                 cancelOrderLiveData.postValue(response?.order)
             }
-        }else {
-            network.postValue(false)
-        }
+
     }
 
     fun cartCount(userId: String){
@@ -87,6 +80,11 @@ class MeViewModel (application: Application,var apiRepository :DefaultRepo) : An
 @Suppress("UNCHECKED_CAST")
 class MeViewModelFactory(val application: Application,val repo: DefaultRepo): ViewModelProvider.NewInstanceFactory() {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return MeViewModel(application, repo) as T
+
+        if (modelClass.isAssignableFrom(MeViewModel::class.java)) {
+            return MeViewModel(application, repo) as T
+        } else {
+            throw IllegalArgumentException("ViewModel Not Found")
+        }
     }
 }

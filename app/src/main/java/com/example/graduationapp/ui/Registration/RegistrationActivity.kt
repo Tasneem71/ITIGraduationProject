@@ -24,7 +24,7 @@ import com.example.graduationapp.remote.DefaultRemote
 import com.example.graduationapp.remote.RemoteDataSource
 import com.example.graduationapp.remote.retro.DefaultRepo
 import com.example.graduationapp.ui.search.SearchViewModel
-import com.example.graduationapp.ui.search.SearchViewModelFactory
+import com.example.graduationapp.utils.Validation
 
 class RegistrationActivity : AppCompatActivity() {
     private lateinit var rlayout: RelativeLayout
@@ -59,9 +59,13 @@ class RegistrationActivity : AppCompatActivity() {
         //registrationViewModel = ViewModelProvider(this).get(RegistrationViewModel::class.java)
 
         binding.registerBtn.setOnClickListener {
+            if (Validation.isOnline(this)){
             registrationViewModel.validate_Registration(CreatedCustomer(Customer(binding.fnameEdt.text.toString(),binding.lnameEdt.text.toString()
             ,binding.emailEdt.text.toString(),null,binding.passwordEdt.text.toString(),true,null,binding.passwordEdt.text.toString()
             ,binding.passwordEdt.text.toString(),false)))
+            }else{
+                Toast.makeText(this,this.getString(R.string.no_internet), Toast.LENGTH_LONG).show()
+            }
         }
 
         registrationViewModel.customerLiveData.observe(this) {
