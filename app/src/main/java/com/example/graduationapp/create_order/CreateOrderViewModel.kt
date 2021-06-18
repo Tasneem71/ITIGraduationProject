@@ -15,6 +15,7 @@ import com.example.graduationapp.local.LocalSource
 import com.example.graduationapp.remote.ApiRepository
 import com.example.graduationapp.remote.retro.DefaultRepo
 import com.example.graduationapp.ui.addressbook.AddressBookViewModel
+import com.example.graduationapp.ui.search.SearchViewModel
 import com.example.graduationapp.utils.Validation
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -36,17 +37,17 @@ class CreateOrderViewModel(application: Application,var apiRepository : DefaultR
 //    }
 
     fun getAllOrderd(userId: String){
-        if (Validation.isOnline(getApplication())) {
+       // if (Validation.isOnline(getApplication())) {
             viewModelScope.launch {
                 val result = async { apiRepository.getAllCart(userId) }
                 result.join()
                 orders?.value = result.await()
             }
-        }
-        else
-        {
-            network.postValue(false)
-        }
+//        }
+//        else
+//        {
+//            network.postValue(false)
+//        }
     }
 
     fun createOrder(orderJson: CreatedOrder) {
@@ -69,23 +70,27 @@ class CreateOrderViewModel(application: Application,var apiRepository : DefaultR
         }
     }
     fun getDefaultAddress(id:String,addressIp:String) {
-        if (Validation.isOnline(getApplication())) {
+      // if (Validation.isOnline(getApplication())) {
             CoroutineScope(Dispatchers.IO).launch {
                 apiRepository.getDefaultAddress(id, addressIp).let {
                     getDefaultAddLifeData.postValue(it)
                 }
             }
-        }
-        else
-        {
-            network.postValue(false)
-        }
+      //  }
+//        else
+//        {
+//            network.postValue(false)
+//        }
     }
 }
 
 @Suppress("UNCHECKED_CAST")
 class CreateOrderViewModelFactory(val application: Application,val repo: DefaultRepo): ViewModelProvider.NewInstanceFactory() {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return CreateOrderViewModel(application, repo) as T
+        if (modelClass.isAssignableFrom(CreateOrderViewModel::class.java)) {
+            return CreateOrderViewModel(application, repo) as T
+        } else {
+            throw IllegalArgumentException("ViewModel Not Found")
+        }
     }
 }
