@@ -44,6 +44,7 @@ import com.example.graduationapp.ui.favoriteFeature.FavoriteActivity
 import com.example.graduationapp.ui.favoriteFeature.FavoriteViewModel
 import com.example.graduationapp.ui.search.SearchViewModel
 import com.example.graduationapp.ui.search.SearchViewModelFactory
+import com.example.graduationapp.utils.Validation
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
 import java.text.SimpleDateFormat
@@ -97,7 +98,11 @@ class MeFragment : Fragment() ,  TabLayout.OnTabSelectedListener , orderAdapter.
         settingUI(SharedPref.getUserStatus())
         if (SharedPref.getUserStatus()){
             favoriteViewModel.getAllFavorite(userId)
+            if (Validation.isOnline(requireContext()))
             viewModel.getOpenOrders(SharedPref.getUserID().toString())
+            else{
+                Toast.makeText(requireContext(),this.getString(R.string.no_internet), Toast.LENGTH_LONG).show()
+            }
         }
 
         favoriteViewModel.favorites?.observe(viewLifecycleOwner, Observer {
@@ -126,7 +131,11 @@ class MeFragment : Fragment() ,  TabLayout.OnTabSelectedListener , orderAdapter.
         viewModel.cancelOrderLiveData.observe(viewLifecycleOwner, Observer {
             it?.let {
                 cancelOrderDone()
+                if (Validation.isOnline(requireContext()))
                 viewModel.getOpenOrders(SharedPref.getUserID().toString())
+                else{
+                    Toast.makeText(requireContext(),this.getString(R.string.no_internet), Toast.LENGTH_LONG).show()
+                }
             }
 
         })
@@ -246,7 +255,11 @@ class MeFragment : Fragment() ,  TabLayout.OnTabSelectedListener , orderAdapter.
     override fun onCancelClick(it: Orders) {
         val email = SharedPref.getUserEmail()
         val amount = it.total_price
+        if (Validation.isOnline(requireContext())){
         viewModel.cancelOrder(it.id,CancelOrder())
+        }else{
+            Toast.makeText(requireContext(),this.getString(R.string.no_internet), Toast.LENGTH_LONG).show()
+        }
     }
 
     override fun onSeeMoreClick(item: Orders) {
@@ -271,7 +284,11 @@ class MeFragment : Fragment() ,  TabLayout.OnTabSelectedListener , orderAdapter.
         bindingDialog.idTv.text=order.id
         bindingDialog.dateTv.text=order.created_at
         var ordersIds=order.line_items.map { it.product_id }
+        if (Validation.isOnline(requireContext()))
         viewModel.getOrderedProducts(ordersIds)
+        else{
+            Toast.makeText(requireContext(),this.getString(R.string.no_internet), Toast.LENGTH_LONG).show()
+        }
 
         viewModel.orderedProductsLiveData?.observe(viewLifecycleOwner, Observer {
             Log.d("tag","iddddddddddd"+  it!![0].id)

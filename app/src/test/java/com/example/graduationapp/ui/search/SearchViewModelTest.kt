@@ -59,6 +59,7 @@ class SearchViewModelTest : TestCase(){
 
         // When
         viewModel = SearchViewModel(ApplicationProvider.getApplicationContext(),repository)
+        viewModel.getAllProducts()
 
         // Then
         coVerify { repository.getAllProducts() }
@@ -70,6 +71,7 @@ class SearchViewModelTest : TestCase(){
         coEvery { repository.getAllProducts() } returns collection
 
         viewModel = SearchViewModel(ApplicationProvider.getApplicationContext(),repository)
+        viewModel.getAllProducts()
 
         assertEquals(collection, viewModel.getAllProductsLiveData.getOrAwaitValue())
     }
