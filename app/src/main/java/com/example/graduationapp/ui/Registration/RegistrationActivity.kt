@@ -24,7 +24,6 @@ import com.example.graduationapp.remote.DefaultRemote
 import com.example.graduationapp.remote.RemoteDataSource
 import com.example.graduationapp.remote.retro.DefaultRepo
 import com.example.graduationapp.ui.search.SearchViewModel
-import com.example.graduationapp.ui.search.SearchViewModelFactory
 
 class RegistrationActivity : AppCompatActivity() {
     private lateinit var rlayout: RelativeLayout
