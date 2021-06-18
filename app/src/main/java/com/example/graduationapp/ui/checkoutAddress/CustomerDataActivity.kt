@@ -107,44 +107,27 @@ class CustomerDataActivity : AppCompatActivity() {
                     })
 
                 }
+                "First" ->{
+                    Log.i("Menna", "First: ")
+                    frromEdit = false
+                    customerDataViewModel.createAddressLiveData.observe(this, Observer {
+                        Log.i("Menna",""+it?.address)
+                        if (it?.address?.province.isNullOrEmpty() )
+                        {
+                            Toast.makeText(this,this.getString(R.string.valid),Toast.LENGTH_SHORT).show()
+                        }else{
+                            if(SharedPref.getAddressID().isNullOrEmpty()){
+                                SharedPref.setAddressID(it?.address?.id)
+                            }
+                            Toast.makeText(this,this.getString(R.string.newAddress),Toast.LENGTH_SHORT).show()
+                            finish()
+                        }
+
+                    })
+
+                }
             }
         }
-
-
-
-//        customerDataViewModel.getAllCarts(userId)
-//        customerDataViewModel.getCustomerAddress(SharedPref.getUserID().toString())
-//        //check
-//        customerDataViewModel.firstAddressDetails.observe(this) {
-//            Log.i("Menna","Chheck if empty "+it)
-//           if (it.isNullOrEmpty()) {
-//               frromEdit = false
-//               customerDataViewModel.createAddressLiveData.observe(this, Observer {
-//                   Log.i("Menna",""+it?.address)
-//                   if (it?.address?.province.isNullOrEmpty() )
-//                   {
-//                       Toast.makeText(this,this.getString(R.string.valid),Toast.LENGTH_SHORT).show()
-//                   }else{
-//                       goToSummary(it!!)
-//                   }
-//
-//               })
-//           }
-//           else{
-//               frromEdit = true
-//               //fillIfAddressExist()
-//               customerDataViewModel.editAddressLiveData.observe(this, Observer {
-//                   Log.i("Menna","edit address ***** "+it?.address)
-//                   if (it?.address?.province.isNullOrEmpty())
-//                   {
-//                       Toast.makeText(this,this.getString(R.string.valid),Toast.LENGTH_SHORT).show()
-//                   }else{
-//                      goToSummary(it!!)
-//                   }
-//
-//               })
-//           }
-//        }
 
         binding.saveBtn.setOnClickListener {
             if (frromEdit) {
@@ -156,31 +139,16 @@ class CustomerDataActivity : AppCompatActivity() {
         }
         binding.back.setOnClickListener {
             finish()
-            //startActivity(Intent(this, CartActivity::class.java))
         }
 
     }
-    fun goToSummary(it : AddressData){
-        val intent1= Intent(this, PaymentSummary::class.java)
-        intent1.putExtra("province",(it?.address?.province+it?.address?.city))
-        intent1.putExtra("phone",(it?.address?.phone))
-        intent1.putExtra("address1",(it?.address?.address1))
-        intent1.putExtra("price",intent.getStringExtra("price").toString())
-        startActivity(intent1)
-    }
-
     private fun fillIfAddressExist(address : Addresse){
-//        customerDataViewModel.firstAddressDetails.observe(this) {
-//            it?.let {
-//                SharedPref.setAddressID(it[0]?.id)
-                binding.address1.text = SpannableStringBuilder("${address.address1 ?:' '}")
-                binding.city.text =  SpannableStringBuilder("${address.city ?:' '}")
-                binding.phone.text = SpannableStringBuilder("${address.phone ?:' '}")
-                binding.province.text = SpannableStringBuilder("${address.province ?:' '}")
-                binding.country.text = SpannableStringBuilder("${address.country ?:' '}")
-                binding.zip.text = SpannableStringBuilder("${address.zip ?:' '}")
-//            }
-//        }
+        binding.address1.text = SpannableStringBuilder("${address.address1 ?:' '}")
+        binding.city.text =  SpannableStringBuilder("${address.city ?:' '}")
+        binding.phone.text = SpannableStringBuilder("${address.phone ?:' '}")
+        binding.province.text = SpannableStringBuilder("${address.province ?:' '}")
+        binding.country.text = SpannableStringBuilder("${address.country ?:' '}")
+        binding.zip.text = SpannableStringBuilder("${address.zip ?:' '}")
     }
     private fun addCustomerData() {
         val customerId =SharedPref.getUserID().toString()

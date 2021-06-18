@@ -16,56 +16,37 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class AddressBookViewModel(application: Application, var apiRepository :DefaultRepo) : AndroidViewModel(application){
-    var firstAddressDetails  = MutableLiveData<List<Addresse?>?>()
     var allCustomerAddresses = MutableLiveData<List<Addresse?>?>()
     var defualtAddress = MutableLiveData<AddressData?>()
     var network =MutableLiveData<Boolean>()
-    var createAddressLiveData = MutableLiveData<AddressData?>()
-    var editAddressLiveData = MutableLiveData<AddressData?>()
-
 
 
     fun getAllCustomerAddress(id:String) {
-        if (Validation.isOnline(getApplication())) {
-            CoroutineScope(Dispatchers.IO).launch {
-                apiRepository.getAllCustomerAddress(id).let {
-                    allCustomerAddresses.postValue(it)
-                }
+        CoroutineScope(Dispatchers.IO).launch {
+            apiRepository.getAllCustomerAddress(id).let {
+                allCustomerAddresses.postValue(it)
             }
-        }
-        else
-        {
-            network.postValue(false)
         }
 
     }
-
 
     fun setDefaultAddress(id:String, addressID:String) {
         Log.i("Menna", "setDefaultAddress:")
 
-        if (Validation.isOnline(getApplication())) {
-            viewModelScope.launch {
-                apiRepository.setDefaultAddress(id, addressID).let {
-                    defualtAddress.postValue(it)
-                    Log.i("Menna", "setDefaultAdhggggggggggdress:")
-
-                }
-            }.invokeOnCompletion {
-                getAllCustomerAddress(id)
-                SharedPref.setAddressID(addressID)
+        viewModelScope.launch {
+            apiRepository.setDefaultAddress(id, addressID).let {
+                defualtAddress.postValue(it)
+                Log.i("Menna", "setDefaultAdhggggggggggdress:")
 
             }
-        }
-        else
-        {
-            Log.i("Menna", "setDefaulteeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeAddress:")
+        }.invokeOnCompletion {
+            getAllCustomerAddress(id)
+           // SharedPref.setAddressID(addressID)
 
-            network.postValue(false)
         }
     }
     fun deleteAddress(id:String,addressIp:String) {
-        if (Validation.isOnline(getApplication())) {
+      //  if (Validation.isOnline(getApplication())) {
             viewModelScope.launch {
                 apiRepository.deleteAddress(id, addressIp).let {
                     Log.i("Menna","delete done it = $it")
@@ -74,11 +55,11 @@ class AddressBookViewModel(application: Application, var apiRepository :DefaultR
                 getAllCustomerAddress(id)
 
             }
-        }
-        else
-        {
-            network.postValue(false)
-        }
+       // }
+//        else
+//        {
+//            network.postValue(false)
+//        }
     }
 
 
@@ -87,6 +68,11 @@ class AddressBookViewModel(application: Application, var apiRepository :DefaultR
 @Suppress("UNCHECKED_CAST")
 class AddressBookViewModelFactory(val application: Application,val repo: DefaultRepo): ViewModelProvider.NewInstanceFactory() {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return AddressBookViewModel(application, repo) as T
+        if (modelClass.isAssignableFrom(AddressBookViewModel::class.java)) {
+            return AddressBookViewModel(application, repo) as T
+
+        } else {
+            throw IllegalArgumentException("ViewModel Not Found")
+        }
     }
 }

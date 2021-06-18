@@ -120,7 +120,7 @@ class MeFragment : Fragment() ,  TabLayout.OnTabSelectedListener , orderAdapter.
         }
 
         viewModel.openOrdersLiveData?.observe(viewLifecycleOwner, Observer {
-          Log.d("tag","iddddddddddd"+  it!![0].id)
+           // Log.d("tag","iddddddddddd"+  it!![0].id)
             it?.let {
                     orderAdapter.updateList(it.filter { it.contact_email==SharedPref.getUserEmail() })
             }

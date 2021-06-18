@@ -3,6 +3,7 @@ package com.example.graduationapp.ui.addressbook
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.domain.core.subFeature.GridSpacingItemDecoration
 import com.example.domain.core.subFeature.RecyclerViewAnimation
+import com.example.graduationapp.R
 import com.example.graduationapp.SharedPref
 import com.example.graduationapp.data.Addresse
 import com.example.graduationapp.databinding.ActivityAdressBookBinding
@@ -25,6 +27,7 @@ import com.example.graduationapp.ui.checkoutAddress.CustomerDataActivity
 import com.example.graduationapp.ui.favoriteFeature.FavoriteViewModel
 import com.example.graduationapp.ui.search.SearchViewModel
 import com.example.graduationapp.ui.search.SearchViewModelFactory
+import com.example.graduationapp.utils.Validation
 import com.google.android.material.snackbar.Snackbar
 
 class AddressBook : AppCompatActivity(),AddressAdapter.OnClickAddressListener {
@@ -65,8 +68,14 @@ class AddressBook : AppCompatActivity(),AddressAdapter.OnClickAddressListener {
         userId = SharedPref.getUserID().toString()
         Log.i("Menna", "AddressBook user id == $userId")
 
+        if(Validation.isOnline(this)) {
+            addressBookViewModel.getAllCustomerAddress(userId)
+        }
+        else
+        {
+            Toast.makeText(this,getString(R.string.no_internet),Toast.LENGTH_LONG).show()
 
-        addressBookViewModel.getAllCustomerAddress(userId)
+        }
         addressBookViewModel.allCustomerAddresses.observe(this) {
             it?.let {
                 //adapterList
@@ -74,8 +83,6 @@ class AddressBook : AppCompatActivity(),AddressAdapter.OnClickAddressListener {
 
             }
         }
-
-
 
         binding.addAddress.setOnClickListener{
             val intent=Intent(this,CustomerDataActivity::class.java)
@@ -94,9 +101,11 @@ class AddressBook : AppCompatActivity(),AddressAdapter.OnClickAddressListener {
         }
         else
         {
-
-            Log.i("Menna", "hhhhhhhhhhh: ${item.id}")
-            addressBookViewModel.deleteAddress(userId,item.id)
+            if(Validation.isOnline(this)) {
+                addressBookViewModel.deleteAddress(userId, item.id)
+            }else{
+                Toast.makeText(this,getString(R.string.no_internet),Toast.LENGTH_LONG).show()
+            }
         }
 
     }
@@ -127,8 +136,12 @@ class AddressBook : AppCompatActivity(),AddressAdapter.OnClickAddressListener {
 
 
         Log.i("Menna", "cjcccccccccccccccc: ${item.id}")
+        if(Validation.isOnline(this)) {
+            addressBookViewModel.setDefaultAddress(userId, item.id)
+        }else{
+            Toast.makeText(this,getString(R.string.no_internet),Toast.LENGTH_LONG).show()
 
-        addressBookViewModel.setDefaultAddress(userId,item.id)
+        }
 
     }
 
@@ -139,7 +152,12 @@ class AddressBook : AppCompatActivity(),AddressAdapter.OnClickAddressListener {
 
     private fun updateList()
     {
-        addressBookViewModel.getAllCustomerAddress(userId)
+        if(Validation.isOnline(this)) {
+            addressBookViewModel.getAllCustomerAddress(userId)
+        }else{
+            Toast.makeText(this,getString(R.string.no_internet),Toast.LENGTH_LONG).show()
+
+        }
         addressBookViewModel.allCustomerAddresses.observe(this) {
             it?.let {
                 //adapterList

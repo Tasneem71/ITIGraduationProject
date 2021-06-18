@@ -137,7 +137,7 @@ class CartActivity : AppCompatActivity(), CartAdapter.OnCartItemListener {
                 if(!code){
                     val intent = Intent(this, CustomerDataActivity::class.java)
                     intent.putExtra("price", price)
-                    intent.putExtra("Key", "New")
+                    intent.putExtra("key","First")
                     startActivity(intent)
                 }else{
                     val intent = Intent(this, PaymentSummary::class.java)
@@ -152,7 +152,7 @@ class CartActivity : AppCompatActivity(), CartAdapter.OnCartItemListener {
         }
 
         binding.close.setOnClickListener {
-         startActivity(Intent(this,MainActivity::class.java))
+            finish()
         }
         binding.shopNow.setOnClickListener {
             startActivity(Intent(this,MainActivity::class.java))
@@ -168,6 +168,12 @@ class CartActivity : AppCompatActivity(), CartAdapter.OnCartItemListener {
 
         val itemTouchHelper = ItemTouchHelper(swipeToDeleteCallback)
         itemTouchHelper.attachToRecyclerView(binding.recyclerShopBag)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.i("Menna", "onResume : again")
+        cartViewModel.getAllCustomerAddress(userId)
     }
 
 
@@ -224,16 +230,3 @@ class CartActivity : AppCompatActivity(), CartAdapter.OnCartItemListener {
 
 
 }
-
-//
-//fun deleteItem(pos: Int) {
-//    val i=( itemsList[pos].price *itemsList[pos].count)
-//    Log.i("Menna",(itemsList[pos].price).toString()+"***count***"+(itemsList[pos].count).toString())
-//    val old = cartViewModel.sumOfItems.value!!
-//    val sum = old - i
-//    cartViewModel.sumOfItems.postValue(sum)
-//    //*******************************************
-//    cartViewModel.deleteFromFavorite(itemsList[pos])
-//    itemsList.removeAt(pos)
-//    notifyItemRemoved(pos)
-//}
