@@ -136,13 +136,13 @@ class CartActivity : AppCompatActivity(), CartAdapter.OnCartItemListener {
         })
 
         binding.checkOut.setOnClickListener {
-           if(binding.total2.text.toString()== "0"){
-             Toast.makeText(this,this.getString(R.string.empty_cart),Toast.LENGTH_LONG).show()
-           }else{
-               val intent = Intent(this, CustomerDataActivity::class.java)
-               intent.putExtra("price", binding.total2.text.toString())
-               startActivity(intent)
-           }
+//           if(binding.total2.text.toString()== "0"){
+//             Toast.makeText(this,this.getString(R.string.empty_cart),Toast.LENGTH_LONG).show()
+//           }else{
+//               val intent = Intent(this, CustomerDataActivity::class.java)
+//               intent.putExtra("price", binding.total2.text.toString())
+//               startActivity(intent)
+//           }
 
             if(empty){
                 Toast.makeText(this,this.getString(R.string.empty_cart),Toast.LENGTH_LONG).show()
@@ -153,10 +153,12 @@ class CartActivity : AppCompatActivity(), CartAdapter.OnCartItemListener {
                     intent.putExtra("price", price)
                     intent.putExtra("key","First")
                     startActivity(intent)
+                    finish()
                 }else{
                     val intent = Intent(this, PaymentSummary::class.java)
                     intent.putExtra("price", price)
                     startActivity(intent)
+                    finish()
                 }
             }
 

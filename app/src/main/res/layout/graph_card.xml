@@ -74,7 +74,6 @@
         android:id="@+id/price"
         tools:text="50 LE"
         android:textSize="13sp"
-        android:textStyle="bold"
         android:textColor="@color/black"
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
@@ -84,8 +83,8 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <ImageView
-        android:layout_height="24dp"
-        android:layout_width="24dp"
+        android:layout_height="22dp"
+        android:layout_width="22dp"
         android:id="@+id/addToFav"
         android:layout_marginEnd="5dp"
         android:layout_marginTop="2dp"
@@ -95,8 +94,8 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <ImageView
-        android:layout_height="24dp"
-        android:layout_width="24dp"
+        android:layout_height="22dp"
+        android:layout_width="22dp"
         android:id="@+id/addTocart"
         android:layout_marginTop="2dp"
         android:elevation="16dp"

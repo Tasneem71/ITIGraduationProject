@@ -163,6 +163,7 @@ class PaymentSummary : AppCompatActivity() {
         }
         binding.back.setOnClickListener {
             startActivity(Intent(this, CartActivity::class.java))
+            finish()
         }
 
 
