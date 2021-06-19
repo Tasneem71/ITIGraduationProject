@@ -116,11 +116,14 @@ class CustomerDataActivity : AppCompatActivity() {
                         {
                             Toast.makeText(this,this.getString(R.string.valid),Toast.LENGTH_SHORT).show()
                         }else{
-                            if(SharedPref.getAddressID().isNullOrEmpty()){
-                                SharedPref.setAddressID(it?.address?.id)
-                            }
+
+                            SharedPref.setAddressID(it?.address?.id)
+
                             Toast.makeText(this,this.getString(R.string.newAddress),Toast.LENGTH_SHORT).show()
-                            finish()
+                            val price = intent.getStringExtra("price").toString()
+                            val paymentIntent = Intent(this, PaymentSummary::class.java)
+                            paymentIntent.putExtra("price", price)
+                            startActivity(paymentIntent)
                         }
 
                     })
