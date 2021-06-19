@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -102,7 +103,18 @@ class AddressBook : AppCompatActivity(),AddressAdapter.OnClickAddressListener {
         else
         {
             if(Validation.isOnline(this)) {
-                addressBookViewModel.deleteAddress(userId, item.id)
+                val deleteAddressDialog = AlertDialog.Builder(this)
+                deleteAddressDialog.setTitle(this.getString(R.string.delete))
+                deleteAddressDialog.setMessage(this.getString(R.string.deleteMessage))
+                deleteAddressDialog.setPositiveButton(this.getString(R.string.yes)) { dialog, which ->
+                    addressBookViewModel.deleteAddress(userId, item.id)
+                }
+                deleteAddressDialog.setNegativeButton(this.getString(R.string.no)) { dialog, which ->
+                    dialog.dismiss()
+                }
+                deleteAddressDialog.setCancelable(false)
+                deleteAddressDialog.setIcon(R.drawable.trash)
+                deleteAddressDialog.show()
             }else{
                 Toast.makeText(this,getString(R.string.no_internet),Toast.LENGTH_LONG).show()
             }
