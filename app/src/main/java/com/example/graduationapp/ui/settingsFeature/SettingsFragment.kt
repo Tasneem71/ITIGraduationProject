@@ -187,6 +187,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
             {
                 SharedPref.setUserState(false)
                 SharedPref.setLogin(false)
+                SharedPref.setUserDiscount(0L)
                 val intent = Intent(context, LoginActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(intent)

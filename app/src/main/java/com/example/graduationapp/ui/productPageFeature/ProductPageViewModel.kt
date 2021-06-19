@@ -14,7 +14,6 @@ class ProductPageViewModel(application: Application) : AndroidViewModel(applicat
     var network =MutableLiveData<Boolean>()
 
     fun getProductDetails(id:String) {
-        if (Validation.isOnline(getApplication())){
             viewModelScope.launch {
                 val response = ApiServes.shopfiyService.getProductDetails(id)
                 try {
@@ -31,11 +30,6 @@ class ProductPageViewModel(application: Application) : AndroidViewModel(applicat
                     Log.i("Mohamed", " error?" + e.printStackTrace())
                 }
             }
-        }
-        else
-        {
-            network.postValue(false)
-        }
     }
 
 

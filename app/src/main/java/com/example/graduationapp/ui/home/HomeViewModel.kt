@@ -15,6 +15,7 @@ import com.example.graduationapp.data.priceRules.DiscountCodeClass
 import com.example.graduationapp.remote.ApiRepository
 import com.example.graduationapp.remote.retro.DefaultRepo
 import com.example.graduationapp.ui.addressbook.AddressBookViewModel
+import com.example.graduationapp.ui.search.SearchViewModel
 import com.example.graduationapp.utils.Validation
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -41,16 +42,10 @@ class HomeViewModel (application: Application,var apiRepository :DefaultRepo) : 
     }
 
     fun getDiscount10(){
-        if (Validation.isOnline(getApplication())) {
             CoroutineScope(Dispatchers.IO).launch {
                 val response = apiRepository.getDiscount10()
                 generatedDiscountLiveData.postValue(response?.discount_code)
             }
-        }
-        else{
-            network.postValue(false)
-        }
-
     }
     fun checkNetwork(){
         network.postValue(Validation.isOnline(getApplication()))
@@ -61,6 +56,11 @@ class HomeViewModel (application: Application,var apiRepository :DefaultRepo) : 
 @Suppress("UNCHECKED_CAST")
 class HomeViewModelFactory(val application: Application,val repo: DefaultRepo): ViewModelProvider.NewInstanceFactory() {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return HomeViewModel(application, repo) as T
+        if (modelClass.isAssignableFrom(HomeViewModel::class.java)) {
+            return HomeViewModel(application, repo) as T
+        } else {
+            throw IllegalArgumentException("ViewModel Not Found")
+        }
+
     }
 }

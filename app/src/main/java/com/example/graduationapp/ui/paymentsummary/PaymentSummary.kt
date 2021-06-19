@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.text.style.StrikethroughSpan
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -34,6 +35,7 @@ import com.example.graduationapp.ui.cart.CartActivity
 import com.example.graduationapp.ui.checkoutAddress.CustomerDataActivity
 import com.example.graduationapp.ui.search.SearchViewModel
 import com.example.graduationapp.ui.search.SearchViewModelFactory
+import com.example.graduationapp.utils.Validation
 import com.paytabs.paytabs_sdk.payment.ui.activities.PayTabActivity
 import com.paytabs.paytabs_sdk.utils.PaymentParams
 
@@ -77,7 +79,12 @@ class PaymentSummary : AppCompatActivity() {
             Log.i("price",price)
         }
         Log.i("Menna","address id "+SharedPref.getAddressID().toString())
-        createOrderViewModel.getDefaultAddress(userId,SharedPref.getAddressID().toString())
+        if (Validation.isOnline(getApplication())) {
+            createOrderViewModel.getDefaultAddress(userId, SharedPref.getAddressID().toString())
+        }else
+            {
+                Toast.makeText(this,getString(R.string.no_internet), Toast.LENGTH_LONG).show()
+            }
         createOrderViewModel.getDefaultAddLifeData.observe(this, Observer {
             Log.i("Menna","default address  "+it)
             it?.let {
@@ -118,7 +125,13 @@ class PaymentSummary : AppCompatActivity() {
         Log.i("price",price)
         binding.fabContinue.setOnClickListener{
             if (binding.cash.isChecked){
-                createOrderViewModel.getAllOrderd(SharedPref.getUserID().toString())
+                if (Validation.isOnline(getApplication())) {
+                    createOrderViewModel.getAllOrderd(SharedPref.getUserID().toString())
+                    }
+                    else
+                    {
+                        Toast.makeText(this,getString(R.string.no_internet),Toast.LENGTH_LONG).show()
+                    }
 
             }else{
 
