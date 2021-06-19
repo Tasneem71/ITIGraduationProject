@@ -185,11 +185,6 @@ class CartActivity : AppCompatActivity(), CartAdapter.OnCartItemListener {
         itemTouchHelper.attachToRecyclerView(binding.recyclerShopBag)
     }
 
-    override fun onResume() {
-        super.onResume()
-        Log.i("Menna", "onResume : again")
-        cartViewModel.getAllCustomerAddress(userId)
-    }
 
 
     private val swipeToDeleteCallback = object : ItemTouchHelper.SimpleCallback(

@@ -95,6 +95,7 @@ class HomeFragment : Fragment() , CollectionsGraphAdapter.OnHomeItemListener {
         //*********************************
         binding.discount.setOnClickListener {
             Log.i("discount","pressed")
+            if(SharedPref.getUserStatus()){
             if (SharedPref.getUserDiscount()==0L) {
                 if (Validation.isOnline(requireContext())){
                 homeViewModel.getDiscount10()
@@ -105,6 +106,9 @@ class HomeFragment : Fragment() , CollectionsGraphAdapter.OnHomeItemListener {
                 Log.i("discount","pressed else")
                 Toast.makeText(context,"Discount has already been activated",Toast.LENGTH_SHORT).show()
                 showDialog()
+            }
+            }else{
+                Toast.makeText(requireContext(),getString(R.string.pleaselogin),Toast.LENGTH_LONG).show()
             }
         }
 

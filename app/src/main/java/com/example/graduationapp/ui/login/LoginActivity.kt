@@ -147,15 +147,15 @@ open class LoginActivity : AppCompatActivity() {
             startActivity(intent, activityOptions.toBundle())
         }
         binding.loginBtn.setOnClickListener {
-            //if (Validation.isOnline(getApplication())) {
+            if (Validation.isOnline(getApplication())) {
             loginViewMode.validate_login(
                 binding.emailEdt.text.toString(),
                 binding.passwordEdt.text.toString()
             )
-//            } else
-//            {
-//                Toast.makeText(this,getString(R.string.no_internet),Toast.LENGTH_LONG).show()
-//            }
+            } else
+            {
+                Toast.makeText(this,getString(R.string.no_internet),Toast.LENGTH_LONG).show()
+            }
         }
 
         loginViewMode.customerLiveData.observe(this) {

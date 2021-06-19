@@ -52,7 +52,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val linkedIn =
             inflate_view.findViewById<ImageView>(R.id.linkediny)
         btn_close.setOnClickListener { v: View? ->
-            alert?.dismiss() }
+            alert?.dismiss()
+        }
         facebook.setOnClickListener { v: View? -> openFacebook() }
         linkedIn.setOnClickListener { v: View? -> openLinkedIn() }
         gmail.setOnClickListener { v: View? -> sendMail() }
@@ -62,6 +63,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         alert = builder.create()
         alert?.show()
     }
+
     private fun openFacebook() {
 //        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/profile.php?id=100006851673761"));
 //        startActivity(browserIntent);
@@ -103,11 +105,11 @@ class SettingsFragment : PreferenceFragmentCompat() {
             Log.i("Tag", "sendMail: error")
         }
     }
+
     private fun aboutMe() {
         val notification = findPreference<androidx.preference.Preference>("about")
         notification?.setOnPreferenceClickListener {
-            if (it.key=="about")
-            {
+            if (it.key == "about") {
                 openDialogue()
                 Log.i("TAG", "aboutMe: ddddddddddddddddddddddddddddddddddddddddddddddd")
             }
@@ -116,6 +118,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
             true
         }
     }
+
     private fun darkMode() {
 
         var darkMode = findPreference<CheckBoxPreference>("background_mode")
@@ -128,6 +131,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
                 SharedPref.setNightMode(false)
             }
+
             true
         }
     }
@@ -147,10 +151,11 @@ class SettingsFragment : PreferenceFragmentCompat() {
             true
         }
     }
+
     private fun back() {
         val back = findPreference<Preference>("back")
         back?.setOnPreferenceClickListener {
-            if (it.key=="back") {
+            if (it.key == "back") {
                 startActivity(Intent(requireContext(), MainActivity::class.java))
             }
             true
@@ -168,23 +173,21 @@ class SettingsFragment : PreferenceFragmentCompat() {
     }
 
 
-    private fun goToAddress()
-    {
+    private fun goToAddress() {
         val notification = findPreference<androidx.preference.Preference>("address_book")
         notification?.setOnPreferenceClickListener {
-            if (it.key=="address_book")
-            {
-                val intent =Intent(requireContext(),AddressBook::class.java)
+            if (it.key == "address_book") {
+                val intent = Intent(requireContext(), AddressBook::class.java)
                 startActivity(intent)
             };true
         }
     }
+
     private fun logout() {
 
         val notification = findPreference<androidx.preference.Preference>("logout")
         notification?.setOnPreferenceClickListener {
-            if (it.key=="logout")
-            {
+            if (it.key == "logout") {
                 SharedPref.setUserState(false)
                 SharedPref.setLogin(false)
                 SharedPref.setUserDiscount(0L)
@@ -192,24 +195,53 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(intent)
                 if (!SharedPref.checkLoginWithFirebase()!!) {
-             signOut()
-             LoginActivity.account = null
-         }
-         if (AccessToken.getCurrentAccessToken() != null) {
-             GraphRequest(
-                 AccessToken.getCurrentAccessToken(), "/me/permissions/", null, HttpMethod.DELETE
-             ) {
-                 AccessToken.setCurrentAccessToken(null)
-                 LoginManager.getInstance().logOut()
-             }.executeAsync()
-         }
+                    signOut()
+                    LoginActivity.account = null
+                }
+                if (AccessToken.getCurrentAccessToken() != null) {
+                    GraphRequest(
+                        AccessToken.getCurrentAccessToken(),
+                        "/me/permissions/",
+                        null,
+                        HttpMethod.DELETE
+                    ) {
+                        AccessToken.setCurrentAccessToken(null)
+                        LoginManager.getInstance().logOut()
+                    }.executeAsync()
+                }
 
             }
             true
         }
     }
+
     private fun signOut() {
         LoginActivity.mGoogleSignInClient?.signOut()
     }
 
+    override fun onStart() {
+        super.onStart()
+        when (SharedPref.getLanguage()) {
+            "en" -> {
+                setLocale("en")
+                Log.i("settings","en")
+            }
+            "ar" -> {
+                setLocale("ar")
+                Log.i("settings","ar")
+            }
+        }
+
+        when(SharedPref.getNightMode()){
+            true->    {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                Log.i("settings","dark")
+            }
+            false->    {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                Log.i("settings","light")
+            }
+        }
+
+    }
 }
