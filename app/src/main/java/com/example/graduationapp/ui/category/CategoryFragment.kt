@@ -1,6 +1,7 @@
 package com.example.graduationapp.ui.category
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -133,18 +134,27 @@ class CategoryFragment : Fragment() ,  TabLayout.OnTabSelectedListener , categor
         binding.categoryRecycler.adapter = collectionsGraphAdapter
 
         binding.acce.setOnClickListener {
+            binding.acce.setBackgroundColor(Color.GRAY)
+            binding.tshirt.setBackgroundColor(Color.WHITE)
+            binding.shoes.setBackgroundColor(Color.WHITE)
             data=orignalList
             var filteredList=data.filter { it.node.productType=="ACCESSORIES" }
             data= filteredList
             collectionsGraphAdapter.setData(data)
         }
         binding.tshirt.setOnClickListener {
+            binding.tshirt.setBackgroundColor(Color.GRAY)
+            binding.acce.setBackgroundColor(Color.WHITE)
+            binding.shoes.setBackgroundColor(Color.WHITE)
             data=orignalList
             var filteredList=data.filter { it.node.productType=="T-SHIRTS" }
             data= filteredList
             collectionsGraphAdapter.setData(data)
         }
         binding.shoes.setOnClickListener {
+            binding.acce.setBackgroundColor(Color.WHITE)
+            binding.tshirt.setBackgroundColor(Color.WHITE)
+            binding.shoes.setBackgroundColor(Color.GRAY)
             data=orignalList
             var filteredList=data.filter { it.node.productType=="SHOES" }
             data= filteredList

@@ -124,6 +124,7 @@ class CustomerDataActivity : AppCompatActivity() {
                             val paymentIntent = Intent(this, PaymentSummary::class.java)
                             paymentIntent.putExtra("price", price)
                             startActivity(paymentIntent)
+                            finish()
                         }
 
                     })
