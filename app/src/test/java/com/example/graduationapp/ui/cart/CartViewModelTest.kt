@@ -34,8 +34,6 @@ import org.robolectric.annotation.Config
 class CartViewModelTest  : TestCase() {
     private lateinit var viewModel: CartViewModel
     lateinit var repository: DefaultRepo
-    lateinit var local: DefaultLocal
-    lateinit var remote: DefaultRemote
 
     var address: MutableList<Addresse>? = mutableListOf<Addresse>()
 
@@ -68,10 +66,7 @@ class CartViewModelTest  : TestCase() {
         coEvery { repository.getAllCustomerAddress("5255560691910") } returns address
 
         viewModel = CartViewModel(ApplicationProvider.getApplicationContext(), repository)
-       // viewModel.allCustomerAddresses?.postValue(address)
        viewModel.getAllCustomerAddress("5255560691910")
-//        viewModel.network?.postValue(true)
-//        Shadows.shadowOf(Looper.getMainLooper()).idle()
 
         Assert.assertNotNull( viewModel.allCustomerAddresses?.getOrAwaitValue())
        //  assertEquals(address, viewModel.allCustomerAddresses?.getOrAwaitValue())
