@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -32,6 +33,7 @@ import com.example.graduationapp.ui.paymentsummary.PaymentSummary
 import com.example.graduationapp.ui.productPageFeature.ProductDetails
 import com.example.graduationapp.ui.search.SearchViewModel
 import com.example.graduationapp.ui.search.SearchViewModelFactory
+import com.example.graduationapp.utils.Validation
 
 import com.google.android.material.snackbar.Snackbar
 
@@ -43,7 +45,6 @@ class CartActivity : AppCompatActivity(), CartAdapter.OnCartItemListener {
     private lateinit var userId :String
     var empty : Boolean =false
     lateinit var price:String
-
 
     var code=false
     lateinit var repository: DefaultRepo
@@ -112,7 +113,13 @@ class CartActivity : AppCompatActivity(), CartAdapter.OnCartItemListener {
                 binding.total2.text =it.toString()+" LE"
             }
         })
+        if (Validation.isOnline(getApplication())) {
         cartViewModel.getAllCustomerAddress(userId)
+        }
+        else
+        {
+           Toast.makeText(this,getString(R.string.no_internet),Toast.LENGTH_LONG).show()
+        }
 
         cartViewModel.allCustomerAddresses.observe(this, Observer { it ->
             if (!it.isNullOrEmpty())
@@ -129,6 +136,13 @@ class CartActivity : AppCompatActivity(), CartAdapter.OnCartItemListener {
         })
 
         binding.checkOut.setOnClickListener {
+           if(binding.total2.text.toString()== "0"){
+             Toast.makeText(this,this.getString(R.string.empty_cart),Toast.LENGTH_LONG).show()
+           }else{
+               val intent = Intent(this, CustomerDataActivity::class.java)
+               intent.putExtra("price", binding.total2.text.toString())
+               startActivity(intent)
+           }
 
             if(empty){
                 Toast.makeText(this,this.getString(R.string.empty_cart),Toast.LENGTH_LONG).show()
@@ -145,6 +159,7 @@ class CartActivity : AppCompatActivity(), CartAdapter.OnCartItemListener {
                     startActivity(intent)
                 }
             }
+
 
         }
         binding.favorite.setOnClickListener {

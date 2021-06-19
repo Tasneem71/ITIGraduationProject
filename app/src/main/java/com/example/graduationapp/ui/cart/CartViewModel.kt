@@ -3,6 +3,7 @@ package com.example.graduationapp.ui.cart
 import android.app.Application
 import androidx.lifecycle.*
 import com.example.domain.core.feature.favoriteFeature.Favorite
+import com.example.graduationapp.create_order.CreateOrderViewModel
 import com.example.graduationapp.data.AddressData
 import com.example.graduationapp.data.Addresse
 import com.example.graduationapp.data.CreateAddress
@@ -24,6 +25,7 @@ class CartViewModel(application: Application,var apiRepository : DefaultRepo) : 
     var network =MutableLiveData<Boolean>()
     //var apiRepository: ApiRepository = ApiRepository(application)
     var allCustomerAddresses = MutableLiveData<List<Addresse?>?>()
+
 
 
     //var count : MutableLiveData<Int> = MutableLiveData<Int>()
@@ -60,17 +62,17 @@ class CartViewModel(application: Application,var apiRepository : DefaultRepo) : 
     }
 
     fun getAllCustomerAddress(id:String) {
-        if (Validation.isOnline(getApplication())) {
+    //  if (Validation.isOnline(getApplication())) {
             CoroutineScope(Dispatchers.IO).launch {
                 apiRepository.getAllCustomerAddress(id).let {
                     allCustomerAddresses.postValue(it)
                 }
             }
-        }
-        else
-        {
-            network.postValue(false)
-        }
+//        }
+//        else
+//        {
+//            network.postValue(false)
+//        }
 
     }
 
@@ -79,6 +81,11 @@ class CartViewModel(application: Application,var apiRepository : DefaultRepo) : 
 @Suppress("UNCHECKED_CAST")
 class CartViewModelFactory(val application: Application,val repo: DefaultRepo): ViewModelProvider.NewInstanceFactory() {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return CartViewModel(application, repo) as T
+
+        if (modelClass.isAssignableFrom(CartViewModel::class.java)) {
+            return CartViewModel(application, repo) as T
+        } else {
+            throw IllegalArgumentException("ViewModel Not Found")
+        }
     }
 }
