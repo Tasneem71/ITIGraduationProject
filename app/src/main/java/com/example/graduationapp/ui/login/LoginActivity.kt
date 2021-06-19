@@ -27,6 +27,7 @@ import com.example.graduationapp.remote.RemoteDataSource
 import com.example.graduationapp.remote.retro.DefaultRepo
 import com.example.graduationapp.ui.search.SearchViewModel
 import com.example.graduationapp.ui.search.SearchViewModelFactory
+import com.example.graduationapp.utils.Validation
 import com.facebook.*
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
@@ -146,10 +147,15 @@ open class LoginActivity : AppCompatActivity() {
             startActivity(intent, activityOptions.toBundle())
         }
         binding.loginBtn.setOnClickListener {
+            //if (Validation.isOnline(getApplication())) {
             loginViewMode.validate_login(
                 binding.emailEdt.text.toString(),
                 binding.passwordEdt.text.toString()
             )
+//            } else
+//            {
+//                Toast.makeText(this,getString(R.string.no_internet),Toast.LENGTH_LONG).show()
+//            }
         }
 
         loginViewMode.customerLiveData.observe(this) {
@@ -206,7 +212,12 @@ open class LoginActivity : AppCompatActivity() {
                 //var list :List<Addresses> = mutableListOf<Addresses>(Addresses("","","","+201112518611","","","",""))
                 val part = Customer(fname, lname, email, null, null, true, null, null, null, null)
                 val costomerJsonc=CreatedCustomer(part)
-                loginViewMode.createCustomer(costomerJsonc)
+                if (Validation.isOnline(getApplication())){
+                      loginViewMode.createCustomer(costomerJsonc)
+                } else
+                {
+                    Toast.makeText(this,getString(R.string.no_internet),Toast.LENGTH_LONG).show()
+                }
                 loginViewMode.createCustomerLiveData.observe(this) {
                     Log.i("tasneem", "" + it)
                     it?.let {
