@@ -288,6 +288,8 @@ dependencies {
     testImplementation "io.mockk:mockk:$mockk_version"
     androidTestImplementation "io.mockk:mockk-android:$mockk_version"
 
+    //dot Indecator
+    implementation 'com.tbuonomo:dotsindicator:4.2'
 
 
 
