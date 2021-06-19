@@ -267,6 +267,7 @@ public class CheckoutActivityJava extends AppCompatActivity {
             if (status == PaymentIntent.Status.Succeeded) {
 
                 Toast.makeText(activity,"Ordered Successfully",Toast.LENGTH_LONG).show();
+
                 viewModel.getAllOrderd(SharedPref.INSTANCE.getUserID());
             } else if (status == PaymentIntent.Status.RequiresPaymentMethod) {
                 // Payment failed – allow retrying using a different payment method

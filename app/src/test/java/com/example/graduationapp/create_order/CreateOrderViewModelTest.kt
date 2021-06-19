@@ -36,22 +36,14 @@ import org.robolectric.annotation.Config
 class CreateOrderViewModelTest : TestCase() {
     private lateinit var viewModel: CreateOrderViewModel
     lateinit var repository: DefaultRepo
-    lateinit var local: DefaultLocal
-    lateinit var remote: DefaultRemote
-    var order: MutableList<Orders>? = mutableListOf<Orders>()
-//    var orderObj : Orders = Orders("","","","",false,"",
-//    "","","","","",true,"","","",
-//    170.0,)
+
     var addressObj : Addresse? = Addresse("","","","","", "", "",
         "","","","","","","","","",false)
-  //  var orders: OrderAPI? = OrderAPI(order,orderObj)
     var code: MutableList<DiscountCodes>? = mutableListOf<DiscountCodes>()
     var line: MutableList<LineItems>? = mutableListOf<LineItems>()
     var carts: MutableList<Favorite>? = mutableListOf<Favorite>()
     var address: MutableList<Addresse>? = mutableListOf<Addresse>()
     var addresses: AddressData? = AddressData(addressObj,address)
-    var orderJson : CreatedOrder = CreatedOrder(Order("ana@gmail.com",null,
-        "pending","170",line,null,code))
 
 
     @get:Rule
@@ -96,23 +88,11 @@ class CreateOrderViewModelTest : TestCase() {
         coEvery { repository.getAllCart("") } returns carts
 
         viewModel = CreateOrderViewModel(ApplicationProvider.getApplicationContext(), repository)
-     //   viewModel.orders?.postValue(carts)
-       // viewModel.network?.postValue(true)
-        //Shadows.shadowOf(Looper.getMainLooper()).idle()
+
         viewModel.getAllOrderd("")
         Assert.assertNotNull( viewModel.orders?.getOrAwaitValue())
-       // assertEquals(orders, viewModel.orders?.getOrAwaitValue())
     }
 
-//    @Test
-//    fun testWhenOrdersListCreatedReturnedSuccessfully_VerifyOrdersListChanged() {
-//        coEvery { repository.createOrder(orderJson) } returns orders
-//
-//        viewModel = CreateOrderViewModel(ApplicationProvider.getApplicationContext(), repository)
-//
-//         Assert.assertNotNull( viewModel.createOrderLiveData.getOrAwaitValue())
-//        //assertEquals(orders, viewModel.createOrderLiveData.getOrAwaitValue())
-//    }
     @Test
     fun testWhenAddressReturnedSuccessfully_VerifyOrdersListChanged() {
         coEvery { repository.getDefaultAddress("","") } returns addresses
