@@ -66,6 +66,7 @@ ProductDetails : AppCompatActivity() {
             val adapter = ViewPagerAdapter(imgs)
             viewPager2 = findViewById(R.id.viewPager)
             viewPager2.adapter = adapter
+            binding.dotsIndicator.setViewPager2(viewPager2)
             binding.content.productPagePrice.text=it.variants?.get(0)?.price.toString()+" EGP"
             binding.content.productPageTitle.text=it.title
             binding.content.productPageProductType.text=it.product_type
