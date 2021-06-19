@@ -79,14 +79,15 @@
     <string name="deleteMessage">Are you sure you want to delete it</string>
     <string name="no">No</string>
     <string name="yes">Yes</string>
-    <string name="order">Order</string>
+    <string name="order"> Cancel Order</string>
+    <string name="create_order"> Create Order</string>
     <string name="order_created">Your Order is Created</string>
     <string name="ok">Ok</string>
     <string name="valid_num">Enter valid Phone Number that begins with the country code ex:+20</string>
     <string name="valid_code">please Enter Country Code in the First , like +2 for Egypt</string>
     <string name="valid">"Please, Enter Valid Country, province and Address "</string>
     <string name="orderId">Order ID:</string>
-    <string name="order_canceled">Your Order is Cancelled</string>
+    <string name="order_canceled">Are you sure Cancel your Order?</string>
     <string name="discount">Discount</string>
     <string name="nocode">Sorry No discount found</string>
     <string name="inCart">In Cart</string>

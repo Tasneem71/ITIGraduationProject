@@ -130,9 +130,9 @@ class MeFragment : Fragment() ,  TabLayout.OnTabSelectedListener , orderAdapter.
 
         viewModel.cancelOrderLiveData.observe(viewLifecycleOwner, Observer {
             it?.let {
-                cancelOrderDone()
-                if (Validation.isOnline(requireContext()))
-                viewModel.getOpenOrders(SharedPref.getUserID().toString())
+                if (Validation.isOnline(requireContext())) {
+                    viewModel.getOpenOrders(SharedPref.getUserID().toString())
+                }
                 else{
                     Toast.makeText(requireContext(),this.getString(R.string.no_internet), Toast.LENGTH_LONG).show()
                 }
@@ -256,7 +256,7 @@ class MeFragment : Fragment() ,  TabLayout.OnTabSelectedListener , orderAdapter.
         val email = SharedPref.getUserEmail()
         val amount = it.total_price
         if (Validation.isOnline(requireContext())){
-        viewModel.cancelOrder(it.id,CancelOrder())
+            cancelOrderDone(it)
         }else{
             Toast.makeText(requireContext(),this.getString(R.string.no_internet), Toast.LENGTH_LONG).show()
         }
@@ -308,17 +308,26 @@ class MeFragment : Fragment() ,  TabLayout.OnTabSelectedListener , orderAdapter.
         dialog.getWindow()?.setAttributes(lp)
     }
 
-    private fun cancelOrderDone() {
+    private fun cancelOrderDone(it: Orders) {
         val orderDialogBuilder = AlertDialog.Builder(requireContext())
         orderDialogBuilder.setTitle(this.getString(R.string.order))
         orderDialogBuilder.setMessage(this.getString(R.string.order_canceled))
-        orderDialogBuilder.setPositiveButton(this.getString(R.string.ok)) { dialog, which ->
+        orderDialogBuilder.setCancelable(false)
+        orderDialogBuilder.setPositiveButton(this.getString(R.string.yes)) { dialog, which ->
+            viewModel.cancelOrder(it.id, CancelOrder())
             dialog.dismiss()
 
         }
-        orderDialogBuilder.setCancelable(false)
+        orderDialogBuilder.setNegativeButton(getString(R.string.no)) { dialog, which ->
+            if (context != null) {
+                wishAdapter.updateList(wishList)
+            }
+            dialog.dismiss()
+        }
+        orderDialogBuilder.create()
         orderDialogBuilder.show()
     }
+
 
     override fun onResume() {
         super.onResume()

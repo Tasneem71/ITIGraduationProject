@@ -272,7 +272,7 @@ class PaymentSummary : AppCompatActivity() {
     }
     private fun orderDone() {
         val orderDialogBuilder = AlertDialog.Builder(this)
-        orderDialogBuilder.setTitle(this.getString(R.string.order))
+        orderDialogBuilder.setTitle(this.getString(R.string.create_order))
         orderDialogBuilder.setMessage(this.getString(R.string.order_created))
         orderDialogBuilder.setPositiveButton(this.getString(R.string.ok)) { dialog, which ->
             val intent = Intent(this, MainActivity::class.java)

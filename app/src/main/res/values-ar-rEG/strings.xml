@@ -54,14 +54,15 @@
     <string name="deleteMessage">هل انت متأكد؟</string>
     <string name="no">لا</string>
     <string name="yes">نعم</string>
-    <string name="order">الطلب</string>
+    <string name="create_order"> تم تنفيذ طلبك</string>
+    <string name="order">الغاء الطلب </string>
     <string name="order_created">قد تم تنفيذ طلبك</string>
     <string name="ok">حسنا</string>
     <string name="valid_num">من فضلك ادخل رقم صحيح مسبوق برمز البلد مثل :+20</string>
     <string name="valid_code">ادخل رمز البلاد قبل الرقم</string>
     <string name="valid">ادخل البلد والمقاطعة والعنوان</string>
     <string name="orderId">رقم الطلب:</string>
-    <string name="order_canceled">تم إلغاء طلبك</string>
+    <string name="order_canceled"> هل تريد إلغاء طلبك ؟</string>
     <string name="discount">التخفيض</string>
     <string name="nocode">لا يوجد عروض او تخفيضات</string>
     <string name="inCart">في الحقيبة</string>

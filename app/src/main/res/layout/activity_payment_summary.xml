@@ -253,7 +253,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:text="@string/order"
+        android:text="@string/create_order"
         android:textColor="@color/white"
         android:textSize="20sp"
         android:background="@drawable/background3"
