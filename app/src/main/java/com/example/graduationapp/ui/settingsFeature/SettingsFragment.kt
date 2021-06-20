@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
 import androidx.preference.*
@@ -177,8 +178,11 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val notification = findPreference<androidx.preference.Preference>("address_book")
         notification?.setOnPreferenceClickListener {
             if (it.key == "address_book") {
+                if(SharedPref.getUserStatus()){
                 val intent = Intent(requireContext(), AddressBook::class.java)
-                startActivity(intent)
+                startActivity(intent)}else{
+                    Toast.makeText(requireContext(),getString(R.string.pleaselogin),Toast.LENGTH_LONG).show()
+                }
             };true
         }
     }
