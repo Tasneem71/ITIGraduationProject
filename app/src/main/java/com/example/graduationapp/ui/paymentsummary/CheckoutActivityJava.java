@@ -117,7 +117,7 @@ public class CheckoutActivityJava extends AppCompatActivity {
 
     private void orderDone() {
         AlertDialog.Builder orderDialogBuilder =new  AlertDialog.Builder(this);
-        orderDialogBuilder.setTitle(this.getString(R.string.order));
+        orderDialogBuilder.setTitle(this.getString(R.string.create_order));
         orderDialogBuilder.setMessage(this.getString(R.string.order_created));
         orderDialogBuilder.setPositiveButton(this.getString(R.string.ok), (dialog, id) -> {
             Intent intent = new Intent(this, MainActivity.class);
@@ -266,7 +266,7 @@ public class CheckoutActivityJava extends AppCompatActivity {
             PaymentIntent.Status status = paymentIntent.getStatus();
             if (status == PaymentIntent.Status.Succeeded) {
 
-                Toast.makeText(activity,"Ordered Successfully",Toast.LENGTH_LONG).show();
+             //   Toast.makeText(activity,"Ordered Successfully",Toast.LENGTH_LONG).show();
 
                 viewModel.getAllOrderd(SharedPref.INSTANCE.getUserID());
             } else if (status == PaymentIntent.Status.RequiresPaymentMethod) {
